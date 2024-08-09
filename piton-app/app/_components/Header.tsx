@@ -12,13 +12,17 @@ export default function Header() {
         <SignInButton
           forceRedirectUrl="/dashboard"
           signUpForceRedirectUrl="/dashboard"
-        />
+        >
+          Sign in
+        </SignInButton>
       </Button>
       <Button asChild>
         <SignUpButton
           forceRedirectUrl="/dashboard"
           signInForceRedirectUrl="/dashboard"
-        />
+        >
+          Get started
+        </SignUpButton>
       </Button>
     </div>
   );
