@@ -27,7 +27,12 @@ export default function AddExpense({ paramId, refreshData }: Props) {
 
   const { user } = useUser();
   const addNewExpense = async () => {
-    if (!name || !amount || !user?.primaryEmailAddress?.emailAddress) {
+    if (
+      !name ||
+      !amount ||
+      !paymentMethod ||
+      !user?.primaryEmailAddress?.emailAddress
+    ) {
       window.alert("Missing required information");
       return;
     }
@@ -39,7 +44,6 @@ export default function AddExpense({ paramId, refreshData }: Props) {
         paymentMethod: paymentMethod,
         budgetId: paramId,
         createdBy: user?.primaryEmailAddress?.emailAddress,
-        createdAt: new Date(),
       })
       .returning({ insertedId: Budgets.id });
 
@@ -52,10 +56,8 @@ export default function AddExpense({ paramId, refreshData }: Props) {
     }
   };
 
-  console.log("paymentMethod", paymentMethod);
-
   return (
-    <div className="rounded-md border border-gray-300 p-4">
+    <div className="rounded-lg border bg-white p-4 shadow-md">
       <div>
         <label className="font-semibold text-dark">Expense Name</label>
         <Input
@@ -78,7 +80,7 @@ export default function AddExpense({ paramId, refreshData }: Props) {
         <Select onValueChange={(value) => setPaymentMethod(value)}>
           <SelectTrigger className="mt-1">
             <SelectValue
-              placeholder="e.g Credit Card"
+              placeholder="Select payment method"
               className="text-[#a9a9a9]"
             />
           </SelectTrigger>
@@ -95,7 +97,7 @@ export default function AddExpense({ paramId, refreshData }: Props) {
         </Select>
       </div>
       <Button
-        disabled={!name || !amount}
+        disabled={!(name && amount && paymentMethod)}
         className="mt-4"
         onClick={() => addNewExpense()}
       >

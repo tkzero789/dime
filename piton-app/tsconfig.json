@@ -27,7 +27,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/(routes)/dashboard/layout.jsx",
-    "drizzle.config.ts"
+    "drizzle.config.ts",
+    "app/(finance)/loading.js"
   ],
   "exclude": ["node_modules"]
 }

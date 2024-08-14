@@ -1,17 +1,16 @@
 "use client";
 
-import React from "react";
-import BudgetList from "./_components/BudgetList";
+import React, { Suspense } from "react";
 import { db } from "@/db/dbConfig";
-import { desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { Budgets, Expenses } from "@/db/schema";
-import { useUser } from "@clerk/nextjs";
 import { BudgetDetail } from "@/types/types";
+import { useUser } from "@clerk/nextjs";
+import { desc, eq, getTableColumns, sql } from "drizzle-orm";
 
-export default function BudgetsPage() {
-  const { user } = useUser();
+export default function DashboardPage() {
   const [budgetList, setBudgetList] = React.useState<BudgetDetail[]>([]);
 
+  const { user } = useUser();
   React.useEffect(() => {
     user && getBudgetList();
   }, [user]);
@@ -32,17 +31,19 @@ export default function BudgetsPage() {
         .groupBy(Budgets.id)
         .orderBy(desc(Budgets.createdAt));
 
-      if (result) {
-        setBudgetList(result);
-      }
+      setBudgetList(result);
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
-    <div className="h-[calc(100vh-64px)] bg-[#f8f8f8] p-8">
-      <BudgetList budgetList={budgetList} getBudgetList={getBudgetList} />
+    <div className="h-full bg-[#f5f5f5] px-8 pb-8 pt-4">
+      <h2 className="text-lg font-semibold">Hi, {user?.firstName}</h2>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3">
+        <div className="lg:col-span-2">Chart</div>
+        <div>Other content</div>
+      </div>
     </div>
   );
 }

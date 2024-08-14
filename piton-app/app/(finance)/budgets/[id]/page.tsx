@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import EditBudget from "../../budgets/_components/EditBudget";
+import EditBudget from "../_components/budget/EditBudget";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,9 +23,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import BudgetItem from "../../budgets/_components/BudgetItem";
-import AddExpense from "../../budgets/_components/AddExpense";
-import ExpenseList from "../../budgets/_components/ExpenseList";
+import BudgetItem from "../_components/budget/BudgetItem";
+import AddExpense from "../_components/expense/AddExpense";
+import ExpenseList from "../_components/expense/ExpenseList";
 
 type Props = {
   params: {
@@ -65,6 +65,7 @@ export default function SpecificBudgetPage({ params }: Props) {
     if (result) {
       setBudgetInfo(result);
       getExpenseDetail();
+      console.log(result);
     }
   };
 
@@ -116,15 +117,15 @@ export default function SpecificBudgetPage({ params }: Props) {
           variant: "success",
           description: "Budget deleted successfully!",
         });
-        router.replace("/dashboard/budgets");
+        router.replace("/budgets");
       }
     }
   };
 
   return (
-    <div className="p-8">
+    <div className="h-full bg-[#f5f5f5] px-8 pb-8 pt-4">
       <div className="flex items-center gap-4">
-        <h2 className="text-lg font-semibold">My expenses</h2>
+        <h2 className="text-lg font-semibold">Budget info</h2>
         <EditBudget
           budgetInfo={budgetInfo}
           refreshData={() => getBudgetInfo()}
@@ -153,13 +154,16 @@ export default function SpecificBudgetPage({ params }: Props) {
           </AlertDialogContent>
         </AlertDialog>
       </div>
-      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {budgetInfo.length > 0 ? (
-          <BudgetItem budget={budgetInfo[0]} />
-        ) : (
-          <Skeleton className="h-28 bg-gray-200" />
-        )}
-        <AddExpense paramId={params.id} refreshData={() => getBudgetInfo()} />
+      <div className="mt-8 grid grid-cols-2 gap-4">
+        <div className="flex flex-col gap-4">
+          {budgetInfo.length > 0 ? (
+            <BudgetItem budget={budgetInfo[0]} />
+          ) : (
+            <Skeleton className="h-28 bg-gray-200" />
+          )}
+          <AddExpense paramId={params.id} refreshData={() => getBudgetInfo()} />
+        </div>
+        <div>Specic chart</div>
       </div>
       <div className="mt-4">
         <h2 className="text-lg font-semibold">Latest Expenses</h2>

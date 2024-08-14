@@ -21,6 +21,7 @@ export default function ExpenseList({ expenseDetail, refreshData }: Props) {
       .join(" ");
   };
 
+  // Delete expense
   const deleteExpense = async (expenseId: string) => {
     const result = await db
       .delete(Expenses)

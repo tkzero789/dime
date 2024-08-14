@@ -16,15 +16,15 @@ export default function SideNav() {
   // Menu list
   const menu = [
     { option: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
-    { option: "Budgets", icon: HandCoins, href: "/dashboard/budgets" },
-    { option: "Expenses", icon: CircleDollarSign, href: "/dashboard/expenses" },
-    { option: "Upgrade", icon: ShieldPlus, href: "/dashboard/upgrade" },
+    { option: "Budgets", icon: HandCoins, href: "/budgets" },
+    { option: "Expenses", icon: CircleDollarSign, href: "/expenses" },
+    { option: "Upgrade", icon: ShieldPlus, href: "/upgrade" },
   ];
   // Params
   const path = usePathname();
 
   return (
-    <div className="h-screen border shadow-sm">
+    <aside className="left-0 top-0 hidden h-screen w-60 border shadow-sm lg:block">
       <div className="flex items-center gap-2 border-b p-4">
         <Image src={Logo} alt="logo" width={60} height={60} />
         <span className="text-2xl font-semibold">Piton</span>
@@ -33,7 +33,7 @@ export default function SideNav() {
         {menu.map((item, index) => (
           <li
             key={index}
-            className={`cursor-pointer rounded-md font-semibold transition-all hover:bg-gray-200 ${path === item.href && "text-orange-700"}`}
+            className={`cursor-pointer rounded-md font-semibold transition-all hover:bg-gray-200 ${path.startsWith(item.href) && "text-orange-700"}`}
           >
             <Link href={item.href} className="flex items-center gap-2 p-2">
               <span>
@@ -44,6 +44,6 @@ export default function SideNav() {
           </li>
         ))}
       </ul>
-    </div>
+    </aside>
   );
 }

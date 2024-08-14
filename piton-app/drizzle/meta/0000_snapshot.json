@@ -1,5 +1,5 @@
 {
-  "id": "7a862a69-9889-4c4a-99a2-1c1c1c75e6c8",
+  "id": "83e36e2f-3206-4c2e-be0a-2aaf55c57baf",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -33,6 +33,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "category": {
+          "name": "category",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
         "createdBy": {
           "name": "createdBy",
           "type": "varchar",
@@ -43,7 +49,8 @@
           "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -96,7 +103,8 @@
           "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},

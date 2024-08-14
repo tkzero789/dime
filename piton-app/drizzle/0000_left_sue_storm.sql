@@ -3,8 +3,9 @@ CREATE TABLE IF NOT EXISTS "budgets" (
 	"name" varchar NOT NULL,
 	"amount" numeric(10, 2) NOT NULL,
 	"icon" varchar,
+	"category" varchar NOT NULL,
 	"createdBy" varchar NOT NULL,
-	"createdAt" timestamp NOT NULL
+	"createdAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "expenses" (
@@ -14,7 +15,7 @@ CREATE TABLE IF NOT EXISTS "expenses" (
 	"paymentMethod" varchar NOT NULL,
 	"budgetId" uuid,
 	"createdBy" varchar NOT NULL,
-	"createdAt" timestamp NOT NULL
+	"createdAt" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

@@ -4,6 +4,7 @@ export type BudgetDetail = {
   name: string;
   amount: string;
   icon: string | null;
+  category: string;
   createdBy: string;
   totalSpend: number;
   totalItem: number;
