@@ -1,4 +1,6 @@
+import { Progress } from "@/components/ui/progress";
 import { BudgetDetail } from "@/types/types";
+import FormatNumber from "@/utils/formatNumber";
 import Link from "next/link";
 import React from "react";
 
@@ -8,10 +10,13 @@ type Props = {
 
 export default function BudgetItem({ budget }: Props) {
   const progressValue = (budget.totalSpend / Number(budget.amount)) * 100;
+  const remainingAmount = Number(budget.amount) - Number(budget.totalSpend);
+  const remainingClassName = `text-sm ${remainingAmount < 0 ? "font-bold text-red-600" : "text-medium"}`;
+  const remainingText = remainingAmount < 0 ? "overspent" : "remaining";
   return (
     <Link
       href={`/budgets/` + budget?.id}
-      className="flex h-fit cursor-pointer flex-col rounded-lg bg-white p-4 shadow-md hover:shadow-lg"
+      className="flex h-fit cursor-pointer flex-col rounded-lg border bg-white p-4 shadow-md hover:shadow-lg"
     >
       <div className="flex items-center gap-4">
         <div className="text-3xl">{budget.icon}</div>
@@ -19,7 +24,9 @@ export default function BudgetItem({ budget }: Props) {
           <span className="font-medium">{budget.name}</span>
           <span className="font-light text-medium">{budget.category}</span>
         </div>
-        <div className="ml-auto font-semibold">${parseInt(budget.amount)}</div>
+        <div className="ml-auto font-semibold">
+          $<FormatNumber number={Number(budget.amount)} />
+        </div>
       </div>
       <div className="flex flex-col gap-2 pt-6">
         <div className="flex items-center justify-between">
@@ -35,27 +42,21 @@ export default function BudgetItem({ budget }: Props) {
             <span className="text-sm text-medium">$0 spent</span>
           )}
           {budget.totalSpend ? (
-            <span className="text-sm text-medium">
+            <span className={remainingClassName}>
               $
-              {(Number(budget.amount) - Number(budget.totalSpend)) % 1 === 0
-                ? (Number(budget.amount) - Number(budget.totalSpend)).toFixed(0)
-                : (Number(budget.amount) - Number(budget.totalSpend)).toFixed(
-                    2,
-                  )}{" "}
-              remaining
+              <FormatNumber number={remainingAmount} /> {remainingText}
             </span>
           ) : (
             <span className="text-sm text-medium">
-              ${Number(budget.amount)} remaining
+              $<FormatNumber number={Number(budget.amount)} /> remaining
             </span>
           )}
         </div>
-        <div className="h-2 w-full rounded-full bg-slate-300">
-          <div
-            style={{ width: `${progressValue}%` }}
-            className="h-2 rounded-full bg-orange-600"
-          ></div>
-        </div>
+        <Progress
+          value={progressValue > 100 ? 100 : progressValue}
+          className="h-2 [&>*]:bg-teal-600"
+          max={100}
+        />
       </div>
     </Link>
   );

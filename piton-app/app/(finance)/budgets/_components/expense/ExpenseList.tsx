@@ -1,19 +1,29 @@
-import { db } from "@/db/dbConfig";
-import { Expenses } from "@/db/schema";
-import { ExpenseDetail } from "@/types/types";
-import { eq } from "drizzle-orm";
-import { Trash2 } from "lucide-react";
 import React from "react";
-import { useToast } from "@/components/ui/use-toast";
+import FormatNumber from "@/utils/formatNumber";
+import EditExpense from "./EditExpense";
+import DeleteExpense from "./DeleteExpense";
+import { ExpenseDetail } from "@/types/types";
+import { Ellipsis } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { PopoverClose } from "@radix-ui/react-popover";
+import TransferExpense from "./TransferExpense";
+import FormatDate from "@/utils/formatDate";
 
 type Props = {
   expenseDetail: ExpenseDetail[];
+  currentUser: string | undefined;
   refreshData: () => void;
 };
 
-export default function ExpenseList({ expenseDetail, refreshData }: Props) {
-  const { toast } = useToast();
-
+export default function ExpenseList({
+  expenseDetail,
+  currentUser,
+  refreshData,
+}: Props) {
   const formatPaymentMethod = (payment: string) => {
     return payment
       .split(" ")
@@ -21,50 +31,67 @@ export default function ExpenseList({ expenseDetail, refreshData }: Props) {
       .join(" ");
   };
 
-  // Delete expense
-  const deleteExpense = async (expenseId: string) => {
-    const result = await db
-      .delete(Expenses)
-      .where(eq(Expenses.id, expenseId))
-      .returning();
-
-    if (result) {
-      refreshData();
-      toast({
-        variant: "success",
-        description: "Expense Deleted!",
-      });
-    }
-  };
-
   return (
     <div className="mt-3">
-      <div className="grid grid-cols-5 bg-gray-200 text-center">
-        <span>Name</span>
-        <span>Amount</span>
-        <span>Payment</span>
-        <span>Date</span>
-        <span>Action</span>
-      </div>
-      {expenseDetail.map((expense, index) => (
-        <div
-          key={index}
-          className="grid grid-cols-5 bg-slate-50 pt-2 text-center"
-        >
-          <span>{expense.name}</span>
-          <span>{expense.amount}</span>
-          <span>{formatPaymentMethod(expense.paymentMethod)}</span>
-          <span>{expense.createdAt.toLocaleDateString("en-US")}</span>
-          <span>
-            <Trash2
-              className="cursor-pointer"
-              onClick={() => deleteExpense(expense.id)}
-              aria-label="Delete expense"
-              tabIndex={0}
-            />
-          </span>
+      <div className="grid grid-cols-3 gap-4">
+        <div className="col-span-2">
+          <div className="grid grid-cols-[90px_1fr_120px_140px_80px] gap-2 rounded-t-xl bg-teal-700 py-2 text-white">
+            <div className="text-center">Date</div>
+            <div className="pl-4">Name</div>
+            <div className="text-start">Method</div>
+            <div className="text-end">Amount</div>
+          </div>
+          {expenseDetail.map((expense, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-[90px_1fr_120px_140px_80px] gap-2 border-b bg-white py-2 pt-2"
+            >
+              <div className="text-center">
+                <FormatDate numMonthNumDate={expense.createdAt} />
+              </div>
+              <div className="pl-4">{expense.name}</div>
+              <div className="text-start">
+                {formatPaymentMethod(expense.paymentMethod)}
+              </div>
+              <div className="text-end">
+                $<FormatNumber number={Number(expense.amount)} />
+              </div>
+              <Popover>
+                <PopoverTrigger className="flex items-center justify-center">
+                  <Ellipsis />
+                </PopoverTrigger>
+                <PopoverContent className="flex w-fit flex-col gap-2">
+                  <PopoverClose asChild>
+                    <EditExpense
+                      refreshData={refreshData}
+                      currentUser={currentUser || "default"}
+                      expenseId={expense.id}
+                      name={expense.name}
+                      amount={expense.amount}
+                      method={expense.paymentMethod}
+                    />
+                  </PopoverClose>
+                  <PopoverClose asChild>
+                    <TransferExpense
+                      refreshData={refreshData}
+                      currentUser={currentUser || "default"}
+                      expenseId={expense.id}
+                    />
+                  </PopoverClose>
+                  <PopoverClose asChild>
+                    <DeleteExpense
+                      refreshData={refreshData}
+                      currentUser={currentUser || "default"}
+                      expenseId={expense.id}
+                    />
+                  </PopoverClose>
+                </PopoverContent>
+              </Popover>
+            </div>
+          ))}
         </div>
-      ))}
+        <div>Expense chart</div>
+      </div>
     </div>
   );
 }

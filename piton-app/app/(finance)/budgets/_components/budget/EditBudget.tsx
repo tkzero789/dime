@@ -4,8 +4,6 @@ import React from "react";
 import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
 import { Button } from "@/components/ui/button";
 import { PenBox } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
-import { useUser } from "@clerk/nextjs";
 import { Input } from "@/components/ui/input";
 import { BudgetDetail } from "@/types/types";
 import { db } from "@/db/dbConfig";
@@ -22,34 +20,37 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
+  BadgeDollarSign,
   BriefcaseMedical,
   Building2,
   Car,
-  CirclePlus,
-  Coins,
   Drama,
-  Flower,
   HeartHandshake,
-  House,
-  Laptop,
+  Martini,
   PawPrint,
   Plane,
   School,
   ShoppingBag,
   ShoppingCart,
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 type Props = {
   budgetInfo: BudgetDetail[];
+  currentUser: string | undefined;
   refreshData: () => void;
 };
 
-export default function EditBudget({ budgetInfo, refreshData }: Props) {
+export default function EditBudget({
+  budgetInfo,
+  currentUser,
+  refreshData,
+}: Props) {
   // Budget types list
   const budgetCategory = [
     {
       icon: Car,
-      color: "#db0000",
+      color: "#000000",
       name: "Auto & Transport",
     },
     {
@@ -58,9 +59,9 @@ export default function EditBudget({ budgetInfo, refreshData }: Props) {
       name: "Business",
     },
     {
-      icon: HeartHandshake,
+      icon: Martini,
       color: "#000000",
-      name: "Charitable Donations",
+      name: "Dining & Drinks",
     },
     {
       icon: School,
@@ -73,9 +74,9 @@ export default function EditBudget({ budgetInfo, refreshData }: Props) {
       name: "Entertainment",
     },
     {
-      icon: Coins,
+      icon: HeartHandshake,
       color: "#000000",
-      name: "Fees",
+      name: "Gifts & Donations",
     },
     {
       icon: ShoppingCart,
@@ -83,19 +84,9 @@ export default function EditBudget({ budgetInfo, refreshData }: Props) {
       name: "Groceries",
     },
     {
-      icon: House,
-      color: "#000000",
-      name: "Home & Outdoors",
-    },
-    {
       icon: BriefcaseMedical,
       color: "#000000",
       name: "Medical",
-    },
-    {
-      icon: Flower,
-      color: "#000000",
-      name: "Personal Care",
     },
     {
       icon: PawPrint,
@@ -104,55 +95,63 @@ export default function EditBudget({ budgetInfo, refreshData }: Props) {
     },
     {
       icon: ShoppingBag,
-      color: "#dbbe00",
-      name: "Shopping",
-    },
-    {
-      icon: Laptop,
       color: "#000000",
-      name: "Software & Tech",
+      name: "Shopping",
     },
     {
       icon: Plane,
       color: "#000000",
       name: "Travel & Vacation",
     },
+    {
+      icon: BadgeDollarSign,
+      color: "#000000",
+      name: "Others",
+    },
   ];
-  const { toast } = useToast();
 
   const [emoji, setEmoji] = React.useState<string>("");
   const [initialEmoji, setInitialEmoji] = React.useState<string>("");
   const [openEmoji, setOpenEmoji] = React.useState(false);
 
-  const [name, setName] = React.useState<string>("");
   const [category, setCategory] = React.useState<string>("");
   const [initialCategory, setInitalCategory] = React.useState<string>("");
+
+  const [name, setName] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
 
-  const { user } = useUser();
+  // Edit budget
   const onUpdateBudget = async () => {
+    const updatedName = name || budgetInfo[0]?.name;
+    const updatedAmount = amount || budgetInfo[0]?.amount;
     const result = await db
       .update(Budgets)
       .set({
-        name: name,
-        amount: amount,
+        name: updatedName,
+        amount: updatedAmount,
         icon: emoji,
+        category: category,
       })
       .where(
         and(
           eq(Budgets.id, budgetInfo[0].id),
-          eq(Budgets.createdBy, user?.primaryEmailAddress?.emailAddress ?? ""),
+          eq(Budgets.createdBy, currentUser ?? ""),
         ),
       )
       .returning();
 
     if (result) {
       refreshData();
-      toast({
-        variant: "success",
-        description: "Your budget is updated!",
-      });
+      toast.success("Your budget is updated!");
     }
+  };
+
+  // On click edit (reset to original)
+  const handleOnClickEdit = () => {
+    setInitialEmoji(budgetInfo[0]?.icon || "");
+    setEmoji(budgetInfo[0]?.icon || "");
+    setInitalCategory(budgetInfo[0]?.category);
+    setCategory(budgetInfo[0]?.category);
   };
 
   return (
@@ -162,12 +161,7 @@ export default function EditBudget({ budgetInfo, refreshData }: Props) {
           <Button
             variant="outline"
             className="flex gap-2"
-            onClick={() => {
-              setInitialEmoji(budgetInfo[0]?.icon || "");
-              setEmoji(budgetInfo[0]?.icon || "");
-              setInitalCategory(budgetInfo[0]?.category);
-              setCategory(budgetInfo[0]?.category);
-            }}
+            onClick={handleOnClickEdit}
           >
             <PenBox />
             <span>Edit</span>
@@ -185,7 +179,7 @@ export default function EditBudget({ budgetInfo, refreshData }: Props) {
               <div className="flex items-center gap-2">
                 {/* Emoji selection */}
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   onClick={() => setOpenEmoji(!openEmoji)}
                 >
                   {emoji}
@@ -193,7 +187,7 @@ export default function EditBudget({ budgetInfo, refreshData }: Props) {
                 {/* Budget category */}
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="secondary" className="flex-1 border">
+                    <Button variant="ghost" className="flex-1 border">
                       {category || budgetInfo[0]?.category}
                     </Button>
                   </DialogTrigger>
@@ -254,6 +248,7 @@ export default function EditBudget({ budgetInfo, refreshData }: Props) {
           <DialogFooter className="mt-4 sm:justify-start">
             <DialogClose asChild>
               <Button
+                className="w-full"
                 disabled={
                   !(
                     name ||

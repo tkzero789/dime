@@ -16,7 +16,7 @@ export default function BudgetList({ budgetList, getBudgetList }: Props) {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">List of your budgets:</h2>
+        <h2 className="text-lg font-semibold">Budgets list</h2>
         <CreateBudget refreshData={() => getBudgetList()} />
       </div>
       <div className="mt-8 grid grid-cols-1 gap-y-2 lg:grid-cols-3 lg:gap-4">

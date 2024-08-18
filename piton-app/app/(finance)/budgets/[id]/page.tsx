@@ -10,7 +10,6 @@ import { BudgetDetail, ExpenseDetail } from "@/types/types";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
 import EditBudget from "../_components/budget/EditBudget";
 import {
   AlertDialog,
@@ -26,6 +25,8 @@ import {
 import BudgetItem from "../_components/budget/BudgetItem";
 import AddExpense from "../_components/expense/AddExpense";
 import ExpenseList from "../_components/expense/ExpenseList";
+import toast from "react-hot-toast";
+import { ExpenseBarChart } from "../_components/chart/ExpenseBarChart";
 
 type Props = {
   params: {
@@ -35,8 +36,10 @@ type Props = {
 
 export default function SpecificBudgetPage({ params }: Props) {
   const { user } = useUser();
-  const { toast } = useToast();
+  const currentUser = user?.primaryEmailAddress?.emailAddress;
+
   const router = useRouter();
+
   const [budgetInfo, setBudgetInfo] = React.useState<BudgetDetail[]>([]);
   const [expenseDetail, setExpenseDetail] = React.useState<ExpenseDetail[]>([]);
 
@@ -56,7 +59,7 @@ export default function SpecificBudgetPage({ params }: Props) {
       .leftJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
       .where(
         and(
-          eq(Budgets.createdBy, user?.primaryEmailAddress?.emailAddress ?? ""),
+          eq(Budgets.createdBy, currentUser ?? ""),
           eq(Budgets.id, params.id),
         ),
       )
@@ -76,7 +79,7 @@ export default function SpecificBudgetPage({ params }: Props) {
       .from(Expenses)
       .where(
         and(
-          eq(Expenses.createdBy, user?.primaryEmailAddress?.emailAddress ?? ""),
+          eq(Expenses.createdBy, currentUser ?? ""),
           eq(Expenses.budgetId, params.id),
         ),
       )
@@ -92,7 +95,7 @@ export default function SpecificBudgetPage({ params }: Props) {
       .where(
         and(
           eq(Expenses.budgetId, params.id),
-          eq(Expenses.createdBy, user?.primaryEmailAddress?.emailAddress ?? ""),
+          eq(Expenses.createdBy, currentUser ?? ""),
         ),
       )
       .returning();
@@ -104,19 +107,13 @@ export default function SpecificBudgetPage({ params }: Props) {
         .where(
           and(
             eq(Budgets.id, params.id),
-            eq(
-              Budgets.createdBy,
-              user?.primaryEmailAddress?.emailAddress ?? "",
-            ),
+            eq(Budgets.createdBy, currentUser ?? ""),
           ),
         )
         .returning();
 
       if (result) {
-        toast({
-          variant: "success",
-          description: "Budget deleted successfully!",
-        });
+        toast.success("Budget deleted successfully!");
         router.replace("/budgets");
       }
     }
@@ -128,6 +125,7 @@ export default function SpecificBudgetPage({ params }: Props) {
         <h2 className="text-lg font-semibold">Budget info</h2>
         <EditBudget
           budgetInfo={budgetInfo}
+          currentUser={currentUser || "default"}
           refreshData={() => getBudgetInfo()}
         />
         <AlertDialog>
@@ -147,28 +145,38 @@ export default function SpecificBudgetPage({ params }: Props) {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={() => deleteBudget()}>
-                Continue
+              <AlertDialogAction
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                onClick={() => deleteBudget()}
+              >
+                Delete
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
       </div>
-      <div className="mt-8 grid grid-cols-2 gap-4">
+      <div className="mt-8 grid grid-cols-3 gap-4">
         <div className="flex flex-col gap-4">
           {budgetInfo.length > 0 ? (
             <BudgetItem budget={budgetInfo[0]} />
           ) : (
             <Skeleton className="h-28 bg-gray-200" />
           )}
-          <AddExpense paramId={params.id} refreshData={() => getBudgetInfo()} />
+          <AddExpense
+            paramId={params.id}
+            currentUser={currentUser || "default"}
+            refreshData={() => getBudgetInfo()}
+          />
         </div>
-        <div>Specic chart</div>
+        <div className="col-span-2">
+          <ExpenseBarChart expenseDetail={expenseDetail} />
+        </div>
       </div>
       <div className="mt-4">
         <h2 className="text-lg font-semibold">Latest Expenses</h2>
         <ExpenseList
           expenseDetail={expenseDetail}
+          currentUser={currentUser || "default"}
           refreshData={() => getBudgetInfo()}
         />
       </div>

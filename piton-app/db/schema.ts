@@ -1,4 +1,5 @@
 import {
+  boolean,
   numeric,
   pgTable,
   timestamp,

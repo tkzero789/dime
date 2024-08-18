@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { TrendingUp } from "lucide-react";
+import { CircleEqual, CirclePlus, MinusCircle } from "lucide-react";
 import {
   Label,
   PolarGrid,
@@ -18,15 +18,13 @@ import {
 } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { BudgetDetail } from "@/types/types";
-const chartData = [
-  { browser: "safari", visitors: 10, fill: "var(--color-safari)" },
-];
+import GetCurrentMonth from "@/utils/getCurrentMonth";
+import FormatNumber from "@/utils/formatNumber";
+
+const chartData = [{ spending: 1, fill: "var(--color-spending)" }];
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  safari: {
-    label: "Safari",
+  spending: {
+    label: "Spending",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
@@ -38,6 +36,7 @@ type Props = {
 export function BudgetRadicalChart({ budgetList }: Props) {
   const [totalBudget, setTotalBudget] = React.useState<number>(0);
   const [totalSpend, setTotalSpend] = React.useState<number>(0);
+  const [remaining, setRemaining] = React.useState<number>(0);
   const [chartPercent, setChartPercent] = React.useState<number>(0);
 
   React.useEffect(() => {
@@ -55,8 +54,11 @@ export function BudgetRadicalChart({ budgetList }: Props) {
       ?.map((budget) => budget.totalSpend)
       .reduce((acc, curr) => acc + curr, 0);
 
+    const remainingAmount = totalAmount - totalSpend;
+
     setTotalBudget(totalAmount);
     setTotalSpend(totalSpend);
+    setRemaining(remainingAmount);
 
     totalSpendChartDegree(totalBudget, totalSpend);
   };
@@ -71,8 +73,10 @@ export function BudgetRadicalChart({ budgetList }: Props) {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Text</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Budget Chart</CardTitle>
+        <CardDescription>
+          <GetCurrentMonth createdAt={budgetList[0]?.createdAt} />
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -93,7 +97,7 @@ export function BudgetRadicalChart({ budgetList }: Props) {
               className="first:fill-muted last:fill-background"
               polarRadius={[86, 74]}
             />
-            <RadialBar dataKey="visitors" background cornerRadius={10} />
+            <RadialBar dataKey="spending" background cornerRadius={10} />
             <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
               <Label
                 content={({ viewBox }) => {
@@ -108,9 +112,9 @@ export function BudgetRadicalChart({ budgetList }: Props) {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-4xl font-bold"
+                          className={`fill-foreground font-bold ${totalSpend > 10000 ? "text-2xl" : "text-3xl"}`}
                         >
-                          ${totalSpend}
+                          $<FormatNumber number={totalSpend} />
                         </tspan>
                         <tspan
                           x={viewBox.cx}
@@ -128,12 +132,27 @@ export function BudgetRadicalChart({ budgetList }: Props) {
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          ${totalBudget} <TrendingUp className="h-4 w-4" />
+      <CardFooter className="flex-col px-6 pb-6 text-sm lg:px-10">
+        <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">
+          <CirclePlus className="h-5 w-5 text-teal-700" />
+          <span className="text-base font-medium">Spending Budget</span>
+          <span className="ml-auto text-base font-bold">
+            $<FormatNumber number={totalBudget} />
+          </span>
         </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+        <div className="flex w-full items-center gap-4 border-b border-t py-3 font-medium leading-none">
+          <MinusCircle className="h-5 w-5 text-teal-700" />
+          <span className="text-base font-medium">Current Spending</span>
+          <span className="ml-auto text-base font-bold">
+            $<FormatNumber number={totalSpend} />
+          </span>
+        </div>
+        <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">
+          <CircleEqual className="h-5 w-5 text-teal-700" />
+          <span className="text-base font-medium">Remaining</span>
+          <span className="ml-auto text-base font-bold text-green-700">
+            $<FormatNumber number={remaining} />
+          </span>
         </div>
       </CardFooter>
     </Card>

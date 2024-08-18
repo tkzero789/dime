@@ -6,11 +6,11 @@ export default function Hero() {
   return (
     <div className="mx-auto mb-10 mt-24 max-w-2xl text-center">
       <h1 className="text-4xl font-bold lg:font-extrabold">
-        <span className="bg-gradient-to-b from-orange-400 to-amber-600 bg-clip-text text-transparent">
+        <span className="bg-gradient-to-b from-emerald-400 to-teal-600 bg-clip-text text-transparent">
           Master Your Life
         </span>{" "}
         with Finance, Health, and Productivity in{" "}
-        <span className="block bg-gradient-to-b from-orange-400 to-amber-600 bg-clip-text text-transparent sm:inline">
+        <span className="block bg-gradient-to-b from-emerald-400 to-teal-600 bg-clip-text text-transparent sm:inline">
           One Place
         </span>
       </h1>

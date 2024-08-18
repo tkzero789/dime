@@ -17,18 +17,16 @@ import { Input } from "@/components/ui/input";
 import { Budgets } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { db } from "@/db/dbConfig";
-import { useToast } from "@/components/ui/use-toast";
+
 import {
+  BadgeDollarSign,
   BriefcaseMedical,
   Building2,
   Car,
   CirclePlus,
-  Coins,
   Drama,
-  Flower,
   HeartHandshake,
-  House,
-  Laptop,
+  Martini,
   PawPrint,
   Plane,
   School,
@@ -36,6 +34,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import { and, count, eq, gte, lte } from "drizzle-orm";
+import toast from "react-hot-toast";
 
 type Props = {
   refreshData: () => void;
@@ -46,7 +45,7 @@ export default function CreateBudget({ refreshData }: Props) {
   const budgetCategory = [
     {
       icon: Car,
-      color: "#db0000",
+      color: "#000000",
       name: "Auto & Transport",
     },
     {
@@ -55,9 +54,9 @@ export default function CreateBudget({ refreshData }: Props) {
       name: "Business",
     },
     {
-      icon: HeartHandshake,
+      icon: Martini,
       color: "#000000",
-      name: "Charitable Donations",
+      name: "Dining & Drinks",
     },
     {
       icon: School,
@@ -70,9 +69,9 @@ export default function CreateBudget({ refreshData }: Props) {
       name: "Entertainment",
     },
     {
-      icon: Coins,
+      icon: HeartHandshake,
       color: "#000000",
-      name: "Fees",
+      name: "Gifts & Donations",
     },
     {
       icon: ShoppingCart,
@@ -80,19 +79,9 @@ export default function CreateBudget({ refreshData }: Props) {
       name: "Groceries",
     },
     {
-      icon: House,
-      color: "#000000",
-      name: "Home & Outdoors",
-    },
-    {
       icon: BriefcaseMedical,
       color: "#000000",
       name: "Medical",
-    },
-    {
-      icon: Flower,
-      color: "#000000",
-      name: "Personal Care",
     },
     {
       icon: PawPrint,
@@ -101,21 +90,20 @@ export default function CreateBudget({ refreshData }: Props) {
     },
     {
       icon: ShoppingBag,
-      color: "#dbbe00",
-      name: "Shopping",
-    },
-    {
-      icon: Laptop,
       color: "#000000",
-      name: "Software & Tech",
+      name: "Shopping",
     },
     {
       icon: Plane,
       color: "#000000",
       name: "Travel & Vacation",
     },
+    {
+      icon: BadgeDollarSign,
+      color: "#000000",
+      name: "Others",
+    },
   ];
-  const { toast } = useToast();
 
   const [emoji, setEmoji] = React.useState<string>("");
   const [openEmoji, setOpenEmoji] = React.useState(false);
@@ -147,10 +135,7 @@ export default function CreateBudget({ refreshData }: Props) {
 
     if (result) {
       refreshData();
-      toast({
-        variant: "success",
-        description: "New Budget Created!",
-      });
+      toast.success("New Budget Created!");
     }
   };
 
@@ -196,14 +181,19 @@ export default function CreateBudget({ refreshData }: Props) {
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="flex items-center justify-center gap-2 border-neutral-500"
+            className="group flex items-center justify-center gap-2"
             onClick={checkBudgetAmount}
           >
-            <CirclePlus strokeWidth={1.25} />
-            <span className="font-medium">Create new budget</span>
+            <CirclePlus
+              strokeWidth={1.75}
+              className="rounded-full group-hover:bg-teal-700 group-hover:stroke-white"
+            />
+            <span className="font-bold group-hover:text-teal-700">
+              Create new budget
+            </span>
           </Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="h-screen sm:h-auto">
           <DialogHeader>
             <DialogTitle>Create New Budget</DialogTitle>
             {isExceed ? (
@@ -218,7 +208,7 @@ export default function CreateBudget({ refreshData }: Props) {
                 <div className="flex items-center gap-2">
                   {/* Emoji selection */}
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     onClick={() => setOpenEmoji(!openEmoji)}
                   >
                     {emoji ? emoji : "Icon"}
@@ -226,7 +216,7 @@ export default function CreateBudget({ refreshData }: Props) {
                   {/* Budget category */}
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button variant="secondary" className="flex-1 border">
+                      <Button variant="ghost" className="flex-1 border">
                         {category || "Budget category"}
                       </Button>
                     </DialogTrigger>
@@ -245,7 +235,7 @@ export default function CreateBudget({ refreshData }: Props) {
                                   strokeWidth={1.5}
                                   className="h-[30px] w-[30px]"
                                 />
-                                <span className="pl-6 text-base font-semibold text-dark">
+                                <span className="pl-4 text-base font-semibold text-dark lg:pl-6">
                                   {item.name}
                                 </span>
                                 <DialogClose asChild>
@@ -295,6 +285,7 @@ export default function CreateBudget({ refreshData }: Props) {
           <DialogFooter className="mt-4 sm:justify-start">
             <DialogClose asChild>
               <Button
+                className="w-full"
                 disabled={!(emoji && name && amount)}
                 onClick={() => onCreateBudget()}
               >
