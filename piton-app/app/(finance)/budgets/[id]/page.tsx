@@ -85,12 +85,9 @@ export default function BudgetByIdPage({ params }: Props) {
       )
       .orderBy(desc(Expenses.date));
 
-    const convertedResult = result.map((expense) => ({
-      ...expense,
-      date: new Date(expense.date),
-    }));
+    console.log(result);
 
-    setExpenseDetail(convertedResult);
+    setExpenseDetail(result);
   };
 
   // Delete budget
@@ -125,9 +122,11 @@ export default function BudgetByIdPage({ params }: Props) {
   };
 
   return (
-    <div className="h-full bg-[#f5f5f5] px-8 pb-8 pt-4">
+    <div className="min-h-dvh bg-[#f5f5f5] px-14 py-16">
       <div className="flex items-center gap-4">
-        <h2 className="text-lg font-semibold">Budget info</h2>
+        <h2 className="text-2xl font-bold">
+          {budgetInfo[0]?.icon} {budgetInfo[0]?.name}
+        </h2>
         <EditBudget
           budgetInfo={budgetInfo}
           currentUser={currentUser || "default"}
@@ -161,7 +160,7 @@ export default function BudgetByIdPage({ params }: Props) {
         </AlertDialog>
       </div>
       <div className="mt-8 grid grid-cols-3 gap-4">
-        <div className="flex flex-col justify-between">
+        <div className="order-last col-span-3 flex flex-row gap-4 xl:col-span-1 xl:flex-col">
           {budgetInfo.length > 0 ? (
             <BudgetItem budget={budgetInfo[0]} />
           ) : (
@@ -173,7 +172,7 @@ export default function BudgetByIdPage({ params }: Props) {
             refreshData={() => getBudgetInfo()}
           />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-3 xl:col-span-2">
           <ExpenseBarChart expenseDetail={expenseDetail} />
         </div>
       </div>

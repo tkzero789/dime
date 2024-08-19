@@ -23,6 +23,8 @@ import { db } from "@/db/dbConfig";
 import { and, eq } from "drizzle-orm";
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
+import { ExpenseDatePicker } from "./ExpenseDatePicker";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 type Props = {
   refreshData: () => void;
@@ -30,6 +32,7 @@ type Props = {
   expenseId: string;
   name: string;
   amount: string;
+  date: Date;
   method: string;
 };
 
@@ -39,10 +42,13 @@ export default function EditExpense({
   expenseId,
   name,
   amount,
+  date,
   method,
 }: Props) {
   const [expenseName, setExpenseName] = React.useState<string>("");
   const [expenseAmount, setExpenseAmount] = React.useState<string>("");
+  const [expenseDate, setExpenseDate] = React.useState<Date | undefined>(date);
+  const [initialExpenseDate] = React.useState<Date | undefined>(date);
   const [paymentMethod, setPaymentMethod] = React.useState<string>(method);
   const [initialPaymentMethod] = React.useState<string>(method);
 
@@ -50,12 +56,14 @@ export default function EditExpense({
   const onUpdateExpense = async (expenseId: string) => {
     const updateExpenseName = expenseName || name;
     const updateExpenseAmount = expenseAmount || amount;
+    const updatedExpenseDate = expenseDate || date;
     const updatePaymentMethod = paymentMethod || method;
     const result = await db
       .update(Expenses)
       .set({
         name: updateExpenseName,
         amount: updateExpenseAmount,
+        date: updatedExpenseDate.toISOString(),
         paymentMethod: updatePaymentMethod,
       })
       .where(
@@ -90,6 +98,7 @@ export default function EditExpense({
         <AlertDialogHeader>
           <AlertDialogTitle>Edit Expense</AlertDialogTitle>
           <AlertDialogDescription>
+            {/* Expense Name */}
             <div>
               <label className="font-semibold text-dark">Expense Name</label>
               <Input
@@ -98,6 +107,7 @@ export default function EditExpense({
                 onChange={(e) => setExpenseName(e.target.value)}
               />
             </div>
+            {/* Amount */}
             <div className="mt-2">
               <label className="font-semibold text-dark">Amount</label>
               <Input
@@ -107,6 +117,11 @@ export default function EditExpense({
                 onChange={(e) => setExpenseAmount(e.target.value)}
               />
             </div>
+            <div className="mt-2">
+              <label className="font-semibold text-dark">Date</label>
+              <ExpenseDatePicker date={expenseDate} setDate={setExpenseDate} />
+            </div>
+            {/* Payment method */}
             <div className="mt-2">
               <label className="font-semibold text-dark">Payment Method</label>
               <Select
@@ -132,18 +147,21 @@ export default function EditExpense({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            disabled={
-              !(
-                expenseName ||
-                expenseAmount ||
-                paymentMethod !== initialPaymentMethod
-              )
-            }
-            onClick={() => onUpdateExpense(expenseId)}
-          >
-            Save
-          </AlertDialogAction>
+          <PopoverClose asChild>
+            <AlertDialogAction
+              disabled={
+                !(
+                  expenseName ||
+                  expenseAmount ||
+                  expenseDate?.getTime() !== initialExpenseDate?.getTime() ||
+                  paymentMethod !== initialPaymentMethod
+                )
+              }
+              onClick={() => onUpdateExpense(expenseId)}
+            >
+              Save
+            </AlertDialogAction>
+          </PopoverClose>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -75,7 +75,7 @@ export function BudgetRadicalChart({ budgetList }: Props) {
       <CardHeader className="items-center pb-0">
         <CardTitle>Budget Chart</CardTitle>
         <CardDescription>
-          <GetCurrentMonth createdAt={budgetList[0]?.createdAt} />
+          <GetCurrentMonth month={budgetList[0]?.createdAt} />
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">

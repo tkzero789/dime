@@ -1,14 +1,6 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Rectangle,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -24,6 +16,7 @@ import {
 } from "@/components/ui/chart";
 import { ExpenseDetail } from "@/types/types";
 import ExpenseCustomTooltip from "./ExpenseCustomTooltip";
+import GetCurrentMonth from "@/utils/getCurrentMonth";
 
 const chartConfig = {
   spent: {
@@ -52,6 +45,8 @@ type Props = {
 };
 
 export function ExpenseBarChart({ expenseDetail }: Props) {
+  const currentMonth = new Date();
+
   // Generate all days of the current month
   const allDaysInCurrentMonth = getAllDaysInCurrentMonth();
 
@@ -74,13 +69,15 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
   return (
     <Card className="shadow-md">
       <CardHeader>
-        <CardTitle>Bar Chart</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>
+          <GetCurrentMonth month={currentMonth} />
+        </CardTitle>
+        <CardDescription>Your current spending in this month</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[300px] w-full"
+          className="aspect-auto h-[200px] w-full xl:h-[328px]"
         >
           <BarChart accessibilityLayer data={sortedExpenseDetail}>
             <CartesianGrid vertical={false} />
@@ -100,19 +97,13 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
               dataKey="amount"
               fill="var(--color-spent)"
               radius={4}
-              activeBar={<Rectangle stroke="#262626" strokeWidth="2px" />}
+              activeBar={
+                <Rectangle fill="#14b8a6" stroke="#262626" strokeWidth="2px" />
+              }
             />
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   );
 }

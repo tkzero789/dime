@@ -26,6 +26,7 @@ import {
 
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 type Props = {
   refreshData: () => void;
@@ -153,13 +154,13 @@ export default function TransferExpense({
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <DialogClose asChild>
+                          <PopoverClose asChild>
                             <AlertDialogAction
                               onClick={() => handleTransferExpense(item.id)}
                             >
                               Confirm
                             </AlertDialogAction>
-                          </DialogClose>
+                          </PopoverClose>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>

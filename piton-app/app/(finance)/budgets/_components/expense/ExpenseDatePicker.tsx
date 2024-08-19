@@ -12,6 +12,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import "@/css/calendar.css";
+import { SelectSingleEventHandler } from "react-day-picker";
 
 type Props = {
   date: Date | undefined;
@@ -19,8 +21,14 @@ type Props = {
 };
 
 export function ExpenseDatePicker({ date, setDate }: Props) {
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+
+  const handleOnSelect: SelectSingleEventHandler = (date) => {
+    setDate(date);
+    setIsOpen(false);
+  };
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={"ghost"}
@@ -29,16 +37,18 @@ export function ExpenseDatePicker({ date, setDate }: Props) {
             !date && "text-muted-foreground",
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
           {date ? format(date, "PPP") : <span>Date</span>}
+          <CalendarIcon className="ml-auto h-4 w-4" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
           selected={date}
-          onSelect={(day) => setDate(day ?? undefined)}
+          onSelect={handleOnSelect}
           initialFocus
+          disableNavigation={true}
+          showOutsideDays={false}
         />
       </PopoverContent>
     </Popover>

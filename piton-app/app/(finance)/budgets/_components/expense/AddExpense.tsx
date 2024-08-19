@@ -27,7 +27,7 @@ export default function AddExpense({
   const [name, setName] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
   const [paymentMethod, setPaymentMethod] = React.useState<string>("");
-  const [date, setDate] = React.useState<Date | undefined>();
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
 
   const addNewExpense = async () => {
     if (!name || !amount || !paymentMethod || !date || !currentUser) {
@@ -49,7 +49,7 @@ export default function AddExpense({
     setName("");
     setAmount("");
     setPaymentMethod("");
-    setDate(undefined);
+    setDate(new Date());
 
     if (result) {
       refreshData();
@@ -58,8 +58,7 @@ export default function AddExpense({
   };
 
   return (
-    <div className="flex flex-col gap-3 rounded-lg border bg-white p-4 shadow-md">
-      <h2 className="font-semibold">Add New Expense</h2>
+    <div className="flex flex-1 flex-col gap-3 rounded-lg border bg-white p-4 shadow-md">
       {/* Name */}
       <Input
         className="mt-1"

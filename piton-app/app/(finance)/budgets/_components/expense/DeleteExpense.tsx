@@ -15,6 +15,7 @@ import { Expenses } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/dbConfig";
 import toast from "react-hot-toast";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 type Props = {
   refreshData: () => void;
@@ -59,12 +60,14 @@ export default function DeleteExpense({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            onClick={() => deleteExpense(expenseId)}
-          >
-            Delete
-          </AlertDialogAction>
+          <PopoverClose asChild>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => deleteExpense(expenseId)}
+            >
+              Delete
+            </AlertDialogAction>
+          </PopoverClose>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

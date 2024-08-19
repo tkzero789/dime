@@ -37,8 +37,8 @@ export default function DashboardPage() {
     }
   };
   return (
-    <div className="h-full bg-[#f5f5f5] px-8 pb-8 pt-4">
-      <h2 className="text-lg font-semibold">Hi, {user?.firstName}</h2>
+    <div className="min-h-dvh bg-[#f5f5f5] px-14 py-16">
+      <h2 className="text-2xl font-bold">Hi, {user?.firstName}</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-3">
         <div className="lg:col-span-2">Chart</div>

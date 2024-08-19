@@ -17,7 +17,7 @@ export type ExpenseDetail = {
   name: string;
   amount: string;
   paymentMethod: string;
-  date: Date;
+  date: string;
   budgetId: string | null;
   createdBy: string;
   createdAt: Date;

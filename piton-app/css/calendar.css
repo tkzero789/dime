@@ -1,0 +1,12 @@
+.rdp-button {
+  border: none;
+}
+
+.rdp-button[aria-selected="true"] {
+  background-color: #0d9488;
+}
+
+.react-datepicker__day--outside-month {
+  color: transparent !important;
+  pointer-events: none;
+}

@@ -1,10 +1,10 @@
 type Props = {
-  createdAt: Date;
+  month: Date;
 };
 
-export default function GetCurrentMonth({ createdAt }: Props) {
+export default function GetCurrentMonth({ month }: Props) {
   const getMonth = (date: Date) => {
-    return date.toLocaleString("default", { month: "long" });
+    return date.toLocaleString("en-US", { month: "long", timeZone: "UTC" });
   };
-  return createdAt && getMonth(createdAt);
+  return month && getMonth(month);
 }
