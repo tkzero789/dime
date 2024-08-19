@@ -11,19 +11,19 @@ export default function FormatDate({
 }: Props) {
   if (numDate) {
     return numDate.toLocaleDateString("en-US", {
-      day: "numeric",
+      day: "2-digit",
       timeZone: "UTC",
     });
   } else if (numMonthNumDate) {
     return numMonthNumDate.toLocaleDateString("en-US", {
-      month: "numeric",
-      day: "numeric",
+      month: "2-digit",
+      day: "2-digit",
       timeZone: "UTC",
     });
   } else if (shortMonthNumDate) {
     return shortMonthNumDate.toLocaleDateString("en-US", {
       month: "short",
-      day: "numeric",
+      day: "2-digit",
       timeZone: "UTC",
     });
   } else {

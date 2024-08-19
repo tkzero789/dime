@@ -1,7 +1,14 @@
 "use client";
 
 import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Rectangle,
+  XAxis,
+  YAxis,
+} from "recharts";
 import {
   Card,
   CardContent,
@@ -14,7 +21,6 @@ import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart";
 import { ExpenseDetail } from "@/types/types";
 import ExpenseCustomTooltip from "./ExpenseCustomTooltip";
@@ -26,54 +32,43 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+function getAllDaysInCurrentMonth() {
+  const now = new Date();
+  const year = now.getUTCFullYear();
+  const month = now.getUTCMonth();
+  const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+
+  const dates = [];
+  for (let day = 1; day <= daysInMonth; day++) {
+    dates.push(
+      new Date(Date.UTC(year, month, day)).toISOString().split("T")[0],
+    );
+  }
+  return dates;
+}
+
 type Props = {
   expenseDetail: ExpenseDetail[];
 };
 
-type AggregatedExpenseDetail = Omit<ExpenseDetail, "amount"> & {
-  amount: number;
-  dayOfMonth: number;
-};
-
 export function ExpenseBarChart({ expenseDetail }: Props) {
-  // Get current year and month
-  const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
+  // Generate all days of the current month
+  const allDaysInCurrentMonth = getAllDaysInCurrentMonth();
 
-  // Generate all dates for the current month
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const allDates = Array.from({ length: daysInMonth }, (_, i) => ({
-    dayOfMonth: i + 1,
-    amount: 0,
-    createdAt: new Date(currentYear, currentMonth, i + 1).toISOString(),
-  }));
-
-  // Aggregate amounts by date
-  const aggregatedExpenseDetail = expenseDetail.reduce(
-    (acc, curr) => {
-      const date = new Date(curr.createdAt).toISOString().split("T")[0]; // Get date part only
-      if (!acc[date]) {
-        acc[date] = {
-          ...curr,
-          amount: 0,
-          dayOfMonth: new Date(curr.createdAt).getDate(),
-        } as AggregatedExpenseDetail;
-      }
-      acc[date].amount += Number(curr.amount);
-      return acc;
-    },
-    {} as Record<string, AggregatedExpenseDetail>,
-  );
-
-  // Merge aggregated data with all dates
-  const mergedData = allDates.map((date) => ({
-    ...date,
-    ...aggregatedExpenseDetail[date.createdAt.split("T")[0]],
-  }));
+  // Merge the generated dates with the expenseDetail data
+  const mergedData = allDaysInCurrentMonth.map((date) => {
+    const expense = expenseDetail.find(
+      (exp) => new Date(exp.date).toISOString().split("T")[0] === date,
+    );
+    return {
+      date,
+      amount: expense ? parseInt(expense.amount, 10) : 0,
+    };
+  });
 
   // Sort the merged data
   const sortedExpenseDetail = mergedData.sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
 
   return (
@@ -83,20 +78,30 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer
+          config={chartConfig}
+          className="aspect-auto h-[300px] w-full"
+        >
           <BarChart accessibilityLayer data={sortedExpenseDetail}>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="dayOfMonth"
+              dataKey="date"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
               tickFormatter={(value) => {
-                return value === 1 || value % 5 === 0 ? value.toString() : "";
+                const date = new Date(value);
+                const day = date.getUTCDate();
+                return day % 2 !== 0 ? `${String(day)}` : "";
               }}
             />
-            <ChartTooltip cursor={false} content={<ExpenseCustomTooltip />} />
-            <Bar dataKey="amount" fill="var(--color-spent)" radius={4} />
+            <ChartTooltip content={<ExpenseCustomTooltip />} />
+            <Bar
+              dataKey="amount"
+              fill="var(--color-spent)"
+              radius={4}
+              activeBar={<Rectangle stroke="#262626" strokeWidth="2px" />}
+            />
           </BarChart>
         </ChartContainer>
       </CardContent>

@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS "expenses" (
 	"name" varchar NOT NULL,
 	"amount" numeric(10, 2) NOT NULL,
 	"paymentMethod" varchar NOT NULL,
+	"date" date NOT NULL,
 	"budgetId" uuid,
 	"createdBy" varchar NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL

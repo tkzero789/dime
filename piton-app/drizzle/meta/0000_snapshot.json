@@ -1,5 +1,5 @@
 {
-  "id": "83e36e2f-3206-4c2e-be0a-2aaf55c57baf",
+  "id": "c81abc09-cb20-43f2-a806-e4513aa65b6d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -84,6 +84,12 @@
         "paymentMethod": {
           "name": "paymentMethod",
           "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "date",
           "primaryKey": false,
           "notNull": true
         },

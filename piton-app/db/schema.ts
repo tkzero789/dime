@@ -1,5 +1,5 @@
 import {
-  boolean,
+  date,
   numeric,
   pgTable,
   timestamp,
@@ -22,6 +22,7 @@ export const Expenses = pgTable("expenses", {
   name: varchar("name").notNull(),
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
   paymentMethod: varchar("paymentMethod").notNull(),
+  date: date("date").notNull(),
   budgetId: uuid("budgetId").references(() => Budgets.id),
   createdBy: varchar("createdBy").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

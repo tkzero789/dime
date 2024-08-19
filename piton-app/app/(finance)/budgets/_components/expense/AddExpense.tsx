@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import toast from "react-hot-toast";
+import { ExpenseDatePicker } from "./ExpenseDatePicker";
 
 type Props = {
   paramId: string;
@@ -26,9 +27,10 @@ export default function AddExpense({
   const [name, setName] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
   const [paymentMethod, setPaymentMethod] = React.useState<string>("");
+  const [date, setDate] = React.useState<Date | undefined>();
 
   const addNewExpense = async () => {
-    if (!name || !amount || !paymentMethod || !currentUser) {
+    if (!name || !amount || !paymentMethod || !date || !currentUser) {
       window.alert("Missing required information");
       return;
     }
@@ -38,6 +40,7 @@ export default function AddExpense({
         name: name,
         amount: amount,
         paymentMethod: paymentMethod,
+        date: date?.toISOString(),
         budgetId: paramId,
         createdBy: currentUser,
       })
@@ -46,6 +49,7 @@ export default function AddExpense({
     setName("");
     setAmount("");
     setPaymentMethod("");
+    setDate(undefined);
 
     if (result) {
       refreshData();
@@ -55,6 +59,7 @@ export default function AddExpense({
 
   return (
     <div className="flex flex-col gap-3 rounded-lg border bg-white p-4 shadow-md">
+      <h2 className="font-semibold">Add New Expense</h2>
       {/* Name */}
       <Input
         className="mt-1"
@@ -66,17 +71,20 @@ export default function AddExpense({
       <Input
         type="number"
         className="mt-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-        placeholder="Expense amount"
+        placeholder="Amount"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
       />
+      {/* Date */}
+      <ExpenseDatePicker date={date} setDate={setDate} />
+      {/* Payment method */}
       <Select
         value={paymentMethod}
         onValueChange={(value) => setPaymentMethod(value)}
       >
         <SelectTrigger className="mt-1">
           <SelectValue
-            placeholder="Select payment method"
+            placeholder="Payment method"
             className="text-[#a9a9a9]"
           />
         </SelectTrigger>

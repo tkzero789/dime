@@ -34,7 +34,7 @@ type Props = {
   };
 };
 
-export default function SpecificBudgetPage({ params }: Props) {
+export default function BudgetByIdPage({ params }: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
@@ -83,9 +83,14 @@ export default function SpecificBudgetPage({ params }: Props) {
           eq(Expenses.budgetId, params.id),
         ),
       )
-      .orderBy(desc(Expenses.createdAt));
+      .orderBy(desc(Expenses.date));
 
-    setExpenseDetail(result);
+    const convertedResult = result.map((expense) => ({
+      ...expense,
+      date: new Date(expense.date),
+    }));
+
+    setExpenseDetail(convertedResult);
   };
 
   // Delete budget
@@ -156,7 +161,7 @@ export default function SpecificBudgetPage({ params }: Props) {
         </AlertDialog>
       </div>
       <div className="mt-8 grid grid-cols-3 gap-4">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col justify-between">
           {budgetInfo.length > 0 ? (
             <BudgetItem budget={budgetInfo[0]} />
           ) : (
