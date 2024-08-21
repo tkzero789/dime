@@ -34,6 +34,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 type Props = {
   budgetInfo: BudgetDetail[];
@@ -155,116 +156,112 @@ export default function EditBudget({
   };
 
   return (
-    <div className="ml-auto">
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button
-            variant="outline"
-            className="flex gap-2"
-            onClick={handleOnClickEdit}
-          >
-            <PenBox />
-            <span>Edit</span>
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit Budget</DialogTitle>
-            <DialogDescription className="flex flex-col gap-4 pt-4">
-              {/* Name */}
-              <Input
-                defaultValue={budgetInfo[0]?.name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <div className="flex items-center gap-2">
-                {/* Emoji selection */}
-                <Button
-                  variant="ghost"
-                  onClick={() => setOpenEmoji(!openEmoji)}
-                >
-                  {emoji}
-                </Button>
-                {/* Budget category */}
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="ghost" className="flex-1 border">
-                      {category || budgetInfo[0]?.category}
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>What is this budget for?</DialogTitle>
-                      <DialogDescription>
-                        <div className="item flex max-h-96 flex-col overflow-y-auto">
-                          {budgetCategory.map((item, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center py-4 pr-4"
-                            >
-                              <item.icon
-                                color={item.color}
-                                strokeWidth={1.5}
-                                className="h-[30px] w-[30px]"
-                              />
-                              <span className="pl-6 text-base font-semibold text-dark">
-                                {item.name}
-                              </span>
-                              <DialogClose asChild>
-                                <Button
-                                  className="ml-auto"
-                                  onClick={() => setCategory(item.name)}
-                                >
-                                  Select
-                                </Button>
-                              </DialogClose>
-                            </div>
-                          ))}
-                        </div>
-                      </DialogDescription>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
-              </div>
-              {/* Emoji pop-up */}
-              <div className="absolute z-10">
-                <EmojiPicker
-                  open={openEmoji}
-                  emojiStyle={EmojiStyle.TWITTER}
-                  onEmojiClick={(e) => {
-                    setEmoji(e.emoji);
-                    setOpenEmoji(false);
-                  }}
-                />
-              </div>
-              {/* Amount */}
-              <Input
-                className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                type="number"
-                defaultValue={Number(budgetInfo[0]?.amount)}
-                onChange={(e) => setAmount(e.target.value)}
-              />
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="mt-4 sm:justify-start">
-            <DialogClose asChild>
-              <Button
-                className="w-full"
-                disabled={
-                  !(
-                    name ||
-                    amount ||
-                    emoji !== initialEmoji ||
-                    category !== initialCategory
-                  )
-                }
-                onClick={() => onUpdateBudget()}
-              >
-                Update Budget
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button
+          className="flex h-fit w-full items-center justify-start gap-2 bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
+          onClick={handleOnClickEdit}
+        >
+          <span className="pl-4">
+            <PenBox strokeWidth={2} className="h-4 w-4" color="#555353" />
+          </span>
+          <span className="font-semibold text-medium">Edit Budget</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit Budget</DialogTitle>
+          <DialogDescription className="flex flex-col gap-4 pt-4">
+            {/* Name */}
+            <Input
+              defaultValue={budgetInfo[0]?.name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <div className="flex items-center gap-2">
+              {/* Emoji selection */}
+              <Button variant="ghost" onClick={() => setOpenEmoji(!openEmoji)}>
+                {emoji}
               </Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+              {/* Budget category */}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" className="flex-1 border">
+                    {category || budgetInfo[0]?.category}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>What is this budget for?</DialogTitle>
+                    <DialogDescription>
+                      <div className="item flex max-h-96 flex-col overflow-y-auto">
+                        {budgetCategory.map((item, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center py-4 pr-4"
+                          >
+                            <item.icon
+                              color={item.color}
+                              strokeWidth={1.5}
+                              className="h-[30px] w-[30px]"
+                            />
+                            <span className="pl-6 text-base font-semibold text-dark">
+                              {item.name}
+                            </span>
+                            <DialogClose asChild>
+                              <Button
+                                className="ml-auto"
+                                onClick={() => setCategory(item.name)}
+                              >
+                                Select
+                              </Button>
+                            </DialogClose>
+                          </div>
+                        ))}
+                      </div>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            </div>
+            {/* Emoji pop-up */}
+            <div className="absolute z-10">
+              <EmojiPicker
+                open={openEmoji}
+                emojiStyle={EmojiStyle.TWITTER}
+                onEmojiClick={(e) => {
+                  setEmoji(e.emoji);
+                  setOpenEmoji(false);
+                }}
+              />
+            </div>
+            {/* Amount */}
+            <Input
+              className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              type="number"
+              defaultValue={Number(budgetInfo[0]?.amount)}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="mt-4 sm:justify-start">
+          <PopoverClose asChild>
+            <Button
+              className="w-full"
+              disabled={
+                !(
+                  name ||
+                  amount ||
+                  emoji !== initialEmoji ||
+                  category !== initialCategory
+                )
+              }
+              onClick={() => onUpdateBudget()}
+            >
+              Update Budget
+            </Button>
+          </PopoverClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

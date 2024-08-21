@@ -27,7 +27,7 @@ export default function AddExpense({
   const [name, setName] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
   const [paymentMethod, setPaymentMethod] = React.useState<string>("");
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const [date, setDate] = React.useState<Date>(new Date());
 
   const addNewExpense = async () => {
     if (!name || !amount || !paymentMethod || !date || !currentUser) {
@@ -58,10 +58,9 @@ export default function AddExpense({
   };
 
   return (
-    <div className="flex flex-1 flex-col gap-3 rounded-lg border bg-white p-4 shadow-md">
+    <div className="col-span-1 hidden h-fit flex-col gap-3 rounded-lg border bg-white p-4 shadow-md lg:flex">
       {/* Name */}
       <Input
-        className="mt-1"
         placeholder="Expense name"
         value={name}
         onChange={(e) => setName(e.target.value)}
@@ -69,7 +68,7 @@ export default function AddExpense({
       {/* Amount */}
       <Input
         type="number"
-        className="mt-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
         placeholder="Amount"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
@@ -81,7 +80,7 @@ export default function AddExpense({
         value={paymentMethod}
         onValueChange={(value) => setPaymentMethod(value)}
       >
-        <SelectTrigger className="mt-1">
+        <SelectTrigger>
           <SelectValue
             placeholder="Payment method"
             className="text-[#a9a9a9]"

@@ -16,7 +16,7 @@ export default function BudgetItem({ budget }: Props) {
   return (
     <Link
       href={`/budgets/` + budget?.id}
-      className="flex h-fit flex-1 cursor-pointer flex-col rounded-lg border bg-white p-4 shadow-md hover:shadow-lg"
+      className="flex flex-1 cursor-pointer flex-col rounded-lg border bg-white p-4 shadow-md hover:shadow-lg"
     >
       <div className="flex items-center gap-4">
         <div className="text-3xl">{budget.icon}</div>

@@ -3,5 +3,5 @@ type Props = {
 };
 
 export default function FormatNumber({ number }: Props) {
-  return number.toLocaleString();
+  return number?.toLocaleString();
 }

@@ -1,30 +1,38 @@
 type Props = {
-  numDate?: Date;
-  numMonthNumDate?: Date;
-  shortMonthNumDate?: Date;
+  numDateUTC?: Date;
+  numMonthNumDateUTC?: Date;
+  shortMonthNumDateUTC?: Date;
+  fullFormatCurrent?: Date;
 };
 
 export default function FormatDate({
-  numDate,
-  numMonthNumDate,
-  shortMonthNumDate,
+  numDateUTC,
+  numMonthNumDateUTC,
+  shortMonthNumDateUTC,
+  fullFormatCurrent,
 }: Props) {
-  if (numDate) {
-    return numDate.toLocaleDateString("en-US", {
+  if (numDateUTC) {
+    return numDateUTC.toLocaleDateString("en-US", {
       day: "2-digit",
       timeZone: "UTC",
     });
-  } else if (numMonthNumDate) {
-    return numMonthNumDate.toLocaleDateString("en-US", {
-      month: "2-digit",
-      day: "2-digit",
+  } else if (numMonthNumDateUTC) {
+    return numMonthNumDateUTC.toLocaleDateString("en-US", {
+      month: "numeric",
+      day: "numeric",
       timeZone: "UTC",
     });
-  } else if (shortMonthNumDate) {
-    return shortMonthNumDate.toLocaleDateString("en-US", {
+  } else if (shortMonthNumDateUTC) {
+    return shortMonthNumDateUTC.toLocaleDateString("en-US", {
       month: "short",
-      day: "2-digit",
+      day: "numeric",
       timeZone: "UTC",
+    });
+  } else if (fullFormatCurrent) {
+    return fullFormatCurrent.toLocaleDateString("en-US", {
+      month: "long",
+      day: "2-digit",
+      year: "numeric",
     });
   } else {
     return null;

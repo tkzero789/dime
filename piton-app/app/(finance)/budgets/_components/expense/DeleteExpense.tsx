@@ -16,6 +16,7 @@ import { and, eq } from "drizzle-orm";
 import { db } from "@/db/dbConfig";
 import toast from "react-hot-toast";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { Trash2 } from "lucide-react";
 
 type Props = {
   refreshData: () => void;
@@ -48,7 +49,12 @@ export default function DeleteExpense({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">Delete</Button>
+        <Button className="flex h-fit w-full items-center justify-start gap-2 bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200">
+          <span className="pl-4">
+            <Trash2 strokeWidth={2} className="h-4 w-4" color="#555353" />
+          </span>
+          <span className="font-semibold text-medium">Delete</span>
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

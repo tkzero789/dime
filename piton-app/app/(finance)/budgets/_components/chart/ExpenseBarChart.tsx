@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -50,16 +49,23 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
   // Generate all days of the current month
   const allDaysInCurrentMonth = getAllDaysInCurrentMonth();
 
-  // Merge the generated dates with the expenseDetail data
-  const mergedData = allDaysInCurrentMonth.map((date) => {
-    const expense = expenseDetail.find(
-      (exp) => new Date(exp.date).toISOString().split("T")[0] === date,
-    );
-    return {
-      date,
-      amount: expense ? parseInt(expense.amount, 10) : 0,
-    };
+  // Aggregate expenses by date
+  const expenseMap = new Map<string, number>();
+  expenseDetail.forEach((exp) => {
+    const date = new Date(exp.date).toISOString().split("T")[0];
+    const amount = parseInt(exp.amount, 10);
+    if (expenseMap.has(date)) {
+      expenseMap.set(date, expenseMap.get(date)! + amount);
+    } else {
+      expenseMap.set(date, amount);
+    }
   });
+
+  // Merge the aggregated data with all days in the current month
+  const mergedData = allDaysInCurrentMonth.map((date) => ({
+    date,
+    amount: expenseMap.get(date) || 0,
+  }));
 
   // Sort the merged data
   const sortedExpenseDetail = mergedData.sort(
@@ -69,7 +75,7 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
   return (
     <Card className="shadow-md">
       <CardHeader>
-        <CardTitle>
+        <CardTitle className="text-xl font-bold tracking-normal">
           <GetCurrentMonth month={currentMonth} />
         </CardTitle>
         <CardDescription>Your current spending in this month</CardDescription>
@@ -77,7 +83,7 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[200px] w-full xl:h-[328px]"
+          className="aspect-auto h-[200px] w-full xl:h-[280px]"
         >
           <BarChart accessibilityLayer data={sortedExpenseDetail}>
             <CartesianGrid vertical={false} />

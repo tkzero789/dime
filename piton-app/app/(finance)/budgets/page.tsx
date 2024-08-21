@@ -16,6 +16,7 @@ export default function BudgetsPage() {
     user && getBudgetList();
   }, [user]);
 
+  // List of all budget
   const getBudgetList = async () => {
     try {
       const currentDate = new Date();
@@ -35,6 +36,9 @@ export default function BudgetsPage() {
           ...getTableColumns(Budgets),
           totalSpend: sql`sum(${Expenses.amount})`.mapWith(Number),
           totalItem: sql`count(${Expenses.id})`.mapWith(Number),
+          remaining: sql`${Budgets.amount} - sum(${Expenses.amount})`.mapWith(
+            Number,
+          ),
         })
         .from(Budgets)
         .leftJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
@@ -60,7 +64,7 @@ export default function BudgetsPage() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#f5f5f5] px-14 py-16">
+    <div className="min-h-dvh bg-[#f5f5f5] px-4 py-6 sm:px-14 sm:py-16">
       <BudgetList budgetList={budgetList} getBudgetList={getBudgetList} />
     </div>
   );

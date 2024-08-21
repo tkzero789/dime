@@ -14,7 +14,7 @@ export default function ExpenseCustomTooltip({ active, payload }: Props) {
     return (
       <div className="flex flex-col gap-1 rounded-lg border bg-white p-2 shadow-md">
         <p className="label font-normal">
-          {<FormatDate shortMonthNumDate={new Date(date)} />}
+          {<FormatDate shortMonthNumDateUTC={new Date(date)} />}
         </p>
         <p className="intro text-sm font-bold">
           $<FormatNumber number={amount} />

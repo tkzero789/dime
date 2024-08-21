@@ -17,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { Budgets } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { db } from "@/db/dbConfig";
-
 import {
   BadgeDollarSign,
   BriefcaseMedical,

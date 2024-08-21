@@ -16,15 +16,17 @@ import "@/css/calendar.css";
 import { SelectSingleEventHandler } from "react-day-picker";
 
 type Props = {
-  date: Date | undefined;
-  setDate: (date: Date | undefined) => void;
+  date: Date;
+  setDate: (date: Date) => void;
 };
 
 export function ExpenseDatePicker({ date, setDate }: Props) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const handleOnSelect: SelectSingleEventHandler = (date) => {
-    setDate(date);
+    if (date) {
+      setDate(date);
+    }
     setIsOpen(false);
   };
   return (

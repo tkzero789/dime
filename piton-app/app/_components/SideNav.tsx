@@ -8,8 +8,8 @@ import {
   HandCoins,
   LayoutGrid,
   LogOut,
+  PiggyBank,
   Settings,
-  ShieldPlus,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -32,8 +32,8 @@ export default function SideNav() {
   const menu = [
     { option: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
     { option: "Budgets", icon: HandCoins, href: "/budgets" },
-    { option: "Expenses", icon: CircleDollarSign, href: "/expenses" },
-    { option: "Upgrade", icon: ShieldPlus, href: "/upgrade" },
+    { option: "Spending", icon: CircleDollarSign, href: "/spending" },
+    { option: "Saving", icon: PiggyBank, href: "/saving" },
   ];
   // Path name
   const path = usePathname();
@@ -86,7 +86,7 @@ export default function SideNav() {
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction asChild>
-                <SignOutButton />
+                <SignOutButton redirectUrl="/sign-in" />
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

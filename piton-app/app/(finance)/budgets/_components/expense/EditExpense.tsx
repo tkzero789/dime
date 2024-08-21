@@ -25,6 +25,7 @@ import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { ExpenseDatePicker } from "./ExpenseDatePicker";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { Pencil } from "lucide-react";
 
 type Props = {
   refreshData: () => void;
@@ -47,8 +48,8 @@ export default function EditExpense({
 }: Props) {
   const [expenseName, setExpenseName] = React.useState<string>("");
   const [expenseAmount, setExpenseAmount] = React.useState<string>("");
-  const [expenseDate, setExpenseDate] = React.useState<Date | undefined>(date);
-  const [initialExpenseDate] = React.useState<Date | undefined>(date);
+  const [expenseDate, setExpenseDate] = React.useState<Date>(date);
+  const [initialExpenseDate] = React.useState<Date>(date);
   const [paymentMethod, setPaymentMethod] = React.useState<string>(method);
   const [initialPaymentMethod] = React.useState<string>(method);
 
@@ -90,8 +91,14 @@ export default function EditExpense({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="success" onClick={handleOnClickEdit}>
-          Edit
+        <Button
+          className="flex h-fit w-full items-center justify-start gap-2 bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
+          onClick={handleOnClickEdit}
+        >
+          <span className="pl-4">
+            <Pencil strokeWidth={2} className="h-4 w-4" color="#555353" />
+          </span>
+          <span className="font-semibold text-medium">Edit</span>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

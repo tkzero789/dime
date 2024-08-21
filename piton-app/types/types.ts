@@ -9,6 +9,7 @@ export type BudgetDetail = {
   createdAt: Date;
   totalSpend: number;
   totalItem: number;
+  remaining: number;
 };
 
 // expense

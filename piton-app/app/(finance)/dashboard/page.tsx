@@ -1,14 +1,17 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React from "react";
 import { db } from "@/db/dbConfig";
 import { Budgets, Expenses } from "@/db/schema";
 import { BudgetDetail } from "@/types/types";
 import { useUser } from "@clerk/nextjs";
 import { desc, eq, getTableColumns, sql } from "drizzle-orm";
+import FormatDate from "@/utils/formatDate";
 
 export default function DashboardPage() {
   const [budgetList, setBudgetList] = React.useState<BudgetDetail[]>([]);
+
+  const [todayDay] = React.useState<Date>(new Date());
 
   const { user } = useUser();
   React.useEffect(() => {
@@ -22,6 +25,9 @@ export default function DashboardPage() {
           ...getTableColumns(Budgets),
           totalSpend: sql`sum(${Expenses.amount})`.mapWith(Number),
           totalItem: sql`count(${Expenses.id})`.mapWith(Number),
+          remaining: sql`${Budgets.amount} - sum(${Expenses.amount})`.mapWith(
+            Number,
+          ),
         })
         .from(Budgets)
         .leftJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
@@ -38,7 +44,9 @@ export default function DashboardPage() {
   };
   return (
     <div className="min-h-dvh bg-[#f5f5f5] px-14 py-16">
-      <h2 className="text-2xl font-bold">Hi, {user?.firstName}</h2>
+      <h2 className="text-2xl font-bold">
+        <FormatDate fullFormatCurrent={todayDay} />
+      </h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-3">
         <div className="lg:col-span-2">Chart</div>

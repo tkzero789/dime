@@ -21,10 +21,10 @@ import { BudgetDetail } from "@/types/types";
 import GetCurrentMonth from "@/utils/getCurrentMonth";
 import FormatNumber from "@/utils/formatNumber";
 
-const chartData = [{ spending: 1, fill: "var(--color-spending)" }];
+const chartData = [{ spending: 1, fill: "var(--color-spent)" }];
 const chartConfig = {
-  spending: {
-    label: "Spending",
+  spent: {
+    label: "Spent",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
@@ -46,15 +46,15 @@ export function BudgetRadicalChart({ budgetList }: Props) {
 
   // Calculate budget amount and total spending
   const calculation = () => {
-    const totalAmount = budgetList
-      ?.map((budget) => budget.amount)
-      .reduce((acc, curr) => acc + Number(curr), 0);
-
-    const totalSpend = budgetList
-      ?.map((budget) => budget.totalSpend)
-      .reduce((acc, curr) => acc + curr, 0);
-
-    const remainingAmount = totalAmount - totalSpend;
+    const { totalAmount, totalSpend, remainingAmount } = budgetList?.reduce(
+      (acc, budget) => {
+        acc.totalAmount += Number(budget.amount);
+        acc.totalSpend += budget.totalSpend;
+        acc.remainingAmount += budget.remaining;
+        return acc;
+      },
+      { totalAmount: 0, totalSpend: 0, remainingAmount: 0 },
+    ) || { totalAmount: 0, totalSpend: 0, remainingAmount: 0 };
 
     setTotalBudget(totalAmount);
     setTotalSpend(totalSpend);
@@ -71,9 +71,11 @@ export function BudgetRadicalChart({ budgetList }: Props) {
   };
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col rounded-lg shadow-md">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Budget Chart</CardTitle>
+        <CardTitle className="text-xl font-bold tracking-normal">
+          Budgets Tracker
+        </CardTitle>
         <CardDescription>
           <GetCurrentMonth month={budgetList[0]?.createdAt} />
         </CardDescription>

@@ -1,11 +1,10 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
-import { and, desc, eq, gte, lte, param } from "drizzle-orm";
+import { and, desc, eq, gte, lte } from "drizzle-orm";
 import { Budgets, Expenses } from "@/db/schema";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -27,6 +26,7 @@ import {
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { RefreshCcw } from "lucide-react";
 
 type Props = {
   refreshData: () => void;
@@ -112,10 +112,13 @@ export default function TransferExpense({
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className="border bg-blue-700 hover:bg-blue-700/90"
+          className="flex h-fit w-full items-center justify-start gap-2 bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
           onClick={getActiveBudget}
         >
-          Transfer
+          <span className="pl-4">
+            <RefreshCcw strokeWidth={2} className="h-4 w-4" color="#555353" />
+          </span>
+          <span className="font-semibold text-medium">Transfer</span>
         </Button>
       </DialogTrigger>
       <DialogContent>
