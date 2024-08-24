@@ -58,7 +58,7 @@ export default function IncomeList({ incomeList }: Props) {
   };
 
   return (
-    <div className="h-fit flex-1 rounded-lg border bg-white p-4 shadow-md">
+    <div className="mt-8 h-fit flex-1 rounded-lg border bg-white p-4 shadow-md">
       <div className="flex items-center justify-between pb-4">
         <h2 className="text-xl font-bold">
           <GetCurrentMonth month={currentMonth} />
