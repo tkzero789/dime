@@ -27,6 +27,7 @@ export type ExpenseDetail = {
 // income
 export type IncomeDetail = {
   id: string;
+  name: string;
   amount: string;
   date: string;
   category: string;

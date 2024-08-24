@@ -30,6 +30,7 @@ export const BudgetExpenses = pgTable("budget_expenses", {
 
 export const Income = pgTable("income", {
   id: uuid("id").primaryKey().defaultRandom(),
+  name: varchar("name").notNull(),
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
   category: varchar("category").notNull(),
   date: date("date").notNull(),

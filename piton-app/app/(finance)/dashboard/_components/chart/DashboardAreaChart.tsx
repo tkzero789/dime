@@ -44,7 +44,7 @@ type Props = {
 
 export function DashboardAreaChart({ budgetData }: Props) {
   return (
-    <Card>
+    <Card className="rounded-lg border shadow-md">
       <CardHeader>
         <CardTitle>Area Chart - Stacked</CardTitle>
         <CardDescription>

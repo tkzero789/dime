@@ -28,6 +28,7 @@ import { useRouter } from "next/navigation";
 
 type Props = {
   currentUser: string | undefined;
+  name: string;
   incomeId: string;
   amount: string;
   date: Date;
@@ -37,10 +38,12 @@ type Props = {
 export default function EditIncome({
   currentUser,
   incomeId,
+  name,
   amount,
   date,
   category,
 }: Props) {
+  const [incomeName, setIncomeName] = React.useState<string>("");
   const [incomeAmount, setIncomeAmount] = React.useState<string>("");
   const [incomeDate, setIncomeDate] = React.useState<Date>(date);
   const [initialIncomeDate] = React.useState<Date>(date);
@@ -51,12 +54,14 @@ export default function EditIncome({
 
   // Update income
   const onUpdateIncome = async (expenseId: string) => {
+    const updateName = incomeName || name;
     const updatedAmount = incomeAmount || amount;
     const updateDate = incomeDate || date;
     const updateCategory = incomeCategory || category;
     const result = await db
       .update(Income)
       .set({
+        name: updateName,
         amount: updatedAmount,
         date: updateDate.toISOString(),
         category: updateCategory,
@@ -84,6 +89,11 @@ export default function EditIncome({
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
+            <Input
+              type="text"
+              defaultValue={name}
+              onChange={(e) => setIncomeName(e.target.value)}
+            />
             <Input
               type="number"
               className="mt-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
@@ -114,6 +124,7 @@ export default function EditIncome({
               className="w-full"
               disabled={
                 !(
+                  incomeName ||
                   incomeAmount ||
                   incomeDate?.getTime() !== initialIncomeDate?.getTime() ||
                   incomeCategory !== initialIncomeCategory

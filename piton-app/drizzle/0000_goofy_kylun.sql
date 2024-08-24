@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS "budgets" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "income" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" varchar NOT NULL,
 	"amount" numeric(10, 2) NOT NULL,
 	"category" varchar NOT NULL,
 	"date" date NOT NULL,

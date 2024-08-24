@@ -10,41 +10,37 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { BudgetExpenses } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
-import { db } from "@/db/dbConfig";
-import toast from "react-hot-toast";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Trash2 } from "lucide-react";
+import { db } from "@/db/dbConfig";
+import { Income } from "@/db/schema";
+import { and, eq } from "drizzle-orm";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Props = {
-  refreshData: () => void;
   currentUser: string | undefined;
-  expenseId: string;
+  incomeId: string;
 };
 
-export default function DeleteExpense({
-  refreshData,
-  currentUser,
-  expenseId,
-}: Props) {
-  // Delete expense
-  const deleteExpense = async (expenseId: string) => {
+export default function DeleteIncome({ currentUser, incomeId }: Props) {
+  const router = useRouter();
+
+  //Delete income
+  const deleteIncome = async (incomeId: string) => {
     const result = await db
-      .delete(BudgetExpenses)
+      .delete(Income)
       .where(
-        and(
-          eq(BudgetExpenses.id, expenseId),
-          eq(BudgetExpenses.created_by, currentUser ?? ""),
-        ),
+        and(eq(Income.id, incomeId), eq(Income.created_by, currentUser ?? "")),
       )
       .returning();
 
     if (result) {
-      refreshData();
-      toast.success("Expense Deleted!");
+      toast.success("Income Deleted!");
+      router.refresh();
     }
   };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200">
@@ -66,7 +62,7 @@ export default function DeleteExpense({
           <PopoverClose asChild>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              onClick={() => deleteExpense(expenseId)}
+              onClick={() => deleteIncome(incomeId)}
             >
               Delete
             </AlertDialogAction>

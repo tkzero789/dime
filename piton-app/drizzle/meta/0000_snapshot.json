@@ -1,5 +1,5 @@
 {
-  "id": "99a77c10-cdd1-4313-9ea3-325490ab774f",
+  "id": "ac63e6c9-37dc-4ab6-8633-392528176ac6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -142,6 +142,12 @@
           "primaryKey": true,
           "notNull": true,
           "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
         },
         "amount": {
           "name": "amount",

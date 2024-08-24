@@ -38,7 +38,7 @@ export default function DashboardMainSection({
     setPotentialSave(savingAmount);
   };
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+    <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
       <div className="col-span-3 xl:col-span-2">
         {" "}
         <DashboardAreaChart budgetData={budgetData} />

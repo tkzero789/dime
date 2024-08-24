@@ -26,12 +26,16 @@ import { db } from "@/db/dbConfig";
 import { Income } from "@/db/schema";
 import { IncomeDatePicker } from "./IncomeDatePicker";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Props = {
   currentUser: string | undefined;
 };
 
 export default function AddIncome({ currentUser }: Props) {
+  const router = useRouter();
+
+  const [name, setName] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
   const [category, setCategory] = React.useState<string>("");
   const [date, setDate] = React.useState<Date>(new Date());
@@ -44,6 +48,7 @@ export default function AddIncome({ currentUser }: Props) {
     const result = await db
       .insert(Income)
       .values({
+        name: name,
         amount: amount,
         date: date?.toISOString(),
         category: category,
@@ -53,6 +58,7 @@ export default function AddIncome({ currentUser }: Props) {
 
     if (result) {
       toast.success("New Income Added!");
+      router.refresh();
     }
   };
 
@@ -71,6 +77,12 @@ export default function AddIncome({ currentUser }: Props) {
         <DialogHeader>
           <DialogTitle className="text-center">Add Income</DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
+            <Input
+              placeholder="Income name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
             <Input
               placeholder="Income amount"
               type="number"
@@ -107,7 +119,7 @@ export default function AddIncome({ currentUser }: Props) {
           <DialogClose asChild>
             <Button
               className="w-full"
-              disabled={!(amount && date && category)}
+              disabled={!(name && amount && date && category)}
               onClick={() => addNewIncome()}
             >
               Add income
