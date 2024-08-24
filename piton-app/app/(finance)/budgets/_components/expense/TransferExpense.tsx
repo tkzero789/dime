@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
 import { and, desc, eq, gte, lte } from "drizzle-orm";
-import { Budgets, Expenses } from "@/db/schema";
+import { Budgets, BudgetExpenses } from "@/db/schema";
 import {
   Dialog,
   DialogContent,
@@ -71,12 +71,12 @@ export default function TransferExpense({
         .from(Budgets)
         .where(
           and(
-            eq(Budgets.createdBy, currentUser ?? ""),
-            gte(Budgets.createdAt, firstDayOfMonth),
-            lte(Budgets.createdAt, lastDayOfMonth),
+            eq(Budgets.created_by, currentUser ?? ""),
+            gte(Budgets.created_at, firstDayOfMonth),
+            lte(Budgets.created_at, lastDayOfMonth),
           ),
         )
-        .orderBy(desc(Budgets.createdAt));
+        .orderBy(desc(Budgets.created_at));
 
       if (result) {
         setBudgetList(result);
@@ -87,15 +87,15 @@ export default function TransferExpense({
   };
 
   //   On transfer expense to another budget
-  const handleTransferExpense = async (budgetId: string) => {
+  const handleTransferExpense = async (budget_id: string) => {
     try {
       const result = await db
-        .update(Expenses)
-        .set({ budgetId })
+        .update(BudgetExpenses)
+        .set({ budget_id })
         .where(
           and(
-            eq(Expenses.id, expenseId),
-            eq(Expenses.createdBy, currentUser ?? ""),
+            eq(BudgetExpenses.id, expenseId),
+            eq(BudgetExpenses.created_by, currentUser ?? ""),
           ),
         );
 
@@ -110,20 +110,18 @@ export default function TransferExpense({
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          className="flex h-fit w-full items-center justify-start gap-2 bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
-          onClick={getActiveBudget}
-        >
-          <span className="pl-4">
-            <RefreshCcw strokeWidth={2} className="h-4 w-4" color="#555353" />
-          </span>
-          <span className="font-semibold text-medium">Transfer</span>
-        </Button>
+      <DialogTrigger
+        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
+        onClick={getActiveBudget}
+      >
+        <span className="pl-4">
+          <RefreshCcw strokeWidth={2} className="h-4 w-4" color="#555353" />
+        </span>
+        <span className="font-semibold text-medium">Transfer</span>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Transfer expense</DialogTitle>
+          <DialogTitle className="text-center">Transfer expense</DialogTitle>
           <DialogDescription>
             <ul className="item flex max-h-96 flex-col overflow-y-auto pr-4">
               {budgetList

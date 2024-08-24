@@ -49,7 +49,7 @@ export function BudgetRadicalChart({ budgetList }: Props) {
     const { totalAmount, totalSpend, remainingAmount } = budgetList?.reduce(
       (acc, budget) => {
         acc.totalAmount += Number(budget.amount);
-        acc.totalSpend += budget.totalSpend;
+        acc.totalSpend += budget.total_spend;
         acc.remainingAmount += budget.remaining;
         return acc;
       },
@@ -77,7 +77,7 @@ export function BudgetRadicalChart({ budgetList }: Props) {
           Budgets Tracker
         </CardTitle>
         <CardDescription>
-          <GetCurrentMonth month={budgetList[0]?.createdAt} />
+          <GetCurrentMonth month={budgetList[0]?.created_at} />
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import { Budgets, Expenses } from "@/db/schema";
+import { Budgets, BudgetExpenses } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/dbConfig";
 import toast from "react-hot-toast";
@@ -28,11 +28,11 @@ export default function DeleteBudget({ paramsId, currentUser }: Props) {
   // Delete budget
   const deleteBudget = async () => {
     const deleteRelatedExpenses = await db
-      .delete(Expenses)
+      .delete(BudgetExpenses)
       .where(
         and(
-          eq(Expenses.budgetId, paramsId),
-          eq(Expenses.createdBy, currentUser ?? ""),
+          eq(BudgetExpenses.budget_id, paramsId),
+          eq(BudgetExpenses.created_by, currentUser ?? ""),
         ),
       )
       .returning();
@@ -44,7 +44,7 @@ export default function DeleteBudget({ paramsId, currentUser }: Props) {
         .where(
           and(
             eq(Budgets.id, paramsId),
-            eq(Budgets.createdBy, currentUser ?? ""),
+            eq(Budgets.created_by, currentUser ?? ""),
           ),
         )
         .returning();

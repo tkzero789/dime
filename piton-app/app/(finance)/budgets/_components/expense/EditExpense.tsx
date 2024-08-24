@@ -1,16 +1,14 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -18,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Expenses } from "@/db/schema";
+import { BudgetExpenses } from "@/db/schema";
 import { db } from "@/db/dbConfig";
 import { and, eq } from "drizzle-orm";
 import { Input } from "@/components/ui/input";
@@ -60,17 +58,17 @@ export default function EditExpense({
     const updatedExpenseDate = expenseDate || date;
     const updatePaymentMethod = paymentMethod || method;
     const result = await db
-      .update(Expenses)
+      .update(BudgetExpenses)
       .set({
         name: updateExpenseName,
         amount: updateExpenseAmount,
         date: updatedExpenseDate.toISOString(),
-        paymentMethod: updatePaymentMethod,
+        payment_method: updatePaymentMethod,
       })
       .where(
         and(
-          eq(Expenses.id, expenseId),
-          eq(Expenses.createdBy, currentUser ?? ""),
+          eq(BudgetExpenses.id, expenseId),
+          eq(BudgetExpenses.created_by, currentUser ?? ""),
         ),
       )
       .returning();
@@ -89,22 +87,20 @@ export default function EditExpense({
   };
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button
-          className="flex h-fit w-full items-center justify-start gap-2 bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
-          onClick={handleOnClickEdit}
-        >
-          <span className="pl-4">
-            <Pencil strokeWidth={2} className="h-4 w-4" color="#555353" />
-          </span>
-          <span className="font-semibold text-medium">Edit</span>
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Edit Expense</AlertDialogTitle>
-          <AlertDialogDescription>
+    <Dialog>
+      <DialogTrigger
+        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
+        onClick={handleOnClickEdit}
+      >
+        <span className="pl-4">
+          <Pencil strokeWidth={2} className="h-4 w-4" color="#555353" />
+        </span>
+        <span className="font-semibold text-medium">Edit</span>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="text-center">Edit Expense</DialogTitle>
+          <DialogDescription>
             {/* Expense Name */}
             <div>
               <label className="font-semibold text-dark">Expense Name</label>
@@ -150,12 +146,12 @@ export default function EditExpense({
                 </SelectContent>
               </Select>
             </div>
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="mt-4 sm:justify-start">
           <PopoverClose asChild>
-            <AlertDialogAction
+            <Button
+              className="w-full"
               disabled={
                 !(
                   expenseName ||
@@ -167,10 +163,10 @@ export default function EditExpense({
               onClick={() => onUpdateExpense(expenseId)}
             >
               Save
-            </AlertDialogAction>
+            </Button>
           </PopoverClose>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

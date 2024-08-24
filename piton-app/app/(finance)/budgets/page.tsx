@@ -4,7 +4,7 @@ import React from "react";
 import BudgetList from "./_components/budget/BudgetList";
 import { db } from "@/db/dbConfig";
 import { and, desc, eq, getTableColumns, gte, lte, sql } from "drizzle-orm";
-import { Budgets, Expenses } from "@/db/schema";
+import { Budgets, BudgetExpenses } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { BudgetDetail } from "@/types/types";
 
@@ -16,7 +16,7 @@ export default function BudgetsPage() {
     user && getBudgetList();
   }, [user]);
 
-  // List of all budget
+  // List of all budgets
   const getBudgetList = async () => {
     try {
       const currentDate = new Date();
@@ -34,26 +34,27 @@ export default function BudgetsPage() {
       const result = await db
         .select({
           ...getTableColumns(Budgets),
-          totalSpend: sql`sum(${Expenses.amount})`.mapWith(Number),
-          totalItem: sql`count(${Expenses.id})`.mapWith(Number),
-          remaining: sql`${Budgets.amount} - sum(${Expenses.amount})`.mapWith(
-            Number,
-          ),
+          total_spend: sql`sum(${BudgetExpenses.amount})`.mapWith(Number),
+          total_item: sql`count(${BudgetExpenses.id})`.mapWith(Number),
+          remaining:
+            sql`${Budgets.amount} - sum(${BudgetExpenses.amount})`.mapWith(
+              Number,
+            ),
         })
         .from(Budgets)
-        .leftJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
+        .leftJoin(BudgetExpenses, eq(Budgets.id, BudgetExpenses.budget_id))
         .where(
           and(
             eq(
-              Budgets.createdBy,
+              Budgets.created_by,
               user?.primaryEmailAddress?.emailAddress ?? "",
             ),
-            gte(Budgets.createdAt, firstDayOfMonth),
-            lte(Budgets.createdAt, lastDayOfMonth),
+            gte(Budgets.created_at, firstDayOfMonth),
+            lte(Budgets.created_at, lastDayOfMonth),
           ),
         )
         .groupBy(Budgets.id)
-        .orderBy(desc(Budgets.createdAt));
+        .orderBy(desc(Budgets.created_at));
 
       if (result) {
         setBudgetList(result);
@@ -64,7 +65,7 @@ export default function BudgetsPage() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#f5f5f5] px-4 py-6 sm:px-14 sm:py-16">
+    <div className="min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 sm:py-16">
       <BudgetList budgetList={budgetList} getBudgetList={getBudgetList} />
     </div>
   );

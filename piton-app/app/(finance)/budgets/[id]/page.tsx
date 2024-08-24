@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { db } from "@/db/dbConfig";
-import { Budgets, Expenses } from "@/db/schema";
+import { Budgets, BudgetExpenses } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { and, desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -45,17 +45,18 @@ export default function BudgetByIdPage({ params }: Props) {
     const result = await db
       .select({
         ...getTableColumns(Budgets),
-        totalSpend: sql`sum(${Expenses.amount})`.mapWith(Number),
-        totalItem: sql`count(${Expenses.id})`.mapWith(Number),
-        remaining: sql`${Budgets.amount} - sum(${Expenses.amount})`.mapWith(
-          Number,
-        ),
+        total_spend: sql`sum(${BudgetExpenses.amount})`.mapWith(Number),
+        total_item: sql`count(${BudgetExpenses.id})`.mapWith(Number),
+        remaining:
+          sql`${Budgets.amount} - sum(${BudgetExpenses.amount})`.mapWith(
+            Number,
+          ),
       })
       .from(Budgets)
-      .leftJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
+      .leftJoin(BudgetExpenses, eq(Budgets.id, BudgetExpenses.budget_id))
       .where(
         and(
-          eq(Budgets.createdBy, currentUser ?? ""),
+          eq(Budgets.created_by, currentUser ?? ""),
           eq(Budgets.id, params.id),
         ),
       )
@@ -71,20 +72,20 @@ export default function BudgetByIdPage({ params }: Props) {
   const getExpenseDetail = async () => {
     const result = await db
       .select()
-      .from(Expenses)
+      .from(BudgetExpenses)
       .where(
         and(
-          eq(Expenses.createdBy, currentUser ?? ""),
-          eq(Expenses.budgetId, params.id),
+          eq(BudgetExpenses.created_by, currentUser ?? ""),
+          eq(BudgetExpenses.budget_id, params.id),
         ),
       )
-      .orderBy(desc(Expenses.date));
+      .orderBy(desc(BudgetExpenses.date));
 
     setExpenseDetail(result);
   };
 
   return (
-    <div className="min-h-dvh bg-[#f5f5f5] px-4 py-6 sm:px-14 sm:py-16">
+    <div className="min-h-dvh bg-[#f5f5f5] px-4 py-6 sm:px-20 sm:py-16">
       <div className="flex items-center justify-between">
         <div className="hidden lg:block">
           <h2 className="text-2xl font-bold">

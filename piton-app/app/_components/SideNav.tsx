@@ -5,11 +5,12 @@ import Image from "next/image";
 import Logo from "@/public/logo.svg";
 import {
   CircleDollarSign,
-  HandCoins,
   LayoutGrid,
   LogOut,
   PiggyBank,
+  Banknote,
   Settings,
+  Landmark,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -31,8 +32,9 @@ export default function SideNav() {
   // Menu list
   const menu = [
     { option: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
-    { option: "Budgets", icon: HandCoins, href: "/budgets" },
+    { option: "Budgets", icon: Banknote, href: "/budgets" },
     { option: "Spending", icon: CircleDollarSign, href: "/spending" },
+    { option: "Income", icon: Landmark, href: "/income" },
     { option: "Saving", icon: PiggyBank, href: "/saving" },
   ];
   // Path name
@@ -52,7 +54,9 @@ export default function SideNav() {
           >
             <Link href={item.href} className="flex items-center gap-2 p-2">
               <span>
-                <item.icon />
+                <item.icon
+                  className={`${path.startsWith(item.href) && "fill-teal-500 stroke-teal-800"}`}
+                />
               </span>
               <span>{item.option}</span>
             </Link>

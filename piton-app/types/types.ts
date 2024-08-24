@@ -5,10 +5,10 @@ export type BudgetDetail = {
   amount: string;
   icon: string | null;
   category: string;
-  createdBy: string;
-  createdAt: Date;
-  totalSpend: number;
-  totalItem: number;
+  created_by: string;
+  created_at: Date;
+  total_spend: number;
+  total_item: number;
   remaining: number;
 };
 
@@ -17,9 +17,19 @@ export type ExpenseDetail = {
   id: string;
   name: string;
   amount: string;
-  paymentMethod: string;
+  payment_method: string;
   date: string;
-  budgetId: string | null;
-  createdBy: string;
-  createdAt: Date;
+  budget_id: string | null;
+  created_by: string;
+  created_at: Date;
+};
+
+// income
+export type IncomeDetail = {
+  id: string;
+  amount: string;
+  date: string;
+  category: string;
+  created_by: string;
+  created_at: Date;
 };

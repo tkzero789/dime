@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/popover";
 import TransferExpense from "./TransferExpense";
 import FormatDate from "@/utils/formatDate";
+import FormatString from "@/utils/formatString";
 
 type Props = {
   expenseDetail: ExpenseDetail[];
@@ -31,7 +32,7 @@ export default function ExpenseList({
     setIsClick(expenseId);
   };
 
-  // Effect to handle clicks outside of the PopoverTrigger
+  // Effect to handle clicks outside of the PopoverTrigger (remove the bg-neutral-200 on the expense item)
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -47,14 +48,6 @@ export default function ExpenseList({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  // Format payment method
-  const formatPaymentMethod = (payment: string) => {
-    return payment
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
 
   // Correct date displays for datepicker in edit expense
   const convertToLocalDate = (dateString: string): Date => {
@@ -83,7 +76,7 @@ export default function ExpenseList({
             </div>
             <div className="pl-4">{expense.name}</div>
             <div className="text-start">
-              {formatPaymentMethod(expense.paymentMethod)}
+              <FormatString text={expense.payment_method} />
             </div>
             <div className="text-end">
               $<FormatNumber number={Number(expense.amount)} />
@@ -97,6 +90,7 @@ export default function ExpenseList({
                   <Ellipsis className="rounded-md transition group-hover:bg-neutral-200" />
                 </PopoverTrigger>
               </div>
+
               <PopoverContent className="flex w-40 flex-col px-0 py-0">
                 <div className="flex items-center justify-center border-b px-3 py-2 text-sm font-semibold">
                   Action
@@ -109,7 +103,7 @@ export default function ExpenseList({
                     name={expense.name}
                     amount={expense.amount}
                     date={convertToLocalDate(expense.date)}
-                    method={expense.paymentMethod}
+                    method={expense.payment_method}
                   />
                   <TransferExpense
                     refreshData={refreshData}

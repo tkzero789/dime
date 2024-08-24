@@ -1,9 +1,83 @@
 {
-  "id": "c81abc09-cb20-43f2-a806-e4513aa65b6d",
+  "id": "99a77c10-cdd1-4313-9ea3-325490ab774f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.budget_expenses": {
+      "name": "budget_expenses",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "payment_method": {
+          "name": "payment_method",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "budget_id": {
+          "name": "budget_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "budget_expenses_budget_id_budgets_id_fk": {
+          "name": "budget_expenses_budget_id_budgets_id_fk",
+          "tableFrom": "budget_expenses",
+          "tableTo": "budgets",
+          "columnsFrom": [
+            "budget_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.budgets": {
       "name": "budgets",
       "schema": "",
@@ -39,14 +113,14 @@
           "primaryKey": false,
           "notNull": true
         },
-        "createdBy": {
-          "name": "createdBy",
+        "created_by": {
+          "name": "created_by",
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
-        "createdAt": {
-          "name": "createdAt",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -58,8 +132,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.expenses": {
-      "name": "expenses",
+    "public.income": {
+      "name": "income",
       "schema": "",
       "columns": {
         "id": {
@@ -69,20 +143,14 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "name": {
-          "name": "name",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
         "amount": {
           "name": "amount",
           "type": "numeric(10, 2)",
           "primaryKey": false,
           "notNull": true
         },
-        "paymentMethod": {
-          "name": "paymentMethod",
+        "category": {
+          "name": "category",
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
@@ -93,20 +161,14 @@
           "primaryKey": false,
           "notNull": true
         },
-        "budgetId": {
-          "name": "budgetId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "createdBy": {
-          "name": "createdBy",
+        "created_by": {
+          "name": "created_by",
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
-        "createdAt": {
-          "name": "createdAt",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
@@ -114,21 +176,7 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "expenses_budgetId_budgets_id_fk": {
-          "name": "expenses_budgetId_budgets_id_fk",
-          "tableFrom": "expenses",
-          "tableTo": "budgets",
-          "columnsFrom": [
-            "budgetId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     }

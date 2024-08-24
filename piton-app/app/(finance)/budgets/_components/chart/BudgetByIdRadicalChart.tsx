@@ -43,7 +43,7 @@ export function BudgetByIdRadicalChart({ budget }: Props) {
           Budget Tracker
         </CardTitle>
         <CardDescription>
-          <GetCurrentMonth month={budget[0]?.createdAt} />
+          <GetCurrentMonth month={budget[0]?.created_at} />
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
@@ -95,7 +95,7 @@ export function BudgetByIdRadicalChart({ budget }: Props) {
               className="stroke-transparent stroke-2"
             />
             <RadialBar
-              dataKey="totalSpend"
+              dataKey="total_spend"
               fill="var(--color-spent)"
               stackId="a"
               cornerRadius={5}
@@ -116,7 +116,7 @@ export function BudgetByIdRadicalChart({ budget }: Props) {
           <MinusCircle className="h-5 w-5 text-teal-700" />
           <span className="text-base font-medium">Current Spending</span>
           <span className="ml-auto text-base font-bold">
-            $<FormatNumber number={budget[0]?.totalSpend} />
+            $<FormatNumber number={budget[0]?.total_spend} />
           </span>
         </div>
         <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">

@@ -2,56 +2,97 @@
 
 import React from "react";
 import { db } from "@/db/dbConfig";
-import { Budgets, Expenses } from "@/db/schema";
-import { BudgetDetail } from "@/types/types";
+import { Budgets, BudgetExpenses, Income } from "@/db/schema";
+import { BudgetDetail, IncomeDetail } from "@/types/types";
 import { useUser } from "@clerk/nextjs";
-import { desc, eq, getTableColumns, sql } from "drizzle-orm";
-import FormatDate from "@/utils/formatDate";
+import { and, desc, eq, getTableColumns, gte, lte, sql } from "drizzle-orm";
+import { BatchResponse } from "drizzle-orm/batch";
+import GetGreeting from "@/utils/getGreeting";
+import DashboardMainSection from "./_components/main/DashboardMainSection";
 
 export default function DashboardPage() {
-  const [budgetList, setBudgetList] = React.useState<BudgetDetail[]>([]);
+  const [budgetData, setBudgetData] = React.useState<BudgetDetail[]>([]);
+  const [incomeData, setIncomeData] = React.useState<IncomeDetail[]>([]);
 
-  const [todayDay] = React.useState<Date>(new Date());
+  const currentDate = new Date();
+  const firstDayOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1,
+  );
+  const lastDayOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0,
+  );
 
   const { user } = useUser();
   React.useEffect(() => {
-    user && getBudgetList();
+    if (user) {
+      getData();
+    }
   }, [user]);
 
-  const getBudgetList = async () => {
+  const getData = async () => {
     try {
-      const result = await db
-        .select({
-          ...getTableColumns(Budgets),
-          totalSpend: sql`sum(${Expenses.amount})`.mapWith(Number),
-          totalItem: sql`count(${Expenses.id})`.mapWith(Number),
-          remaining: sql`${Budgets.amount} - sum(${Expenses.amount})`.mapWith(
-            Number,
-          ),
-        })
-        .from(Budgets)
-        .leftJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
-        .where(
-          eq(Budgets.createdBy, user?.primaryEmailAddress?.emailAddress ?? ""),
-        )
-        .groupBy(Budgets.id)
-        .orderBy(desc(Budgets.createdAt));
-
-      setBudgetList(result);
+      const batchResponse: BatchResponse<any> = await db.batch([
+        db
+          .select({
+            ...getTableColumns(Budgets),
+            total_spend: sql`sum(${BudgetExpenses.amount})`.mapWith(Number),
+            total_item: sql`count(${BudgetExpenses.id})`.mapWith(Number),
+            remaining:
+              sql`${Budgets.amount} - sum(${BudgetExpenses.amount})`.mapWith(
+                Number,
+              ),
+          })
+          .from(Budgets)
+          .leftJoin(BudgetExpenses, eq(Budgets.id, BudgetExpenses.budget_id))
+          .where(
+            and(
+              eq(
+                Budgets.created_by,
+                user?.primaryEmailAddress?.emailAddress ?? "",
+              ),
+              gte(Budgets.created_at, firstDayOfMonth),
+              lte(Budgets.created_at, lastDayOfMonth),
+            ),
+          )
+          .groupBy(Budgets.id)
+          .orderBy(desc(Budgets.created_at)),
+        db
+          .select({
+            ...getTableColumns(Income),
+          })
+          .from(Income)
+          .where(
+            and(
+              eq(
+                Income.created_by,
+                user?.primaryEmailAddress?.emailAddress ?? "",
+              ),
+              gte(Income.created_at, firstDayOfMonth),
+              lte(Income.created_at, lastDayOfMonth),
+            ),
+          )
+          .groupBy(Income.id, Income.created_by),
+      ]);
+      if (batchResponse) {
+        const [budgetResult, incomeResult] = batchResponse;
+        setBudgetData(budgetResult);
+        setIncomeData(incomeResult);
+      }
     } catch (error) {
       console.log(error);
     }
   };
-  return (
-    <div className="min-h-dvh bg-[#f5f5f5] px-14 py-16">
-      <h2 className="text-2xl font-bold">
-        <FormatDate fullFormatCurrent={todayDay} />
-      </h2>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3">
-        <div className="lg:col-span-2">Chart</div>
-        <div>Other content</div>
-      </div>
+  return (
+    <div className="min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 sm:py-16">
+      <h2 className="text-2xl font-bold">
+        <GetGreeting />
+      </h2>
+      <DashboardMainSection budgetData={budgetData} incomeData={incomeData} />
     </div>
   );
 }

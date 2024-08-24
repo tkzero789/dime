@@ -11,7 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Expenses } from "@/db/schema";
+import { BudgetExpenses } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/dbConfig";
 import toast from "react-hot-toast";
@@ -32,11 +32,11 @@ export default function DeleteExpense({
   // Delete expense
   const deleteExpense = async (expenseId: string) => {
     const result = await db
-      .delete(Expenses)
+      .delete(BudgetExpenses)
       .where(
         and(
-          eq(Expenses.id, expenseId),
-          eq(Expenses.createdBy, currentUser ?? ""),
+          eq(BudgetExpenses.id, expenseId),
+          eq(BudgetExpenses.created_by, currentUser ?? ""),
         ),
       )
       .returning();
@@ -48,13 +48,11 @@ export default function DeleteExpense({
   };
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button className="flex h-fit w-full items-center justify-start gap-2 bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200">
-          <span className="pl-4">
-            <Trash2 strokeWidth={2} className="h-4 w-4" color="#555353" />
-          </span>
-          <span className="font-semibold text-medium">Delete</span>
-        </Button>
+      <AlertDialogTrigger className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200">
+        <span className="pl-4">
+          <Trash2 strokeWidth={2} className="h-4 w-4" color="#555353" />
+        </span>
+        <span className="font-semibold text-medium">Delete</span>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

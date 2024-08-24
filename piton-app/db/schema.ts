@@ -13,17 +13,26 @@ export const Budgets = pgTable("budgets", {
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
   icon: varchar("icon"),
   category: varchar("category").notNull(),
-  createdBy: varchar("createdBy").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  created_by: varchar("created_by").notNull(),
+  created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const Expenses = pgTable("expenses", {
+export const BudgetExpenses = pgTable("budget_expenses", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: varchar("name").notNull(),
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
-  paymentMethod: varchar("paymentMethod").notNull(),
+  payment_method: varchar("payment_method").notNull(),
   date: date("date").notNull(),
-  budgetId: uuid("budgetId").references(() => Budgets.id),
-  createdBy: varchar("createdBy").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  budget_id: uuid("budget_id").references(() => Budgets.id),
+  created_by: varchar("created_by").notNull(),
+  created_at: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const Income = pgTable("income", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
+  category: varchar("category").notNull(),
+  date: date("date").notNull(),
+  created_by: varchar("created_by").notNull(),
+  created_at: timestamp("created_at").defaultNow().notNull(),
 });

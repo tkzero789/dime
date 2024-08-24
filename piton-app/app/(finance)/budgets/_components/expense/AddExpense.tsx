@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { db } from "@/db/dbConfig";
-import { Budgets, Expenses } from "@/db/schema";
+import { Budgets, BudgetExpenses } from "@/db/schema";
 import {
   Select,
   SelectContent,
@@ -35,14 +35,14 @@ export default function AddExpense({
       return;
     }
     const result = await db
-      .insert(Expenses)
+      .insert(BudgetExpenses)
       .values({
         name: name,
         amount: amount,
-        paymentMethod: paymentMethod,
+        payment_method: paymentMethod,
         date: date?.toISOString(),
-        budgetId: paramId,
-        createdBy: currentUser,
+        budget_id: paramId,
+        created_by: currentUser,
       })
       .returning({ insertedId: Budgets.id });
     // reset
@@ -67,11 +67,18 @@ export default function AddExpense({
       />
       {/* Amount */}
       <Input
+        placeholder="Amount"
         type="number"
         className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-        placeholder="Amount"
         value={amount}
-        onChange={(e) => setAmount(e.target.value)}
+        onChange={(e) => {
+          const value = parseFloat(e.target.value);
+          if (value > 0) {
+            setAmount(e.target.value);
+          } else {
+            e.target.value = "";
+          }
+        }}
       />
       {/* Date */}
       <ExpenseDatePicker date={date} setDate={setDate} />

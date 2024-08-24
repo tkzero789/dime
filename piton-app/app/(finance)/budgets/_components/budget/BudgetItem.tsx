@@ -9,8 +9,8 @@ type Props = {
 };
 
 export default function BudgetItem({ budget }: Props) {
-  const progressValue = (budget.totalSpend / Number(budget.amount)) * 100;
-  const remainingAmount = Number(budget.amount) - Number(budget.totalSpend);
+  const progressValue = (budget.total_spend / Number(budget.amount)) * 100;
+  const remainingAmount = Number(budget.amount) - Number(budget.total_spend);
   const remainingClassName = `text-sm ${remainingAmount < 0 ? "font-bold text-red-600" : "text-medium"}`;
   const remainingText = remainingAmount < 0 ? "overspent" : "remaining";
   return (
@@ -30,18 +30,18 @@ export default function BudgetItem({ budget }: Props) {
       </div>
       <div className="flex flex-col gap-2 pt-6">
         <div className="flex items-center justify-between">
-          {budget.totalSpend ? (
+          {budget.total_spend ? (
             <span className="text-sm text-medium">
               $
-              {budget.totalSpend % 1 == 0
-                ? budget.totalSpend.toFixed(0)
-                : budget.totalSpend.toFixed(2)}{" "}
+              {budget.total_spend % 1 == 0
+                ? budget.total_spend.toFixed(0)
+                : budget.total_spend.toFixed(2)}{" "}
               spent
             </span>
           ) : (
             <span className="text-sm text-medium">$0 spent</span>
           )}
-          {budget.totalSpend ? (
+          {budget.total_spend ? (
             <span className={remainingClassName}>
               $
               <FormatNumber number={remainingAmount} /> {remainingText}

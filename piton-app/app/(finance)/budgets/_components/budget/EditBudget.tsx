@@ -136,7 +136,7 @@ export default function EditBudget({
       .where(
         and(
           eq(Budgets.id, budgetInfo[0].id),
-          eq(Budgets.createdBy, currentUser ?? ""),
+          eq(Budgets.created_by, currentUser ?? ""),
         ),
       )
       .returning();
@@ -168,9 +168,9 @@ export default function EditBudget({
           <span className="font-semibold text-medium">Edit Budget</span>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="h-dvh sm:h-auto">
         <DialogHeader>
-          <DialogTitle>Edit Budget</DialogTitle>
+          <DialogTitle className="text-center">Edit Budget</DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
             {/* Name */}
             <Input

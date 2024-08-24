@@ -128,7 +128,7 @@ export default function CreateBudget({ refreshData }: Props) {
         amount: amount,
         icon: emoji,
         category: category,
-        createdBy: user?.primaryEmailAddress?.emailAddress,
+        created_by: user?.primaryEmailAddress?.emailAddress,
       })
       .returning({ insertedId: Budgets.id });
 
@@ -153,9 +153,9 @@ export default function CreateBudget({ refreshData }: Props) {
       .from(Budgets)
       .where(
         and(
-          eq(Budgets.createdBy, user?.primaryEmailAddress?.emailAddress ?? ""),
-          gte(Budgets.createdAt, firstDayOfMonth),
-          lte(Budgets.createdAt, currentDate),
+          eq(Budgets.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
+          gte(Budgets.created_at, firstDayOfMonth),
+          lte(Budgets.created_at, currentDate),
         ),
       );
 
@@ -192,9 +192,9 @@ export default function CreateBudget({ refreshData }: Props) {
             </span>
           </Button>
         </DialogTrigger>
-        <DialogContent className="h-screen sm:h-auto">
+        <DialogContent className="h-dvh sm:h-auto">
           <DialogHeader>
-            <DialogTitle>Create New Budget</DialogTitle>
+            <DialogTitle className="text-center">Create New Budget</DialogTitle>
             {isExceed ? (
               <DialogDescription>Cannot create more</DialogDescription>
             ) : (
