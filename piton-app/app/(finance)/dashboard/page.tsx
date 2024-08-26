@@ -71,8 +71,8 @@ export default function DashboardPage() {
                 Income.created_by,
                 user?.primaryEmailAddress?.emailAddress ?? "",
               ),
-              gte(Income.created_at, firstDayOfMonth),
-              lte(Income.created_at, lastDayOfMonth),
+              gte(Income.date, firstDayOfMonth.toISOString()),
+              lte(Income.date, lastDayOfMonth.toISOString()),
             ),
           )
           .groupBy(Income.id, Income.created_by),

@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
 
 import {
   Card,
@@ -83,7 +83,14 @@ export function IncomeBarChart({ incomeList }: Props) {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="amount" fill="var(--color-income)" radius={8} />
+            <Bar
+              dataKey="amount"
+              fill="var(--color-income)"
+              radius={8}
+              activeBar={
+                <Rectangle fill="#14b8a6" stroke="#262626" strokeWidth="2px" />
+              }
+            />
           </BarChart>
         </ChartContainer>
       </CardContent>
