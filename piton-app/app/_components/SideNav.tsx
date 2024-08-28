@@ -11,6 +11,7 @@ import {
   Banknote,
   Settings,
   Landmark,
+  Repeat,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -34,6 +35,7 @@ export default function SideNav() {
     { option: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
     { option: "Budgets", icon: Banknote, href: "/budgets" },
     { option: "Spending", icon: CircleDollarSign, href: "/spending" },
+    { option: "Recurring", icon: Repeat, href: "/recurring" },
     { option: "Income", icon: Landmark, href: "/income" },
     { option: "Saving", icon: PiggyBank, href: "/saving" },
   ];

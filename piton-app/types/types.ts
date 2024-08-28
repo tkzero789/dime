@@ -3,23 +3,23 @@ export type BudgetDetail = {
   id: string;
   name: string;
   amount: string;
-  icon: string | null;
   category: string;
+  icon: string | null;
+  total_item: number;
+  total_spend: number;
+  remaining: number;
   created_by: string;
   created_at: Date;
-  total_spend: number;
-  total_item: number;
-  remaining: number;
 };
 
 // expense
 export type ExpenseDetail = {
   id: string;
+  budget_id: string | null;
   name: string;
   amount: string;
   payment_method: string;
   date: string;
-  budget_id: string | null;
   created_by: string;
   created_at: Date;
 };
@@ -29,8 +29,21 @@ export type IncomeDetail = {
   id: string;
   name: string;
   amount: string;
-  date: string;
   category: string;
+  payment_method: string;
+  date: string;
+  created_by: string;
+  created_at: Date;
+};
+
+// recurrence
+export type RecurrenceDetail = {
+  id: string;
+  name: string;
+  amount: string;
+  category: string;
+  payment_method: string;
+  date: string;
   created_by: string;
   created_at: Date;
 };

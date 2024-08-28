@@ -17,54 +17,55 @@ import {
 } from "@/components/ui/select";
 import { Pencil } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { IncomeDatePicker } from "./IncomeDatePicker";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
-import { Income } from "@/db/schema";
+import { Recurrence } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { RecurringDatePicker } from "./RecurringDatePicker";
 
 type Props = {
   currentUser: string | undefined;
+  recurringId: string;
   name: string;
-  incomeId: string;
   amount: string;
   category: string;
   method: string;
   date: Date;
 };
 
-export default function EditIncome({
+export default function EditRecurring({
   currentUser,
-  incomeId,
+  recurringId,
   name,
   amount,
   category,
   method,
   date,
 }: Props) {
-  const [incomeName, setIncomeName] = React.useState<string>("");
-  const [incomeAmount, setIncomeAmount] = React.useState<string>("");
-  const [incomeDate, setIncomeDate] = React.useState<Date>(date);
-  const [initialIncomeDate] = React.useState<Date>(date);
-  const [incomeCategory, setIncomeCategory] = React.useState<string>(category);
-  const [initialIncomeCategory] = React.useState<string>(category);
-  const [incomeMethod, setIncomeMethod] = React.useState<string>(method);
-  const [initialIncomeMethod] = React.useState<string>(method);
+  const [recurringName, setRecurringName] = React.useState<string>("");
+  const [recurringAmount, setRecurringAmount] = React.useState<string>("");
+  const [recurringCategory, setRecurringCategory] =
+    React.useState<string>(category);
+  const [initialRecurringCategory] = React.useState<string>(category);
+  const [recurringMethod, setRecurringMethod] = React.useState<string>(method);
+  const [initialRecurringMethod] = React.useState<string>(method);
+  const [recurringDate, setRecurringDate] = React.useState<Date>(date);
+  const [initialRecurringDate] = React.useState<Date>(date);
 
   const router = useRouter();
 
-  // Update income
-  const onUpdateIncome = async (incomeId: string) => {
-    const updateName = incomeName || name;
-    const updatedAmount = incomeAmount || amount;
-    const updateDate = incomeDate || date;
-    const updateCategory = incomeCategory || category;
-    const updateMethod = incomeMethod || method;
+  // Update recurring payment
+  const onUpdateRecurring = async (recurringId: string) => {
+    const updateName = recurringName || name;
+    const updatedAmount = recurringAmount || amount;
+    const updateCategory = recurringCategory || category;
+    const updateMethod = recurringMethod || method;
+    const updateDate = recurringDate || date;
     const result = await db
-      .update(Income)
+      .update(Recurrence)
       .set({
         name: updateName,
         amount: updatedAmount,
@@ -73,23 +74,26 @@ export default function EditIncome({
         date: updateDate.toISOString(),
       })
       .where(
-        and(eq(Income.id, incomeId), eq(Income.created_by, currentUser ?? "")),
+        and(
+          eq(Recurrence.id, recurringId),
+          eq(Recurrence.created_by, currentUser ?? ""),
+        ),
       )
       .returning();
 
     if (result) {
-      toast.success("Your income is updated!");
+      toast.success("Your recurring payment is updated!");
       router.refresh();
     }
   };
 
   // On click edit (reset to original)
   const handleOnClickEdit = () => {
-    setIncomeName("");
-    setIncomeAmount("");
-    setIncomeCategory(category);
-    setIncomeMethod(method);
-    setIncomeDate(date);
+    setRecurringName("");
+    setRecurringAmount("");
+    setRecurringCategory(category);
+    setRecurringMethod(method);
+    setRecurringDate(date);
   };
 
   return (
@@ -107,36 +111,53 @@ export default function EditIncome({
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
+            {/* Recurring Name */}
             <Input
               type="text"
               defaultValue={name}
-              onChange={(e) => setIncomeName(e.target.value)}
+              onChange={(e) => setRecurringName(e.target.value)}
             />
+            {/* Recurring Amount */}
             <Input
               type="number"
               className="mt-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               defaultValue={Number(amount)}
-              onChange={(e) => setIncomeAmount(e.target.value)}
+              onChange={(e) => setRecurringAmount(e.target.value)}
             />
-            <IncomeDatePicker date={incomeDate} setDate={setIncomeDate} />
+            {/* DatePicker */}
+            <RecurringDatePicker
+              date={recurringDate}
+              setDate={setRecurringDate}
+            />
+            {/* Recurring Category */}
             <Select
-              value={incomeCategory}
-              onValueChange={(value) => setIncomeCategory(value)}
+              value={recurringCategory}
+              onValueChange={(value) => setRecurringCategory(value)}
             >
               <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="salary">Salary</SelectItem>
-                <SelectItem value="business">Business</SelectItem>
-                <SelectItem value="investments">Investments</SelectItem>
-                <SelectItem value="rental income">Rental Income</SelectItem>
-                <SelectItem value="pensions">Pensions</SelectItem>
+                <SelectItem value="bill and utilities">
+                  Bill and Utilities
+                </SelectItem>
+                <SelectItem value="credit card payment">
+                  Credit Card Payment
+                </SelectItem>
+                <SelectItem value="car payment">Car Payment</SelectItem>
+                <SelectItem value="insurance">Insurance</SelectItem>
+                <SelectItem value="loan">Loan</SelectItem>
+                <SelectItem value="mortgage">Mortgage</SelectItem>
+                <SelectItem value="monthly subscription">
+                  Monthly Subscription
+                </SelectItem>
+                <SelectItem value="rent">Rent</SelectItem>
               </SelectContent>
             </Select>
+            {/* Recurring Payment Method */}
             <Select
-              value={incomeMethod}
-              onValueChange={(value) => setIncomeMethod(value)}
+              value={recurringMethod}
+              onValueChange={(value) => setRecurringMethod(value)}
             >
               <SelectTrigger className="w-full">
                 <SelectValue />
@@ -144,7 +165,8 @@ export default function EditIncome({
               <SelectContent>
                 <SelectItem value="cash">Cash</SelectItem>
                 <SelectItem value="check">Check</SelectItem>
-                <SelectItem value="direct deposit">Direct Deposit</SelectItem>
+                <SelectItem value="credit card">Credit Card</SelectItem>
+                <SelectItem value="debit card">Debit Card</SelectItem>
                 <SelectItem value="mobile payment">
                   Mobile Payment (Paypal, CashApp, Zelle, etc.)
                 </SelectItem>
@@ -159,14 +181,14 @@ export default function EditIncome({
               className="w-full"
               disabled={
                 !(
-                  incomeName ||
-                  incomeAmount ||
-                  incomeCategory !== initialIncomeCategory ||
-                  incomeMethod !== initialIncomeMethod ||
-                  incomeDate?.getTime() !== initialIncomeDate?.getTime()
+                  recurringName ||
+                  recurringAmount ||
+                  recurringCategory !== initialRecurringCategory ||
+                  recurringMethod !== initialRecurringMethod ||
+                  recurringDate?.getTime() !== initialRecurringDate?.getTime()
                 )
               }
-              onClick={() => onUpdateIncome(incomeId)}
+              onClick={() => onUpdateRecurring(recurringId)}
             >
               Save
             </Button>

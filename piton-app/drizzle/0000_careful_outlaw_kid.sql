@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS "budget_expenses" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"budget_id" uuid,
 	"name" varchar NOT NULL,
 	"amount" numeric(10, 2) NOT NULL,
 	"payment_method" varchar NOT NULL,
 	"date" date NOT NULL,
-	"budget_id" uuid,
 	"created_by" varchar NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS "budgets" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" varchar NOT NULL,
 	"amount" numeric(10, 2) NOT NULL,
-	"icon" varchar,
 	"category" varchar NOT NULL,
+	"icon" varchar,
 	"created_by" varchar NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
@@ -24,6 +24,18 @@ CREATE TABLE IF NOT EXISTS "income" (
 	"name" varchar NOT NULL,
 	"amount" numeric(10, 2) NOT NULL,
 	"category" varchar NOT NULL,
+	"payment_method" varchar NOT NULL,
+	"date" date NOT NULL,
+	"created_by" varchar NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "recurrence" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" varchar NOT NULL,
+	"amount" numeric(10, 2) NOT NULL,
+	"category" varchar NOT NULL,
+	"payment_method" varchar NOT NULL,
 	"date" date NOT NULL,
 	"created_by" varchar NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL

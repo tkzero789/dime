@@ -95,13 +95,13 @@ export default function AddExpense({
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="cash">Cash</SelectItem>
+          <SelectItem value="check">Check</SelectItem>
           <SelectItem value="credit card">Credit Card</SelectItem>
           <SelectItem value="debit card">Debit Card</SelectItem>
           <SelectItem value="prepaid card">Prepaid Card</SelectItem>
           <SelectItem value="digital wallet">
             Digital Wallet (Apple Pay, Samsung Pay, Google Pay, etc.)
           </SelectItem>
-          <SelectItem value="check">Check</SelectItem>
         </SelectContent>
       </Select>
       <Button

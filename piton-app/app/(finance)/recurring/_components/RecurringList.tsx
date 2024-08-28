@@ -1,30 +1,27 @@
 "use client";
 
 import React from "react";
-import GetCurrentMonth from "@/utils/getCurrentMonth";
-import { Ellipsis } from "lucide-react";
+import { RecurrenceDetail } from "@/types/types";
+import FormatDate from "@/utils/formatDate";
+import FormatString from "@/utils/formatString";
+import FormatNumber from "@/utils/formatNumber";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import AddIncome from "./AddIncome";
 import { useUser } from "@clerk/nextjs";
-import { IncomeDetail } from "@/types/types";
-import FormatDate from "@/utils/formatDate";
-import FormatNumber from "@/utils/formatNumber";
-import FormatString from "@/utils/formatString";
-import EditIncome from "./EditIncome";
-import DeleteIncome from "./DeleteIncome";
+import { Ellipsis } from "lucide-react";
+import AddRecurring from "./AddRecurring";
+import EditRecurring from "./EditRecurring";
 
 type Props = {
-  incomeList: IncomeDetail[];
+  recurringList: RecurrenceDetail[];
 };
 
-export default function IncomeList({ incomeList }: Props) {
+export default function RecurringList({ recurringList }: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
-  const currentMonth = new Date();
 
   const [isClick, setIsClick] = React.useState<string | null>(null);
   const popoverRef = React.useRef<HTMLDivElement>(null);
@@ -51,19 +48,17 @@ export default function IncomeList({ incomeList }: Props) {
     };
   }, []);
 
-  // Correct date displays for datepicker in edit income
+  // Correct date displays for datepicker in edit recurring payment
   const convertToLocalDate = (dateString: string): Date => {
     const [year, month, day] = dateString.split("-").map(Number);
     return new Date(year, month - 1, day);
   };
 
   return (
-    <div className="mt-8 h-fit flex-1 rounded-lg border bg-white p-4 shadow-md">
+    <div className="mt-8 h-fit w-full flex-1 rounded-lg border bg-white p-4 shadow-md">
       <div className="flex items-center justify-between pb-4">
-        <h2 className="text-xl font-bold">
-          <GetCurrentMonth month={currentMonth} />
-        </h2>
-        <AddIncome currentUser={currentUser || "default"} />
+        <h2 className="text-xl font-bold">Month</h2>
+        <AddRecurring />
       </div>
       <div className="grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-lg bg-neutral-200 py-2 text-sm font-semibold text-medium">
         <div className="text-center">Date</div>
@@ -72,30 +67,30 @@ export default function IncomeList({ incomeList }: Props) {
         <div className="text-start">Method</div>
         <div className="text-end">Amount</div>
       </div>
-      {incomeList.length > 0 ? (
-        incomeList.map((income) => (
+      {recurringList.length > 0 ? (
+        recurringList.map((item) => (
           <div
-            key={income.id}
-            className={`grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-md border-b py-2 pt-2 text-sm font-medium ${isClick === income.id ? "bg-neutral-100" : "bg-transparent"}`}
+            key={item.id}
+            className={`grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-md border-b py-2 pt-2 text-sm font-medium`}
           >
             <div className="text-center">
-              <FormatDate numMonthNumDateUTC={new Date(income.date)} />
+              <FormatDate numMonthNumDateUTC={new Date(item.date)} />
             </div>
-            <div className="pl-4">{income.name}</div>
+            <div className="pl-4">{item.name}</div>
             <div className="text-start">
-              <FormatString text={income.category} />
+              <FormatString text={item.category} />
             </div>
             <div className="text-start">
-              <FormatString text={income.payment_method} />
+              <FormatString text={item.payment_method} />
             </div>
             <div className="text-end">
-              <FormatNumber number={Number(income.amount)} />
+              <FormatNumber number={Number(item.amount)} />
             </div>
             <Popover>
               <div ref={popoverRef}>
                 <PopoverTrigger
                   className="group flex w-full items-center justify-center"
-                  onClick={() => handleOnClick(income.id)}
+                  onClick={() => handleOnClick(item.id)}
                 >
                   <Ellipsis className="rounded-md transition group-hover:bg-neutral-200" />
                 </PopoverTrigger>
@@ -105,19 +100,19 @@ export default function IncomeList({ incomeList }: Props) {
                   Action
                 </div>
                 <div className="p-1">
-                  <EditIncome
+                  <EditRecurring
                     currentUser={currentUser || "default"}
-                    incomeId={income.id}
-                    name={income.name}
-                    amount={income.amount}
-                    category={income.category}
-                    method={income.payment_method}
-                    date={convertToLocalDate(income.date)}
+                    recurringId={item.id}
+                    name={item.name}
+                    amount={item.amount}
+                    category={item.category}
+                    method={item.payment_method}
+                    date={convertToLocalDate(item.date)}
                   />
-                  <DeleteIncome
+                  {/* <DeleteIncome
                     currentUser={currentUser || "default"}
-                    incomeId={income.id}
-                  />
+                    recurringId={item.id}
+                  /> */}
                 </div>
               </PopoverContent>
             </Popover>
@@ -125,7 +120,7 @@ export default function IncomeList({ incomeList }: Props) {
         ))
       ) : (
         <div className="flex items-center justify-center pt-4 text-medium">
-          No income added yet
+          No reccuring payments added yet
         </div>
       )}
     </div>

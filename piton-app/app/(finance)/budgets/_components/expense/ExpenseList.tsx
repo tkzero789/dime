@@ -79,7 +79,7 @@ export default function ExpenseList({
               <FormatString text={expense.payment_method} />
             </div>
             <div className="text-end">
-              $<FormatNumber number={Number(expense.amount)} />
+              <FormatNumber number={Number(expense.amount)} />
             </div>
             <Popover>
               <div ref={popoverRef}>

@@ -23,17 +23,16 @@ import { CirclePlus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
-import { Income } from "@/db/schema";
-import { IncomeDatePicker } from "./IncomeDatePicker";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { RecurringDatePicker } from "./RecurringDatePicker";
+import { Recurrence } from "@/db/schema";
+import { useUser } from "@clerk/nextjs";
 
-type Props = {
-  currentUser: string | undefined;
-};
-
-export default function AddIncome({ currentUser }: Props) {
+export default function AddRecurring() {
   const router = useRouter();
+  const { user } = useUser();
+  const currentUser = user?.primaryEmailAddress?.emailAddress;
 
   const [name, setName] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
@@ -41,29 +40,28 @@ export default function AddIncome({ currentUser }: Props) {
   const [method, setMethod] = React.useState<string>("");
   const [date, setDate] = React.useState<Date>(new Date());
 
-  const addNewIncome = async () => {
+  const addNewRecurrence = async () => {
     if (!amount || !date || !category || !method || !currentUser) {
       window.alert("Missing required information");
       return;
     }
     const result = await db
-      .insert(Income)
+      .insert(Recurrence)
       .values({
         name: name,
         amount: amount,
-        date: date?.toISOString(),
         category: category,
         payment_method: method,
+        date: date?.toDateString(),
         created_by: currentUser,
       })
-      .returning({ insertedId: Income.id });
+      .returning({ insertId: Recurrence.id });
 
     if (result) {
-      toast.success("New Income Added!");
+      toast.success("New Reccuring Payment Added!");
       router.refresh();
     }
   };
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -72,21 +70,23 @@ export default function AddIncome({ currentUser }: Props) {
           className="flex items-center justify-center gap-2"
         >
           <CirclePlus strokeWidth={1.75} color="#555353" />
-          <span className="font-semibold text-medium">Add Income</span>
+          <span className="font-semibold text-medium">Add New Payment</span>
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-center">Add Income</DialogTitle>
+          <DialogTitle className="text-center">
+            Add Reccuring Payment
+          </DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
-            {/* Income Name */}
+            {/* Payment Name */}
             <Input
-              placeholder="Income name"
+              placeholder="Payment name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            {/* Income Amount */}
+            {/* Payment Amount */}
             <Input
               placeholder="Amount"
               type="number"
@@ -102,8 +102,8 @@ export default function AddIncome({ currentUser }: Props) {
               }}
             />
             {/* DatePicker */}
-            <IncomeDatePicker date={date} setDate={setDate} />
-            {/* Category */}
+            <RecurringDatePicker date={date} setDate={setDate} />
+            {/* Payment Category */}
             <Select
               value={category}
               onValueChange={(value) => setCategory(value)}
@@ -112,14 +112,23 @@ export default function AddIncome({ currentUser }: Props) {
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="salary">Salary</SelectItem>
-                <SelectItem value="business">Business</SelectItem>
-                <SelectItem value="investments">Investments</SelectItem>
-                <SelectItem value="rental income">Rental Income</SelectItem>
-                <SelectItem value="pensions">Pensions</SelectItem>
+                <SelectItem value="bill and utilities">
+                  Bill and Utilities
+                </SelectItem>
+                <SelectItem value="credit card payment">
+                  Credit Card Payment
+                </SelectItem>
+                <SelectItem value="car payment">Car Payment</SelectItem>
+                <SelectItem value="insurance">Insurance</SelectItem>
+                <SelectItem value="loan">Loan</SelectItem>
+                <SelectItem value="mortgage">Mortgage</SelectItem>
+                <SelectItem value="monthly subscription">
+                  Monthly Subscription
+                </SelectItem>
+                <SelectItem value="rent">Rent</SelectItem>
               </SelectContent>
             </Select>
-            {/* Payment Method */}
+            {/* Payment method */}
             <Select value={method} onValueChange={(value) => setMethod(value)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Payment method" />
@@ -127,11 +136,11 @@ export default function AddIncome({ currentUser }: Props) {
               <SelectContent>
                 <SelectItem value="cash">Cash</SelectItem>
                 <SelectItem value="check">Check</SelectItem>
-                <SelectItem value="direct deposit">Direct Deposit</SelectItem>
+                <SelectItem value="credit card">Credit Card</SelectItem>
+                <SelectItem value="debit card">Debit Card</SelectItem>
                 <SelectItem value="mobile payment">
                   Mobile Payment (Paypal, CashApp, Zelle, etc.)
                 </SelectItem>
-                <SelectItem value="payroll card">Payroll Card</SelectItem>
               </SelectContent>
             </Select>
           </DialogDescription>
@@ -141,9 +150,9 @@ export default function AddIncome({ currentUser }: Props) {
             <Button
               className="w-full"
               disabled={!(name && amount && date && category && method)}
-              onClick={() => addNewIncome()}
+              onClick={() => addNewRecurrence()}
             >
-              Add income
+              Add payment
             </Button>
           </DialogClose>
         </DialogFooter>
