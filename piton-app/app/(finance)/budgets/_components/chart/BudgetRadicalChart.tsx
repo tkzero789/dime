@@ -146,7 +146,8 @@ export function BudgetRadicalChart({ budgetList }: Props) {
           <MinusCircle className="h-5 w-5 text-teal-700" />
           <span className="text-base font-medium">Current Spending</span>
           <span className="ml-auto text-base font-bold">
-            $<FormatNumber number={totalSpend} />
+            -$
+            <FormatNumber number={totalSpend} />
           </span>
         </div>
         <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">

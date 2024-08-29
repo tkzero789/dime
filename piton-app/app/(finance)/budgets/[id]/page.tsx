@@ -21,7 +21,8 @@ import { ExpenseBarChart } from "@/app/(finance)/budgets/_components/chart/Expen
 import { BudgetByIdRadicalChart } from "@/app/(finance)/budgets/_components/chart/BudgetByIdRadicalChart";
 import DeleteBudget from "../_components/budget/DeleteBudget";
 import { Button } from "@/components/ui/button";
-import { CircleEllipsis } from "lucide-react";
+import { ChevronLeft, CircleEllipsis } from "lucide-react";
+import Link from "next/link";
 
 type Props = {
   params: {
@@ -87,13 +88,28 @@ export default function BudgetByIdPage({ params }: Props) {
   return (
     <div className="min-h-dvh bg-[#f5f5f5] px-4 py-6 sm:px-20 sm:py-16">
       <div className="flex items-center justify-between">
-        <div className="hidden lg:block">
-          <h2 className="text-2xl font-bold">
-            {budgetInfo[0]?.icon} {budgetInfo[0]?.name}
-          </h2>
-          <span className="font-light text-medium">
-            {budgetInfo[0]?.category}
-          </span>
+        <div className="hidden items-center gap-4 lg:flex">
+          <Link
+            href="/budgets"
+            className="group flex flex-col items-center justify-center"
+          >
+            <span className="rounded-md bg-gray-200 group-hover:bg-gray-300">
+              <ChevronLeft
+                strokeWidth={2}
+                className="h-8 w-8"
+                color="#555353"
+              />
+            </span>
+          </Link>
+          <div className="flex items-center gap-4">
+            <span className="text-4xl">{budgetInfo[0]?.icon}</span>
+            <div>
+              <h2 className="text-2xl font-bold">{budgetInfo[0]?.name}</h2>
+              <span className="font-light text-medium">
+                {budgetInfo[0]?.category}
+              </span>
+            </div>
+          </div>
         </div>
         <h2 className="text-2xl font-bold lg:hidden">Budget detail</h2>
         <Popover>

@@ -76,7 +76,7 @@ export default function IncomeList({ incomeList }: Props) {
         incomeList.map((income) => (
           <div
             key={income.id}
-            className={`grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-md border-b py-2 pt-2 text-sm font-medium ${isClick === income.id ? "bg-neutral-100" : "bg-transparent"}`}
+            className={`grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-md border-b py-2 text-sm font-medium ${isClick === income.id ? "bg-neutral-100" : "bg-transparent"}`}
           >
             <div className="text-center">
               <FormatDate numMonthNumDateUTC={new Date(income.date)} />
@@ -88,8 +88,8 @@ export default function IncomeList({ incomeList }: Props) {
             <div className="text-start">
               <FormatString text={income.payment_method} />
             </div>
-            <div className="text-end">
-              <FormatNumber number={Number(income.amount)} />
+            <div className="text-end font-semibold text-green-700">
+              $<FormatNumber number={Number(income.amount)} />
             </div>
             <Popover>
               <div ref={popoverRef}>

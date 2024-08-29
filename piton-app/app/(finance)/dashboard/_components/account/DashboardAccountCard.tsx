@@ -47,7 +47,8 @@ export default function DashboardAccountCard({
         <CircleDollarSign className="h-5 w-5 stroke-teal-700" />
         <span>Current Spending</span>
         <span className="ml-auto font-bold">
-          $<FormatNumber number={currentSpend} />
+          -$
+          <FormatNumber number={currentSpend} />
         </span>
         <TooltipProvider>
           <Tooltip>

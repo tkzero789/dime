@@ -14,6 +14,8 @@ import { useUser } from "@clerk/nextjs";
 import { Ellipsis } from "lucide-react";
 import AddRecurring from "./AddRecurring";
 import EditRecurring from "./EditRecurring";
+import DeleteRecurring from "./DeleteRecurring";
+import GetCurrentMonth from "@/utils/getCurrentMonth";
 
 type Props = {
   recurringList: RecurrenceDetail[];
@@ -22,6 +24,19 @@ type Props = {
 export default function RecurringList({ recurringList }: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
+
+  React.useEffect(() => {
+    user && calculateTotalAmount();
+  }, [user, recurringList]);
+
+  const [totalAmount, setTotalAmount] = React.useState<number>(0);
+  const calculateTotalAmount = () => {
+    const totalAmount = recurringList.reduce(
+      (acc, curr) => acc + Number(curr.amount),
+      0,
+    );
+    setTotalAmount(totalAmount);
+  };
 
   const [isClick, setIsClick] = React.useState<string | null>(null);
   const popoverRef = React.useRef<HTMLDivElement>(null);
@@ -57,7 +72,9 @@ export default function RecurringList({ recurringList }: Props) {
   return (
     <div className="mt-8 h-fit w-full flex-1 rounded-lg border bg-white p-4 shadow-md">
       <div className="flex items-center justify-between pb-4">
-        <h2 className="text-xl font-bold">Month</h2>
+        <h2 className="text-xl font-bold">
+          <GetCurrentMonth month={new Date()} />
+        </h2>
         <AddRecurring />
       </div>
       <div className="grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-lg bg-neutral-200 py-2 text-sm font-semibold text-medium">
@@ -71,7 +88,7 @@ export default function RecurringList({ recurringList }: Props) {
         recurringList.map((item) => (
           <div
             key={item.id}
-            className={`grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-md border-b py-2 pt-2 text-sm font-medium`}
+            className={`grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-md border-b py-2 text-sm font-medium ${isClick === item.id ? "bg-neutral-100" : "bg-transparent"}`}
           >
             <div className="text-center">
               <FormatDate numMonthNumDateUTC={new Date(item.date)} />
@@ -83,7 +100,8 @@ export default function RecurringList({ recurringList }: Props) {
             <div className="text-start">
               <FormatString text={item.payment_method} />
             </div>
-            <div className="text-end">
+            <div className="text-end font-semibold">
+              -$
               <FormatNumber number={Number(item.amount)} />
             </div>
             <Popover>
@@ -109,10 +127,10 @@ export default function RecurringList({ recurringList }: Props) {
                     method={item.payment_method}
                     date={convertToLocalDate(item.date)}
                   />
-                  {/* <DeleteIncome
+                  <DeleteRecurring
                     currentUser={currentUser || "default"}
                     recurringId={item.id}
-                  /> */}
+                  />
                 </div>
               </PopoverContent>
             </Popover>
@@ -123,6 +141,13 @@ export default function RecurringList({ recurringList }: Props) {
           No reccuring payments added yet
         </div>
       )}
+      <div className="grid grid-cols-[90px_1fr_100px] rounded-b-lg bg-neutral-200 py-2 text-sm font-semibold text-medium">
+        <span className="text-center">Total</span>
+        <span className="text-end font-bold">
+          -$
+          <FormatNumber number={totalAmount} />
+        </span>
+      </div>
     </div>
   );
 }

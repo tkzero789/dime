@@ -69,7 +69,7 @@ export default function ExpenseList({
         expenseDetail.map((expense) => (
           <div
             key={expense.id}
-            className={`grid grid-cols-[90px_1fr_120px_140px_80px] gap-2 rounded-md border-b py-2 pt-2 text-sm font-medium ${isClick === expense.id ? "bg-neutral-100" : "bg-transparent"}`}
+            className={`grid grid-cols-[90px_1fr_120px_140px_80px] gap-2 rounded-md border-b py-2 text-sm font-medium ${isClick === expense.id ? "bg-neutral-100" : "bg-transparent"}`}
           >
             <div className="text-center">
               <FormatDate numMonthNumDateUTC={new Date(expense.date)} />
@@ -78,7 +78,8 @@ export default function ExpenseList({
             <div className="text-start">
               <FormatString text={expense.payment_method} />
             </div>
-            <div className="text-end">
+            <div className="text-end font-semibold">
+              -$
               <FormatNumber number={Number(expense.amount)} />
             </div>
             <Popover>
