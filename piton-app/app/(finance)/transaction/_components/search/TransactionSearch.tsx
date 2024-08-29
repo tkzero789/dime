@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import React from "react";
 
-export default function SpendingSearch() {
+export default function TransactionSearch() {
   return (
     <div className="relative">
       <Input placeholder="Search transaction" />

@@ -137,11 +137,11 @@ export default function RecurringList({ recurringList }: Props) {
           </div>
         ))
       ) : (
-        <div className="flex items-center justify-center pt-4 text-medium">
+        <div className="flex items-center justify-center py-4 text-medium">
           No reccuring payments added yet
         </div>
       )}
-      <div className="grid grid-cols-[90px_1fr_100px] rounded-b-lg bg-neutral-200 py-2 text-sm font-semibold text-medium">
+      <div className="grid grid-cols-[90px_1fr_100px] gap-2 rounded-b-lg bg-neutral-200 py-2 text-sm font-semibold text-medium">
         <span className="text-center">Total</span>
         <span className="text-end font-bold">
           -$
