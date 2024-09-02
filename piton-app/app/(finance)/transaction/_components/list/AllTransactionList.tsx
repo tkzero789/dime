@@ -3,6 +3,7 @@ import { ExpenseDetail, IncomeDetail, RecurrenceDetail } from "@/types/types";
 import FormatDate from "@/utils/formatDate";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
+import AddTransaction from "./AddTransaction";
 
 type Props = {
   transaction: (ExpenseDetail | IncomeDetail | RecurrenceDetail)[];
@@ -13,6 +14,7 @@ export default function AllTransactionList({ transaction }: Props) {
     <div className="mt-8 h-fit w-full flex-1 rounded-lg border bg-white p-4 shadow-md">
       <div className="flex items-center justify-between pb-4">
         <h2 className="text-xl font-bold">Latest transactions</h2>
+        <AddTransaction />
       </div>
 
       <div className="grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-lg bg-neutral-200 py-2 text-sm font-semibold text-medium">

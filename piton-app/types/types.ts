@@ -48,3 +48,15 @@ export type RecurrenceDetail = {
   created_by: string;
   created_at: Date;
 };
+
+// single payment
+export type SingleDetail = {
+  id: string;
+  name: string;
+  amount: string;
+  category: string;
+  payment_method: string;
+  date: string;
+  create_by: string;
+  create_at: Date;
+};

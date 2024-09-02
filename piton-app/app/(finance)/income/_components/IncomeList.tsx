@@ -16,15 +16,16 @@ import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
 import EditIncome from "./EditIncome";
 import DeleteIncome from "./DeleteIncome";
+import FormatMonth from "@/utils/formatMonth";
 
 type Props = {
-  incomeList: IncomeDetail[];
+  filterIncome: IncomeDetail[];
+  selectedMonth: string | null;
 };
 
-export default function IncomeList({ incomeList }: Props) {
+export default function IncomeList({ filterIncome, selectedMonth }: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
-  const currentMonth = new Date();
 
   const [isClick, setIsClick] = React.useState<string | null>(null);
   const popoverRef = React.useRef<HTMLDivElement>(null);
@@ -61,7 +62,11 @@ export default function IncomeList({ incomeList }: Props) {
     <div className="mt-8 h-fit flex-1 rounded-lg border bg-white p-4 shadow-md">
       <div className="flex items-center justify-between pb-4">
         <h2 className="text-xl font-bold">
-          <GetCurrentMonth month={currentMonth} />
+          {selectedMonth ? (
+            <FormatMonth month={selectedMonth} />
+          ) : (
+            <GetCurrentMonth month={new Date()} />
+          )}
         </h2>
         <AddIncome currentUser={currentUser || "default"} />
       </div>
@@ -72,8 +77,8 @@ export default function IncomeList({ incomeList }: Props) {
         <div className="text-start">Method</div>
         <div className="text-end">Amount</div>
       </div>
-      {incomeList.length > 0 ? (
-        incomeList.map((income) => (
+      {filterIncome.length > 0 ? (
+        filterIncome.map((income) => (
           <div
             key={income.id}
             className={`grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-md border-b py-2 text-sm font-medium ${isClick === income.id ? "bg-neutral-100" : "bg-transparent"}`}

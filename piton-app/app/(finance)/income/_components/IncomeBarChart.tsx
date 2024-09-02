@@ -16,20 +16,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { IncomeDetail } from "@/types/types";
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-  { month: "July", desktop: 186 },
-  { month: "August", desktop: 305 },
-  { month: "September", desktop: 237 },
-  { month: "October", desktop: 73 },
-  { month: "November", desktop: 209 },
-  { month: "December", desktop: 214 },
-];
 
 const chartConfig = {
   income: {
@@ -43,11 +29,19 @@ function aggregateIncomeByMonth(incomeList: IncomeDetail[]) {
     .fill(0)
     .map((_, index) => ({
       month: new Date(0, index).toLocaleString("default", { month: "short" }),
+      year: new Date().toLocaleString("default", { year: "numeric" }),
       amount: 0,
     }));
 
   incomeList.forEach(({ amount, date }) => {
-    const monthIndex = new Date(date).getMonth();
+    const parsedDate = new Date(
+      Date.UTC(
+        parseInt(date.slice(0, 4)), // year
+        parseInt(date.slice(5, 7)) - 1, // month (0-based index)
+        parseInt(date.slice(8, 10)), // day
+      ),
+    );
+    const monthIndex = parsedDate.getUTCMonth();
     monthlyIncome[monthIndex].amount += parseFloat(amount);
   });
 
@@ -56,14 +50,15 @@ function aggregateIncomeByMonth(incomeList: IncomeDetail[]) {
 
 type Props = {
   incomeList: IncomeDetail[];
+  handleBarClick: (month: string, year: string) => void;
 };
 
-export function IncomeBarChart({ incomeList }: Props) {
+export function IncomeBarChart({ incomeList, handleBarClick }: Props) {
   const aggregatedData = aggregateIncomeByMonth(incomeList);
   return (
     <Card className="mt-8 rounded-lg border shadow-md">
       <CardHeader>
-        <CardTitle>Bar Chart</CardTitle>
+        <CardTitle>Income</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
@@ -79,17 +74,20 @@ export function IncomeBarChart({ incomeList }: Props) {
               tickMargin={10}
               axisLine={false}
             />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
+            <ChartTooltip content={<ChartTooltipContent />} />
             <Bar
               dataKey="amount"
               fill="var(--color-income)"
               radius={8}
               activeBar={
-                <Rectangle fill="#14b8a6" stroke="#262626" strokeWidth="2px" />
+                <Rectangle
+                  fill="#14b8a6"
+                  stroke="#262626"
+                  strokeWidth="2px"
+                  cursor="pointer"
+                />
               }
+              onClick={(data) => handleBarClick(data.month, data.year)}
             />
           </BarChart>
         </ChartContainer>

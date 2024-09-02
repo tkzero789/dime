@@ -11,7 +11,6 @@ import {
   Banknote,
   Settings,
   Landmark,
-  Repeat,
   ArrowLeftRight,
   RefreshCcwDot,
 } from "lucide-react";

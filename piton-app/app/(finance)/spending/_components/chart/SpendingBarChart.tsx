@@ -15,6 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { BudgetDetail, IncomeDetail, RecurrenceDetail } from "@/types/types";
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },
@@ -37,15 +38,15 @@ const chartConfig = {
 
 export function SpendingBarChart() {
   return (
-    <Card>
+    <Card className="mt-8 rounded-lg border shadow-md">
       <CardHeader>
-        <CardTitle>Bar Chart - Multiple</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Spending comparison</CardTitle>
+        <CardDescription>Month</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[200px] w-full xl:h-[280px]"
+          className="aspect-auto h-[200px] w-full xl:h-[220px]"
         >
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />

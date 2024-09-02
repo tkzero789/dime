@@ -5,7 +5,7 @@ import TransactionSearch from "./_components/search/TransactionSearch";
 import AllTransactionList from "./_components/list/AllTransactionList";
 import { useUser } from "@clerk/nextjs";
 import { BudgetExpenses, Income, Recurrence } from "@/db/schema";
-import { desc, eq, getTableColumns } from "drizzle-orm";
+import { eq, getTableColumns } from "drizzle-orm";
 import { db } from "@/db/dbConfig";
 import { ExpenseDetail, IncomeDetail, RecurrenceDetail } from "@/types/types";
 import { BatchResponse } from "drizzle-orm/batch";
