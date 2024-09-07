@@ -63,12 +63,6 @@ export default function RecurringList({ recurringList }: Props) {
     };
   }, []);
 
-  // Correct date displays for datepicker in edit recurring payment
-  const convertToLocalDate = (dateString: string): Date => {
-    const [year, month, day] = dateString.split("-").map(Number);
-    return new Date(year, month - 1, day);
-  };
-
   return (
     <div className="mt-8 h-fit w-full flex-1 rounded-lg border bg-white p-4 shadow-md">
       <div className="flex items-center justify-between pb-4">
@@ -120,12 +114,7 @@ export default function RecurringList({ recurringList }: Props) {
                 <div className="p-1">
                   <EditRecurring
                     currentUser={currentUser || "default"}
-                    recurringId={item.id}
-                    name={item.name}
-                    amount={item.amount}
-                    category={item.category}
-                    method={item.payment_method}
-                    date={convertToLocalDate(item.date)}
+                    recurringInfo={item}
                   />
                   <DeleteRecurring
                     currentUser={currentUser || "default"}

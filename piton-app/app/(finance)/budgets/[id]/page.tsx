@@ -132,7 +132,7 @@ export default function BudgetByIdPage({ params }: Props) {
               <EditBudget
                 budgetInfo={budgetInfo}
                 currentUser={currentUser || "default"}
-                refreshData={() => getBudgetInfo()}
+                refreshData={getBudgetInfo}
               />
               <DeleteBudget
                 currentUser={currentUser || "default"}

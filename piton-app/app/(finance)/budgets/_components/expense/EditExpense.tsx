@@ -24,39 +24,46 @@ import toast from "react-hot-toast";
 import { ExpenseDatePicker } from "./ExpenseDatePicker";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Pencil } from "lucide-react";
+import { ExpenseDetail } from "@/types/types";
 
 type Props = {
   refreshData: () => void;
   currentUser: string | undefined;
-  expenseId: string;
-  name: string;
-  amount: string;
-  date: Date;
-  method: string;
+  expenseInfo: ExpenseDetail;
 };
 
 export default function EditExpense({
   refreshData,
   currentUser,
-  expenseId,
-  name,
-  amount,
-  date,
-  method,
+  expenseInfo,
 }: Props) {
+  // Correct date displays for datepicker in edit expense
+  const convertToLocalDate = (dateString: string): Date => {
+    const [year, month, day] = dateString.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  };
+
   const [expenseName, setExpenseName] = React.useState<string>("");
   const [expenseAmount, setExpenseAmount] = React.useState<string>("");
-  const [expenseDate, setExpenseDate] = React.useState<Date>(date);
-  const [initialExpenseDate] = React.useState<Date>(date);
-  const [paymentMethod, setPaymentMethod] = React.useState<string>(method);
-  const [initialPaymentMethod] = React.useState<string>(method);
+  const [expenseDate, setExpenseDate] = React.useState<Date>(
+    convertToLocalDate(expenseInfo.date),
+  );
+  const [initialExpenseDate] = React.useState<Date>(
+    convertToLocalDate(expenseInfo.date),
+  );
+  const [paymentMethod, setPaymentMethod] = React.useState<string>(
+    expenseInfo.payment_method,
+  );
+  const [initialPaymentMethod] = React.useState<string>(
+    expenseInfo.payment_method,
+  );
 
   // Update expense
-  const onUpdateExpense = async (expenseId: string) => {
-    const updateExpenseName = expenseName || name;
-    const updateExpenseAmount = expenseAmount || amount;
-    const updatedExpenseDate = expenseDate || date;
-    const updatePaymentMethod = paymentMethod || method;
+  const onUpdateExpense = async () => {
+    const updateExpenseName = expenseName || expenseInfo.name;
+    const updateExpenseAmount = expenseAmount || expenseInfo.amount;
+    const updatedExpenseDate = expenseDate || expenseInfo.date;
+    const updatePaymentMethod = paymentMethod || expenseInfo.payment_method;
     const result = await db
       .update(BudgetExpenses)
       .set({
@@ -67,7 +74,7 @@ export default function EditExpense({
       })
       .where(
         and(
-          eq(BudgetExpenses.id, expenseId),
+          eq(BudgetExpenses.id, expenseInfo.id),
           eq(BudgetExpenses.created_by, currentUser ?? ""),
         ),
       )
@@ -83,7 +90,8 @@ export default function EditExpense({
   const handleOnClickEdit = () => {
     setExpenseName("");
     setExpenseAmount("");
-    setPaymentMethod(method);
+    setPaymentMethod(expenseInfo.payment_method);
+    setExpenseDate(convertToLocalDate(expenseInfo.date));
   };
 
   return (
@@ -106,7 +114,7 @@ export default function EditExpense({
               <label className="font-semibold text-dark">Expense Name</label>
               <Input
                 className="mt-1"
-                defaultValue={name}
+                defaultValue={expenseInfo.name}
                 onChange={(e) => setExpenseName(e.target.value)}
               />
             </div>
@@ -116,7 +124,7 @@ export default function EditExpense({
               <Input
                 type="number"
                 className="mt-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                defaultValue={Number(amount)}
+                defaultValue={Number(expenseInfo.amount)}
                 onChange={(e) => setExpenseAmount(e.target.value)}
               />
             </div>
@@ -160,7 +168,7 @@ export default function EditExpense({
                   paymentMethod !== initialPaymentMethod
                 )
               }
-              onClick={() => onUpdateExpense(expenseId)}
+              onClick={() => onUpdateExpense()}
             >
               Save
             </Button>

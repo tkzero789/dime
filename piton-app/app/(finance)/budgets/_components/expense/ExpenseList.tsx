@@ -49,12 +49,6 @@ export default function ExpenseList({
     };
   }, []);
 
-  // Correct date displays for datepicker in edit expense
-  const convertToLocalDate = (dateString: string): Date => {
-    const [year, month, day] = dateString.split("-").map(Number);
-    return new Date(year, month - 1, day);
-  };
-
   return (
     <div className="col-span-3 hidden h-fit flex-1 rounded-lg border bg-white p-4 shadow-md md:block lg:col-span-3 xl:col-span-2">
       <h2 className="pb-4 text-xl font-bold">Recent Expenses</h2>
@@ -100,11 +94,7 @@ export default function ExpenseList({
                   <EditExpense
                     refreshData={refreshData}
                     currentUser={currentUser || "default"}
-                    expenseId={expense.id}
-                    name={expense.name}
-                    amount={expense.amount}
-                    date={convertToLocalDate(expense.date)}
-                    method={expense.payment_method}
+                    expenseInfo={expense}
                   />
                   <TransferExpense
                     refreshData={refreshData}

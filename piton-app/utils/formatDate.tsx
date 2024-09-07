@@ -2,14 +2,14 @@ type Props = {
   numDateUTC?: Date;
   numMonthNumDateUTC?: Date;
   shortMonthNumDateUTC?: Date;
-  fullFormatCurrent?: Date;
+  fullFormatUTC?: Date;
 };
 
 export default function FormatDate({
   numDateUTC,
   numMonthNumDateUTC,
   shortMonthNumDateUTC,
-  fullFormatCurrent,
+  fullFormatUTC,
 }: Props) {
   if (numDateUTC) {
     return numDateUTC.toLocaleDateString("en-US", {
@@ -28,11 +28,12 @@ export default function FormatDate({
       day: "numeric",
       timeZone: "UTC",
     });
-  } else if (fullFormatCurrent) {
-    return fullFormatCurrent.toLocaleDateString("en-US", {
+  } else if (fullFormatUTC) {
+    return fullFormatUTC.toLocaleDateString("en-US", {
       month: "long",
       day: "2-digit",
       year: "numeric",
+      timeZone: "UTC",
     });
   } else {
     return null;

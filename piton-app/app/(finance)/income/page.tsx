@@ -71,6 +71,7 @@ export default function IncomePage() {
       <IncomeList
         filterIncome={filterIncomeList}
         selectedMonth={selectedMonth}
+        refreshData={getIncomeData}
       />
     </div>
   );

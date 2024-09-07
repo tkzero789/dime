@@ -25,45 +25,50 @@ import { and, eq } from "drizzle-orm";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { RecurringDatePicker } from "./RecurringDatePicker";
+import { RecurrenceDetail } from "@/types/types";
 
 type Props = {
   currentUser: string | undefined;
-  recurringId: string;
-  name: string;
-  amount: string;
-  category: string;
-  method: string;
-  date: Date;
+  recurringInfo: RecurrenceDetail;
 };
 
-export default function EditRecurring({
-  currentUser,
-  recurringId,
-  name,
-  amount,
-  category,
-  method,
-  date,
-}: Props) {
+export default function EditRecurring({ currentUser, recurringInfo }: Props) {
+  // Correct date displays for datepicker in edit recurring payment
+  const convertToLocalDate = (dateString: string): Date => {
+    const [year, month, day] = dateString.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  };
+
   const [recurringName, setRecurringName] = React.useState<string>("");
   const [recurringAmount, setRecurringAmount] = React.useState<string>("");
-  const [recurringCategory, setRecurringCategory] =
-    React.useState<string>(category);
-  const [initialRecurringCategory] = React.useState<string>(category);
-  const [recurringMethod, setRecurringMethod] = React.useState<string>(method);
-  const [initialRecurringMethod] = React.useState<string>(method);
-  const [recurringDate, setRecurringDate] = React.useState<Date>(date);
-  const [initialRecurringDate] = React.useState<Date>(date);
+  const [recurringCategory, setRecurringCategory] = React.useState<string>(
+    recurringInfo.category,
+  );
+  const [initialRecurringCategory] = React.useState<string>(
+    recurringInfo.category,
+  );
+  const [recurringMethod, setRecurringMethod] = React.useState<string>(
+    recurringInfo.payment_method,
+  );
+  const [initialRecurringMethod] = React.useState<string>(
+    recurringInfo.payment_method,
+  );
+  const [recurringDate, setRecurringDate] = React.useState<Date>(
+    convertToLocalDate(recurringInfo.date),
+  );
+  const [initialRecurringDate] = React.useState<Date>(
+    convertToLocalDate(recurringInfo.date),
+  );
 
   const router = useRouter();
 
   // Update recurring payment
-  const onUpdateRecurring = async (recurringId: string) => {
-    const updateName = recurringName || name;
-    const updatedAmount = recurringAmount || amount;
-    const updateCategory = recurringCategory || category;
-    const updateMethod = recurringMethod || method;
-    const updateDate = recurringDate || date;
+  const onUpdateRecurring = async () => {
+    const updateName = recurringName || recurringInfo.name;
+    const updatedAmount = recurringAmount || recurringInfo.amount;
+    const updateCategory = recurringCategory || recurringInfo.category;
+    const updateMethod = recurringMethod || recurringInfo.payment_method;
+    const updateDate = recurringDate || recurringInfo.date;
     const result = await db
       .update(Recurrence)
       .set({
@@ -75,7 +80,7 @@ export default function EditRecurring({
       })
       .where(
         and(
-          eq(Recurrence.id, recurringId),
+          eq(Recurrence.id, recurringInfo.id),
           eq(Recurrence.created_by, currentUser ?? ""),
         ),
       )
@@ -91,9 +96,9 @@ export default function EditRecurring({
   const handleOnClickEdit = () => {
     setRecurringName("");
     setRecurringAmount("");
-    setRecurringCategory(category);
-    setRecurringMethod(method);
-    setRecurringDate(date);
+    setRecurringCategory(recurringInfo.category);
+    setRecurringMethod(recurringInfo.payment_method);
+    setRecurringDate(convertToLocalDate(recurringInfo.date));
   };
 
   return (
@@ -114,14 +119,14 @@ export default function EditRecurring({
             {/* Recurring Name */}
             <Input
               type="text"
-              defaultValue={name}
+              defaultValue={recurringInfo.name}
               onChange={(e) => setRecurringName(e.target.value)}
             />
             {/* Recurring Amount */}
             <Input
               type="number"
               className="mt-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-              defaultValue={Number(amount)}
+              defaultValue={Number(recurringInfo.amount)}
               onChange={(e) => setRecurringAmount(e.target.value)}
             />
             {/* DatePicker */}
@@ -188,7 +193,7 @@ export default function EditRecurring({
                   recurringDate?.getTime() !== initialRecurringDate?.getTime()
                 )
               }
-              onClick={() => onUpdateRecurring(recurringId)}
+              onClick={() => onUpdateRecurring()}
             >
               Save
             </Button>

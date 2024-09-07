@@ -1,0 +1,143 @@
+"use client";
+
+import React from "react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { HandCoins } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { db } from "@/db/dbConfig";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { Single } from "@/db/schema";
+import { useUser } from "@clerk/nextjs";
+import { SingleDatePicker } from "./SingleDatePicker";
+import { Button } from "@/components/ui/button";
+
+type Props = {
+  refreshData: () => void;
+};
+
+export default function AddSinglePayment({ refreshData }: Props) {
+  const { user } = useUser();
+  const currentUser = user?.primaryEmailAddress?.emailAddress;
+
+  const [name, setName] = React.useState<string>("");
+  const [amount, setAmount] = React.useState<string>("");
+  const [method, setMethod] = React.useState<string>("");
+  const [date, setDate] = React.useState<Date>(new Date());
+  const category = "single payment";
+
+  const addNewSingle = async () => {
+    if (!amount || !date || !category || !method || !currentUser) {
+      window.alert("Missing required information");
+      return;
+    }
+    const result = await db
+      .insert(Single)
+      .values({
+        name: name,
+        amount: amount,
+        category: category,
+        payment_method: method,
+        date: date?.toDateString(),
+        created_by: currentUser,
+      })
+      .returning({ insertId: Single.id });
+
+    if (result) {
+      toast.success("New Single Payment Added!");
+      refreshData();
+    }
+  };
+  return (
+    <Dialog>
+      <DialogTrigger className="flex w-full items-center justify-center rounded-md border border-gray-400 p-4 hover:bg-gray-200">
+        <span className="flex w-2/5 justify-end pr-2">
+          <HandCoins />
+        </span>
+        <span className="flex-1 text-start">Single Payment</span>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="text-center">Add Single Payment</DialogTitle>
+          <DialogDescription>
+            <DialogDescription className="flex flex-col gap-4 pt-4">
+              {/* Payment Name */}
+              <Input
+                placeholder="Payment name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              {/* Payment Amount */}
+              <Input
+                placeholder="Amount"
+                type="number"
+                className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                value={amount}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value);
+                  if (value > 0) {
+                    setAmount(e.target.value);
+                  } else {
+                    e.target.value = "";
+                  }
+                }}
+              />
+              {/* DatePicker */}
+              <SingleDatePicker date={date} setDate={setDate} />
+              {/* Payment Category */}
+              <div className="flex h-10 items-center justify-start rounded-md border border-input px-3 py-2 text-dark">
+                Single payment
+              </div>
+              {/* Payment method */}
+              <Select
+                value={method}
+                onValueChange={(value) => setMethod(value)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Payment method" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="cash">Cash</SelectItem>
+                  <SelectItem value="check">Check</SelectItem>
+                  <SelectItem value="credit card">Credit Card</SelectItem>
+                  <SelectItem value="debit card">Debit Card</SelectItem>
+                  <SelectItem value="mobile payment">
+                    Mobile Payment (Paypal, CashApp, Zelle, etc.)
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </DialogDescription>
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="mt-4 sm:justify-start">
+          <DialogClose asChild>
+            <Button
+              className="w-full"
+              disabled={!(name && amount && date && category && method)}
+              onClick={() => addNewSingle()}
+            >
+              Add payment
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}

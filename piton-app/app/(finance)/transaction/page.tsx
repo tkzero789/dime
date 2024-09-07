@@ -4,18 +4,45 @@ import React from "react";
 import TransactionSearch from "./_components/search/TransactionSearch";
 import AllTransactionList from "./_components/list/AllTransactionList";
 import { useUser } from "@clerk/nextjs";
-import { BudgetExpenses, Income, Recurrence } from "@/db/schema";
+import { BudgetExpenses, Income, Recurrence, Single } from "@/db/schema";
 import { eq, getTableColumns } from "drizzle-orm";
 import { db } from "@/db/dbConfig";
-import { ExpenseDetail, IncomeDetail, RecurrenceDetail } from "@/types/types";
+import {
+  ExpenseDetail,
+  IncomeDetail,
+  RecurrenceDetail,
+  SingleDetail,
+} from "@/types/types";
 import { BatchResponse } from "drizzle-orm/batch";
+
+type NewExpenseDetail = ExpenseDetail & {
+  category: string;
+  type: string;
+};
+
+type NewIncomeDetail = IncomeDetail & {
+  type: string;
+};
+
+type NewRecurrenceDetail = RecurrenceDetail & {
+  type: string;
+};
+
+type NewSingleDetail = SingleDetail & {
+  type: string;
+};
 
 export default function TransactionPage() {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
   const [transaction, setTransaction] = React.useState<
-    (ExpenseDetail | IncomeDetail | RecurrenceDetail)[]
+    (
+      | NewExpenseDetail
+      | NewIncomeDetail
+      | NewRecurrenceDetail
+      | NewSingleDetail
+    )[]
   >([]);
 
   React.useEffect(() => {
@@ -39,20 +66,40 @@ export default function TransactionPage() {
           .select({ ...getTableColumns(Recurrence) })
           .from(Recurrence)
           .where(eq(Recurrence.created_by, currentUser ?? "")),
+        db
+          .select({ ...getTableColumns(Single) })
+          .from(Single)
+          .where(eq(Single.created_by, currentUser ?? "")),
       ]);
 
       if (batchResponse) {
-        let [expenseResult, incomeResult, recurringResult] = batchResponse;
-        // Add category property to each row in expenseResult
+        let [expenseResult, incomeResult, recurringResult, singleResult] =
+          batchResponse;
+        // Add category prop to each row in expenseResult
         expenseResult = expenseResult.map((row: ExpenseDetail) => ({
           ...row,
           category: "Budget Expense",
-        }));
+          type: "Budget Expense",
+        })) as NewExpenseDetail[];
+        // Add type prop to each row in incomeResull, recurringResult and single
+        incomeResult = incomeResult.map((row: IncomeDetail) => ({
+          ...row,
+          type: "Income",
+        })) as NewIncomeDetail[];
+        recurringResult = recurringResult.map((row: RecurrenceDetail) => ({
+          ...row,
+          type: "Recurring",
+        })) as NewRecurrenceDetail[];
+        singleResult = singleResult.map((row: SingleDetail) => ({
+          ...row,
+          type: "Single",
+        })) as NewSingleDetail;
 
         const combinedResults = [
           ...expenseResult,
           ...incomeResult,
           ...recurringResult,
+          ...singleResult,
         ].sort(
           (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
         );
@@ -68,7 +115,7 @@ export default function TransactionPage() {
       <h2 className="text-2xl font-bold">Transaction</h2>
       <div className="mx-auto mt-8 max-w-7xl">
         <TransactionSearch />
-        <AllTransactionList transaction={transaction} />
+        <AllTransactionList transaction={transaction} refreshData={getData} />
       </div>
     </div>
   );

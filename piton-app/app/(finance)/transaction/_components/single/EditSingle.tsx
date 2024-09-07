@@ -17,89 +17,85 @@ import {
 } from "@/components/ui/select";
 import { Pencil } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { IncomeDatePicker } from "./IncomeDatePicker";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
-import { Income } from "@/db/schema";
+import { Income, Single } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { IncomeDetail } from "@/types/types";
+import { SingleDatePicker } from "./SingleDatePicker";
+import { SingleDetail } from "@/types/types";
+
+type NewSingleDetail = SingleDetail & {
+  type: string;
+};
 
 type Props = {
   currentUser: string | undefined;
-  incomeInfo: IncomeDetail;
+  singleInfo: NewSingleDetail;
   refreshData: () => void;
 };
 
-export default function EditIncome({
+export default function EditSingle({
   currentUser,
-  incomeInfo,
+  singleInfo,
   refreshData,
 }: Props) {
-  // Correct date displays for datepicker in edit income
+  // Correct date displays for datepicker in edit single payment
   const convertToLocalDate = (dateString: string): Date => {
     const [year, month, day] = dateString.split("-").map(Number);
     return new Date(year, month - 1, day);
   };
 
-  const [incomeName, setIncomeName] = React.useState<string>("");
-  const [incomeAmount, setIncomeAmount] = React.useState<string>("");
-  const [incomeDate, setIncomeDate] = React.useState<Date>(
-    convertToLocalDate(incomeInfo.date),
+  const [singleName, setSingleName] = React.useState<string>("");
+  const [singleAmount, setSingleAmount] = React.useState<string>("");
+  const [singleDate, setSingleDate] = React.useState<Date>(
+    convertToLocalDate(singleInfo.date),
   );
-  const [initialIncomeDate] = React.useState<Date>(
-    convertToLocalDate(incomeInfo.date),
+  const [initialSingleDate] = React.useState<Date>(
+    convertToLocalDate(singleInfo.date),
   );
-  const [incomeCategory, setIncomeCategory] = React.useState<string>(
-    incomeInfo.category,
+  const [singleMethod, setSingleMethod] = React.useState<string>(
+    singleInfo.payment_method,
   );
-  const [initialIncomeCategory] = React.useState<string>(incomeInfo.category);
-  const [incomeMethod, setIncomeMethod] = React.useState<string>(
-    incomeInfo.payment_method,
-  );
-  const [initialIncomeMethod] = React.useState<string>(
-    incomeInfo.payment_method,
+  const [initialSingleMethod] = React.useState<string>(
+    singleInfo.payment_method,
   );
 
-  // Update income
-  const onUpdateIncome = async () => {
-    const updateName = incomeName || incomeInfo.name;
-    const updatedAmount = incomeAmount || incomeInfo.amount;
-    const updateDate = incomeDate || incomeInfo.date;
-    const updateCategory = incomeCategory || incomeInfo.category;
-    const updateMethod = incomeMethod || incomeInfo.payment_method;
+  // Update single payment
+  const onUpdateSingle = async () => {
+    const updateName = singleName || singleInfo.name;
+    const updatedAmount = singleAmount || singleInfo.amount;
+    const updateDate = singleDate || singleInfo.date;
+    const updateMethod = singleMethod || singleInfo.payment_method;
     const result = await db
-      .update(Income)
+      .update(Single)
       .set({
         name: updateName,
         amount: updatedAmount,
-        category: updateCategory,
         payment_method: updateMethod,
         date: updateDate.toISOString(),
       })
       .where(
         and(
-          eq(Income.id, incomeInfo.id),
-          eq(Income.created_by, currentUser ?? ""),
+          eq(Single.id, singleInfo.id),
+          eq(Single.created_by, currentUser ?? ""),
         ),
       )
       .returning();
 
     if (result) {
-      toast.success("Your income is updated!");
+      toast.success("Your single payment is updated!");
       refreshData();
     }
   };
 
   // On click edit (reset to original)
   const handleOnClickEdit = () => {
-    setIncomeName("");
-    setIncomeAmount("");
-    setIncomeCategory(incomeInfo.category);
-    setIncomeMethod(incomeInfo.payment_method);
-    setIncomeDate(convertToLocalDate(incomeInfo.date));
+    setSingleName("");
+    setSingleAmount("");
+    setSingleMethod(singleInfo.payment_method);
+    setSingleDate(convertToLocalDate(singleInfo.date));
   };
 
   return (
@@ -119,34 +115,19 @@ export default function EditIncome({
           <DialogDescription className="flex flex-col gap-4 pt-4">
             <Input
               type="text"
-              defaultValue={incomeInfo.name}
-              onChange={(e) => setIncomeName(e.target.value)}
+              defaultValue={singleInfo.name}
+              onChange={(e) => setSingleName(e.target.value)}
             />
             <Input
               type="number"
               className="mt-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-              defaultValue={Number(incomeInfo.amount)}
-              onChange={(e) => setIncomeAmount(e.target.value)}
+              defaultValue={Number(singleInfo.amount)}
+              onChange={(e) => setSingleAmount(e.target.value)}
             />
-            <IncomeDatePicker date={incomeDate} setDate={setIncomeDate} />
+            <SingleDatePicker date={singleDate} setDate={setSingleDate} />
             <Select
-              value={incomeCategory}
-              onValueChange={(value) => setIncomeCategory(value)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="salary">Salary</SelectItem>
-                <SelectItem value="business">Business</SelectItem>
-                <SelectItem value="investments">Investments</SelectItem>
-                <SelectItem value="rental income">Rental Income</SelectItem>
-                <SelectItem value="pensions">Pensions</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select
-              value={incomeMethod}
-              onValueChange={(value) => setIncomeMethod(value)}
+              value={singleMethod}
+              onValueChange={(value) => setSingleMethod(value)}
             >
               <SelectTrigger className="w-full">
                 <SelectValue />
@@ -169,14 +150,13 @@ export default function EditIncome({
               className="w-full"
               disabled={
                 !(
-                  incomeName ||
-                  incomeAmount ||
-                  incomeCategory !== initialIncomeCategory ||
-                  incomeMethod !== initialIncomeMethod ||
-                  incomeDate?.getTime() !== initialIncomeDate?.getTime()
+                  singleName ||
+                  singleAmount ||
+                  singleMethod !== initialSingleMethod ||
+                  singleDate?.getTime() !== initialSingleDate?.getTime()
                 )
               }
-              onClick={() => onUpdateIncome()}
+              onClick={() => onUpdateSingle()}
             >
               Save
             </Button>

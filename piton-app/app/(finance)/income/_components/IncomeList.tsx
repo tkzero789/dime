@@ -21,9 +21,14 @@ import FormatMonth from "@/utils/formatMonth";
 type Props = {
   filterIncome: IncomeDetail[];
   selectedMonth: string | null;
+  refreshData: () => void;
 };
 
-export default function IncomeList({ filterIncome, selectedMonth }: Props) {
+export default function IncomeList({
+  filterIncome,
+  selectedMonth,
+  refreshData,
+}: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
@@ -51,12 +56,6 @@ export default function IncomeList({ filterIncome, selectedMonth }: Props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  // Correct date displays for datepicker in edit income
-  const convertToLocalDate = (dateString: string): Date => {
-    const [year, month, day] = dateString.split("-").map(Number);
-    return new Date(year, month - 1, day);
-  };
 
   return (
     <div className="mt-8 h-fit flex-1 rounded-lg border bg-white p-4 shadow-md">
@@ -112,12 +111,8 @@ export default function IncomeList({ filterIncome, selectedMonth }: Props) {
                 <div className="p-1">
                   <EditIncome
                     currentUser={currentUser || "default"}
-                    incomeId={income.id}
-                    name={income.name}
-                    amount={income.amount}
-                    category={income.category}
-                    method={income.payment_method}
-                    date={convertToLocalDate(income.date)}
+                    incomeInfo={income}
+                    refreshData={refreshData}
                   />
                   <DeleteIncome
                     currentUser={currentUser || "default"}
