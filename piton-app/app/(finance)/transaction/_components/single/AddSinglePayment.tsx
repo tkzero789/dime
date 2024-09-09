@@ -22,7 +22,6 @@ import { HandCoins } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { db } from "@/db/dbConfig";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import { Single } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { SingleDatePicker } from "./SingleDatePicker";

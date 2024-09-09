@@ -19,7 +19,7 @@ type Props = {
 export default function AddTransaction({ refreshData }: Props) {
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild className="ml-auto">
         <Button
           variant="ghost"
           className="flex items-center justify-center gap-2"

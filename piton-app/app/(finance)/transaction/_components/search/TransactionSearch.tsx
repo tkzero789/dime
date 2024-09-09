@@ -2,10 +2,23 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import React from "react";
 
-export default function TransactionSearch() {
+type Props = {
+  searchQuery: string;
+  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export default function TransactionSearch({
+  searchQuery,
+  onSearchChange,
+}: Props) {
   return (
     <div className="relative">
-      <Input placeholder="Search transaction" />
+      <Input
+        type="text"
+        placeholder="Search transaction"
+        value={searchQuery}
+        onChange={onSearchChange}
+      />
       <Search
         strokeWidth={2}
         color="#555353"
