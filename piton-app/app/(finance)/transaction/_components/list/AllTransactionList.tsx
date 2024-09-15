@@ -69,17 +69,13 @@ export default function AllTransactionList({
   const latestYear = new Date().getFullYear();
   const latestMonth = new Date().getMonth();
 
-  // Determine if the "Next Month" button should be hidden
   const hideNextMonthButton =
     latestYear === currentYear && latestMonth === currentMonth;
 
   return (
     <div className="mt-8 h-fit w-full flex-1 rounded-lg border bg-white p-4 shadow-md">
       <div className="flex items-center gap-12 pb-4">
-        <h2 className="w-44 text-xl font-bold">
-          {monthNames[currentMonth]} {currentYear}
-        </h2>
-        <div className="flex gap-4">
+        <div className="flex w-16 gap-4">
           <button
             onClick={handlePrevMonth}
             className="flex items-center justify-center rounded-sm bg-gray-200 hover:bg-gray-300"
@@ -93,6 +89,10 @@ export default function AllTransactionList({
             <ChevronRight />
           </button>
         </div>
+        <h2 className="text-xl font-bold">
+          {monthNames[currentMonth]} {currentYear}
+        </h2>
+
         <AddTransaction refreshData={refreshData} />
       </div>
 

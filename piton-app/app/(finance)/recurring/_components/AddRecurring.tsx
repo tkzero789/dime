@@ -28,6 +28,7 @@ import { useRouter } from "next/navigation";
 import { RecurringDatePicker } from "./RecurringDatePicker";
 import { Recurrence } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
+import { format } from "date-fns";
 
 export default function AddRecurring() {
   const router = useRouter();
@@ -45,6 +46,9 @@ export default function AddRecurring() {
       window.alert("Missing required information");
       return;
     }
+
+    const formattedDate = format(date, "yyyy-MM-dd");
+
     const result = await db
       .insert(Recurrence)
       .values({
@@ -52,7 +56,7 @@ export default function AddRecurring() {
         amount: amount,
         category: category,
         payment_method: method,
-        date: date?.toDateString(),
+        date: formattedDate,
         created_by: currentUser,
       })
       .returning({ insertId: Recurrence.id });
@@ -62,12 +66,22 @@ export default function AddRecurring() {
       router.refresh();
     }
   };
+
+  const handleClearInput = () => {
+    setName("");
+    setAmount("");
+    setCategory("");
+    setMethod("");
+    setDate(new Date());
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
           className="flex items-center justify-center gap-2"
+          onClick={handleClearInput}
         >
           <CirclePlus strokeWidth={1.75} color="#555353" />
           <span className="font-semibold text-medium">Add New Payment</span>
@@ -93,11 +107,9 @@ export default function AddRecurring() {
               className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               value={amount}
               onChange={(e) => {
-                const value = parseFloat(e.target.value);
-                if (value > 0) {
+                const value = e.target.value;
+                if (parseFloat(value) > 0 || value === "") {
                   setAmount(e.target.value);
-                } else {
-                  e.target.value = "";
                 }
               }}
             />
@@ -115,16 +127,16 @@ export default function AddRecurring() {
                 <SelectItem value="bill and utilities">
                   Bill and Utilities
                 </SelectItem>
+                <SelectItem value="car payment">Car Payment</SelectItem>
                 <SelectItem value="credit card payment">
                   Credit Card Payment
                 </SelectItem>
-                <SelectItem value="car payment">Car Payment</SelectItem>
                 <SelectItem value="insurance">Insurance</SelectItem>
                 <SelectItem value="loan">Loan</SelectItem>
-                <SelectItem value="mortgage">Mortgage</SelectItem>
                 <SelectItem value="monthly subscription">
                   Monthly Subscription
                 </SelectItem>
+                <SelectItem value="mortgage">Mortgage</SelectItem>
                 <SelectItem value="rent">Rent</SelectItem>
               </SelectContent>
             </Select>

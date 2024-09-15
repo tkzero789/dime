@@ -3,11 +3,21 @@
 import React from "react";
 import { SpendingBarChart } from "./_components/chart/SpendingBarChart";
 import { useUser } from "@clerk/nextjs";
-import { ExpenseDetail, IncomeDetail, RecurrenceDetail } from "@/types/types";
+import {
+  ExpenseDetail,
+  IncomeDetail,
+  RecurrenceDetail,
+  SingleDetail,
+} from "@/types/types";
 import { BatchResponse } from "drizzle-orm/batch";
 import { db } from "@/db/dbConfig";
 import { eq, getTableColumns } from "drizzle-orm";
-import { BudgetExpenses, Income, Recurrence } from "@/db/schema";
+import { BudgetExpenses, Income, Recurrence, Single } from "@/db/schema";
+import { SpendingPieChart } from "./_components/chart/SpendingPieChart";
+
+type NewExpenseDetail = ExpenseDetail & {
+  category: string;
+};
 
 export default function SpendingPage() {
   const { user } = useUser();
@@ -15,7 +25,7 @@ export default function SpendingPage() {
 
   const [incomeData, setIncomeData] = React.useState<IncomeDetail[]>([]);
   const [spendingData, setSpendingData] = React.useState<
-    (ExpenseDetail | RecurrenceDetail)[]
+    (NewExpenseDetail | RecurrenceDetail | SingleDetail)[]
   >([]);
   const [finalData, setFinalData] = React.useState<
     { month: string; income: number; spending: number }[]
@@ -29,32 +39,42 @@ export default function SpendingPage() {
     try {
       const batchResponse: BatchResponse<any> = await db.batch([
         db
+          .select({ ...getTableColumns(Income) })
+          .from(Income)
+          .where(eq(Income.created_by, currentUser ?? "")),
+        db
           .select({
             ...getTableColumns(BudgetExpenses),
           })
           .from(BudgetExpenses)
           .where(eq(BudgetExpenses.created_by, currentUser ?? "")),
         db
-          .select({ ...getTableColumns(Income) })
-          .from(Income)
-          .where(eq(Income.created_by, currentUser ?? "")),
-        db
           .select({ ...getTableColumns(Recurrence) })
           .from(Recurrence)
           .where(eq(Recurrence.created_by, currentUser ?? "")),
+        db
+          .select({ ...getTableColumns(Single) })
+          .from(Single)
+          .where(eq(Single.created_by, currentUser ?? "")),
       ]);
 
       if (batchResponse) {
-        let [expenseResult, incomeResult, recurringResult] = batchResponse;
+        let [incomeResult, expenseResult, recurringResult, singleResult] =
+          batchResponse;
+
+        setIncomeData(incomeResult);
+
         // Add category property to each row in expenseResult
-        expenseResult = expenseResult.map((row: ExpenseDetail) => ({
+        expenseResult = expenseResult.map((row: NewExpenseDetail) => ({
           ...row,
           category: "Budget Expense",
         }));
 
-        setIncomeData(incomeResult);
-
-        const totalSpending = [...expenseResult, ...recurringResult];
+        const totalSpending = [
+          ...expenseResult,
+          ...recurringResult,
+          ...singleResult,
+        ];
         setSpendingData(totalSpending);
 
         // Call calculate after setting data
@@ -67,7 +87,7 @@ export default function SpendingPage() {
 
   const calculate = (
     incomeData: IncomeDetail[],
-    spendingData: (ExpenseDetail | RecurrenceDetail)[],
+    spendingData: (NewExpenseDetail | RecurrenceDetail | SingleDetail)[],
   ) => {
     const incomeByMonth = groupByMonth(incomeData);
     const spendingByMonth = groupByMonth(spendingData);
@@ -91,6 +111,7 @@ export default function SpendingPage() {
         const month = new Date(curr.date).toLocaleString("default", {
           month: "long",
           year: "numeric",
+          timeZone: "UTC",
         });
         if (!acc[month]) {
           acc[month] = [];
@@ -105,12 +126,12 @@ export default function SpendingPage() {
     );
   };
 
-  console.log(finalData);
-
   return (
-    <div className="min-h-dvh bg-[#f5f5f5] px-4 py-6 sm:px-20 sm:py-16">
+    <div className="min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 sm:py-16">
       <h2 className="text-2xl font-bold">Spending</h2>
-      <SpendingBarChart />
+      <SpendingBarChart finalData={finalData} />
+
+      <SpendingPieChart spendingData={spendingData} />
     </div>
   );
 }

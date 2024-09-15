@@ -29,6 +29,7 @@ export function ExpenseDatePicker({ date, setDate }: Props) {
     }
     setIsOpen(false);
   };
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>

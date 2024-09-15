@@ -7,8 +7,6 @@ import { useUser } from "@clerk/nextjs";
 import { BudgetExpenses, Income, Recurrence, Single } from "@/db/schema";
 import { and, eq, getTableColumns, gte, lte } from "drizzle-orm";
 import { db } from "@/db/dbConfig";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useIntersection } from "@mantine/hooks";
 import {
   ExpenseDetail,
   IncomeDetail,
@@ -81,10 +79,10 @@ export default function TransactionPage() {
       try {
         const firstDayOfMonth = new Date(
           Date.UTC(currentYear, currentMonth, 1),
-        );
+        ).toISOString();
         const lastDayOfMonth = new Date(
           Date.UTC(currentYear, currentMonth + 1, 0),
-        );
+        ).toISOString();
 
         const batchResponse: BatchResponse<any> = await db.batch([
           db
@@ -95,8 +93,8 @@ export default function TransactionPage() {
             .where(
               and(
                 eq(BudgetExpenses.created_by, currentUser ?? ""),
-                gte(BudgetExpenses.created_at, firstDayOfMonth),
-                lte(BudgetExpenses.created_at, lastDayOfMonth),
+                gte(BudgetExpenses.date, firstDayOfMonth),
+                lte(BudgetExpenses.date, lastDayOfMonth),
               ),
             ),
           db
@@ -105,8 +103,8 @@ export default function TransactionPage() {
             .where(
               and(
                 eq(Income.created_by, currentUser ?? ""),
-                gte(Income.created_at, firstDayOfMonth),
-                lte(Income.created_at, lastDayOfMonth),
+                gte(Income.date, firstDayOfMonth),
+                lte(Income.date, lastDayOfMonth),
               ),
             ),
           db
@@ -115,8 +113,8 @@ export default function TransactionPage() {
             .where(
               and(
                 eq(Recurrence.created_by, currentUser ?? ""),
-                gte(Recurrence.created_at, firstDayOfMonth),
-                lte(Recurrence.created_at, lastDayOfMonth),
+                gte(Recurrence.date, firstDayOfMonth),
+                lte(Recurrence.date, lastDayOfMonth),
               ),
             ),
           db
@@ -125,8 +123,8 @@ export default function TransactionPage() {
             .where(
               and(
                 eq(Single.created_by, currentUser ?? ""),
-                gte(Single.created_at, firstDayOfMonth),
-                lte(Single.created_at, lastDayOfMonth),
+                gte(Single.date, firstDayOfMonth),
+                lte(Single.date, lastDayOfMonth),
               ),
             ),
         ]);
@@ -220,7 +218,7 @@ export default function TransactionPage() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#f5f5f5] px-4 py-6 sm:px-20 sm:py-16">
+    <div className="min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 sm:py-16">
       <h2 className="text-2xl font-bold">Transaction</h2>
       <div className="mx-auto mt-8 max-w-7xl">
         <TransactionSearch

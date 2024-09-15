@@ -16,16 +16,18 @@ import { db } from "@/db/dbConfig";
 import { Income } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 type Props = {
   currentUser: string | undefined;
   incomeId: string;
+  refreshData: () => void;
 };
 
-export default function DeleteIncome({ currentUser, incomeId }: Props) {
-  const router = useRouter();
-
+export default function DeleteIncome({
+  currentUser,
+  incomeId,
+  refreshData,
+}: Props) {
   //Delete income
   const deleteIncome = async (incomeId: string) => {
     const result = await db
@@ -37,7 +39,7 @@ export default function DeleteIncome({ currentUser, incomeId }: Props) {
 
     if (result) {
       toast.success("Income Deleted!");
-      router.refresh();
+      refreshData();
     }
   };
 

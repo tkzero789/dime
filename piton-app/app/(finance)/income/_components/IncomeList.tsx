@@ -67,7 +67,10 @@ export default function IncomeList({
             <GetCurrentMonth month={new Date()} />
           )}
         </h2>
-        <AddIncome currentUser={currentUser || "default"} />
+        <AddIncome
+          currentUser={currentUser || "default"}
+          refreshData={refreshData}
+        />
       </div>
       <div className="grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-lg bg-neutral-200 py-2 text-sm font-semibold text-medium">
         <div className="text-center">Date</div>
@@ -117,6 +120,7 @@ export default function IncomeList({
                   <DeleteIncome
                     currentUser={currentUser || "default"}
                     incomeId={income.id}
+                    refreshData={refreshData}
                   />
                 </div>
               </PopoverContent>

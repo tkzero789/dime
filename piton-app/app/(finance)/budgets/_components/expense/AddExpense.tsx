@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import toast from "react-hot-toast";
 import { ExpenseDatePicker } from "./ExpenseDatePicker";
+import { format } from "date-fns";
 
 type Props = {
   paramId: string;
@@ -34,26 +35,29 @@ export default function AddExpense({
       window.alert("Missing required information");
       return;
     }
+
+    const formattedDate = format(date, "yyyy-MM-dd");
+
     const result = await db
       .insert(BudgetExpenses)
       .values({
         name: name,
         amount: amount,
         payment_method: paymentMethod,
-        date: date?.toISOString(),
+        date: formattedDate,
         budget_id: paramId,
         created_by: currentUser,
       })
       .returning({ insertedId: Budgets.id });
-    // reset
-    setName("");
-    setAmount("");
-    setPaymentMethod("");
-    setDate(new Date());
 
     if (result) {
       refreshData();
       toast.success("New Expense Added!");
+      // reset
+      setName("");
+      setAmount("");
+      setPaymentMethod("");
+      setDate(new Date());
     }
   };
 
@@ -72,11 +76,9 @@ export default function AddExpense({
         className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
         value={amount}
         onChange={(e) => {
-          const value = parseFloat(e.target.value);
-          if (value > 0) {
+          const value = e.target.value;
+          if (parseFloat(value) > 0 || value === "") {
             setAmount(e.target.value);
-          } else {
-            e.target.value = "";
           }
         }}
       />

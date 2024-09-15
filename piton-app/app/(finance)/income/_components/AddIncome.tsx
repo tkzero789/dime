@@ -26,15 +26,14 @@ import { db } from "@/db/dbConfig";
 import { Income } from "@/db/schema";
 import { IncomeDatePicker } from "./IncomeDatePicker";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+
 
 type Props = {
   currentUser: string | undefined;
+  refreshData: () => void;
 };
 
-export default function AddIncome({ currentUser }: Props) {
-  const router = useRouter();
-
+export default function AddIncome({ currentUser, refreshData }: Props) {
   const [name, setName] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
   const [category, setCategory] = React.useState<string>("");
@@ -60,8 +59,16 @@ export default function AddIncome({ currentUser }: Props) {
 
     if (result) {
       toast.success("New Income Added!");
-      router.refresh();
+      refreshData()
     }
+  };
+
+  const handleClearInput = () => {
+    setName("");
+    setAmount("");
+    setCategory("");
+    setMethod("");
+    setDate(new Date());
   };
 
   return (
@@ -70,6 +77,7 @@ export default function AddIncome({ currentUser }: Props) {
         <Button
           variant="ghost"
           className="flex items-center justify-center gap-2"
+          onClick={handleClearInput}
         >
           <CirclePlus strokeWidth={1.75} color="#555353" />
           <span className="font-semibold text-medium">Add Income</span>
@@ -93,11 +101,9 @@ export default function AddIncome({ currentUser }: Props) {
               className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               value={amount}
               onChange={(e) => {
-                const value = parseFloat(e.target.value);
-                if (value > 0) {
+                const value = e.target.value;
+                if (parseFloat(value) > 0 || value === "") {
                   setAmount(e.target.value);
-                } else {
-                  e.target.value = "";
                 }
               }}
             />

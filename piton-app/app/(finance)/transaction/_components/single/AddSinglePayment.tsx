@@ -26,6 +26,7 @@ import { Single } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { SingleDatePicker } from "./SingleDatePicker";
 import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
 
 type Props = {
   refreshData: () => void;
@@ -46,6 +47,9 @@ export default function AddSinglePayment({ refreshData }: Props) {
       window.alert("Missing required information");
       return;
     }
+
+    const formattedDate = format(date, "yyyy-MM-dd");
+
     const result = await db
       .insert(Single)
       .values({
@@ -53,19 +57,30 @@ export default function AddSinglePayment({ refreshData }: Props) {
         amount: amount,
         category: category,
         payment_method: method,
-        date: date?.toDateString(),
+        date: formattedDate,
         created_by: currentUser,
       })
       .returning({ insertId: Single.id });
 
     if (result) {
-      toast.success("New Single Payment Added!");
       refreshData();
+      toast.success("New Single Payment Added!");
     }
   };
+
+  const handleClearInput = () => {
+    setName("");
+    setAmount("");
+    setMethod("");
+    setDate(new Date());
+  };
+
   return (
     <Dialog>
-      <DialogTrigger className="flex w-full items-center justify-center rounded-md border border-gray-400 p-4 hover:bg-gray-200">
+      <DialogTrigger
+        className="flex w-full items-center justify-center rounded-md border border-gray-400 p-4 hover:bg-gray-200"
+        onClick={handleClearInput}
+      >
         <span className="flex w-2/5 justify-end pr-2">
           <HandCoins />
         </span>
@@ -90,11 +105,9 @@ export default function AddSinglePayment({ refreshData }: Props) {
                 className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 value={amount}
                 onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  if (value > 0) {
+                  const value = e.target.value;
+                  if (parseFloat(value) > 0 || value === "") {
                     setAmount(e.target.value);
-                  } else {
-                    e.target.value = "";
                   }
                 }}
               />

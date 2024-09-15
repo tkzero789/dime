@@ -86,7 +86,7 @@ export default function BudgetByIdPage({ params }: Props) {
   };
 
   return (
-    <div className="min-h-dvh bg-[#f5f5f5] px-4 py-6 sm:px-20 sm:py-16">
+    <div className="min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 sm:py-16">
       <div className="flex items-center justify-between">
         <div className="hidden items-center gap-4 lg:flex">
           <Link

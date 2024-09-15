@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 import {
@@ -15,40 +17,88 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { BudgetDetail, IncomeDetail, RecurrenceDetail } from "@/types/types";
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
+import { Button } from "@/components/ui/button";
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  income: {
+    label: "Income",
     color: "hsl(var(--chart-5))",
   },
-  mobile: {
-    label: "Mobile",
+  spending: {
+    label: "Spending",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
 
-export function SpendingBarChart() {
+type Props = {
+  finalData: {
+    month: string;
+    income: number;
+    spending: number;
+  }[];
+};
+
+const allMonths = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+function mergeDataWithAllMonths(finalData: Props["finalData"]) {
+  const dataMap = new Map(
+    finalData.map((item) => [item.month.split(" ")[0], item]),
+  );
+  return allMonths.map(
+    (month) => dataMap.get(month) || { month, income: 0, spending: 0 },
+  );
+}
+
+export function SpendingBarChart({ finalData }: Props) {
+  const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    const currentMonth = new Date().getMonth();
+    if (currentMonth >= 6) {
+      setIsFirstHalf(false);
+    }
+  }, []);
+
+  const mergedData = mergeDataWithAllMonths(finalData);
+  const filteredData = isFirstHalf
+    ? mergedData.slice(0, 6)
+    : mergedData.slice(6, 12);
+
   return (
     <Card className="mt-8 rounded-lg border shadow-md">
-      <CardHeader>
-        <CardTitle>Spending comparison</CardTitle>
-        <CardDescription>Month</CardDescription>
+      <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:flex-row lg:items-center">
+        <div>
+          <CardTitle className="tracking-normal">
+            Monthly Financial Overview
+          </CardTitle>
+        </div>
+        <Button
+          variant="outline"
+          className="w-full px-8 lg:w-auto"
+          onClick={() => setIsFirstHalf(!isFirstHalf)}
+        >
+          {isFirstHalf ? "Show July to December" : "Show January to June"}
+        </Button>
       </CardHeader>
       <CardContent>
         <ChartContainer
           config={chartConfig}
           className="aspect-auto h-[200px] w-full xl:h-[220px]"
         >
-          <BarChart accessibilityLayer data={chartData}>
+          <BarChart accessibilityLayer data={filteredData}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="month"
@@ -57,12 +107,9 @@ export function SpendingBarChart() {
               axisLine={false}
               tickFormatter={(value) => value.slice(0, 3)}
             />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="dashed" />}
-            />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-            <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+            <ChartTooltip content={<ChartTooltipContent indicator="dot" />} />
+            <Bar dataKey="income" fill="var(--color-income)" radius={4} />
+            <Bar dataKey="spending" fill="var(--color-spending)" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>

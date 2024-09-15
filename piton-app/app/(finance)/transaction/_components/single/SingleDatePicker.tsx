@@ -22,6 +22,9 @@ type Props = {
 
 export function SingleDatePicker({ date, setDate }: Props) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const currentDate = new Date();
+  const fromMonth = new Date(1900, 0);
+  const toMonth = new Date(currentDate.getFullYear(), currentDate.getMonth());
 
   const handleOnSelect: SelectSingleEventHandler = (date) => {
     if (date) {
@@ -29,6 +32,7 @@ export function SingleDatePicker({ date, setDate }: Props) {
     }
     setIsOpen(false);
   };
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
@@ -49,8 +53,10 @@ export function SingleDatePicker({ date, setDate }: Props) {
           selected={date}
           onSelect={handleOnSelect}
           initialFocus
-          disableNavigation={true}
+          disableNavigation={false}
           showOutsideDays={false}
+          fromMonth={fromMonth}
+          toMonth={toMonth}
         />
       </PopoverContent>
     </Popover>
