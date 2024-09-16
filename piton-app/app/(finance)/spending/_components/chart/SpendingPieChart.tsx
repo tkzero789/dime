@@ -27,7 +27,7 @@ const chartConfig: { [key: string]: { label: string; color?: string } } = {
   },
   bill_and_utilities: {
     label: "Bill and Utilities",
-    color: "#ec4899",
+    color: "#fcd34d",
   },
   credit_card_payment: {
     label: "Credit Card Payment",
@@ -136,7 +136,7 @@ export function SpendingPieChart({ spendingData }: Props) {
       <Card className="col-span-3 flex flex-col rounded-lg border shadow-md xl:col-span-2">
         <CardHeader className="flex flex-col gap-y-4 space-y-0">
           <div className="flex items-start justify-between gap-4 lg:flex-row lg:items-center">
-            <CardTitle className="tracking-normal">Spending Summary</CardTitle>
+            <CardTitle className="tracking-normal">Summary</CardTitle>
             <Button variant="outline" onClick={() => setIsSwitch(!isSwitch)}>
               {isSwitch ? "Show last month" : "Show current month"}
             </Button>
@@ -174,7 +174,7 @@ export function SpendingPieChart({ spendingData }: Props) {
                           <tspan
                             x={viewBox.cx}
                             y={viewBox.cy}
-                            className="fill-foreground text-3xl font-bold"
+                            className={`fill-foreground font-bold ${spendingByMonth > 10000 ? "text-xl" : "text-3xl"}`}
                           >
                             ${spendingByMonth.toLocaleString()}
                           </tspan>

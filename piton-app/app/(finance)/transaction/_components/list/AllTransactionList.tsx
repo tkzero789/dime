@@ -11,6 +11,7 @@ import FormatString from "@/utils/formatString";
 import AddTransaction from "./AddTransaction";
 import ViewTransaction from "./ViewTransaction";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 
 type NewExpenseDetail = ExpenseDetail & {
   category: string;
@@ -72,6 +73,28 @@ export default function AllTransactionList({
   const hideNextMonthButton =
     latestYear === currentYear && latestMonth === currentMonth;
 
+  const getCategory = (category: string) => {
+    if (
+      ["car payment", "credit card payment", "insurance", "loan"].includes(
+        category,
+      )
+    ) {
+      return "bg-sky-300 text-sky-700";
+    } else if (
+      ["Budget Expense", "monthly subscription", "single payment"].includes(
+        category,
+      )
+    ) {
+      return "bg-teal-300 text-teal-700";
+    } else if (["mortgage", "rent", "bill and utilities"].includes(category)) {
+      return "bg-amber-300 text-amber-700";
+    } else {
+      return "bg-pink-300 text-pink-700";
+    }
+  };
+
+  console.log(transaction);
+
   return (
     <div className="mt-8 h-fit w-full flex-1 rounded-lg border bg-white p-4 shadow-md">
       <div className="flex items-center gap-12 pb-4">
@@ -100,19 +123,21 @@ export default function AllTransactionList({
         <div className="text-center">Date</div>
         <div className="pl-4">Name</div>
         <div className="text-start">Category</div>
-        <div className="text-start">Method</div>
+        <div className="text-start">Payment Method</div>
         <div className="text-end">Amount</div>
       </div>
       {transaction?.map((item) => (
         <div
           key={item.id}
-          className="grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-md border-b py-2 pt-2 text-sm font-medium"
+          className="grid grid-cols-[90px_1fr_200px_180px_120px_100px] items-center gap-2 rounded-md border-b py-2 pt-2 text-sm font-medium"
         >
           <div className="text-center">
             <FormatDate numMonthNumDateUTC={new Date(item.date)} />
           </div>
-          <div className="pl-4">{item.name}</div>
-          <div className="text-start">
+          <div className="truncate pl-4">{item.name}</div>
+          <div
+            className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 text-start text-[13px] font-semibold ${getCategory(item.category)}`}
+          >
             <FormatString text={item.category} />
           </div>
           <div className="text-start">

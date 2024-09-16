@@ -1,47 +1,54 @@
-import { BudgetDetail, IncomeDetail } from "@/types/types";
+import {
+  ExpenseDetail,
+  IncomeDetail,
+  RecurrenceDetail,
+  SingleDetail,
+} from "@/types/types";
 import React from "react";
 import { DashboardAreaChart } from "../chart/DashboardAreaChart";
 import DashboardAccountCard from "../account/DashboardAccountCard";
 
 type Props = {
-  budgetData: BudgetDetail[];
-  incomeData: IncomeDetail[];
+  spending: (ExpenseDetail | RecurrenceDetail | SingleDetail)[];
+  income: IncomeDetail[];
 };
 
-export default function DashboardMainSection({
-  budgetData,
-  incomeData,
-}: Props) {
+export default function DashboardMainSection({ spending, income }: Props) {
   const [totalIncome, setTotalIncome] = React.useState<number>(0);
   const [currentSpend, setCurrentSpend] = React.useState<number>(0);
   const [potentialSave, setPotentialSave] = React.useState<number>(0);
+  const currentMonth = new Date().getUTCMonth();
 
   React.useEffect(() => {
     calculate();
-  }, [incomeData, budgetData]);
+  }, [income, spending]);
 
   const calculate = () => {
-    const incomeAmount = incomeData?.reduce(
+    const incomeAmount = income?.reduce(
       (acc, curr) => acc + Number(curr.amount),
       0,
     );
 
-    const spendingAmount = budgetData?.reduce(
-      (acc, curr) => acc + curr.total_spend,
+    const currentMonthList = spending.filter((item) => {
+      const itemMonth = new Date(item.date).getUTCMonth();
+      return itemMonth === currentMonth;
+    });
+
+    const currentSpendingAmount = currentMonthList.reduce(
+      (acc, curr) => acc + Number(curr.amount),
       0,
     );
 
-    const savingAmount = incomeAmount - spendingAmount;
+    const savingAmount = incomeAmount - currentSpendingAmount;
 
     setTotalIncome(incomeAmount);
-    setCurrentSpend(spendingAmount);
+    setCurrentSpend(currentSpendingAmount);
     setPotentialSave(savingAmount);
   };
   return (
     <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
       <div className="col-span-3 xl:col-span-2">
-        {" "}
-        <DashboardAreaChart budgetData={budgetData} />
+        <DashboardAreaChart spending={spending} />
       </div>
       <div className="col-span-3 xl:col-span-1">
         <DashboardAccountCard

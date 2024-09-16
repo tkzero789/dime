@@ -23,8 +23,9 @@ export default async function handler(
         .values({
           name: recurrence.name,
           amount: recurrence.amount,
-          date: nextDate.toDateString(),
+          category: recurrence.category,
           payment_method: recurrence.payment_method,
+          date: nextDate.toDateString(),
           created_by: recurrence.created_by,
         })
         .returning({ insertId: Recurrence.id });

@@ -33,7 +33,7 @@ export default function SpendingBreakdown({ aggregatedData }: Props) {
       case "single payment":
         return <HandCoins color="#14b8a6" className="h-6 w-6" />;
       case "bill and utilities":
-        return <Wallet color="#ec4899" className="h-6 w-6" />;
+        return <Wallet color="#f59e0b" className="h-6 w-6" />;
       case "car payment":
         return <CarFront color="#0ea5e9" className="h-6 w-6" />;
       case "credit card payment":
@@ -61,7 +61,7 @@ export default function SpendingBreakdown({ aggregatedData }: Props) {
 
   return (
     <div className="col-span-3 flex flex-col gap-4 rounded-lg border bg-white p-6 shadow-md xl:col-span-1">
-      <h2 className="text-2xl font-semibold">Spending Breakdown</h2>
+      <h2 className="text-2xl font-semibold">Breakdown</h2>
       <ul className="flex flex-col gap-4">
         {aggregatedData.map((data, index) => (
           <li

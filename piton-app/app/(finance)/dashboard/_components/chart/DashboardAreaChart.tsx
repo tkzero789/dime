@@ -1,6 +1,7 @@
 "use client";
 
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import React from "react";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 import {
   Card,
@@ -15,48 +16,101 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { BudgetDetail } from "@/types/types";
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
+import { ExpenseDetail, RecurrenceDetail, SingleDetail } from "@/types/types";
+import GetCurrentMonth from "@/utils/getCurrentMonth";
+
+export const description = "A multiple line chart";
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  current: {
+    label: "Current",
     color: "hsl(var(--chart-1))",
   },
-  mobile: {
-    label: "Mobile",
+  prev: {
+    label: "Prev",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
 
 type Props = {
-  budgetData: BudgetDetail[];
+  spending: (ExpenseDetail | RecurrenceDetail | SingleDetail)[];
 };
 
-export function DashboardAreaChart({ budgetData }: Props) {
+export function DashboardAreaChart({ spending }: Props) {
+  const currentMonth = new Date().getUTCMonth();
+  const prevMonth = new Date();
+  prevMonth.setUTCMonth(currentMonth - 1);
+  const currentYear = new Date().getUTCFullYear();
+
+  // Generate an array of all dates for the current month
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getUTCDate();
+  const allDates = Array.from({ length: daysInMonth }, (_, i) => {
+    const day = i + 1;
+    return new Date(Date.UTC(currentYear, currentMonth, day))
+      .toISOString()
+      .split("T")[0];
+  });
+
+  const currentSpendingList = spending.filter((item) => {
+    const itemMonth = new Date(item.date).getUTCMonth();
+    return itemMonth === currentMonth;
+  });
+
+  const prevSpendingList = spending.filter((item) => {
+    const itemMonth = new Date(item.date).getUTCMonth();
+    return itemMonth !== currentMonth;
+  });
+
+  const mergedSpendingList = allDates.map((date) => {
+    const currentItems: (ExpenseDetail | RecurrenceDetail | SingleDetail)[] =
+      currentSpendingList.filter((item) => item.date === date);
+    const prevItems: (ExpenseDetail | RecurrenceDetail | SingleDetail)[] =
+      prevSpendingList.filter((item) => {
+        const itemDate = new Date(item.date);
+        return (
+          itemDate.getUTCDate() === new Date(date).getUTCDate() &&
+          itemDate.getUTCMonth() !== currentMonth
+        );
+      });
+
+    const currentAmount = currentItems
+      ? currentItems.reduce((sum, item) => sum + Number(item.amount), 0)
+      : 0;
+    const prevAmount = prevItems
+      ? prevItems.reduce((sum, item) => sum + Number(item.amount), 0)
+      : 0;
+
+    return {
+      date,
+      currentAmount,
+      prevAmount,
+    };
+  });
+
+  const newSpendingList = mergedSpendingList.sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  );
+
   return (
     <Card className="rounded-lg border shadow-md">
       <CardHeader>
-        <CardTitle>Area Chart - Stacked</CardTitle>
+        <CardTitle>
+          <GetCurrentMonth monthYear={new Date()} />
+        </CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Daily spending trends for{" "}
+          <span>{prevMonth.toLocaleString("en-US", { month: "long" })}</span>{" "}
+          vs. <GetCurrentMonth month={new Date()} />
         </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[200px] w-full xl:h-[280px]"
+          className="aspect-auto h-[250px] w-full"
         >
-          <AreaChart
+          <LineChart
             accessibilityLayer
-            data={chartData}
+            data={newSpendingList}
             margin={{
               left: 12,
               right: 12,
@@ -64,33 +118,32 @@ export function DashboardAreaChart({ budgetData }: Props) {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="date"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value) => {
+                const date = new Date(value);
+                const day = date.getUTCDate();
+                return day % 2 !== 0 ? `${String(day)}` : "";
+              }}
             />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="dot" />}
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Line
+              dataKey="currentAmount"
+              type="monotone"
+              stroke="var(--color-current)"
+              strokeWidth={2}
+              dot={false}
             />
-            <Area
-              dataKey="mobile"
-              type="natural"
-              fill="var(--color-mobile)"
-              fillOpacity={0.4}
-              stroke="var(--color-mobile)"
-              stackId="a"
+            <Line
+              dataKey="prevAmount"
+              type="monotone"
+              stroke="var(--color-prev)"
+              strokeWidth={2}
+              dot={false}
             />
-            <Area
-              dataKey="desktop"
-              type="natural"
-              fill="var(--color-desktop)"
-              fillOpacity={0.4}
-              stroke="var(--color-desktop)"
-              stackId="a"
-            />
-          </AreaChart>
+          </LineChart>
         </ChartContainer>
       </CardContent>
     </Card>

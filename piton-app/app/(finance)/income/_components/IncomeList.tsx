@@ -32,6 +32,19 @@ export default function IncomeList({
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
+  React.useEffect(() => {
+    user && calculateTotalAmount();
+  }, [user, filterIncome]);
+
+  const [totalAmount, setTotalAmount] = React.useState<number>(0);
+  const calculateTotalAmount = () => {
+    const totalAmount = filterIncome.reduce(
+      (acc, curr) => acc + Number(curr.amount),
+      0,
+    );
+    setTotalAmount(totalAmount);
+  };
+
   const [isClick, setIsClick] = React.useState<string | null>(null);
   const popoverRef = React.useRef<HTMLDivElement>(null);
 
@@ -132,6 +145,12 @@ export default function IncomeList({
           No income added yet
         </div>
       )}
+      <div className="grid grid-cols-[90px_1fr_100px] gap-2 rounded-b-lg bg-neutral-200 py-2 text-sm font-semibold text-medium">
+        <span className="text-center">Total</span>
+        <span className="text-end font-bold text-green-700">
+          $<FormatNumber number={totalAmount} />
+        </span>
+      </div>
     </div>
   );
 }
