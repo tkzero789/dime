@@ -49,6 +49,7 @@ export default function DashboardMidSection({ spending }: Props) {
           .sort(
             (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
           )
+          .slice(0, 10)
           ?.map((item) => (
             <div
               key={item.id}
