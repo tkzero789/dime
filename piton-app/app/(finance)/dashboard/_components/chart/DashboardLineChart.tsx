@@ -118,7 +118,7 @@ export function DashboardLineChart({ spending }: Props) {
   return (
     <Card className="rounded-lg border shadow-md">
       <CardHeader>
-        <CardTitle>
+        <CardTitle className="text-xl font-bold tracking-normal">
           <GetCurrentMonth monthYear={new Date()} />
         </CardTitle>
         <CardDescription>

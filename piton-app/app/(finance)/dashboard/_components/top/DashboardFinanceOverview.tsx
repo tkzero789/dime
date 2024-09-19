@@ -21,14 +21,14 @@ type Props = {
   potentialSave: number;
 };
 
-export default function DashboardAccountCard({
+export default function DashboardFinanceOverview({
   totalIncome,
   currentSpend,
   potentialSave,
 }: Props) {
   return (
     <div className="rounded-lg border bg-white shadow-md">
-      <h2 className="px-6 py-4 text-xl font-bold">Accounts</h2>
+      <h2 className="px-6 pb-4 pt-6 text-xl font-bold">Financial Overview</h2>
       <div className="flex items-center gap-4 px-6 py-4 text-base font-medium">
         <Landmark className="h-5 w-5 stroke-teal-700" />
         <span>Income</span>

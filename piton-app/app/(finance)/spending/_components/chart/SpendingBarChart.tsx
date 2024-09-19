@@ -81,8 +81,8 @@ export function SpendingBarChart({ finalData }: Props) {
     <Card className="mt-8 rounded-lg border shadow-md">
       <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:flex-row lg:items-center">
         <div>
-          <CardTitle className="tracking-normal">
-            Monthly Financial Overview
+          <CardTitle className="text-xl font-bold tracking-normal">
+            Income and Expenditure
           </CardTitle>
         </div>
         <Button

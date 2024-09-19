@@ -1,5 +1,22 @@
 .rdp-button {
   border: none;
+  position: relative;
+}
+
+.rdp-button.checked::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 4px;
+  width: 6px;
+  border-radius: 9999px;
+  background-color: #0d9488;
+}
+
+.rdp-button[aria-selected="true"].checked::after {
+  background-color: white;
 }
 
 .rdp-button[aria-selected="true"] {

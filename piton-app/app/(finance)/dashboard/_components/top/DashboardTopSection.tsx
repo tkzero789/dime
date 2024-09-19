@@ -6,14 +6,14 @@ import {
 } from "@/types/types";
 import React from "react";
 import { DashboardLineChart } from "../chart/DashboardLineChart";
-import DashboardAccountCard from "../account/DashboardAccountCard";
+import DashboardAccountCard from "./DashboardFinanceOverview";
 
 type Props = {
   spending: (ExpenseDetail | RecurrenceDetail | SingleDetail)[];
   income: IncomeDetail[];
 };
 
-export default function DashboardMainSection({ spending, income }: Props) {
+export default function DashboardTopSection({ spending, income }: Props) {
   const [totalIncome, setTotalIncome] = React.useState<number>(0);
   const [currentSpend, setCurrentSpend] = React.useState<number>(0);
   const [potentialSave, setPotentialSave] = React.useState<number>(0);

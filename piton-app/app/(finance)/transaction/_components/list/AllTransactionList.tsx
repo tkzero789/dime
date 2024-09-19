@@ -93,8 +93,6 @@ export default function AllTransactionList({
     }
   };
 
-  console.log(transaction);
-
   return (
     <div className="mt-8 h-fit w-full flex-1 rounded-lg border bg-white p-4 shadow-md">
       <div className="flex items-center gap-12 pb-4">

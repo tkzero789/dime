@@ -2,13 +2,7 @@
 
 import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -16,6 +10,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { IncomeDetail } from "@/types/types";
+import GetCurrentMonth from "@/utils/getCurrentMonth";
 
 const chartConfig = {
   income: {
@@ -58,8 +53,9 @@ export function IncomeBarChart({ incomeList, handleBarClick }: Props) {
   return (
     <Card className="mt-8 rounded-lg border shadow-md">
       <CardHeader>
-        <CardTitle>Income</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle className="text-xl font-bold tracking-normal">
+          <GetCurrentMonth monthYear={new Date()} />
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer

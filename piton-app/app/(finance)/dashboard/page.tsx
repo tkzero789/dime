@@ -9,17 +9,27 @@ import {
   Recurrence,
   Single,
 } from "@/db/schema";
-import { ExpenseDetail, IncomeDetail, RecurrenceDetail } from "@/types/types";
+import {
+  ExpenseDetail,
+  IncomeDetail,
+  RecurrenceDetail,
+  SingleDetail,
+} from "@/types/types";
 import { useUser } from "@clerk/nextjs";
 import { and, desc, eq, getTableColumns, gte, lte, sql } from "drizzle-orm";
 import { BatchResponse } from "drizzle-orm/batch";
 import GetGreeting from "@/utils/getGreeting";
-import DashboardMainSection from "./_components/main/DashboardMainSection";
+import DashboardTopSection from "./_components/top/DashboardTopSection";
+import DashboardMidSection from "./_components/middle/DashboardMidSection";
+
+type NewExpenseDetail = ExpenseDetail & {
+  category: string;
+};
 
 export default function DashboardPage() {
   const [income, setIncome] = React.useState<IncomeDetail[]>([]);
   const [spending, setSpending] = React.useState<
-    (ExpenseDetail | RecurrenceDetail)[]
+    (NewExpenseDetail | RecurrenceDetail | SingleDetail)[]
   >([]);
 
   const { user } = useUser();
@@ -91,12 +101,18 @@ export default function DashboardPage() {
           ),
       ]);
       if (batchResponse) {
-        const [incomeResult, budgetResult, recurringResult, singleResult] =
+        let [incomeResult, expenseResult, recurringResult, singleResult] =
           batchResponse;
         setIncome(incomeResult);
 
+        // Add category property to each object in expenseResult
+        expenseResult = expenseResult.map((row: ExpenseDetail) => ({
+          ...row,
+          category: "Budget Expense",
+        }));
+
         const combineSpending = [
-          ...budgetResult,
+          ...expenseResult,
           ...recurringResult,
           ...singleResult,
         ].sort(
@@ -115,7 +131,8 @@ export default function DashboardPage() {
       <h2 className="text-2xl font-bold">
         <GetGreeting />
       </h2>
-      <DashboardMainSection spending={spending} income={income} />
+      <DashboardTopSection spending={spending} income={income} />
+      <DashboardMidSection spending={spending} />
     </div>
   );
 }

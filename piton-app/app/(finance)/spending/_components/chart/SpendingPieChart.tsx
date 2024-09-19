@@ -136,7 +136,9 @@ export function SpendingPieChart({ spendingData }: Props) {
       <Card className="col-span-3 flex flex-col rounded-lg border shadow-md xl:col-span-2">
         <CardHeader className="flex flex-col gap-y-4 space-y-0">
           <div className="flex items-start justify-between gap-4 lg:flex-row lg:items-center">
-            <CardTitle className="tracking-normal">Summary</CardTitle>
+            <CardTitle className="text-xl font-bold tracking-normal">
+              Summary
+            </CardTitle>
             <Button variant="outline" onClick={() => setIsSwitch(!isSwitch)}>
               {isSwitch ? "Show last month" : "Show current month"}
             </Button>
