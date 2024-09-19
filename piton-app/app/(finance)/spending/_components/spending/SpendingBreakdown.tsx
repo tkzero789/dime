@@ -33,7 +33,7 @@ export default function SpendingBreakdown({ aggregatedData }: Props) {
       case "single payment":
         return <HandCoins color="#14b8a6" className="h-6 w-6" />;
       case "bill and utilities":
-        return <Wallet color="#f59e0b" className="h-6 w-6" />;
+        return <Wallet color="#ec4899" className="h-6 w-6" />;
       case "car payment":
         return <CarFront color="#0ea5e9" className="h-6 w-6" />;
       case "credit card payment":
@@ -45,9 +45,9 @@ export default function SpendingBreakdown({ aggregatedData }: Props) {
       case "monthly subscription":
         return <CalendarHeart color="#14b8a6" className="h-6 w-6" />;
       case "mortgage":
-        return <House color="#f59e0b" className="h-6 w-6" />;
+        return <House color="#ec4899" className="h-6 w-6" />;
       case "rent":
-        return <BookPlus color="#f59e0b" className="h-6 w-6" />;
+        return <BookPlus color="#ec4899" className="h-6 w-6" />;
 
       default:
         return null;

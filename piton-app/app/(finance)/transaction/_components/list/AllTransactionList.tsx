@@ -87,9 +87,9 @@ export default function AllTransactionList({
     ) {
       return "bg-teal-300 text-teal-700";
     } else if (["mortgage", "rent", "bill and utilities"].includes(category)) {
-      return "bg-amber-300 text-amber-700";
-    } else {
       return "bg-pink-300 text-pink-700";
+    } else {
+      return "bg-amber-300 text-amber-700";
     }
   };
 

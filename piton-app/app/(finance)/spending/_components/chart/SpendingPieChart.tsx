@@ -27,7 +27,7 @@ const chartConfig: { [key: string]: { label: string; color?: string } } = {
   },
   bill_and_utilities: {
     label: "Bill and Utilities",
-    color: "#fcd34d",
+    color: "#f9a8d4",
   },
   credit_card_payment: {
     label: "Credit Card Payment",
@@ -47,11 +47,11 @@ const chartConfig: { [key: string]: { label: string; color?: string } } = {
   },
   mortgage: {
     label: "Mortgage",
-    color: "#f59e0b",
+    color: "#ec4899",
   },
   rent: {
     label: "Rent",
-    color: "#fbbf24",
+    color: "#f472b6",
   },
   monthly_subscription: {
     label: "Monthly Subscription",

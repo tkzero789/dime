@@ -5,7 +5,7 @@ import {
   SingleDetail,
 } from "@/types/types";
 import React from "react";
-import { DashboardAreaChart } from "../chart/DashboardAreaChart";
+import { DashboardLineChart } from "../chart/DashboardLineChart";
 import DashboardAccountCard from "../account/DashboardAccountCard";
 
 type Props = {
@@ -48,7 +48,7 @@ export default function DashboardMainSection({ spending, income }: Props) {
   return (
     <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
       <div className="col-span-3 xl:col-span-2">
-        <DashboardAreaChart spending={spending} />
+        <DashboardLineChart spending={spending} />
       </div>
       <div className="col-span-3 xl:col-span-1">
         <DashboardAccountCard

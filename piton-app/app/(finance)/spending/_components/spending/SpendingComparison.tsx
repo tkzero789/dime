@@ -40,8 +40,8 @@ export default function SpendingComparison({ spendingData }: Props) {
 
   const currentMonthData = spendingData?.filter((data) => {
     const dataDate = new Date(data.date);
-    const dataMonth = dataDate.getMonth();
-    const dataYear = dataDate.getFullYear();
+    const dataMonth = dataDate.getUTCMonth();
+    const dataYear = dataDate.getUTCFullYear();
 
     return dataMonth === currentMonth && dataYear === currentYear;
   });

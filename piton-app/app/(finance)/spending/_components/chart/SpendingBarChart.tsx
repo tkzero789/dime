@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 const chartConfig = {
   income: {
     label: "Income",
-    color: "#db2777",
+    color: "hsl(var(--chart-5))",
   },
   spending: {
     label: "Spending",
