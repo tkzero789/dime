@@ -3,6 +3,16 @@ import { DashboardCalendar } from "./DashboardCalendar";
 import { ExpenseDetail, RecurrenceDetail, SingleDetail } from "@/types/types";
 import FormatString from "@/utils/formatString";
 import FormatNumber from "@/utils/formatNumber";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 type NewExpenseDetail = ExpenseDetail & {
   category: string;
@@ -75,29 +85,42 @@ export default function DashboardUpcomingBill({
           setDate={setDate}
           highlightDates={highlightDates}
         />
-        <ul className="flex flex-col gap-4 border-t pt-4">
-          {filteredSpending.length > 0 ? (
-            filteredSpending.map((item) => (
-              <li key={item.id} className="grid grid-cols-[200px_200px_1fr]">
-                <span className="truncate font-medium text-medium">
-                  {item.name}
-                </span>
-                <span
-                  className={`ml-2 flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 text-start text-[13px] font-semibold ${getCategory(item.category)}`}
-                >
-                  <FormatString text={item.category} />
-                </span>
-                <span className="ml-auto font-semibold">
-                  $<FormatNumber number={Number(item.amount)} />
-                </span>
-              </li>
-            ))
-          ) : (
-            <li className="text-center font-medium text-medium">
-              No recurring payments on this day
-            </li>
-          )}
-        </ul>
+        {filteredSpending.length > 0 ? (
+          <Table>
+            <TableHeader className="border-t">
+              <TableRow>
+                <TableHead className="w-[100px]">Name</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredSpending.map((item) => (
+                <TableRow key={item.id} className="text-sm font-medium">
+                  <TableCell className="truncate">{item.name}</TableCell>
+                  <TableCell>
+                    <div
+                      className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 ${getCategory(item.category)} `}
+                    >
+                      <span className="truncate text-[13px]">
+                        {" "}
+                        <FormatString text={item.category} />
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right font-semibold">
+                    {" "}
+                    $<FormatNumber number={Number(item.amount)} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <div className="border-t pt-2 text-center font-medium text-medium">
+            No recurring payments on this day
+          </div>
+        )}
       </div>
     </div>
   );

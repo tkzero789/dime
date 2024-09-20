@@ -53,7 +53,7 @@ export function DashboardTable({ spending }: Props) {
           <TableHead className="text-sm font-semibold text-medium">
             Category
           </TableHead>
-          <TableHead className="text-sm font-semibold text-medium">
+          <TableHead className="truncate text-sm font-semibold text-medium">
             Payment Method
           </TableHead>
           <TableHead className="rounded-r-lg text-right text-sm font-semibold text-medium">
@@ -69,7 +69,7 @@ export function DashboardTable({ spending }: Props) {
           .slice(0, 10)
           .map((item) => (
             <TableRow key={item.id} className="text-xs font-medium lg:text-sm">
-              <TableCell className="px-4 py-2 font-medium">
+              <TableCell className="px-4 py-2">
                 <FormatDate numMonthNumDateUTC={new Date(item.date)} />
               </TableCell>
               <TableCell className="px-4 py-2">{item.name}</TableCell>
@@ -77,7 +77,7 @@ export function DashboardTable({ spending }: Props) {
                 <div
                   className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 ${getCategory(item.category)} `}
                 >
-                  <span className="text-[13px]">
+                  <span className="truncate text-[13px]">
                     <FormatString text={item.category} />
                   </span>
                 </div>
