@@ -67,7 +67,7 @@ export default function DashboardUpcomingBill({
     .map((item) => formatDateToUTC(new Date(item.date)));
 
   return (
-    <div className="h-fit rounded-lg border bg-white p-6 shadow-md">
+    <div className="col-span-3 h-fit rounded-lg border bg-white p-6 shadow-md xl:col-span-1">
       <h2 className="pb-4 text-xl font-bold">Upcoming Recurring</h2>
       <div className="flex flex-col gap-4">
         <DashboardCalendar
