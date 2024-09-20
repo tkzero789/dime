@@ -3,7 +3,9 @@ import { db } from "@/db/dbConfig";
 import { and, desc, eq, getTableColumns, gte, lte } from "drizzle-orm";
 import { Recurrence } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
-import RecurringList from "./_components/RecurringList";
+import RecurringTable from "./_components/RecurringTable";
+import GetCurrentMonth from "@/utils/getCurrentMonth";
+import AddRecurring from "./_components/AddRecurring";
 
 export default async function RecurringPage() {
   const currentDate = new Date();
@@ -34,9 +36,17 @@ export default async function RecurringPage() {
     )
     .orderBy(desc(Recurrence.date));
   return (
-    <div className="min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 sm:py-16">
+    <div className="sm:py-18 min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20">
       <h2 className="text-2xl font-bold">Recurring</h2>
-      <RecurringList recurringList={result} />
+      <div className="mt-8 h-fit w-full rounded-lg border bg-white p-4 shadow-md">
+        <div className="flex items-center justify-between pb-4">
+          <h2 className="text-xl font-bold">
+            <GetCurrentMonth month={new Date()} />
+          </h2>
+          <AddRecurring />
+        </div>
+        <RecurringTable recurringList={result} />
+      </div>
     </div>
   );
 }

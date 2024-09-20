@@ -1,9 +1,7 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -12,7 +10,6 @@ import { ExpenseDetail, RecurrenceDetail, SingleDetail } from "@/types/types";
 import FormatDate from "@/utils/formatDate";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
-import Link from "next/link";
 
 type NewExpenseDetail = ExpenseDetail & {
   category: string;
@@ -22,7 +19,7 @@ type Props = {
   spending: (NewExpenseDetail | RecurrenceDetail | SingleDetail)[];
 };
 
-export function TestTable({ spending }: Props) {
+export function DashboardTable({ spending }: Props) {
   const getCategory = (category: string) => {
     if (
       ["car payment", "credit card payment", "insurance", "loan"].includes(
@@ -42,15 +39,16 @@ export function TestTable({ spending }: Props) {
       return "bg-amber-300 text-amber-700";
     }
   };
+
   return (
     <Table className="rounded-lg bg-white">
       <TableHeader>
-        <TableRow className="pointer-events-none bg-neutral-200 text-sm font-semibold text-medium">
-          <TableHead className="w-[100px] rounded-tl-lg">Invoice</TableHead>
+        <TableRow className="pointer-events-none border-none bg-neutral-200 text-sm font-semibold text-medium">
+          <TableHead className="w-[100px] rounded-l-lg">Date</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Category</TableHead>
           <TableHead>Payment Method</TableHead>
-          <TableHead className="rounded-tr-lg text-right">Amount</TableHead>
+          <TableHead className="rounded-r-lg text-right">Amount</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -61,23 +59,23 @@ export function TestTable({ spending }: Props) {
           .slice(0, 10)
           .map((item) => (
             <TableRow key={item.id} className="text-xs font-medium lg:text-sm">
-              <TableCell className="font-medium">
+              <TableCell className="px-4 py-2 font-medium">
                 <FormatDate numMonthNumDateUTC={new Date(item.date)} />
               </TableCell>
-              <TableCell className="">{item.name}</TableCell>
-              <TableCell>
+              <TableCell className="px-4 py-2">{item.name}</TableCell>
+              <TableCell className="px-4 py-2">
                 <div
                   className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 ${getCategory(item.category)} `}
                 >
-                  <span>
+                  <span className="text-[13px]">
                     <FormatString text={item.category} />
                   </span>
                 </div>
               </TableCell>
-              <TableCell>
+              <TableCell className="px-4 py-2">
                 <FormatString text={item.payment_method} />
               </TableCell>
-              <TableCell className="text-right font-semibold">
+              <TableCell className="px-4 py-2 text-right font-semibold">
                 $<FormatNumber number={Number(item.amount)} />
               </TableCell>
             </TableRow>

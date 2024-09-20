@@ -1,11 +1,8 @@
 import { ExpenseDetail, RecurrenceDetail, SingleDetail } from "@/types/types";
-import FormatDate from "@/utils/formatDate";
-import FormatNumber from "@/utils/formatNumber";
-import FormatString from "@/utils/formatString";
 import React from "react";
 import DashboardUpcomingBill from "./DashboardUpcomingBill";
+import { DashboardTable } from "./DashboardTable";
 import Link from "next/link";
-import { TestTable } from "./TestTable";
 
 type NewExpenseDetail = ExpenseDetail & {
   category: string;
@@ -38,8 +35,15 @@ export default function DashboardMidSection({ spending }: Props) {
   return (
     <>
       <div className="mt-8 grid grid-cols-3 gap-4">
-        <div className="col-span-3 xl:col-span-2">
-          <TestTable spending={spending} />
+        <div className="col-span-3 rounded-lg border bg-white p-4 shadow-md xl:col-span-2">
+          <h2 className="pb-4 text-xl font-bold">Latest transaction</h2>
+          <DashboardTable spending={spending} />
+          <Link
+            href="/transaction"
+            className="mt-2 block rounded-md border border-neutral-500 p-2 text-center text-sm font-medium hover:bg-neutral-200"
+          >
+            View all transactions
+          </Link>
         </div>
         <DashboardUpcomingBill spending={spending} getCategory={getCategory} />
       </div>

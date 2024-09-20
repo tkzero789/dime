@@ -105,9 +105,11 @@ export default function AllTransactionList({
           </button>
           <button
             onClick={handleNextMonth}
-            className={`flex items-center justify-center rounded-sm bg-gray-200 hover:bg-gray-300 ${hideNextMonthButton && "hidden"}`}
+            className={`flex items-center justify-center rounded-sm bg-gray-200 hover:bg-gray-300 ${hideNextMonthButton && "pointer-events-none bg-gray-100"}`}
           >
-            <ChevronRight />
+            <ChevronRight
+              className={`${hideNextMonthButton && "stroke-gray-400"}`}
+            />
           </button>
         </div>
         <h2 className="text-xl font-bold">

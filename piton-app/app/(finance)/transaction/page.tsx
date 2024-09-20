@@ -220,7 +220,7 @@ export default function TransactionPage() {
   console.log(transaction);
 
   return (
-    <div className="min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 sm:py-16">
+    <div className="sm:py-18 min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20">
       <h2 className="text-2xl font-bold">Transaction</h2>
       <div className="mx-auto mt-8 max-w-7xl">
         <TransactionSearch

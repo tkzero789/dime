@@ -65,7 +65,7 @@ export default function IncomePage() {
   };
 
   return (
-    <div className="min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 sm:py-16">
+    <div className="sm:py-18 min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20">
       <h2 className="text-2xl font-bold">Income</h2>
       <IncomeBarChart incomeList={incomeList} handleBarClick={handleBarClick} />
       <IncomeList

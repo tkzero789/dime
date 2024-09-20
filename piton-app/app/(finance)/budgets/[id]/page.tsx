@@ -16,13 +16,13 @@ import {
 import EditBudget from "@/app/(finance)/budgets/_components/budget/EditBudget";
 import BudgetItem from "@/app/(finance)/budgets/_components/budget/BudgetItem";
 import AddExpense from "@/app/(finance)/budgets/_components/expense/AddExpense";
-import ExpenseList from "@/app/(finance)/budgets/_components/expense/ExpenseList";
 import { ExpenseBarChart } from "@/app/(finance)/budgets/_components/chart/ExpenseBarChart";
 import { BudgetByIdRadicalChart } from "@/app/(finance)/budgets/_components/chart/BudgetByIdRadicalChart";
 import DeleteBudget from "../_components/budget/DeleteBudget";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, CircleEllipsis } from "lucide-react";
 import Link from "next/link";
+import ExpenseTable from "../_components/expense/ExpenseTable";
 
 type Props = {
   params: {
@@ -86,7 +86,7 @@ export default function BudgetByIdPage({ params }: Props) {
   };
 
   return (
-    <div className="min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 sm:py-16">
+    <div className="sm:py-18 min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20">
       <div className="flex items-center justify-between">
         <div className="hidden items-center gap-4 lg:flex">
           <Link
@@ -159,11 +159,13 @@ export default function BudgetByIdPage({ params }: Props) {
         </div>
       </div>
       <div className="mt-8 grid grid-cols-3 gap-4">
-        <ExpenseList
-          expenseDetail={expenseDetail}
-          currentUser={currentUser || "default"}
-          refreshData={() => getBudgetInfo()}
-        />
+        <div className="col-span-3 h-fit rounded-lg border bg-white p-4 shadow-md lg:col-span-3 xl:col-span-2">
+          <ExpenseTable
+            expenseDetail={expenseDetail}
+            currentUser={currentUser || "default"}
+            refreshData={() => getBudgetInfo()}
+          />
+        </div>
         <div className="hidden xl:block">
           <AddExpense
             paramId={params.id}
