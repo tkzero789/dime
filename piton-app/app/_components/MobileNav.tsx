@@ -11,6 +11,8 @@ import {
   PiggyBank,
   Banknote,
   LogOut,
+  RefreshCcwDot,
+  ArrowLeftRight,
 } from "lucide-react";
 import {
   Drawer,
@@ -36,12 +38,18 @@ import { SignOutButton } from "@clerk/nextjs";
 
 export default function MobileNav() {
   const path = usePathname();
+  const [open, setOpen] = React.useState(false);
+
+  const handleLinkClick = () => {
+    setOpen(false);
+  };
+
   // Menu list
   const menu = [
     { option: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
     { option: "Budgets", icon: Banknote, href: "/budgets" },
     { option: "Spending", icon: CircleDollarSign, href: "/spending" },
-    { option: "Saving", icon: PiggyBank, href: "/saving" },
+    { option: "Income", icon: Banknote, href: "/income" },
   ];
 
   return (
@@ -73,7 +81,7 @@ export default function MobileNav() {
           </li>
         ))}
 
-        <Drawer>
+        <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger className="flex h-full w-full flex-col items-center justify-center">
             <span className="text-medium">
               <Menu strokeWidth={2.25} />
@@ -85,8 +93,10 @@ export default function MobileNav() {
               <DrawerTitle className="text-center">More options</DrawerTitle>
             </DrawerHeader>
             <div className="grid w-full grid-cols-2 gap-4 px-4 pb-4">
+              {/* Help & Privacy */}
               <Link
-                href="/"
+                href="/dashboard"
+                onClick={handleLinkClick}
                 className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
               >
                 <span className="text-medium">
@@ -94,8 +104,10 @@ export default function MobileNav() {
                 </span>
                 <span className="font-medium text-medium">Help & Privacy</span>
               </Link>
+              {/* Noti */}
               <Link
-                href="/"
+                href="/dashboard"
+                onClick={handleLinkClick}
                 className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
               >
                 <span className="text-medium">
@@ -103,6 +115,51 @@ export default function MobileNav() {
                 </span>
                 <span className="font-medium text-medium">Notifications</span>
               </Link>
+              {/* Upgrade */}
+              <Link
+                href="/dashboard"
+                onClick={handleLinkClick}
+                className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
+              >
+                <span className="text-medium">
+                  <BookUp2 strokeWidth={2} />
+                </span>
+                <span className="font-medium text-medium">Upgrade</span>
+              </Link>
+              {/* Saving */}
+              <Link
+                href="/saving"
+                onClick={handleLinkClick}
+                className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
+              >
+                <span className="text-medium">
+                  <PiggyBank strokeWidth={2} />
+                </span>
+                <span className="font-medium text-medium">Saving</span>
+              </Link>
+              {/* Recurring */}
+              <Link
+                href="/recurring"
+                onClick={handleLinkClick}
+                className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
+              >
+                <span className="text-medium">
+                  <RefreshCcwDot strokeWidth={2} />
+                </span>
+                <span className="font-medium text-medium">Recurring</span>
+              </Link>
+              {/* Transaction */}
+              <Link
+                href="/transaction"
+                onClick={handleLinkClick}
+                className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
+              >
+                <span className="text-medium">
+                  <ArrowLeftRight strokeWidth={2} />
+                </span>
+                <span className="font-medium text-medium">Transaction</span>
+              </Link>
+              {/* Sign Out */}
               <AlertDialog>
                 <AlertDialogTrigger className="flex flex-col items-center justify-center rounded-lg border p-2 text-medium shadow-md">
                   <span className="text-medium">
@@ -128,15 +185,6 @@ export default function MobileNav() {
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-              <Link
-                href="/"
-                className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
-              >
-                <span className="text-medium">
-                  <BookUp2 strokeWidth={2} />
-                </span>
-                <span className="font-medium text-medium">Upgrade</span>
-              </Link>
             </div>
           </DrawerContent>
         </Drawer>

@@ -43,12 +43,22 @@ export function DashboardTable({ spending }: Props) {
   return (
     <Table className="rounded-lg bg-white">
       <TableHeader>
-        <TableRow className="pointer-events-none border-none bg-neutral-200 text-sm font-semibold text-medium">
-          <TableHead className="w-[100px] rounded-l-lg">Date</TableHead>
-          <TableHead>Name</TableHead>
-          <TableHead>Category</TableHead>
-          <TableHead>Payment Method</TableHead>
-          <TableHead className="rounded-r-lg text-right">Amount</TableHead>
+        <TableRow className="pointer-events-none border-none bg-neutral-200">
+          <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-medium">
+            Date
+          </TableHead>
+          <TableHead className="text-sm font-semibold text-medium">
+            Name
+          </TableHead>
+          <TableHead className="text-sm font-semibold text-medium">
+            Category
+          </TableHead>
+          <TableHead className="text-sm font-semibold text-medium">
+            Payment Method
+          </TableHead>
+          <TableHead className="rounded-r-lg text-right text-sm font-semibold text-medium">
+            Amount
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

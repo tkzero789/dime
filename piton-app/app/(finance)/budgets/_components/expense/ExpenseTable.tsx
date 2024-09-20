@@ -60,12 +60,20 @@ export default function ExpenseTable({
   return (
     <Table className="rounded-lg bg-white">
       <TableHeader>
-        <TableRow className="pointer-events-none border-none bg-neutral-200 text-sm font-semibold text-medium">
-          <TableHead className="w-[100px] rounded-l-lg">Date</TableHead>
-          <TableHead>Name</TableHead>
-          <TableHead>Payment Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
-          <TableHead className="rounded-r-lg text-center"></TableHead>
+        <TableRow className="pointer-events-none border-none bg-neutral-200">
+          <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-medium">
+            Date
+          </TableHead>
+          <TableHead className="text-sm font-semibold text-medium">
+            Name
+          </TableHead>
+          <TableHead className="text-sm font-semibold text-medium">
+            Payment Method
+          </TableHead>
+          <TableHead className="text-right text-sm font-semibold text-medium">
+            Amount
+          </TableHead>
+          <TableHead className="rounded-r-lg text-center text-sm font-semibold text-medium"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

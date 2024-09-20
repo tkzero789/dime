@@ -74,7 +74,7 @@ export function IncomeBarChart({ incomeList, handleBarClick }: Props) {
             <Bar
               dataKey="amount"
               fill="var(--color-income)"
-              radius={8}
+              radius={4}
               activeBar={
                 <Rectangle
                   fill="#14b8a6"

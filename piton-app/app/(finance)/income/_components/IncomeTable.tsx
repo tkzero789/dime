@@ -1,10 +1,4 @@
-"use client";
-
 import React from "react";
-import { RecurrenceDetail } from "@/types/types";
-import FormatDate from "@/utils/formatDate";
-import FormatString from "@/utils/formatString";
-import FormatNumber from "@/utils/formatNumber";
 import {
   Table,
   TableBody,
@@ -19,26 +13,36 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { IncomeDetail } from "@/types/types";
 import { useUser } from "@clerk/nextjs";
+import FormatDate from "@/utils/formatDate";
+import FormatString from "@/utils/formatString";
+import FormatNumber from "@/utils/formatNumber";
 import { Ellipsis } from "lucide-react";
-import EditRecurring from "./EditRecurring";
-import DeleteRecurring from "./DeleteRecurring";
+import EditIncome from "./EditIncome";
+import DeleteIncome from "./DeleteIncome";
 
 type Props = {
-  recurringList: RecurrenceDetail[];
+  filterIncome: IncomeDetail[];
+  selectedMonth: string | null;
+  refreshData: () => void;
 };
 
-export default function RecurringTable({ recurringList }: Props) {
+export default function IncomeTable({
+  filterIncome,
+  selectedMonth,
+  refreshData,
+}: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
   React.useEffect(() => {
     user && calculateTotalAmount();
-  }, [user, recurringList]);
+  }, [user, filterIncome]);
 
   const [totalAmount, setTotalAmount] = React.useState<number>(0);
   const calculateTotalAmount = () => {
-    const totalAmount = recurringList.reduce(
+    const totalAmount = filterIncome.reduce(
       (acc, curr) => acc + Number(curr.amount),
       0,
     );
@@ -69,27 +73,6 @@ export default function RecurringTable({ recurringList }: Props) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const getCategory = (category: string) => {
-    if (
-      ["car payment", "credit card payment", "insurance", "loan"].includes(
-        category,
-      )
-    ) {
-      return "bg-sky-300 text-sky-700";
-    } else if (
-      ["Budget Expense", "monthly subscription", "single payment"].includes(
-        category,
-      )
-    ) {
-      return "bg-teal-300 text-teal-700";
-    } else if (["mortgage", "rent", "bill and utilities"].includes(category)) {
-      return "bg-pink-300 text-pink-700";
-    } else {
-      return "bg-amber-300 text-amber-700";
-    }
-  };
-
   return (
     <Table className="rounded-lg bg-white">
       <TableHeader>
@@ -113,36 +96,34 @@ export default function RecurringTable({ recurringList }: Props) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {recurringList.map((item) => (
+        {filterIncome.map((income) => (
           <TableRow
-            key={item.id}
-            className={`text-xs font-medium lg:text-sm ${isClick === item.id ? "bg-neutral-100" : ""}`}
+            key={income.id}
+            className={`text-xs font-medium lg:text-sm ${isClick === income.id ? "bg-neutral-100" : ""}`}
           >
             <TableCell className="px-4 py-2 font-medium">
-              <FormatDate numMonthNumDateUTC={new Date(item.date)} />
+              <FormatDate numMonthNumDateUTC={new Date(income.date)} />
             </TableCell>
-            <TableCell className="px-4 py-2">{item.name}</TableCell>
+            <TableCell className="px-4 py-2">{income.name}</TableCell>
             <TableCell className="px-4 py-2">
-              <div
-                className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 ${getCategory(item.category)} `}
-              >
+              <div className="flex w-fit items-center justify-center rounded-full bg-pink-300 bg-opacity-50 px-2 py-1 text-pink-700">
                 <span className="text-[13px]">
-                  <FormatString text={item.category} />
+                  <FormatString text={income.category} />
                 </span>
               </div>
             </TableCell>
             <TableCell className="px-4 py-2">
-              <FormatString text={item.payment_method} />
+              <FormatString text={income.payment_method} />
             </TableCell>
-            <TableCell className="px-4 py-2 text-right font-semibold">
-              $<FormatNumber number={Number(item.amount)} />
+            <TableCell className="px-4 py-2 text-right font-semibold text-green-700">
+              $<FormatNumber number={Number(income.amount)} />
             </TableCell>
             <TableCell className="text-center">
               <Popover>
                 <div ref={popoverRef}>
                   <PopoverTrigger
                     className="flex w-full items-center justify-center"
-                    onClick={() => handleOnClick(item.id)}
+                    onClick={() => handleOnClick(income.id)}
                   >
                     <Ellipsis className="rounded-md transition hover:bg-neutral-200" />
                   </PopoverTrigger>
@@ -153,13 +134,15 @@ export default function RecurringTable({ recurringList }: Props) {
                     Action
                   </div>
                   <div className="p-1">
-                    <EditRecurring
+                    <EditIncome
                       currentUser={currentUser || "default"}
-                      recurringInfo={item}
+                      incomeInfo={income}
+                      refreshData={refreshData}
                     />
-                    <DeleteRecurring
+                    <DeleteIncome
                       currentUser={currentUser || "default"}
-                      recurringId={item.id}
+                      incomeId={income.id}
+                      refreshData={refreshData}
                     />
                   </div>
                 </PopoverContent>
@@ -176,9 +159,8 @@ export default function RecurringTable({ recurringList }: Props) {
           >
             Total
           </TableCell>
-          <TableCell className="text-right font-bold">
-            -$
-            <FormatNumber number={totalAmount} />
+          <TableCell className="text-right font-bold text-green-700">
+            $<FormatNumber number={totalAmount} />
           </TableCell>
           <TableCell className="rounded-br-lg"></TableCell>
         </TableRow>

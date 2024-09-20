@@ -61,7 +61,7 @@ export default function SpendingBreakdown({ aggregatedData }: Props) {
 
   return (
     <div className="col-span-3 flex flex-col gap-4 rounded-lg border bg-white p-6 shadow-md xl:col-span-1">
-      <h2 className="text-2xl font-semibold">Breakdown</h2>
+      <h2 className="text-xl font-bold">Breakdown</h2>
       <ul className="flex flex-col gap-4">
         {aggregatedData.map((data, index) => (
           <li
