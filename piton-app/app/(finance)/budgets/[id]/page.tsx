@@ -12,7 +12,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import EditBudget from "@/app/(finance)/budgets/_components/budget/EditBudget";
 import BudgetItem from "@/app/(finance)/budgets/_components/budget/BudgetItem";
 import AddExpense from "@/app/(finance)/budgets/_components/expense/AddExpense";
@@ -20,7 +27,7 @@ import { ExpenseBarChart } from "@/app/(finance)/budgets/_components/chart/Expen
 import { BudgetByIdRadicalChart } from "@/app/(finance)/budgets/_components/chart/BudgetByIdRadicalChart";
 import DeleteBudget from "../_components/budget/DeleteBudget";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, CircleEllipsis } from "lucide-react";
+import { ChevronLeft, CircleEllipsis, CirclePlus } from "lucide-react";
 import Link from "next/link";
 import ExpenseTable from "../_components/expense/ExpenseTable";
 
@@ -36,6 +43,8 @@ export default function BudgetByIdPage({ params }: Props) {
 
   const [budgetInfo, setBudgetInfo] = React.useState<BudgetDetail[]>([]);
   const [expenseDetail, setExpenseDetail] = React.useState<ExpenseDetail[]>([]);
+
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     user && getBudgetInfo();
@@ -160,6 +169,28 @@ export default function BudgetByIdPage({ params }: Props) {
       </div>
       <div className="mt-8 grid grid-cols-3 gap-4">
         <div className="col-span-3 h-fit rounded-lg border bg-white p-4 shadow-md lg:col-span-3 xl:col-span-2">
+          <div className="flex items-center justify-between pb-4 xl:hidden">
+            <h2 className="text-xl font-bold">Expense list</h2>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="flex items-center justify-center gap-2"
+                >
+                  <CirclePlus strokeWidth={1.75} color="#555353" />
+                  <span className="font-semibold text-medium">Add expense</span>
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="h-dvh sm:h-auto">
+                <AddExpense
+                  paramId={params.id}
+                  currentUser={currentUser || "default"}
+                  refreshData={() => getBudgetInfo()}
+                  setOpen={setOpen}
+                />
+              </DialogContent>
+            </Dialog>
+          </div>
           <ExpenseTable
             expenseDetail={expenseDetail}
             currentUser={currentUser || "default"}
@@ -171,6 +202,7 @@ export default function BudgetByIdPage({ params }: Props) {
             paramId={params.id}
             currentUser={currentUser || "default"}
             refreshData={() => getBudgetInfo()}
+            setOpen={setOpen}
           />
         </div>
       </div>

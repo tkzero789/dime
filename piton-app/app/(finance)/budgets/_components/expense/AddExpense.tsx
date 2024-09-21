@@ -13,17 +13,20 @@ import {
 import toast from "react-hot-toast";
 import { ExpenseDatePicker } from "./ExpenseDatePicker";
 import { format } from "date-fns";
+import { DialogClose } from "@/components/ui/dialog";
 
 type Props = {
   paramId: string;
   currentUser: string | undefined;
   refreshData: () => void;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function AddExpense({
   paramId,
   currentUser,
   refreshData,
+  setOpen,
 }: Props) {
   const [name, setName] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
@@ -62,7 +65,10 @@ export default function AddExpense({
   };
 
   return (
-    <div className="col-span-1 hidden h-fit flex-col gap-3 rounded-lg border bg-white p-4 shadow-md lg:flex">
+    <div className="col-span-1 flex h-full flex-col gap-4 rounded-lg border-none bg-white p-0 shadow-none xl:h-fit xl:gap-3 xl:border xl:p-4 xl:shadow-md">
+      <div className="block text-center text-lg font-semibold tracking-tight xl:hidden">
+        Add New Expense
+      </div>
       {/* Name */}
       <Input
         placeholder="Expense name"
@@ -108,7 +114,11 @@ export default function AddExpense({
       </Select>
       <Button
         disabled={!(name && amount && paymentMethod)}
-        onClick={() => addNewExpense()}
+        onClick={() => {
+          addNewExpense();
+          setOpen(false);
+        }}
+        className="mt-auto xl:mt-0"
       >
         Add New Expense
       </Button>

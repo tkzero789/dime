@@ -67,7 +67,7 @@ export default function ExpenseTable({
           <TableHead className="text-sm font-semibold text-medium">
             Name
           </TableHead>
-          <TableHead className="text-sm font-semibold text-medium">
+          <TableHead className="truncate text-sm font-semibold text-medium">
             Payment Method
           </TableHead>
           <TableHead className="text-right text-sm font-semibold text-medium">
@@ -85,7 +85,7 @@ export default function ExpenseTable({
             <TableCell className="px-4 py-2 font-medium">
               <FormatDate numMonthNumDateUTC={new Date(expense.date)} />
             </TableCell>
-            <TableCell className="px-4 py-2">{expense.name}</TableCell>
+            <TableCell className="truncate px-4 py-2">{expense.name}</TableCell>
             <TableCell className="px-4 py-2">
               <FormatString text={expense.payment_method} />
             </TableCell>

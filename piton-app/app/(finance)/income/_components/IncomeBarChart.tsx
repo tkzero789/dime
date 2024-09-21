@@ -10,7 +10,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { IncomeDetail } from "@/types/types";
-import GetCurrentMonth from "@/utils/getCurrentMonth";
+import useWindowSize from "@/hooks/useWindowSize";
+import IncomeCustomTooltip from "./IncomeCustomTooltip";
 
 const chartConfig = {
   income: {
@@ -50,11 +51,13 @@ type Props = {
 
 export function IncomeBarChart({ incomeList, handleBarClick }: Props) {
   const aggregatedData = aggregateIncomeByMonth(incomeList);
+  const { width } = useWindowSize();
+
   return (
     <Card className="mt-8 rounded-lg border shadow-md">
       <CardHeader>
         <CardTitle className="text-xl font-bold tracking-normal">
-          <GetCurrentMonth monthYear={new Date()} />
+          Monthly Income Distribution
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -64,13 +67,16 @@ export function IncomeBarChart({ incomeList, handleBarClick }: Props) {
         >
           <BarChart accessibilityLayer data={aggregatedData}>
             <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-            />
-            <ChartTooltip content={<ChartTooltipContent />} />
+            {(width ?? 0) > 768 && (
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+              />
+            )}
+
+            <ChartTooltip content={<IncomeCustomTooltip />} />
             <Bar
               dataKey="amount"
               fill="var(--color-income)"

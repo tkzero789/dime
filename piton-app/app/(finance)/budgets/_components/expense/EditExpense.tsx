@@ -105,41 +105,46 @@ export default function EditExpense({
         </span>
         <span className="font-semibold text-medium">Edit</span>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="h-dvh sm:h-auto">
         <DialogHeader>
           <DialogTitle className="text-center">Edit Expense</DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="flex flex-col gap-4 text-left">
             {/* Expense Name */}
             <div>
-              <label className="font-semibold text-dark">Expense Name</label>
+              <label className="block pb-2 font-semibold text-dark">
+                Expense Name
+              </label>
               <Input
-                className="mt-1"
                 defaultValue={expenseInfo.name}
                 onChange={(e) => setExpenseName(e.target.value)}
               />
             </div>
             {/* Amount */}
-            <div className="mt-2">
-              <label className="font-semibold text-dark">Amount</label>
+            <div>
+              <label className="block pb-2 font-semibold text-dark">
+                Amount
+              </label>
               <Input
                 type="number"
-                className="mt-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 defaultValue={Number(expenseInfo.amount)}
                 onChange={(e) => setExpenseAmount(e.target.value)}
               />
             </div>
-            <div className="mt-2">
-              <label className="font-semibold text-dark">Date</label>
+            <div>
+              <label className="block pb-2 font-semibold text-dark">Date</label>
               <ExpenseDatePicker date={expenseDate} setDate={setExpenseDate} />
             </div>
             {/* Payment method */}
-            <div className="mt-2">
-              <label className="font-semibold text-dark">Payment Method</label>
+            <div>
+              <label className="block pb-2 font-semibold text-dark">
+                Payment Method
+              </label>
               <Select
                 value={paymentMethod}
                 onValueChange={(value) => setPaymentMethod(value)}
               >
-                <SelectTrigger className="mt-1">
+                <SelectTrigger>
                   <SelectValue className="text-[#a9a9a9]" />
                 </SelectTrigger>
                 <SelectContent>

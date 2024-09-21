@@ -11,6 +11,7 @@ import { IncomeDetail } from "@/types/types";
 import IncomeTable from "./_components/IncomeTable";
 import GetCurrentMonth from "@/utils/getCurrentMonth";
 import AddIncome from "./_components/AddIncome";
+import FormatMonth from "@/utils/formatMonth";
 
 export default function IncomePage() {
   const { user } = useUser();
@@ -74,7 +75,11 @@ export default function IncomePage() {
       <div className="mt-8 h-fit rounded-lg border bg-white p-4 shadow-md">
         <div className="flex items-center justify-between pb-4">
           <h2 className="text-xl font-bold">
-            <GetCurrentMonth month={new Date()} />
+            {selectedMonth ? (
+              <FormatMonth monthYear={selectedMonth} />
+            ) : (
+              <GetCurrentMonth monthYear={new Date()} />
+            )}
           </h2>
           <AddIncome
             currentUser={currentUser || "default"}
@@ -83,7 +88,6 @@ export default function IncomePage() {
         </div>
         <IncomeTable
           filterIncome={filterIncomeList}
-          selectedMonth={selectedMonth}
           refreshData={getIncomeData}
         />
       </div>

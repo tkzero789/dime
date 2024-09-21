@@ -24,15 +24,10 @@ import DeleteIncome from "./DeleteIncome";
 
 type Props = {
   filterIncome: IncomeDetail[];
-  selectedMonth: string | null;
   refreshData: () => void;
 };
 
-export default function IncomeTable({
-  filterIncome,
-  selectedMonth,
-  refreshData,
-}: Props) {
+export default function IncomeTable({ filterIncome, refreshData }: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
@@ -86,7 +81,7 @@ export default function IncomeTable({
           <TableHead className="text-sm font-semibold text-medium">
             Category
           </TableHead>
-          <TableHead className="text-sm font-semibold text-medium">
+          <TableHead className="truncate text-sm font-semibold text-medium">
             Payment Method
           </TableHead>
           <TableHead className="text-right text-sm font-semibold text-medium">
@@ -107,7 +102,7 @@ export default function IncomeTable({
             <TableCell className="px-4 py-2">{income.name}</TableCell>
             <TableCell className="px-4 py-2">
               <div className="flex w-fit items-center justify-center rounded-full bg-pink-300 bg-opacity-50 px-2 py-1 text-pink-700">
-                <span className="text-[13px]">
+                <span className="truncate text-[13px]">
                   <FormatString text={income.category} />
                 </span>
               </div>
