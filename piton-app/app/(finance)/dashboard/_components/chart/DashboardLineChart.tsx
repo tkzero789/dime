@@ -18,6 +18,7 @@ import {
 import { ExpenseDetail, RecurrenceDetail, SingleDetail } from "@/types/types";
 import GetCurrentMonth from "@/utils/getCurrentMonth";
 import LineCustomTooltip from "./LineCustomTooltip";
+import useWindowSize from "@/hooks/useWindowSize";
 
 export const description = "A multiple line chart";
 
@@ -37,6 +38,7 @@ type Props = {
 };
 
 export function DashboardLineChart({ spending }: Props) {
+  const { width } = useWindowSize();
   const currentMonth = new Date().getUTCMonth();
   const prevMonth = new Date();
   prevMonth.setUTCMonth(currentMonth - 1);
@@ -142,18 +144,25 @@ export function DashboardLineChart({ spending }: Props) {
             }}
           >
             <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value, index) => {
-                const date = new Date(value);
-                const day = date.getUTCDate();
-                const isLastDate = index === newSpendingList.length - 1;
-                return isLastDate ? "" : day % 2 !== 0 ? `${String(day)}` : "";
-              }}
-            />
+            {(width ?? 0) > 767 && (
+              <XAxis
+                dataKey="date"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value, index) => {
+                  const date = new Date(value);
+                  const day = date.getUTCDate();
+                  const isLastDate = index === newSpendingList.length - 1;
+                  return isLastDate
+                    ? ""
+                    : day % 2 !== 0
+                      ? `${String(day)}`
+                      : "";
+                }}
+              />
+            )}
+
             <ChartTooltip content={<LineCustomTooltip />} />
             <Line
               dataKey="currentAmount"

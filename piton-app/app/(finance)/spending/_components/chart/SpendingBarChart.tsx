@@ -4,13 +4,7 @@ import React from "react";
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -80,11 +74,9 @@ export function SpendingBarChart({ finalData }: Props) {
   return (
     <Card className="mt-8 rounded-lg border shadow-md">
       <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:flex-row lg:items-center">
-        <div>
-          <CardTitle className="text-xl font-bold tracking-normal">
-            Income and Expenditure
-          </CardTitle>
-        </div>
+        <CardTitle className="text-xl font-bold tracking-normal">
+          Income and Expenditure
+        </CardTitle>
         <Button
           variant="ghost"
           className="w-full px-8 lg:w-auto"

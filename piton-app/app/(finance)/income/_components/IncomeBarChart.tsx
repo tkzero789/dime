@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,6 +14,7 @@ import {
 import { IncomeDetail } from "@/types/types";
 import useWindowSize from "@/hooks/useWindowSize";
 import IncomeCustomTooltip from "./IncomeCustomTooltip";
+import { Button } from "@/components/ui/button";
 
 const chartConfig = {
   income: {
@@ -50,32 +53,52 @@ type Props = {
 };
 
 export function IncomeBarChart({ incomeList, handleBarClick }: Props) {
-  const aggregatedData = aggregateIncomeByMonth(incomeList);
+  const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
   const { width } = useWindowSize();
+
+  const aggregatedData = aggregateIncomeByMonth(incomeList);
+
+  React.useEffect(() => {
+    const currentMonth = new Date().getMonth();
+    if (currentMonth >= 6) {
+      setIsFirstHalf(false);
+    }
+  }, []);
+
+  const filteredData = isFirstHalf
+    ? aggregatedData.slice(0, 6)
+    : aggregatedData.slice(6, 12);
 
   return (
     <Card className="mt-8 rounded-lg border shadow-md">
-      <CardHeader>
+      <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:flex-row lg:items-center">
         <CardTitle className="text-xl font-bold tracking-normal">
           Monthly Income Distribution
         </CardTitle>
+        <Button
+          variant="ghost"
+          className="block w-full px-8 md:hidden lg:w-auto"
+          onClick={() => setIsFirstHalf(!isFirstHalf)}
+        >
+          {isFirstHalf ? "Show July to December" : "Show January to June"}
+        </Button>
       </CardHeader>
       <CardContent>
         <ChartContainer
           config={chartConfig}
           className="aspect-auto h-[200px] w-full xl:h-[280px]"
         >
-          <BarChart accessibilityLayer data={aggregatedData}>
+          <BarChart
+            accessibilityLayer
+            data={(width ?? 0) > 768 ? aggregatedData : filteredData}
+          >
             <CartesianGrid vertical={false} />
-            {(width ?? 0) > 768 && (
-              <XAxis
-                dataKey="month"
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-              />
-            )}
-
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+            />
             <ChartTooltip content={<IncomeCustomTooltip />} />
             <Bar
               dataKey="amount"
