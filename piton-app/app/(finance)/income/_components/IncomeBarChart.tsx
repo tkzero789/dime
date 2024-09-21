@@ -90,7 +90,7 @@ export function IncomeBarChart({ incomeList, handleBarClick }: Props) {
         >
           <BarChart
             accessibilityLayer
-            data={(width ?? 0) > 768 ? aggregatedData : filteredData}
+            data={(width ?? 0) > 767 ? aggregatedData : filteredData}
           >
             <CartesianGrid vertical={false} />
             <XAxis

@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
 import {
   Card,
@@ -16,6 +17,8 @@ import {
 import { ExpenseDetail } from "@/types/types";
 import ExpenseCustomTooltip from "./ExpenseCustomTooltip";
 import GetCurrentMonth from "@/utils/getCurrentMonth";
+import { Button } from "@/components/ui/button";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const chartConfig = {
   spent: {
@@ -44,9 +47,18 @@ type Props = {
 };
 
 export function ExpenseBarChart({ expenseDetail }: Props) {
+  const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
+  const { width } = useWindowSize();
+
+  React.useEffect(() => {
+    const currentMonth = new Date().getMonth();
+    if (currentMonth >= 6) {
+      setIsFirstHalf(false);
+    }
+  }, []);
+
   const currentMonth = new Date();
 
-  // Generate all days of the current month
   const allDaysInCurrentMonth = getAllDaysInCurrentMonth();
 
   // Aggregate expenses by date
@@ -61,31 +73,45 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
     }
   });
 
-  // Merge the aggregated data with all days in the current month
   const mergedData = allDaysInCurrentMonth.map((date) => ({
     date,
     amount: expenseMap.get(date) || 0,
   }));
 
-  // Sort the merged data
   const sortedExpenseDetail = mergedData.sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
 
+  const filteredData = isFirstHalf
+    ? sortedExpenseDetail.slice(0, 15)
+    : sortedExpenseDetail.slice(15, sortedExpenseDetail.length);
+
   return (
     <Card className="shadow-md">
-      <CardHeader>
-        <CardTitle className="text-xl font-bold tracking-normal">
-          <GetCurrentMonth month={currentMonth} />
-        </CardTitle>
-        <CardDescription>Your current spending in this month</CardDescription>
+      <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:block">
+        <div>
+          <CardTitle className="text-xl font-bold tracking-normal">
+            <GetCurrentMonth monthYear={currentMonth} />
+          </CardTitle>
+          <CardDescription>Your current spending in this month</CardDescription>
+        </div>
+        <Button
+          variant="ghost"
+          className="block w-full px-8 md:hidden lg:w-auto"
+          onClick={() => setIsFirstHalf(!isFirstHalf)}
+        >
+          {isFirstHalf ? "Show Last Half" : "Show First Half"}
+        </Button>
       </CardHeader>
       <CardContent>
         <ChartContainer
           config={chartConfig}
           className="aspect-auto h-[200px] w-full xl:h-[280px]"
         >
-          <BarChart accessibilityLayer data={sortedExpenseDetail}>
+          <BarChart
+            accessibilityLayer
+            data={(width ?? 0) > 767 ? sortedExpenseDetail : filteredData}
+          >
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="date"

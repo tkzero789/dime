@@ -1,6 +1,5 @@
 .rdp-button {
   border: none;
-  position: relative;
 }
 
 .rdp-button.checked::after {

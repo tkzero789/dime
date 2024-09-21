@@ -13,7 +13,6 @@ import {
 import toast from "react-hot-toast";
 import { ExpenseDatePicker } from "./ExpenseDatePicker";
 import { format } from "date-fns";
-import { DialogClose } from "@/components/ui/dialog";
 
 type Props = {
   paramId: string;
@@ -118,7 +117,7 @@ export default function AddExpense({
           addNewExpense();
           setOpen(false);
         }}
-        className="mt-auto xl:mt-0"
+        className="mt-4 xl:mt-0"
       >
         Add New Expense
       </Button>

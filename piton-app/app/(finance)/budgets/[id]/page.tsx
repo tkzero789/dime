@@ -167,7 +167,7 @@ export default function BudgetByIdPage({ params }: Props) {
           )}
         </div>
       </div>
-      <div className="mt-8 grid grid-cols-3 gap-4">
+      <div className="mt-4 grid grid-cols-3 gap-4 xl:mt-8">
         <div className="col-span-3 h-fit rounded-lg border bg-white p-4 shadow-md lg:col-span-3 xl:col-span-2">
           <div className="flex items-center justify-between pb-4 xl:hidden">
             <h2 className="text-xl font-bold">Expense list</h2>

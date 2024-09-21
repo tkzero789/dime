@@ -192,7 +192,7 @@ export default function CreateBudget({ refreshData }: Props) {
             </span>
           </Button>
         </DialogTrigger>
-        <DialogContent className="h-dvh sm:h-auto">
+        <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
           <DialogHeader>
             <DialogTitle className="text-center">Create New Budget</DialogTitle>
             {isExceed ? (
@@ -281,7 +281,7 @@ export default function CreateBudget({ refreshData }: Props) {
               </DialogDescription>
             )}
           </DialogHeader>
-          <DialogFooter className="mt-4 sm:justify-start">
+          <DialogFooter className="flex-col sm:justify-start">
             <DialogClose asChild>
               <Button
                 className="w-full"

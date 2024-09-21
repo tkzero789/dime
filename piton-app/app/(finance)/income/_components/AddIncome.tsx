@@ -27,7 +27,6 @@ import { Income } from "@/db/schema";
 import { IncomeDatePicker } from "./IncomeDatePicker";
 import toast from "react-hot-toast";
 
-
 type Props = {
   currentUser: string | undefined;
   refreshData: () => void;
@@ -59,7 +58,7 @@ export default function AddIncome({ currentUser, refreshData }: Props) {
 
     if (result) {
       toast.success("New Income Added!");
-      refreshData()
+      refreshData();
     }
   };
 
@@ -83,7 +82,7 @@ export default function AddIncome({ currentUser, refreshData }: Props) {
           <span className="font-semibold text-medium">Add Income</span>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
         <DialogHeader>
           <DialogTitle className="text-center">Add Income</DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
@@ -142,7 +141,7 @@ export default function AddIncome({ currentUser, refreshData }: Props) {
             </Select>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="mt-4 sm:justify-start">
+        <DialogFooter className="flex-col sm:justify-start">
           <DialogClose asChild>
             <Button
               className="w-full"
