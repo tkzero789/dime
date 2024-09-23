@@ -10,6 +10,7 @@ import {
   Single,
 } from "@/db/schema";
 import {
+  BudgetDetail,
   ExpenseDetail,
   IncomeDetail,
   RecurrenceDetail,
@@ -31,6 +32,7 @@ export default function DashboardPage() {
   const [spending, setSpending] = React.useState<
     (NewExpenseDetail | RecurrenceDetail | SingleDetail)[]
   >([]);
+  const [budget, setBudget] = React.useState<BudgetDetail[]>([]);
 
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
@@ -40,6 +42,7 @@ export default function DashboardPage() {
     }
   }, [user]);
 
+  const currentDate = new Date().getUTCDate();
   const currentMonth = new Date().getUTCMonth();
   const currentYear = new Date().getUTCFullYear();
   const firstDayOfPrevMonth = new Date(
@@ -99,10 +102,39 @@ export default function DashboardPage() {
               lte(Single.date, lastDayOfMonth),
             ),
           ),
+        db
+          .select({
+            ...getTableColumns(Budgets),
+            total_spend: sql`sum(${BudgetExpenses.amount})`.mapWith(Number),
+            total_item: sql`count(${BudgetExpenses.id})`.mapWith(Number),
+            remaining:
+              sql`${Budgets.amount} - sum(${BudgetExpenses.amount})`.mapWith(
+                Number,
+              ),
+          })
+          .from(Budgets)
+          .leftJoin(BudgetExpenses, eq(Budgets.id, BudgetExpenses.budget_id))
+          .where(
+            and(
+              eq(
+                Budgets.created_by,
+                user?.primaryEmailAddress?.emailAddress ?? "",
+              ),
+              gte(Budgets.created_at, new Date(firstDayOfMonth)),
+              lte(Budgets.created_at, new Date(lastDayOfMonth)),
+            ),
+          )
+          .groupBy(Budgets.id)
+          .orderBy(desc(Budgets.created_at)),
       ]);
       if (batchResponse) {
-        let [incomeResult, expenseResult, recurringResult, singleResult] =
-          batchResponse;
+        let [
+          incomeResult,
+          expenseResult,
+          recurringResult,
+          singleResult,
+          budgetResult,
+        ] = batchResponse;
         setIncome(incomeResult);
 
         // Add category property to each object in expenseResult
@@ -120,6 +152,8 @@ export default function DashboardPage() {
         );
 
         setSpending(combineSpending);
+
+        setBudget(budgetResult);
       }
     } catch (error) {
       console.log(error);
@@ -132,7 +166,7 @@ export default function DashboardPage() {
         <GetGreeting />
       </h2>
       <DashboardTopSection spending={spending} income={income} />
-      <DashboardMidSection spending={spending} />
+      <DashboardMidSection spending={spending} budget={budget} />
     </div>
   );
 }

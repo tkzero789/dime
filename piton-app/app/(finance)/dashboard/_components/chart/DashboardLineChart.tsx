@@ -123,7 +123,7 @@ export function DashboardLineChart({ spending }: Props) {
         <CardTitle className="text-xl font-bold tracking-normal">
           <GetCurrentMonth monthYear={new Date()} />
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-medium">
           Daily spending trends for{" "}
           <span>{prevMonth.toLocaleString("en-US", { month: "long" })}</span>{" "}
           vs. <GetCurrentMonth month={new Date()} />

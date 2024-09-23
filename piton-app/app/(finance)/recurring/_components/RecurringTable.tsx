@@ -106,6 +106,9 @@ export default function RecurringTable({ recurringList }: Props) {
           <TableHead className="text-sm font-semibold text-medium">
             Payment Method
           </TableHead>
+          <TableHead className="text-sm font-semibold text-medium">
+            Repeat
+          </TableHead>
           <TableHead className="text-right text-sm font-semibold text-medium">
             Amount
           </TableHead>
@@ -134,10 +137,11 @@ export default function RecurringTable({ recurringList }: Props) {
             <TableCell className="px-4 py-2">
               <FormatString text={item.payment_method} />
             </TableCell>
+            <TableCell className="px-4 py-2">Monthly</TableCell>
             <TableCell className="px-4 py-2 text-right font-semibold">
               $<FormatNumber number={Number(item.amount)} />
             </TableCell>
-            <TableCell className="text-center">
+            <TableCell className="px-4 py-2 text-center">
               <Popover>
                 <div ref={popoverRef}>
                   <PopoverTrigger
@@ -171,7 +175,7 @@ export default function RecurringTable({ recurringList }: Props) {
       <TableFooter>
         <TableRow className="pointer-events-none bg-neutral-200">
           <TableCell
-            colSpan={4}
+            colSpan={5}
             className="rounded-bl-lg text-sm font-semibold text-medium"
           >
             Total

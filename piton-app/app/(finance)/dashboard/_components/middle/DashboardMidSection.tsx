@@ -1,8 +1,14 @@
-import { ExpenseDetail, RecurrenceDetail, SingleDetail } from "@/types/types";
+import {
+  BudgetDetail,
+  ExpenseDetail,
+  RecurrenceDetail,
+  SingleDetail,
+} from "@/types/types";
 import React from "react";
-import DashboardUpcomingBill from "./DashboardUpcomingBill";
+import DashboardUpcomingBill from "../../../recurring/_components/UpcomingRecurring";
 import { DashboardTable } from "./DashboardTable";
 import Link from "next/link";
+import DashboardBudget from "./DashboardBudget";
 
 type NewExpenseDetail = ExpenseDetail & {
   category: string;
@@ -10,9 +16,10 @@ type NewExpenseDetail = ExpenseDetail & {
 
 type Props = {
   spending: (NewExpenseDetail | RecurrenceDetail | SingleDetail)[];
+  budget: BudgetDetail[];
 };
 
-export default function DashboardMidSection({ spending }: Props) {
+export default function DashboardMidSection({ spending, budget }: Props) {
   const getCategory = (category: string) => {
     if (
       ["car payment", "credit card payment", "insurance", "loan"].includes(
@@ -35,7 +42,7 @@ export default function DashboardMidSection({ spending }: Props) {
   return (
     <>
       <div className="mt-8 grid grid-cols-3 gap-4">
-        <div className="col-span-3 rounded-lg border bg-white p-4 shadow-md xl:col-span-2">
+        <div className="col-span-3 h-fit rounded-lg border bg-white p-6 shadow-md xl:col-span-2">
           <h2 className="pb-4 text-xl font-bold">Latest transaction</h2>
           <DashboardTable spending={spending} />
           <Link
@@ -45,7 +52,8 @@ export default function DashboardMidSection({ spending }: Props) {
             View all transactions
           </Link>
         </div>
-        <DashboardUpcomingBill spending={spending} getCategory={getCategory} />
+        <DashboardBudget budget={budget} />
+        {/* <DashboardUpcomingBill spending={spending} getCategory={getCategory} /> */}
       </div>
     </>
   );

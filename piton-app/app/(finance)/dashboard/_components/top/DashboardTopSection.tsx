@@ -7,6 +7,7 @@ import {
 import React from "react";
 import { DashboardLineChart } from "../chart/DashboardLineChart";
 import DashboardAccountCard from "./DashboardFinanceOverview";
+import DashboardSeeUpcoming from "./DashboardSeeUpcoming";
 
 type Props = {
   spending: (ExpenseDetail | RecurrenceDetail | SingleDetail)[];
@@ -50,12 +51,13 @@ export default function DashboardTopSection({ spending, income }: Props) {
       <div className="col-span-3 xl:col-span-2">
         <DashboardLineChart spending={spending} />
       </div>
-      <div className="col-span-3 xl:col-span-1">
+      <div className="col-span-3 flex flex-col justify-between gap-4 xl:col-span-1">
         <DashboardAccountCard
           totalIncome={totalIncome}
           currentSpend={currentSpend}
           potentialSave={potentialSave}
         />
+        <DashboardSeeUpcoming />
       </div>
     </div>
   );

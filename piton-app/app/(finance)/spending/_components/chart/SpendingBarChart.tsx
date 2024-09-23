@@ -12,6 +12,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Button } from "@/components/ui/button";
+import SpendingBarCustomTooltip from "./SpendingBarCustomTooltip";
 
 const chartConfig = {
   income: {
@@ -99,7 +100,7 @@ export function SpendingBarChart({ finalData }: Props) {
               axisLine={false}
               tickFormatter={(value) => value.slice(0, 3)}
             />
-            <ChartTooltip content={<ChartTooltipContent indicator="dot" />} />
+            <ChartTooltip content={<SpendingBarCustomTooltip />} />
             <Bar dataKey="income" fill="var(--color-income)" radius={4} />
             <Bar dataKey="spending" fill="var(--color-spending)" radius={4} />
           </BarChart>

@@ -6,6 +6,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import RecurringTable from "./_components/RecurringTable";
 import GetCurrentMonth from "@/utils/getCurrentMonth";
 import AddRecurring from "./_components/AddRecurring";
+import UpcomingRecurring from "./_components/UpcomingRecurring";
 
 export default async function RecurringPage() {
   const currentDate = new Date();
@@ -38,11 +39,10 @@ export default async function RecurringPage() {
   return (
     <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 md:w-full">
       <h2 className="text-2xl font-bold">Recurring</h2>
-      <div className="mt-8 h-fit rounded-lg border bg-white p-4 shadow-md">
+      <UpcomingRecurring recurringList={result} />
+      <div className="mt-8 h-fit rounded-lg border bg-white p-6 shadow-md">
         <div className="flex items-center justify-between pb-4">
-          <h2 className="text-xl font-bold">
-            <GetCurrentMonth month={new Date()} />
-          </h2>
+          <h2 className="text-xl font-bold">List of payments</h2>
           <AddRecurring />
         </div>
         <RecurringTable recurringList={result} />

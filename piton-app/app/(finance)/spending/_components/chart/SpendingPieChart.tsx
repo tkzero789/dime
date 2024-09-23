@@ -14,6 +14,7 @@ import { ExpenseDetail, RecurrenceDetail, SingleDetail } from "@/types/types";
 import { Button } from "@/components/ui/button";
 import SpendingBreakdown from "../spending/SpendingBreakdown";
 import SpendingComparison from "../spending/SpendingComparison";
+import SpendingPieCustomTooltip from "./SpendingPieCustomTooltip";
 
 export const description = "A donut chart with text";
 
@@ -129,8 +130,6 @@ export function SpendingPieChart({ spendingData }: Props) {
     );
   }, [aggregatedData]);
 
-  console.log(aggregatedData);
-
   return (
     <div className="mt-8 grid grid-cols-3 gap-4">
       <Card className="col-span-3 flex flex-col rounded-lg border shadow-md xl:col-span-2">
@@ -151,7 +150,7 @@ export function SpendingPieChart({ spendingData }: Props) {
             className="mx-auto aspect-square max-h-[500px]"
           >
             <PieChart>
-              <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+              <ChartTooltip content={<SpendingPieCustomTooltip />} />
               <Pie
                 data={aggregatedData}
                 dataKey="amount"
