@@ -6,7 +6,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ExpenseDetail, RecurrenceDetail, SingleDetail } from "@/types/types";
+import {
+  ExpenseDetail,
+  IncomeDetail,
+  RecurrenceDetail,
+  SingleDetail,
+} from "@/types/types";
 import FormatDate from "@/utils/formatDate";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
@@ -16,27 +21,32 @@ type NewExpenseDetail = ExpenseDetail & {
 };
 
 type Props = {
-  spending: (NewExpenseDetail | RecurrenceDetail | SingleDetail)[];
+  allData: (
+    | IncomeDetail
+    | NewExpenseDetail
+    | RecurrenceDetail
+    | SingleDetail
+  )[];
 };
 
-export function DashboardTable({ spending }: Props) {
+export function DashboardTable({ allData }: Props) {
   const getCategory = (category: string) => {
     if (
       ["car payment", "credit card payment", "insurance", "loan"].includes(
         category,
       )
     ) {
-      return "bg-sky-300 text-sky-700";
+      return "bg-amber-300 text-amber-700";
     } else if (
       ["Budget Expense", "monthly subscription", "single payment"].includes(
         category,
       )
     ) {
-      return "bg-teal-300 text-teal-700";
+      return "bg-sky-300 text-sky-700";
     } else if (["mortgage", "rent", "bill and utilities"].includes(category)) {
       return "bg-pink-300 text-pink-700";
     } else {
-      return "bg-amber-300 text-amber-700";
+      return "bg-teal-300 text-teal-700";
     }
   };
 
@@ -62,7 +72,7 @@ export function DashboardTable({ spending }: Props) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {spending
+        {allData
           .sort(
             (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
           )

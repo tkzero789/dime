@@ -33,6 +33,9 @@ export default function DashboardPage() {
     (NewExpenseDetail | RecurrenceDetail | SingleDetail)[]
   >([]);
   const [budget, setBudget] = React.useState<BudgetDetail[]>([]);
+  const [allData, setAllData] = React.useState<
+    (IncomeDetail | NewExpenseDetail | RecurrenceDetail | SingleDetail)[]
+  >([]);
 
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
@@ -42,7 +45,6 @@ export default function DashboardPage() {
     }
   }, [user]);
 
-  const currentDate = new Date().getUTCDate();
   const currentMonth = new Date().getUTCMonth();
   const currentYear = new Date().getUTCFullYear();
   const firstDayOfPrevMonth = new Date(
@@ -154,6 +156,8 @@ export default function DashboardPage() {
         setSpending(combineSpending);
 
         setBudget(budgetResult);
+
+        setAllData([...incomeResult, ...combineSpending]);
       }
     } catch (error) {
       console.log(error);
@@ -161,12 +165,12 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 md:w-full">
+    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 md:w-full xl:px-20">
       <h2 className="text-2xl font-bold">
         <GetGreeting />
       </h2>
       <DashboardTopSection spending={spending} income={income} />
-      <DashboardMidSection spending={spending} budget={budget} />
+      <DashboardMidSection allData={allData} budget={budget} />
     </div>
   );
 }

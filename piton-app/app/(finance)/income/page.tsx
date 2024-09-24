@@ -69,10 +69,10 @@ export default function IncomePage() {
   };
 
   return (
-    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 md:w-full">
+    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 md:w-full xl:px-20">
       <h2 className="text-2xl font-bold">Income</h2>
       <IncomeBarChart incomeList={incomeList} handleBarClick={handleBarClick} />
-      <div className="mt-8 h-fit rounded-lg border bg-white p-6 shadow-md">
+      <div className="mt-4 h-fit rounded-lg border bg-white p-6 shadow-md xl:mt-8">
         <div className="flex items-center justify-between pb-4">
           <h2 className="text-xl font-bold">
             {selectedMonth ? (

@@ -11,19 +11,19 @@ export default function SpendingPieCustomTooltip({
     const getCategory = (name: string | undefined) => {
       switch (name) {
         case "Budget Expense":
-          return "bg-teal-500";
-        case "single payment":
-          return "bg-teal-400";
-        case "monthly subscription":
-          return "bg-teal-300";
-        case "loan":
           return "bg-sky-500";
-        case "insurance":
+        case "single payment":
           return "bg-sky-400";
-        case "car payment":
+        case "monthly subscription":
           return "bg-sky-300";
+        case "loan":
+          return "bg-amber-500";
+        case "insurance":
+          return "bg-amber-400";
+        case "car payment":
+          return "bg-amber-300";
         case "credit card payment":
-          return "bg-sky-200";
+          return "bg-amber-200";
         case "mortgage":
           return "bg-pink-500";
         case "rent":

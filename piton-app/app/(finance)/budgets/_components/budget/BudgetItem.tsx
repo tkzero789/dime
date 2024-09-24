@@ -54,7 +54,7 @@ export default function BudgetItem({ budget }: Props) {
         </div>
         <Progress
           value={progressValue > 100 ? 100 : progressValue}
-          className="h-2 [&>*]:bg-teal-600"
+          className="h-2 [&>*]:bg-sky-500"
           max={100}
         />
       </div>

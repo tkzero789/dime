@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -17,11 +17,11 @@ import SpendingBarCustomTooltip from "./SpendingBarCustomTooltip";
 const chartConfig = {
   income: {
     label: "Income",
-    color: "hsl(var(--chart-5))",
+    color: "hsl(var(--chart-2))",
   },
   spending: {
     label: "Spending",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
 
@@ -101,8 +101,32 @@ export function SpendingBarChart({ finalData }: Props) {
               tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip content={<SpendingBarCustomTooltip />} />
-            <Bar dataKey="income" fill="var(--color-income)" radius={4} />
-            <Bar dataKey="spending" fill="var(--color-spending)" radius={4} />
+            <Bar
+              dataKey="income"
+              fill="var(--color-income)"
+              radius={4}
+              activeBar={
+                <Rectangle
+                  fill="#14b8a6"
+                  stroke="#262626"
+                  strokeWidth="1px"
+                  cursor="pointer"
+                />
+              }
+            />
+            <Bar
+              dataKey="spending"
+              fill="var(--color-spending)"
+              radius={4}
+              activeBar={
+                <Rectangle
+                  fill="#0ea5e9"
+                  stroke="#262626"
+                  strokeWidth="1px"
+                  cursor="pointer"
+                />
+              }
+            />
           </BarChart>
         </ChartContainer>
       </CardContent>

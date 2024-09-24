@@ -25,7 +25,7 @@ const chartData = [{ spending: 1, fill: "var(--color-spent)" }];
 const chartConfig = {
   spent: {
     label: "Spent",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
 
@@ -136,14 +136,14 @@ export function BudgetRadicalChart({ budgetList }: Props) {
       </CardContent>
       <CardFooter className="flex-col px-6 pb-6 text-sm lg:px-10">
         <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">
-          <CirclePlus className="h-5 w-5 text-teal-700" />
+          <CirclePlus className="h-5 w-5 text-sky-700" />
           <span className="text-base font-medium">Spending Budget</span>
           <span className="ml-auto text-base font-bold">
             $<FormatNumber number={totalBudget} />
           </span>
         </div>
         <div className="flex w-full items-center gap-4 border-b border-t py-3 font-medium leading-none">
-          <MinusCircle className="h-5 w-5 text-teal-700" />
+          <MinusCircle className="h-5 w-5 text-sky-700" />
           <span className="text-base font-medium">Current Spending</span>
           <span className="ml-auto text-base font-bold">
             -$
@@ -151,7 +151,7 @@ export function BudgetRadicalChart({ budgetList }: Props) {
           </span>
         </div>
         <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">
-          <CircleEqual className="h-5 w-5 text-teal-700" />
+          <CircleEqual className="h-5 w-5 text-sky-700" />
           <span className="text-base font-medium">Remaining</span>
           <span className="ml-auto text-base font-bold text-green-700">
             $<FormatNumber number={remaining} />

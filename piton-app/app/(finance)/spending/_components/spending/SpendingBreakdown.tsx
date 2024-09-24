@@ -29,21 +29,21 @@ export default function SpendingBreakdown({ aggregatedData }: Props) {
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "Budget Expense":
-        return <Banknote color="#14b8a6" className="h-6 w-6" />;
+        return <Banknote color="#0ea5e9" className="h-6 w-6" />;
       case "single payment":
-        return <HandCoins color="#14b8a6" className="h-6 w-6" />;
+        return <HandCoins color="#0ea5e9" className="h-6 w-6" />;
       case "bill and utilities":
         return <Wallet color="#ec4899" className="h-6 w-6" />;
       case "car payment":
-        return <CarFront color="#0ea5e9" className="h-6 w-6" />;
+        return <CarFront color="#f59e0b" className="h-6 w-6" />;
       case "credit card payment":
-        return <CreditCard color="#0ea5e9" className="h-6 w-6" />;
+        return <CreditCard color="#f59e0b" className="h-6 w-6" />;
       case "insurance":
-        return <ShieldCheck color="#0ea5e9" className="h-6 w-6" />;
+        return <ShieldCheck color="#f59e0b" className="h-6 w-6" />;
       case "loan":
-        return <Sheet color="#0ea5e9" className="h-6 w-6" />;
+        return <Sheet color="#f59e0b" className="h-6 w-6" />;
       case "monthly subscription":
-        return <CalendarHeart color="#14b8a6" className="h-6 w-6" />;
+        return <CalendarHeart color="#0ea5e9" className="h-6 w-6" />;
       case "mortgage":
         return <House color="#ec4899" className="h-6 w-6" />;
       case "rent":

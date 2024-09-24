@@ -101,7 +101,7 @@ export default function IncomeTable({ filterIncome, refreshData }: Props) {
             </TableCell>
             <TableCell className="px-4 py-2">{income.name}</TableCell>
             <TableCell className="px-4 py-2">
-              <div className="flex w-fit items-center justify-center rounded-full bg-pink-300 bg-opacity-50 px-2 py-1 text-pink-700">
+              <div className="flex w-fit items-center justify-center rounded-full bg-teal-300 bg-opacity-50 px-2 py-1 text-teal-700">
                 <span className="truncate text-[13px]">
                   <FormatString text={income.category} />
                 </span>

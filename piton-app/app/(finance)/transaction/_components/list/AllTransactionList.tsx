@@ -78,17 +78,17 @@ export default function AllTransactionList({
         category,
       )
     ) {
-      return "bg-sky-300 text-sky-700";
+      return "bg-amber-300 text-amber-700";
     } else if (
       ["Budget Expense", "monthly subscription", "single payment"].includes(
         category,
       )
     ) {
-      return "bg-teal-300 text-teal-700";
+      return "bg-sky-300 text-sky-700";
     } else if (["mortgage", "rent", "bill and utilities"].includes(category)) {
       return "bg-pink-300 text-pink-700";
     } else {
-      return "bg-amber-300 text-amber-700";
+      return "bg-teal-300 text-teal-700";
     }
   };
 

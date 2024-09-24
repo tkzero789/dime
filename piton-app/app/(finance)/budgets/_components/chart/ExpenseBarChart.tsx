@@ -23,7 +23,7 @@ import useWindowSize from "@/hooks/useWindowSize";
 const chartConfig = {
   spent: {
     label: "Spent",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
 
@@ -130,7 +130,7 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
               fill="var(--color-spent)"
               radius={4}
               activeBar={
-                <Rectangle fill="#14b8a6" stroke="#262626" strokeWidth="2px" />
+                <Rectangle fill="#0ea5e9" stroke="#262626" strokeWidth="2px" />
               }
             />
           </BarChart>

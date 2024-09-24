@@ -24,7 +24,7 @@ const chartConfig: { [key: string]: { label: string; color?: string } } = {
   },
   budget_expense: {
     label: "Budget Expense",
-    color: "#14b8a6",
+    color: "#0ea5e9",
   },
   bill_and_utilities: {
     label: "Bill and Utilities",
@@ -32,19 +32,19 @@ const chartConfig: { [key: string]: { label: string; color?: string } } = {
   },
   credit_card_payment: {
     label: "Credit Card Payment",
-    color: "#bae6fd",
+    color: "#fde68a",
   },
   car_payment: {
     label: "Car Payment",
-    color: "#7dd3fc",
+    color: "#fcd34d",
   },
   insurance: {
     label: "Insurance",
-    color: "#38bdf8",
+    color: "#fbbf24",
   },
   loan: {
     label: "Loan",
-    color: "#0ea5e9",
+    color: "#f59e0b",
   },
   mortgage: {
     label: "Mortgage",
@@ -56,7 +56,7 @@ const chartConfig: { [key: string]: { label: string; color?: string } } = {
   },
   monthly_subscription: {
     label: "Monthly Subscription",
-    color: "#5eead4",
+    color: "#7dd3fc",
   },
 } satisfies ChartConfig;
 
@@ -111,7 +111,7 @@ export function SpendingPieChart({ spendingData }: Props) {
           acc[category] = {
             ...data,
             amount: 0,
-            fill: chartConfig[category]?.color || "#2dd4bf",
+            fill: chartConfig[category]?.color || "#38bdf8",
           };
         }
         acc[category].amount += Number(data.amount);
@@ -131,9 +131,9 @@ export function SpendingPieChart({ spendingData }: Props) {
   }, [aggregatedData]);
 
   return (
-    <div className="mt-8 grid grid-cols-3 gap-4">
+    <div className="mt-4 grid grid-cols-3 gap-4 xl:mt-8">
       <Card className="col-span-3 flex flex-col rounded-lg border shadow-md xl:col-span-2">
-        <CardHeader className="flex flex-col gap-y-4 space-y-0">
+        <CardHeader className="flex flex-col gap-y-4 space-y-0 lg:gap-y-2">
           <div className="flex items-start justify-between gap-4 lg:flex-row lg:items-center">
             <CardTitle className="text-xl font-bold tracking-normal">
               Summary

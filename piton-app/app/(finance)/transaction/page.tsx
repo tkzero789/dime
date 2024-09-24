@@ -18,12 +18,12 @@ import TransactionTable from "./_components/list/TransactionTable";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import AddTransaction from "./_components/list/AddTransaction";
 
-type NewExpenseDetail = ExpenseDetail & {
-  category: string;
+type NewIncomeDetail = IncomeDetail & {
   type: string;
 };
 
-type NewIncomeDetail = IncomeDetail & {
+type NewExpenseDetail = ExpenseDetail & {
+  category: string;
   type: string;
 };
 
@@ -41,8 +41,8 @@ export default function TransactionPage() {
 
   const [transaction, setTransaction] = React.useState<
     (
-      | NewExpenseDetail
       | NewIncomeDetail
+      | NewExpenseDetail
       | NewRecurrenceDetail
       | NewSingleDetail
     )[]
@@ -88,6 +88,16 @@ export default function TransactionPage() {
 
         const batchResponse: BatchResponse<any> = await db.batch([
           db
+            .select({ ...getTableColumns(Income) })
+            .from(Income)
+            .where(
+              and(
+                eq(Income.created_by, currentUser ?? ""),
+                gte(Income.date, firstDayOfMonth),
+                lte(Income.date, lastDayOfMonth),
+              ),
+            ),
+          db
             .select({
               ...getTableColumns(BudgetExpenses),
             })
@@ -97,16 +107,6 @@ export default function TransactionPage() {
                 eq(BudgetExpenses.created_by, currentUser ?? ""),
                 gte(BudgetExpenses.date, firstDayOfMonth),
                 lte(BudgetExpenses.date, lastDayOfMonth),
-              ),
-            ),
-          db
-            .select({ ...getTableColumns(Income) })
-            .from(Income)
-            .where(
-              and(
-                eq(Income.created_by, currentUser ?? ""),
-                gte(Income.date, firstDayOfMonth),
-                lte(Income.date, lastDayOfMonth),
               ),
             ),
           db
@@ -132,31 +132,33 @@ export default function TransactionPage() {
         ]);
 
         if (batchResponse) {
-          let [expenseResult, incomeResult, recurringResult, singleResult] =
+          let [incomeResult, expenseResult, recurringResult, singleResult] =
             batchResponse;
+          // Add type prop to each row in incomeResult
+          incomeResult = incomeResult.map((row: IncomeDetail) => ({
+            ...row,
+            type: "Income",
+          })) as NewIncomeDetail[];
           // Add category prop to each row in expenseResult
           expenseResult = expenseResult.map((row: ExpenseDetail) => ({
             ...row,
             category: "Budget Expense",
             type: "Budget Expense",
           })) as NewExpenseDetail[];
-          // Add type prop to each row in incomeResull, recurringResult and single
-          incomeResult = incomeResult.map((row: IncomeDetail) => ({
-            ...row,
-            type: "Income",
-          })) as NewIncomeDetail[];
+          // Add type prop to each row in recurringResult
           recurringResult = recurringResult.map((row: RecurrenceDetail) => ({
             ...row,
             type: "Recurring",
           })) as NewRecurrenceDetail[];
+          // Add type prop to each row in singleResult
           singleResult = singleResult.map((row: SingleDetail) => ({
             ...row,
             type: "Single",
           })) as NewSingleDetail;
 
           const combinedResults = [
-            ...expenseResult,
             ...incomeResult,
+            ...expenseResult,
             ...recurringResult,
             ...singleResult,
           ].sort(
@@ -241,9 +243,9 @@ export default function TransactionPage() {
     latestYear === currentYear && latestMonth === currentMonth;
 
   return (
-    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 md:w-full">
+    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 md:w-full xl:px-20">
       <h2 className="text-2xl font-bold">Transaction</h2>
-      <div className="mx-auto mt-8 max-w-7xl">
+      <div className="mt-8 max-w-7xl">
         <TransactionSearch
           searchQuery={searchQuery}
           onSearchChange={handleSearchChange}

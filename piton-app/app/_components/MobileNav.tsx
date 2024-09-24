@@ -53,7 +53,7 @@ export default function MobileNav() {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 h-16 w-dvw bg-white shadow-[rgba(0,0,0,0.35)_0px_5px_15px] lg:hidden">
+    <div className="fixed bottom-0 left-0 z-10 h-16 w-dvw bg-white shadow-[rgba(0,0,0,0.35)_0px_5px_15px] lg:hidden">
       <ul className="grid h-full w-full grid-cols-5">
         {menu.map((item, index) => (
           <li

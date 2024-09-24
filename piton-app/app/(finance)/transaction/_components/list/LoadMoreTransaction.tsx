@@ -9,12 +9,12 @@ import {
 import React from "react";
 import { useInView } from "react-intersection-observer";
 
-type NewExpenseDetail = ExpenseDetail & {
-  category: string;
+type NewIncomeDetail = IncomeDetail & {
   type: string;
 };
 
-type NewIncomeDetail = IncomeDetail & {
+type NewExpenseDetail = ExpenseDetail & {
+  category: string;
   type: string;
 };
 
@@ -28,8 +28,8 @@ type NewSingleDetail = SingleDetail & {
 
 type Props = {
   transaction: (
-    | NewExpenseDetail
     | NewIncomeDetail
+    | NewExpenseDetail
     | NewRecurrenceDetail
     | NewSingleDetail
   )[];

@@ -65,7 +65,7 @@ export default function BudgetsPage() {
   };
 
   return (
-    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 md:w-full">
+    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 md:w-full xl:px-20">
       <BudgetList budgetList={budgetList} getBudgetList={getBudgetList} />
     </div>
   );

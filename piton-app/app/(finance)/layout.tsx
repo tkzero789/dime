@@ -10,8 +10,8 @@ export default function FinanceLayout({
   return (
     <main className="flex">
       <SideNav />
-      <div className="flex-1">
-        <div className="flex h-full flex-col">{children}</div>
+      <div className="flex-1 overflow-hidden">
+        <div className="h-full">{children}</div>
       </div>
       <MobileNav />
     </main>

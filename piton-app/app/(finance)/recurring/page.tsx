@@ -37,12 +37,12 @@ export default async function RecurringPage() {
     )
     .orderBy(desc(Recurrence.date));
   return (
-    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 md:w-full">
+    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 md:w-full xl:px-20">
       <h2 className="text-2xl font-bold">Recurring</h2>
       <UpcomingRecurring recurringList={result} />
-      <div className="mt-8 h-fit rounded-lg border bg-white p-6 shadow-md">
+      <div className="mt-4 h-fit rounded-lg border bg-white p-6 shadow-md xl:mt-8">
         <div className="flex items-center justify-between pb-4">
-          <h2 className="text-xl font-bold">List of payments</h2>
+          <h2 className="text-xl font-bold">Payments list</h2>
           <AddRecurring />
         </div>
         <RecurringTable recurringList={result} />

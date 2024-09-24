@@ -1,11 +1,11 @@
 import {
   BudgetDetail,
   ExpenseDetail,
+  IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types/types";
 import React from "react";
-import DashboardUpcomingBill from "../../../recurring/_components/UpcomingRecurring";
 import { DashboardTable } from "./DashboardTable";
 import Link from "next/link";
 import DashboardBudget from "./DashboardBudget";
@@ -15,36 +15,22 @@ type NewExpenseDetail = ExpenseDetail & {
 };
 
 type Props = {
-  spending: (NewExpenseDetail | RecurrenceDetail | SingleDetail)[];
+  allData: (
+    | IncomeDetail
+    | NewExpenseDetail
+    | RecurrenceDetail
+    | SingleDetail
+  )[];
   budget: BudgetDetail[];
 };
 
-export default function DashboardMidSection({ spending, budget }: Props) {
-  const getCategory = (category: string) => {
-    if (
-      ["car payment", "credit card payment", "insurance", "loan"].includes(
-        category,
-      )
-    ) {
-      return "bg-sky-300 text-sky-700";
-    } else if (
-      ["Budget Expense", "monthly subscription", "single payment"].includes(
-        category,
-      )
-    ) {
-      return "bg-teal-300 text-teal-700";
-    } else if (["mortgage", "rent", "bill and utilities"].includes(category)) {
-      return "bg-pink-300 text-pink-700";
-    } else {
-      return "bg-amber-300 text-amber-700";
-    }
-  };
+export default function DashboardMidSection({ allData, budget }: Props) {
   return (
     <>
-      <div className="mt-8 grid grid-cols-3 gap-4">
+      <div className="mt-4 grid grid-cols-3 gap-4 xl:mt-8">
         <div className="col-span-3 h-fit rounded-lg border bg-white p-6 shadow-md xl:col-span-2">
           <h2 className="pb-4 text-xl font-bold">Latest transaction</h2>
-          <DashboardTable spending={spending} />
+          <DashboardTable allData={allData} />
           <Link
             href="/transaction"
             className="mt-2 block rounded-md border border-neutral-500 p-2 text-center text-sm font-medium hover:bg-neutral-200"
@@ -53,7 +39,6 @@ export default function DashboardMidSection({ spending, budget }: Props) {
           </Link>
         </div>
         <DashboardBudget budget={budget} />
-        {/* <DashboardUpcomingBill spending={spending} getCategory={getCategory} /> */}
       </div>
     </>
   );
