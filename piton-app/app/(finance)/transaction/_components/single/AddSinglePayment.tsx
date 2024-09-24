@@ -86,7 +86,7 @@ export default function AddSinglePayment({ refreshData }: Props) {
         </span>
         <span className="flex-1 text-start">Single Payment</span>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
         <DialogHeader>
           <DialogTitle className="text-center">Add Single Payment</DialogTitle>
           <DialogDescription>
@@ -130,15 +130,17 @@ export default function AddSinglePayment({ refreshData }: Props) {
                   <SelectItem value="check">Check</SelectItem>
                   <SelectItem value="credit card">Credit Card</SelectItem>
                   <SelectItem value="debit card">Debit Card</SelectItem>
+                  <SelectItem value="direct deposit">Direct Deposit</SelectItem>
                   <SelectItem value="mobile payment">
                     Mobile Payment (Paypal, CashApp, Zelle, etc.)
                   </SelectItem>
+                  <SelectItem value="payroll card">Payroll Card</SelectItem>
                 </SelectContent>
               </Select>
             </DialogDescription>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="mt-4 sm:justify-start">
+        <DialogFooter className="flex-col sm:justify-start">
           <DialogClose asChild>
             <Button
               className="w-full"

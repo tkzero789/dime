@@ -109,9 +109,9 @@ export default function EditSingle({
         </span>
         <span className="font-semibold text-medium">Edit</span>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle className="text-center">Edit Single Payment</DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
             <Input
               type="text"
@@ -135,6 +135,8 @@ export default function EditSingle({
               <SelectContent>
                 <SelectItem value="cash">Cash</SelectItem>
                 <SelectItem value="check">Check</SelectItem>
+                <SelectItem value="credit card">Credit Card</SelectItem>
+                <SelectItem value="debit card">Debit Card</SelectItem>
                 <SelectItem value="direct deposit">Direct Deposit</SelectItem>
                 <SelectItem value="mobile payment">
                   Mobile Payment (Paypal, CashApp, Zelle, etc.)
@@ -144,7 +146,7 @@ export default function EditSingle({
             </Select>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="flex-col sm:justify-start">
           <PopoverClose asChild>
             <Button
               className="w-full"

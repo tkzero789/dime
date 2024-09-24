@@ -127,7 +127,7 @@ export default function SpendingPage() {
   };
 
   return (
-    <div className="sm:py-18 min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20">
+    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 md:w-full">
       <h2 className="text-2xl font-bold">Spending</h2>
       <SpendingBarChart finalData={finalData} />
 

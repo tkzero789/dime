@@ -31,10 +31,10 @@ export default function MoreAction({
   const currentUser = user?.primaryEmailAddress?.emailAddress;
   return (
     <Popover>
-      <PopoverTrigger asChild className="w-2/5">
+      <PopoverTrigger asChild className="w-auto md:w-2/5">
         <Button variant="ghost">
           <span className="inline-block pr-2">More Actions</span>{" "}
-          <ChevronDown strokeWidth={1} />
+          <ChevronDown strokeWidth={1} className="h-auto w-auto" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-44 px-0 py-0">

@@ -98,33 +98,27 @@ export default function ViewTransaction({
                 <FormatDate fullFormatUTC={new Date(transactionDetail.date)} />
               </span>
             </div>
-            <div>
-              <span className="inline-block w-24 font-medium text-medium">
-                Name:
+            <div className="text-left">
+              <span className="inline-block w-24 font-semibold">Name:</span>
+              <span className="font-medium text-medium">
+                {transactionDetail.name}
               </span>
-              <span>{transactionDetail.name}</span>
             </div>
-            <div>
-              <span className="inline-block w-24 font-medium text-medium">
-                Category:
-              </span>
-              <span>
+            <div className="text-left">
+              <span className="inline-block w-24 font-semibold">Category:</span>
+              <span className="font-medium text-medium">
                 <FormatString text={transactionDetail.category} />
               </span>
             </div>
-            <div>
-              <span className="inline-block w-24 font-medium text-medium">
-                Method:
-              </span>
-              <span>
+            <div className="text-left">
+              <span className="inline-block w-24 font-semibold">Method:</span>
+              <span className="font-medium text-medium">
                 <FormatString text={transactionDetail.payment_method} />
               </span>
             </div>
-            <div>
-              <span className="inline-block w-24 font-medium text-medium">
-                Amount:
-              </span>
-              <span>
+            <div className="text-left">
+              <span className="inline-block w-24 font-semibold">Amount:</span>
+              <span className="font-medium text-medium">
                 $<FormatNumber number={Number(transactionDetail.amount)} />
               </span>
             </div>

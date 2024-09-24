@@ -19,7 +19,7 @@ type Props = {
 export default function AddTransaction({ refreshData }: Props) {
   return (
     <Dialog>
-      <DialogTrigger asChild className="ml-auto">
+      <DialogTrigger asChild className="w-full md:w-auto">
         <Button
           variant="ghost"
           className="flex items-center justify-center gap-2"
@@ -40,7 +40,7 @@ export default function AddTransaction({ refreshData }: Props) {
               <span className="flex w-2/5 justify-end pr-2">
                 <RefreshCcwDot />
               </span>
-              <span className="flex-1">Recurring Payment</span>
+              <span className="flex-1 text-start">Recurring Payment</span>
             </Link>
             <Link
               href="/budgets"
@@ -49,7 +49,7 @@ export default function AddTransaction({ refreshData }: Props) {
               <span className="flex w-2/5 justify-end pr-2">
                 <Banknote />
               </span>
-              <span className="flex-1">Budget Expense</span>
+              <span className="flex-1 text-start">Budget Expense</span>
             </Link>
           </DialogDescription>
         </DialogHeader>

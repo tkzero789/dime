@@ -2,7 +2,6 @@
 
 import React from "react";
 import TransactionSearch from "./_components/search/TransactionSearch";
-import AllTransactionList from "./_components/list/AllTransactionList";
 import { useUser } from "@clerk/nextjs";
 import { BudgetExpenses, Income, Recurrence, Single } from "@/db/schema";
 import { and, eq, getTableColumns, gte, lte } from "drizzle-orm";
@@ -15,6 +14,9 @@ import {
 } from "@/types/types";
 import { BatchResponse } from "drizzle-orm/batch";
 import LoadMoreTransaction from "./_components/list/LoadMoreTransaction";
+import TransactionTable from "./_components/list/TransactionTable";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import AddTransaction from "./_components/list/AddTransaction";
 
 type NewExpenseDetail = ExpenseDetail & {
   category: string;
@@ -217,24 +219,65 @@ export default function TransactionPage() {
     }
   };
 
-  console.log(transaction);
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const latestYear = new Date().getFullYear();
+  const latestMonth = new Date().getMonth();
+
+  const hideNextMonthButton =
+    latestYear === currentYear && latestMonth === currentMonth;
 
   return (
-    <div className="sm:py-18 min-h-dvh bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20">
+    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 sm:px-20 md:w-full">
       <h2 className="text-2xl font-bold">Transaction</h2>
       <div className="mx-auto mt-8 max-w-7xl">
         <TransactionSearch
           searchQuery={searchQuery}
           onSearchChange={handleSearchChange}
         />
-        <AllTransactionList
-          transaction={filteredSearchResult}
-          refreshData={() => getData(1)}
-          handlePrevMonth={handlePrevMonth}
-          handleNextMonth={handleNextMonth}
-          currentMonth={currentMonth}
-          currentYear={currentYear}
-        />
+        <div className="mt-8 rounded-lg border bg-white p-6 shadow-md">
+          <div className="flex flex-col items-center justify-between gap-y-4 pb-4 md:flex-row">
+            <div className="item-center flex w-full gap-4 md:w-auto">
+              <div className="flex w-16 gap-4">
+                <button
+                  onClick={handlePrevMonth}
+                  className="flex items-center justify-center rounded-sm bg-gray-200 hover:bg-gray-300"
+                >
+                  <ChevronLeft />
+                </button>
+                <button
+                  onClick={handleNextMonth}
+                  className={`flex items-center justify-center rounded-sm bg-gray-200 hover:bg-gray-300 ${hideNextMonthButton && "pointer-events-none bg-gray-100"}`}
+                >
+                  <ChevronRight
+                    className={`${hideNextMonthButton && "stroke-gray-400"}`}
+                  />
+                </button>
+              </div>
+              <h2 className="text-xl font-bold">
+                {monthNames[currentMonth]} {currentYear}
+              </h2>
+            </div>
+            <AddTransaction refreshData={() => getData(1)} />
+          </div>
+          <TransactionTable
+            transaction={filteredSearchResult}
+            refreshData={() => getData(1)}
+          />
+        </div>
         <LoadMoreTransaction
           transaction={transaction}
           transactionCount={transactionCount}

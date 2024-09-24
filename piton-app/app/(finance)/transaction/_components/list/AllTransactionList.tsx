@@ -11,7 +11,6 @@ import FormatString from "@/utils/formatString";
 import AddTransaction from "./AddTransaction";
 import ViewTransaction from "./ViewTransaction";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useUser } from "@clerk/nextjs";
 
 type NewExpenseDetail = ExpenseDetail & {
   category: string;
