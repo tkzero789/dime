@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import Logo from "@/public/logo.svg";
+import Logo from "@/public/coin.svg";
 import {
   CircleDollarSign,
   LayoutGrid,
@@ -46,9 +46,11 @@ export default function SideNav() {
 
   return (
     <aside className="sticky left-0 top-0 hidden h-dvh w-60 flex-col gap-y-4 border-r shadow-sm lg:flex">
-      <div className="flex items-center gap-2 border-b p-4">
-        <Image src={Logo} alt="logo" width={60} height={60} />
-        <span className="text-2xl font-bold text-teal-700">Piton</span>
+      <div className="flex items-center gap-2 border-b px-6 py-4">
+        <Image src={Logo} alt="logo" width={40} height={40} />
+        <span className="font-serif text-2xl font-bold text-teal-600">
+          Dime
+        </span>
       </div>
       <ul className="flex flex-1 flex-col gap-y-4 px-4 pb-4">
         {menu.map((item, index) => (

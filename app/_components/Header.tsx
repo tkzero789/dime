@@ -1,13 +1,18 @@
 import React from "react";
 import Image from "next/image";
-import Logo from "../../public/logo.svg";
+import Logo from "../../public/coin.svg";
 import { Button } from "@/components/ui/button";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
 
 export default function Header() {
   return (
     <div className="flex pt-4">
-      <Image src={Logo} alt="logo" width={60} height={60} />
+      <div className="flex items-center gap-2">
+        <Image src={Logo} alt="logo" width={40} height={40} />
+        <span className="font-serif text-3xl font-bold text-teal-600">
+          Dime
+        </span>
+      </div>
       <Button asChild variant="outline" className="ml-auto mr-4">
         <SignInButton
           forceRedirectUrl="/dashboard"
