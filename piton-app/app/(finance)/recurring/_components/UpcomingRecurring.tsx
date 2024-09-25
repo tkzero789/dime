@@ -74,7 +74,7 @@ export default function UpcomingRecurring({ recurringList }: Props) {
                 <TableHead className="text-sm font-semibold text-medium">
                   Category
                 </TableHead>
-                <TableHead className="text-sm font-semibold text-medium">
+                <TableHead className="truncate text-sm font-semibold text-medium">
                   Payment Method
                 </TableHead>
                 <TableHead className="text-right text-sm font-semibold text-medium">
@@ -88,7 +88,9 @@ export default function UpcomingRecurring({ recurringList }: Props) {
                   <TableCell className="px-4 py-2 font-medium">
                     <FormatDate numMonthNumDateUTC={new Date(item.date)} />
                   </TableCell>
-                  <TableCell className="px-4 py-2">{item.name}</TableCell>
+                  <TableCell className="truncate px-4 py-2">
+                    {item.name}
+                  </TableCell>
                   <TableCell className="px-4 py-2">
                     <div
                       className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 ${getCategory(item.category)}`}
@@ -98,7 +100,7 @@ export default function UpcomingRecurring({ recurringList }: Props) {
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="px-4 py-2">
+                  <TableCell className="truncate px-4 py-2">
                     <FormatString text={item.payment_method} />
                   </TableCell>
                   <TableCell className="px-4 py-2 text-right font-semibold">

@@ -243,7 +243,7 @@ export default function TransactionPage() {
     latestYear === currentYear && latestMonth === currentMonth;
 
   return (
-    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-4 pb-20 pt-6 md:w-full xl:px-20">
+    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 xl:px-20">
       <h2 className="text-2xl font-bold">Transaction</h2>
       <div className="mt-8 max-w-7xl">
         <TransactionSearch
