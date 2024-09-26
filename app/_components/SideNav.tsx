@@ -13,6 +13,7 @@ import {
   Landmark,
   ArrowLeftRight,
   RefreshCcwDot,
+  BotMessageSquare,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -40,6 +41,7 @@ export default function SideNav() {
     { option: "Recurring", icon: RefreshCcwDot, href: "/recurring" },
     { option: "Income", icon: Landmark, href: "/income" },
     { option: "Saving", icon: PiggyBank, href: "/saving" },
+    { option: "Penny", icon: BotMessageSquare, href: "/penny" },
   ];
   // Path name
   const path = usePathname();
