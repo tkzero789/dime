@@ -48,7 +48,7 @@ export default function ChatInputForm({ input, handleInput }: Props) {
       placeholder="Hi, how can I help you?"
       onChange={handleInput}
       onKeyDown={handleKeyDown}
-      rows={2}
+      rows={1}
       style={{ maxHeight: "120px" }}
     />
   );
