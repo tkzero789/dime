@@ -19,9 +19,6 @@ export default function LineCustomTooltip({ active, payload }: Props) {
       Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth()),
     );
 
-    console.log(dateOnChart.toISOString());
-    console.log(currentDate.toISOString());
-
     const isSameDate =
       dateOnChart.getUTCFullYear() === currentDate.getUTCFullYear() &&
       dateOnChart.getUTCMonth() === currentDate.getUTCMonth();

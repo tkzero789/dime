@@ -8,14 +8,35 @@ import ChatTools from "./_components/tools/ChatTools";
 
 export default function PennyPage() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } =
-    useChat();
+    useChat({
+      api: "api/vector",
+      streamProtocol: "text",
+      onError: (e) => {
+        console.log(e);
+      },
+    });
 
-  const processContent = (content: string) => {
-    return content.replace(
-      /\*\*(.*?)\*\*/g,
-      '<span class="font-semibold">$1</span>',
-    );
+  const formatString = (content: string) => {
+    const parts = content.split(/(".*?"|\$\d+(?:\.\d{2})?)/g);
+    return parts?.map((part, index) => {
+      if (part?.startsWith('"') && part?.endsWith('"')) {
+        return (
+          <span key={index} className="font-semibold">
+            {part}
+          </span>
+        );
+      } else if (part?.startsWith("$") && !isNaN(Number(part?.slice(1)))) {
+        return (
+          <span key={index} className="font-semibold">
+            {part}
+          </span>
+        );
+      }
+      return part;
+    });
   };
+
+  console.log(messages);
 
   return (
     <div className="mx-auto flex h-full w-full flex-col md:w-[48rem]">
@@ -33,8 +54,9 @@ export default function PennyPage() {
             )}
             <div
               className={`w-fit whitespace-pre-wrap rounded-xl px-4 py-2 ${m.role === "user" ? "ml-auto bg-teal-600 bg-opacity-90 text-white" : "bg-gray-200 bg-opacity-80"}`}
-              dangerouslySetInnerHTML={{ __html: processContent(m.content) }}
-            ></div>
+            >
+              {formatString(m.content)}
+            </div>
           </div>
         ))}
       </div>
