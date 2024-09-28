@@ -38,7 +38,7 @@ export default function ChatForm({
             variant="ghost"
             className={`rounded-xl px-2 py-1 ${
               isEmpty && !isLoading
-                ? ""
+                ? "pointer-events-none"
                 : "border-teal-600 bg-teal-600 transition-all duration-300 hover:border-teal-700 hover:bg-teal-700"
             }`}
             onClick={handleUserSubmit}
