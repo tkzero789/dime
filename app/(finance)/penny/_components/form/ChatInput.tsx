@@ -5,7 +5,7 @@ type Props = {
   handleInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
-export default function ChatInputForm({ input, handleInput }: Props) {
+export default function ChatInput({ input, handleInput }: Props) {
   const ref = React.useRef<HTMLTextAreaElement>(null);
 
   React.useEffect(() => {
