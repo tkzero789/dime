@@ -1,3 +1,7 @@
 .ol-adjust ul {
   padding-left: 0.5rem;
 }
+
+.chat-content > :only-child {
+  margin-bottom: 0rem;
+}

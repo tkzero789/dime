@@ -74,7 +74,7 @@ export default function PennyPage() {
               </div>
             )}
             <div
-              className={`w-fit rounded-xl px-4 py-2 ${m.role === "user" ? "ml-auto bg-teal-600 bg-opacity-90 text-white" : "bg-gray-200 bg-opacity-80"}`}
+              className={`chat-content w-fit rounded-xl px-4 py-2 ${m.role === "user" ? "ml-auto bg-teal-600 bg-opacity-90 text-white" : "bg-gray-200 bg-opacity-80"}`}
             >
               <Markdown components={components}>{m.content}</Markdown>
             </div>
