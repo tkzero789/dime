@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { CircleArrowUp } from "lucide-react";
-import React from "react";
+import React, { MutableRefObject } from "react";
 import ChatInput from "./ChatInput";
 
 type Props = {
@@ -33,7 +33,11 @@ export default function ChatForm({
     <form onSubmit={handleUserSubmit}>
       <div className="fixed bottom-0 mx-auto w-full bg-white px-2 pb-20 sm:px-4 md:w-[48rem] lg:px-0 lg:pb-8">
         <div className="flex items-center justify-between gap-2 rounded-2xl border border-gray-300 bg-white p-2 shadow-none sm:p-3 lg:shadow-md">
-          <ChatInput input={input} handleInput={handleInput} />
+          <ChatInput
+      
+            input={input}
+            handleInput={handleInput}
+          />
           <Button
             variant="ghost"
             className={`rounded-xl px-2 py-1 ${

@@ -168,7 +168,7 @@ export default function EditBudget({
           <span className="font-semibold text-medium">Edit Budget</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="h-dvh sm:h-auto">
+      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
         <DialogHeader>
           <DialogTitle className="text-center">Edit Budget</DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
@@ -243,7 +243,7 @@ export default function EditBudget({
             />
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="mt-4 sm:justify-start">
+        <DialogFooter className="flex-col sm:justify-start">
           <PopoverClose asChild>
             <Button
               className="w-full"

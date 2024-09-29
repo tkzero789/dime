@@ -113,9 +113,9 @@ export default function EditIncome({
         </span>
         <span className="font-semibold text-medium">Edit</span>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle className="text-center">Edit income</DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
             <Input
               type="text"
@@ -163,7 +163,7 @@ export default function EditIncome({
             </Select>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="flex-col sm:justify-start">
           <PopoverClose asChild>
             <Button
               className="w-full"

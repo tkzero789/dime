@@ -93,7 +93,7 @@ export default function TransactionTable({ transaction, refreshData }: Props) {
             <TableCell className="px-4 py-2">
               <FormatDate numMonthNumDateUTC={new Date(item.date)} />
             </TableCell>
-            <TableCell className="px-4 py-2">{item.name}</TableCell>
+            <TableCell className="truncate px-4 py-2">{item.name}</TableCell>
             <TableCell className="px-4 py-2">
               <div
                 className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 ${getCategory(item.category)} `}

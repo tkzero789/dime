@@ -57,11 +57,9 @@ export default function PennyPage() {
     strong: withConditionalClass("strong"),
   };
 
-  console.log(messages);
-
   return (
     <div className="mx-auto flex h-full w-full flex-col md:w-[48rem]">
-      <ChatTools />
+      <ChatTools handleInputChange={handleInputChange} />
       <div className="flex-1 overflow-hidden px-8 pb-56 pt-24">
         {messages.map((m) => (
           <div

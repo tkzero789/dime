@@ -13,6 +13,7 @@ import {
 import toast from "react-hot-toast";
 import { ExpenseDatePicker } from "./ExpenseDatePicker";
 import { format } from "date-fns";
+import { DialogFooter } from "@/components/ui/dialog";
 
 type Props = {
   paramId: string;
@@ -64,10 +65,7 @@ export default function AddExpense({
   };
 
   return (
-    <div className="col-span-1 flex h-full flex-col gap-4 rounded-lg border-none bg-white p-0 shadow-none xl:h-fit xl:gap-3 xl:border xl:p-4 xl:shadow-md">
-      <div className="block text-center text-lg font-semibold tracking-tight xl:hidden">
-        Add New Expense
-      </div>
+    <>
       {/* Name */}
       <Input
         placeholder="Expense name"
@@ -111,16 +109,18 @@ export default function AddExpense({
           </SelectItem>
         </SelectContent>
       </Select>
-      <Button
-        disabled={!(name && amount && paymentMethod)}
-        onClick={() => {
-          addNewExpense();
-          setOpen(false);
-        }}
-        className="mt-4 xl:mt-0"
-      >
-        Add New Expense
-      </Button>
-    </div>
+      <DialogFooter className="flex-col sm:justify-start">
+        <Button
+          className="mt-4 w-full"
+          disabled={!(name && amount && paymentMethod)}
+          onClick={() => {
+            addNewExpense();
+            setOpen(false);
+          }}
+        >
+          Add New Expense
+        </Button>
+      </DialogFooter>
+    </>
   );
 }

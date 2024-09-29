@@ -105,63 +105,46 @@ export default function EditExpense({
         </span>
         <span className="font-semibold text-medium">Edit</span>
       </DialogTrigger>
-      <DialogContent className="h-dvh sm:h-auto">
+      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
         <DialogHeader>
           <DialogTitle className="text-center">Edit Expense</DialogTitle>
-          <DialogDescription className="flex flex-col gap-4 text-left">
+          <DialogDescription className="flex flex-col gap-4 pt-4 text-left">
             {/* Expense Name */}
-            <div>
-              <label className="block pb-2 font-semibold text-dark">
-                Expense Name
-              </label>
-              <Input
-                defaultValue={expenseInfo.name}
-                onChange={(e) => setExpenseName(e.target.value)}
-              />
-            </div>
+            <Input
+              defaultValue={expenseInfo.name}
+              onChange={(e) => setExpenseName(e.target.value)}
+            />
             {/* Amount */}
-            <div>
-              <label className="block pb-2 font-semibold text-dark">
-                Amount
-              </label>
-              <Input
-                type="number"
-                className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                defaultValue={Number(expenseInfo.amount)}
-                onChange={(e) => setExpenseAmount(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="block pb-2 font-semibold text-dark">Date</label>
-              <ExpenseDatePicker date={expenseDate} setDate={setExpenseDate} />
-            </div>
+            <Input
+              type="number"
+              className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              defaultValue={Number(expenseInfo.amount)}
+              onChange={(e) => setExpenseAmount(e.target.value)}
+            />
+            {/* Datepicker */}
+            <ExpenseDatePicker date={expenseDate} setDate={setExpenseDate} />
             {/* Payment method */}
-            <div>
-              <label className="block pb-2 font-semibold text-dark">
-                Payment Method
-              </label>
-              <Select
-                value={paymentMethod}
-                onValueChange={(value) => setPaymentMethod(value)}
-              >
-                <SelectTrigger>
-                  <SelectValue className="text-[#a9a9a9]" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="cash">Cash</SelectItem>
-                  <SelectItem value="credit card">Credit Card</SelectItem>
-                  <SelectItem value="debit card">Debit Card</SelectItem>
-                  <SelectItem value="prepaid card">Prepaid Card</SelectItem>
-                  <SelectItem value="digital wallet">
-                    Digital Wallet (Apple Pay, Samsung Pay, Google Pay, etc.)
-                  </SelectItem>
-                  <SelectItem value="check">Check</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            <Select
+              value={paymentMethod}
+              onValueChange={(value) => setPaymentMethod(value)}
+            >
+              <SelectTrigger>
+                <SelectValue className="text-[#a9a9a9]" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="cash">Cash</SelectItem>
+                <SelectItem value="credit card">Credit Card</SelectItem>
+                <SelectItem value="debit card">Debit Card</SelectItem>
+                <SelectItem value="prepaid card">Prepaid Card</SelectItem>
+                <SelectItem value="digital wallet">
+                  Digital Wallet (Apple Pay, Samsung Pay, Google Pay, etc.)
+                </SelectItem>
+                <SelectItem value="check">Check</SelectItem>
+              </SelectContent>
+            </Select>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="mt-4 sm:justify-start">
+        <DialogFooter className="flex-col sm:justify-start">
           <PopoverClose asChild>
             <Button
               className="w-full"

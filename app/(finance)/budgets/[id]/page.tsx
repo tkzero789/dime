@@ -181,13 +181,20 @@ export default function BudgetByIdPage({ params }: Props) {
                   <span className="font-semibold text-medium">Add expense</span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="h-dvh sm:h-auto">
-                <AddExpense
-                  paramId={params.id}
-                  currentUser={currentUser || "default"}
-                  refreshData={() => getBudgetInfo()}
-                  setOpen={setOpen}
-                />
+              <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
+                <DialogHeader>
+                  <DialogTitle className="text-center">
+                    Add New Expense
+                  </DialogTitle>
+                  <DialogDescription className="flex flex-col gap-4 pt-4">
+                    <AddExpense
+                      paramId={params.id}
+                      currentUser={currentUser || "default"}
+                      refreshData={() => getBudgetInfo()}
+                      setOpen={setOpen}
+                    />
+                  </DialogDescription>
+                </DialogHeader>
               </DialogContent>
             </Dialog>
           </div>

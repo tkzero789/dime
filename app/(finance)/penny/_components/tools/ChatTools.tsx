@@ -1,45 +1,48 @@
 import { ArrowLeftRight, CircleDollarSign, Landmark } from "lucide-react";
-import React from "react";
+import React, { MutableRefObject } from "react";
 
-export default function ChatTools() {
+type Props = {
+  handleInputChange: (e: any) => void;
+};
+
+export default function ChatTools({ handleInputChange }: Props) {
+  const tools = [
+    {
+      option: "Savings Forecast",
+      icon: Landmark,
+      task: "Test",
+    },
+    {
+      option: "Budget Snapshot",
+      icon: ArrowLeftRight,
+      task: "Test2",
+    },
+    {
+      option: "Finance Tips",
+      icon: CircleDollarSign,
+      task: "Test4",
+    },
+  ];
+
   return (
-    <div className="mx-auto grid w-full grid-cols-1 gap-4 overflow-hidden px-12 pt-40 sm:w-auto md:grid-cols-[repeat(3,_minmax(auto,_180px))] md:px-0">
-      <button className="item-center flex h-fit items-center justify-center rounded-full border bg-teal-500 bg-opacity-30 px-0 py-2 transition-all hover:bg-opacity-50 sm:px-4 sm:py-3">
-        <div className="item-center flex w-full justify-center gap-2">
-          <span className="flex w-2/5 justify-end sm:block sm:w-auto">
-            <Landmark strokeWidth={2} className="h-6 w-6 stroke-teal-700" />
-          </span>
-          <span className="flex-1 text-start font-medium text-teal-700 sm:flex-none">
-            Income
-          </span>
-        </div>
-      </button>
-      <button className="item-center flex h-fit items-center justify-center rounded-full border bg-teal-500 bg-opacity-30 px-0 py-2 transition-all hover:bg-opacity-50 sm:px-4 sm:py-3">
-        <div className="item-center flex w-full justify-center gap-2">
-          <span className="flex w-2/5 justify-end sm:block sm:w-auto">
-            <ArrowLeftRight
-              strokeWidth={2}
-              className="h-6 w-6 stroke-teal-700"
-            />
-          </span>
-          <span className="flex-1 text-start font-medium text-teal-700 sm:flex-none">
-            Transaction
-          </span>
-        </div>
-      </button>
-      <button className="item-center flex h-fit items-center justify-center rounded-full border bg-teal-500 bg-opacity-30 px-0 py-2 transition-all hover:bg-opacity-50 sm:px-4 sm:py-3">
-        <div className="item-center flex w-full justify-center gap-2">
-          <span className="flex w-2/5 justify-end sm:block sm:w-auto">
-            <CircleDollarSign
-              strokeWidth={2}
-              className="h-6 w-6 stroke-teal-700"
-            />
-          </span>
-          <span className="flex-1 text-start font-medium text-teal-700 sm:flex-none">
-            Spending
-          </span>
-        </div>
-      </button>
+    <div className="mx-auto grid w-full grid-cols-1 place-items-center gap-6 overflow-hidden px-12 py-4 pt-40 sm:w-auto md:grid-cols-3 md:px-0">
+      {tools.map((t) => (
+        <button
+          key={t.option}
+          className="item-center flex w-4/5 items-center justify-center rounded-lg border p-2 shadow-sm hover:border-neutral-400 sm:w-full sm:p-4"
+        >
+          <div className="item-center flex flex-col justify-center gap-2">
+            <div className="flex items-center justify-center">
+              <span className="rounded-full bg-teal-200 bg-opacity-50 p-2">
+                <t.icon strokeWidth={2} className="h-6 w-6 stroke-teal-700" />
+              </span>
+            </div>
+            <span className="text-sm font-semibold text-teal-700">
+              {t.option}
+            </span>
+          </div>
+        </button>
+      ))}
     </div>
   );
 }

@@ -87,7 +87,7 @@ export default function AddRecurring() {
           <span className="font-semibold text-medium">Add New Payment</span>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
         <DialogHeader>
           <DialogTitle className="text-center">
             Add Reccuring Payment
@@ -157,7 +157,7 @@ export default function AddRecurring() {
             </Select>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="mt-4 sm:justify-start">
+        <DialogFooter className="flex-col sm:justify-start">
           <DialogClose asChild>
             <Button
               className="w-full"
