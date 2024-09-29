@@ -13,6 +13,7 @@ import {
   LogOut,
   RefreshCcwDot,
   ArrowLeftRight,
+  BotMessageSquare,
 } from "lucide-react";
 import {
   Drawer,
@@ -93,17 +94,6 @@ export default function MobileNav() {
               <DrawerTitle className="text-center">More options</DrawerTitle>
             </DrawerHeader>
             <div className="grid w-full grid-cols-2 gap-4 px-4 pb-4">
-              {/* Help & Privacy */}
-              <Link
-                href="/dashboard"
-                onClick={handleLinkClick}
-                className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
-              >
-                <span className="text-medium">
-                  <CircleHelp strokeWidth={2} />
-                </span>
-                <span className="font-medium text-medium">Help & Privacy</span>
-              </Link>
               {/* Noti */}
               <Link
                 href="/dashboard"
@@ -159,6 +149,17 @@ export default function MobileNav() {
                 </span>
                 <span className="font-medium text-medium">Transaction</span>
               </Link>
+              {/* Penny Chatbot */}
+              <Link
+                href="/dashboard"
+                onClick={handleLinkClick}
+                className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
+              >
+                <span className="text-medium">
+                  <BotMessageSquare strokeWidth={2} />
+                </span>
+                <span className="font-medium text-medium">Penny</span>
+              </Link>
               {/* Sign Out */}
               <AlertDialog>
                 <AlertDialogTrigger className="flex flex-col items-center justify-center rounded-lg border p-2 text-medium shadow-md">
@@ -185,6 +186,17 @@ export default function MobileNav() {
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
+              {/* Help & Privacy */}
+              <Link
+                href="/dashboard"
+                onClick={handleLinkClick}
+                className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
+              >
+                <span className="text-medium">
+                  <CircleHelp strokeWidth={2} />
+                </span>
+                <span className="font-medium text-medium">Help & Privacy</span>
+              </Link>
             </div>
           </DrawerContent>
         </Drawer>
