@@ -1,35 +1,43 @@
 import { ArrowLeftRight, CircleDollarSign, Landmark } from "lucide-react";
-import React, { MutableRefObject } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 type Props = {
-  handleInputChange: (e: any) => void;
+  handleUserSubmit: (e: any) => void;
+  setInput: Dispatch<SetStateAction<string>>;
 };
 
-export default function ChatTools({ handleInputChange }: Props) {
+export default function ChatTools({ handleUserSubmit, setInput }: Props) {
   const tools = [
     {
       option: "Savings Forecast",
       icon: Landmark,
-      task: "Test",
+      task: "What are my potential saving right now for this month?",
     },
     {
       option: "Budget Snapshot",
       icon: ArrowLeftRight,
-      task: "Test2",
+      task: "Give me an overall detail about my budgets for this month",
     },
     {
       option: "Finance Tips",
       icon: CircleDollarSign,
-      task: "Test4",
+      task: "Review and analyze my income and spending. What can I do to improve my current finance situation for this month?",
     },
   ];
+
+  const handleClick = (e: any, text: string) => {
+    e.preventDefault();
+    setInput(text);
+    handleUserSubmit(e);
+  };
 
   return (
     <div className="mx-auto grid w-full grid-cols-1 place-items-center gap-6 overflow-hidden px-12 py-4 pt-40 sm:w-auto md:grid-cols-3 md:px-0">
       {tools.map((t) => (
         <button
           key={t.option}
-          className="item-center flex w-4/5 items-center justify-center rounded-lg border p-2 shadow-sm hover:border-neutral-400 sm:w-full sm:p-4"
+          className="item-center flex w-4/5 items-center justify-center rounded-lg border p-2 shadow-sm transition-all hover:border-neutral-400 sm:w-full sm:p-4"
+          onClick={(e) => handleClick(e, t.task)}
         >
           <div className="item-center flex flex-col justify-center gap-2">
             <div className="flex items-center justify-center">

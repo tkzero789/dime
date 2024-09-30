@@ -52,7 +52,7 @@ export async function POST(request: Request) {
           {
             role: "system",
             content:
-              "You are an assistant bot that answers user about their data. Only answer questions relating to this given context or questions relating to finance in general. If the questions from user are not related to this given context or finance, simply say that you cannot answer.",
+              "You are an assistant bot that answers users about their data. Only answer questions relating to this given context or questions relating to finance in general. If the questions from user are not related to this given context or finance, simply say that you cannot answer. Furthermore, when mentioning date, always follow this format: first three letters month, date, then year.",
           },
           { role: "system", content: JSON.stringify(incomeData) },
           ...messages.map((i: any) =>

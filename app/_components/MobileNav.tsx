@@ -151,7 +151,7 @@ export default function MobileNav() {
               </Link>
               {/* Penny Chatbot */}
               <Link
-                href="/dashboard"
+                href="/penny"
                 onClick={handleLinkClick}
                 className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
               >

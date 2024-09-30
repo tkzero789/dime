@@ -1,4 +1,4 @@
-import React, { MutableRefObject } from "react";
+import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
 
 type Props = {
   input: string;

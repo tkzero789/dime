@@ -3,20 +3,29 @@
 import React from "react";
 import { useChat } from "ai/react";
 import { BotMessageSquare } from "lucide-react";
-import ChatForm from "./_components/form/ChatForm";
+import ChatForm from "./_components/chat/ChatForm";
 import ChatTools from "./_components/tools/ChatTools";
 import Markdown from "react-markdown";
 import "@/css/app.css";
 
 export default function PennyPage() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } =
-    useChat({
-      api: "api/vector",
-      streamProtocol: "text",
-      onError: (e) => {
-        console.log(e);
-      },
-    });
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    isLoading,
+    setInput,
+  } = useChat({
+    api: "api/vector",
+    streamProtocol: "text",
+    onError: (e) => {
+      console.log(e);
+    },
+  });
+
+  const [isEmpty, setIsEmpty] = React.useState<boolean>(true);
+  const [isClicked, setIsClicked] = React.useState<boolean>(false);
 
   const withConditionalClass =
     (Component: any) => (props: React.HTMLAttributes<HTMLElement>) => {
@@ -57,9 +66,14 @@ export default function PennyPage() {
     strong: withConditionalClass("strong"),
   };
 
+  const handleUserSubmit = (e: any) => {
+    e.preventDefault();
+    setIsEmpty(!isEmpty);
+  };
+
   return (
     <div className="mx-auto flex h-full w-full flex-col md:w-[48rem]">
-      <ChatTools handleInputChange={handleInputChange} />
+      <ChatTools handleUserSubmit={handleUserSubmit} setInput={setInput} />
       <div className="flex-1 overflow-hidden px-8 pb-56 pt-24">
         {messages.map((m) => (
           <div
@@ -80,6 +94,8 @@ export default function PennyPage() {
         ))}
       </div>
       <ChatForm
+        isEmpty={isEmpty}
+        setIsEmpty={setIsEmpty}
         input={input}
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
