@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { CircleArrowUp } from "lucide-react";
 import React, { Dispatch, SetStateAction } from "react";
 import ChatInput from "./ChatInput";
-import ChatTools from "../tools/ChatTools";
 
 type Props = {
   isEmpty: boolean;

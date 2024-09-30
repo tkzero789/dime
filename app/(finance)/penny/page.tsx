@@ -3,8 +3,8 @@
 import React from "react";
 import { useChat } from "ai/react";
 import { BotMessageSquare } from "lucide-react";
-import ChatForm from "./_components/chat/ChatForm";
-import ChatTools from "./_components/tools/ChatTools";
+import ChatForm from "./_components/ChatForm";
+import ChatTools from "./_components/ChatTools";
 import Markdown from "react-markdown";
 import "@/css/app.css";
 
@@ -25,7 +25,6 @@ export default function PennyPage() {
   });
 
   const [isEmpty, setIsEmpty] = React.useState<boolean>(true);
-  const [isClicked, setIsClicked] = React.useState<boolean>(false);
 
   const withConditionalClass =
     (Component: any) => (props: React.HTMLAttributes<HTMLElement>) => {
