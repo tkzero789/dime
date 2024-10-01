@@ -39,11 +39,11 @@ async function getData(): Promise<Transaction[]> {
   return transactions;
 }
 
-export default async function TanStackPage() {
+export default async function TransactionPage() {
   const data = await getData();
   return (
     <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 xl:px-20">
-      <h2 className="text-2xl font-bold">Tanstack Table</h2>
+      <h2 className="text-2xl font-bold">Transaction Table</h2>
       <TransactionTable columns={columns} data={data} />
     </div>
   );

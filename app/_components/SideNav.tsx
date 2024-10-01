@@ -38,12 +38,11 @@ export default function SideNav() {
     { option: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
     { option: "Budgets", icon: Banknote, href: "/budgets" },
     { option: "Spending", icon: CircleDollarSign, href: "/spending" },
-    // { option: "Transaction", icon: ArrowLeftRight, href: "/transaction" },
+    { option: "Transaction", icon: ArrowLeftRight, href: "/transaction" },
     { option: "Recurring", icon: RefreshCcwDot, href: "/recurring" },
     { option: "Income", icon: Landmark, href: "/income" },
     { option: "Saving", icon: PiggyBank, href: "/saving" },
     { option: "Penny", icon: BotMessageSquare, href: "/penny" },
-    { option: "Tanstack", icon: Table, href: "/tanstack" },
   ];
   // Path name
   const path = usePathname();
