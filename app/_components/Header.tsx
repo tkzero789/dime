@@ -13,7 +13,7 @@ export default function Header() {
           Dime
         </span>
       </div>
-      <Button asChild variant="outline" className="ml-auto mr-4">
+      <Button asChild variant="secondary" className="ml-auto mr-4">
         <SignInButton
           forceRedirectUrl="/dashboard"
           signUpForceRedirectUrl="/dashboard"

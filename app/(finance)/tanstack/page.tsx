@@ -1,16 +1,11 @@
 import React from "react";
-import { Transaction, columns } from "./table/columns";
+import { columns, Transaction } from "./table/columns";
 import { db } from "@/db/dbConfig";
 import { eq, getTableColumns } from "drizzle-orm";
 import { BudgetExpenses, Income, Recurrence, Single } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
-import { DataTable } from "./table/data-table";
-import { ExpenseDetail } from "@/types/types";
 import { BatchResponse } from "drizzle-orm/batch";
-
-type NewExpenseDetail = ExpenseDetail & {
-  category: string;
-};
+import { TransactionTable } from "./table/TransactionTable";
 
 async function getData(): Promise<Transaction[]> {
   const user = await currentUser();
@@ -49,7 +44,7 @@ export default async function TanStackPage() {
   return (
     <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 xl:px-20">
       <h2 className="text-2xl font-bold">Tanstack Table</h2>
-      <DataTable columns={columns} data={data} />
+      <TransactionTable columns={columns} data={data} />
     </div>
   );
 }

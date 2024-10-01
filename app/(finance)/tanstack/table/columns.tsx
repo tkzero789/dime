@@ -1,21 +1,16 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  ArrowUpDown,
-  CircleArrowRight,
-  CircleChevronRight,
-  MoreHorizontal,
-} from "lucide-react";
+import { ArrowUpDown, CircleChevronRight } from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import DeleteSingleTS from "./delete-single-ts";
 import FormatDate from "@/utils/formatDate";
 import FormatString from "@/utils/formatString";
+import DeleteSingle from "./DeleteSingle";
 
 export type Transaction = {
   id: string;
@@ -129,7 +124,7 @@ export const columns: ColumnDef<Transaction>[] = [
           <PopoverContent>
             <div className="p-1">
               {transaction.category === "single payment" && (
-                <DeleteSingleTS singleId={transaction.id} />
+                <DeleteSingle singleId={transaction.id} />
               )}
             </div>
           </PopoverContent>

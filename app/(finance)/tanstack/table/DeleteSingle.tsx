@@ -18,7 +18,6 @@ import { db } from "@/db/dbConfig";
 import { Single } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import toast from "react-hot-toast";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
@@ -26,7 +25,7 @@ type Props = {
   singleId: string;
 };
 
-export default function DeleteSingleTS({ singleId }: Props) {
+export default function DeleteSingle({ singleId }: Props) {
   const router = useRouter();
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress ?? "";
