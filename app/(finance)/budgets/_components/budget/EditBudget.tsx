@@ -179,13 +179,16 @@ export default function EditBudget({
             />
             <div className="flex items-center gap-2">
               {/* Emoji selection */}
-              <Button variant="ghost" onClick={() => setOpenEmoji(!openEmoji)}>
+              <Button
+                variant="outline"
+                onClick={() => setOpenEmoji(!openEmoji)}
+              >
                 {emoji}
               </Button>
               {/* Budget category */}
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="ghost" className="flex-1 border">
+                  <Button variant="outline" className="flex-1 border">
                     {category || budgetInfo[0]?.category}
                   </Button>
                 </DialogTrigger>

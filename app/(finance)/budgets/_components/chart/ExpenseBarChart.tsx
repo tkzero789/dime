@@ -96,7 +96,7 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
           <CardDescription>Your current spending in this month</CardDescription>
         </div>
         <Button
-          variant="ghost"
+          variant="outline"
           className="block w-full px-8 md:hidden lg:w-auto"
           onClick={() => setIsFirstHalf(!isFirstHalf)}
         >

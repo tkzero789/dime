@@ -49,7 +49,7 @@ export default function ChatForm({
           <div className="flex items-center justify-between gap-2 rounded-2xl border border-gray-300 bg-white p-2 shadow-none sm:p-3 lg:shadow-md">
             <ChatInput input={input} handleInput={handleInput} />
             <Button
-              variant="ghost"
+              variant="outline"
               className={`rounded-xl px-2 py-1 ${
                 isEmpty && !isLoading
                   ? "pointer-events-none"

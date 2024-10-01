@@ -74,7 +74,7 @@ export default function AddIncome({ currentUser, refreshData }: Props) {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          variant="ghost"
+          variant="outline"
           className="flex items-center justify-center gap-2"
           onClick={handleClearInput}
         >

@@ -32,7 +32,7 @@ export default function MoreAction({
   return (
     <Popover>
       <PopoverTrigger asChild className="w-auto md:w-2/5">
-        <Button variant="ghost">
+        <Button variant="outline">
           <span className="inline-block pr-2">More Actions</span>{" "}
           <ChevronDown strokeWidth={1} className="h-auto w-auto" />
         </Button>

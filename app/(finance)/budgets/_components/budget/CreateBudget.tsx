@@ -179,7 +179,7 @@ export default function CreateBudget({ refreshData }: Props) {
       <Dialog>
         <DialogTrigger asChild>
           <Button
-            variant="outline"
+            variant="secondary"
             className="group flex items-center justify-center gap-2"
             onClick={checkBudgetAmount}
           >
@@ -207,7 +207,7 @@ export default function CreateBudget({ refreshData }: Props) {
                 <div className="flex items-center gap-2">
                   {/* Emoji selection */}
                   <Button
-                    variant="ghost"
+                    variant="outline"
                     onClick={() => setOpenEmoji(!openEmoji)}
                   >
                     {emoji ? emoji : "Icon"}
@@ -215,7 +215,7 @@ export default function CreateBudget({ refreshData }: Props) {
                   {/* Budget category */}
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button variant="ghost" className="flex-1 border">
+                      <Button variant="outline" className="flex-1 border">
                         {category || "Budget category"}
                       </Button>
                     </DialogTrigger>

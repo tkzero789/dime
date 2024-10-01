@@ -21,7 +21,7 @@ export default function AddTransaction({ refreshData }: Props) {
     <Dialog>
       <DialogTrigger asChild className="w-full md:w-auto">
         <Button
-          variant="ghost"
+          variant="outline"
           className="flex items-center justify-center gap-2"
         >
           <CirclePlus strokeWidth={1.75} color="#555353" />

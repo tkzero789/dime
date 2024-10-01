@@ -79,7 +79,7 @@ export function SpendingBarChart({ finalData }: Props) {
           Income and Expenditure
         </CardTitle>
         <Button
-          variant="ghost"
+          variant="outline"
           className="w-full px-8 lg:w-auto"
           onClick={() => setIsFirstHalf(!isFirstHalf)}
         >

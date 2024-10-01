@@ -124,7 +124,7 @@ export default function BudgetByIdPage({ params }: Props) {
         <Popover>
           <PopoverTrigger asChild>
             <Button
-              variant="outline"
+              variant="secondary"
               className="group flex items-center justify-center gap-2"
             >
               <CircleEllipsis
@@ -174,7 +174,7 @@ export default function BudgetByIdPage({ params }: Props) {
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   className="flex items-center justify-center gap-2"
                 >
                   <CirclePlus strokeWidth={1.75} color="#555353" />
