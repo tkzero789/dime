@@ -20,27 +20,21 @@ import { Input } from "@/components/ui/input";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
-import { Income, Single } from "@/db/schema";
+import { Single } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import toast from "react-hot-toast";
 import { SingleDatePicker } from "./SingleDatePicker";
 import { SingleDetail } from "@/types/types";
-
-type NewSingleDetail = SingleDetail & {
-  type: string;
-};
+import { useRouter } from "next/navigation";
 
 type Props = {
-  currentUser: string | undefined;
-  singleInfo: NewSingleDetail;
-  refreshData: () => void;
+  singleInfo: SingleDetail;
+  currentUser: string;
 };
 
-export default function EditSingle({
-  currentUser,
-  singleInfo,
-  refreshData,
-}: Props) {
+export default function EditSingle({ currentUser, singleInfo }: Props) {
+  const router = useRouter();
+
   // Correct date displays for datepicker in edit single payment
   const convertToLocalDate = (dateString: string): Date => {
     const [year, month, day] = dateString.split("-").map(Number);
@@ -86,7 +80,7 @@ export default function EditSingle({
 
     if (result) {
       toast.success("Your single payment is updated!");
-      refreshData();
+      router.refresh();
     }
   };
 

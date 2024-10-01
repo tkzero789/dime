@@ -1,25 +1,24 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, CircleChevronRight } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { ArrowUpDown } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import FormatDate from "@/utils/formatDate";
 import FormatString from "@/utils/formatString";
-import DeleteSingle from "./DeleteSingle";
+import ViewTransaction from "./ViewTransaction";
+import {
+  ExpenseDetail,
+  IncomeDetail,
+  RecurrenceDetail,
+  SingleDetail,
+} from "@/types/types";
 
-export type Transaction = {
-  id: string;
-  date: string;
-  name: string;
-  category: string;
-  payment_method: string;
-  amount: string;
-};
+export type Transaction =
+  | ExpenseDetail
+  | IncomeDetail
+  | RecurrenceDetail
+  | SingleDetail;
 
 const getCategory = (category: string) => {
   if (
@@ -109,27 +108,7 @@ export const columns: ColumnDef<Transaction>[] = [
     id: "actions",
     cell: ({ row }) => {
       const transaction = row.original;
-      return (
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open more options</span>
-              <CircleChevronRight
-                className="h-5 w-5"
-                color="#757373"
-                fill="#ebebeb"
-              />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <div className="p-1">
-              {transaction.category === "single payment" && (
-                <DeleteSingle singleId={transaction.id} />
-              )}
-            </div>
-          </PopoverContent>
-        </Popover>
-      );
+      return <ViewTransaction transactionDetail={transaction} />;
     },
   },
 ];

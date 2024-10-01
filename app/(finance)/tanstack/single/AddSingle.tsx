@@ -27,12 +27,10 @@ import { useUser } from "@clerk/nextjs";
 import { SingleDatePicker } from "./SingleDatePicker";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
-type Props = {
-  refreshData: () => void;
-};
-
-export default function AddSinglePayment({ refreshData }: Props) {
+export default function AddSingle() {
+  const router = useRouter();
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
@@ -63,8 +61,8 @@ export default function AddSinglePayment({ refreshData }: Props) {
       .returning({ insertId: Single.id });
 
     if (result) {
-      refreshData();
       toast.success("New Single Payment Added!");
+      router.refresh();
     }
   };
 

@@ -10,13 +10,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Banknote, CirclePlus, RefreshCcwDot } from "lucide-react";
 import Link from "next/link";
-import AddSinglePayment from "../single/AddSinglePayment";
+import AddSingle from "../single/AddSingle";
 
-type Props = {
-  refreshData: () => void;
-};
-
-export default function AddTransaction({ refreshData }: Props) {
+export default function AddTransaction() {
   return (
     <Dialog>
       <DialogTrigger asChild className="w-full md:w-auto">
@@ -32,7 +28,7 @@ export default function AddTransaction({ refreshData }: Props) {
         <DialogHeader>
           <DialogTitle className="text-center">Add New Transaction</DialogTitle>
           <DialogDescription className="flex w-full flex-col items-center justify-center gap-4 pt-4">
-            <AddSinglePayment refreshData={refreshData} />
+            <AddSingle />
             <Link
               href="/recurring"
               className="flex w-full items-center justify-center rounded-md border border-gray-400 p-4 hover:bg-gray-200"

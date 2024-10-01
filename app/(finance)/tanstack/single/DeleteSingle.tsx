@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   AlertDialog,
@@ -16,31 +18,27 @@ import { db } from "@/db/dbConfig";
 import { Single } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import toast from "react-hot-toast";
-import { DialogClose } from "@radix-ui/react-dialog";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 type Props = {
-  currentUser: string | undefined;
   singleId: string;
-  refreshData: () => void;
+  currentUser: string;
 };
 
-export default function DeleteSingle({
-  currentUser,
-  singleId,
-  refreshData,
-}: Props) {
+export default function DeleteSingle({ singleId, currentUser }: Props) {
+  const router = useRouter();
+
   //Delete single
   const deleteSingle = async (singleId: string) => {
     const result = await db
       .delete(Single)
-      .where(
-        and(eq(Single.id, singleId), eq(Single.created_by, currentUser ?? "")),
-      )
+      .where(and(eq(Single.id, singleId), eq(Single.created_by, currentUser)))
       .returning();
 
     if (result) {
       toast.success("Single Payment Deleted!");
-      refreshData();
+      router.refresh();
     }
   };
 
@@ -62,14 +60,12 @@ export default function DeleteSingle({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <DialogClose asChild>
-            <AlertDialogAction
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              onClick={() => deleteSingle(singleId)}
-            >
-              Delete
-            </AlertDialogAction>
-          </DialogClose>
+          <AlertDialogAction
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            onClick={() => deleteSingle(singleId)}
+          >
+            Delete
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

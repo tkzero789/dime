@@ -22,6 +22,7 @@ import {
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import AddTransaction from "./AddTransaction";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -69,7 +70,7 @@ export function TransactionTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="mt-8 flex items-center">
         <Input
           placeholder="Search transaction..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -78,7 +79,11 @@ export function TransactionTable<TData, TValue>({
           }
         />
       </div>
-      <div className="rounded-lg border bg-white p-6 shadow-md">
+      <div className="mt-8 rounded-lg border bg-white p-6 shadow-md">
+        <div className="flex items-center justify-between pb-4">
+          <h2 className="text-xl font-bold">Latest transactions</h2>
+          <AddTransaction />
+        </div>
         <Table className="rounded-lg bg-white">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -115,7 +120,7 @@ export function TransactionTable<TData, TValue>({
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className={`truncate px-4 py-2 ${cell.column.id === "actions" && "text-center"}`}
+                      className={`truncate px-4 py-2 ${cell.column.id === "actions" && "flex items-center justify-center"}`}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
