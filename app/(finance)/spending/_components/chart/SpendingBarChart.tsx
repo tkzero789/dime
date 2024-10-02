@@ -9,7 +9,6 @@ import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Button } from "@/components/ui/button";
 import SpendingBarCustomTooltip from "./SpendingBarCustomTooltip";

@@ -15,6 +15,7 @@ import {
   RefreshCcwDot,
   BotMessageSquare,
   Table,
+  Frame,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -43,6 +44,7 @@ export default function SideNav() {
     { option: "Income", icon: Landmark, href: "/income" },
     { option: "Saving", icon: PiggyBank, href: "/saving" },
     { option: "Penny", icon: BotMessageSquare, href: "/penny" },
+    { option: "Frequency", icon: Frame, href: "/frequency" },
   ];
   // Path name
   const path = usePathname();

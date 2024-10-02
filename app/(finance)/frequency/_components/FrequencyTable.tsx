@@ -15,28 +15,24 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CircleCheck, Ellipsis, ReceiptText } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 import FormatNumber from "@/utils/formatNumber";
 import { RecurringRule } from "@/types/types";
 import FormatString from "@/utils/formatString";
+import EditFrequency from "./EditFrequency";
 import { db } from "@/db/dbConfig";
-import { and, eq, getTableColumns, sql } from "drizzle-orm";
+import { eq, getTableColumns } from "drizzle-orm";
 import { Recurrence, Recurring_rule } from "@/db/schema";
-import PayRecurring from "./PayRecurring";
-import EditRecurring from "./EditRecurring";
-import DeleteRecurring from "./DeleteRecurring";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import FormatDate from "@/utils/formatDate";
+import DeleteFrequency from "./DeleteFrequency";
+import PayFrequency from "./PayFrequency";
 
 type Props = {
   ruleList: RecurringRule[];
   currentUser: string;
 };
 
-export default function RecurringTable({ ruleList, currentUser }: Props) {
-  const currentMonth = new Date().getUTCMonth() + 1;
-  const currentYear = new Date().getUTCFullYear();
+export default function FrequencyTable({ ruleList, currentUser }: Props) {
+  const currentMonth = new Date().getUTCMonth();
 
   const [isPaid, setIsPaid] = React.useState<Record<string, boolean>>({});
 
@@ -57,13 +53,7 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
         const recurrenceExist = await db
           .select({ ...getTableColumns(Recurrence) })
           .from(Recurrence)
-          .where(
-            and(
-              eq(Recurrence.rule_id, rule.id),
-              sql`EXTRACT(MONTH FROM ${Recurrence.date}) = ${currentMonth}`,
-              sql`EXTRACT(YEAR FROM ${Recurrence.date}) = ${currentYear}`,
-            ),
-          )
+          .where(eq(Recurrence.rule_id, rule.id))
           .limit(1);
 
         paidStatus[rule.id] = recurrenceExist.length > 0;
@@ -107,7 +97,8 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
         {ruleList.map((item) => (
           <TableRow key={item.id} className={`text-xs font-medium lg:text-sm`}>
             <TableCell className="px-4 py-2 font-medium">
-              <FormatDate numMonthNumDateUTC={new Date(item.due_date)} />
+              {currentMonth}/
+              <FormatNumber number={Number(item.due_date)} />
             </TableCell>
             <TableCell className="truncate px-4 py-2">{item.name}</TableCell>
             <TableCell className="px-4 py-2">
@@ -144,36 +135,12 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
                     Action
                   </div>
                   <div className="p-1">
-                    {isPaid[item.id] ? (
-                      <Button
-                        asChild
-                        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
-                      >
-                        <Link href="/transaction">
-                          <span className="pl-4">
-                            <ReceiptText
-                              strokeWidth={2}
-                              className="h-4 w-4"
-                              color="#555353"
-                            />
-                          </span>
-                          <span className="font-semibold text-medium">
-                            View
-                          </span>
-                        </Link>
-                      </Button>
-                    ) : (
-                      <PayRecurring
-                        recurringInfo={item}
-                        refreshData={() => getData()}
-                      />
-                    )}
-
-                    <EditRecurring
+                    <PayFrequency recurringInfo={item} />
+                    <EditFrequency
                       recurringInfo={item}
                       currentUser={currentUser}
                     />
-                    <DeleteRecurring
+                    <DeleteFrequency
                       recurringId={item.id}
                       currentUser={currentUser || "default"}
                     />

@@ -27,7 +27,7 @@ import toast from "react-hot-toast";
 import { Recurring_rule } from "@/db/schema";
 import { db } from "@/db/dbConfig";
 
-export default function AddRecurring() {
+export default function AddFrequencyRule() {
   const router = useRouter();
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress ?? "";
@@ -38,13 +38,6 @@ export default function AddRecurring() {
   const [method, setMethod] = React.useState<string>("");
   const [frequency, setFrequency] = React.useState<string>("");
   const [dueDate, setDueDate] = React.useState<string>("");
-
-  const currentDate = new Date();
-  const currentYear = currentDate.getUTCFullYear();
-  const currentMonth = String(currentDate.getUTCMonth() + 1).padStart(2, "0");
-  const day = String(Math.floor(Number(dueDate))).padStart(2, "0");
-
-  const formattedDate = `${currentYear}-${currentMonth}-${day}`;
 
   const addNewRecurrence = async () => {
     if (
@@ -68,7 +61,7 @@ export default function AddRecurring() {
         payment_method: method,
         set_date: new Date().toISOString(),
         frequency: frequency,
-        due_date: formattedDate,
+        due_date: dueDate,
         created_by: currentUser,
       })
       .returning({ insertId: Recurring_rule.id });

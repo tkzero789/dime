@@ -24,7 +24,7 @@ type Props = {
   currentUser: string | undefined;
 };
 
-export default function DeleteRecurring({ recurringId, currentUser }: Props) {
+export default function DeleteFrequency({ recurringId, currentUser }: Props) {
   const router = useRouter();
 
   // Delete recurring - switch isActive to false

@@ -1,10 +1,10 @@
 import React from "react";
+import FrequencyTable from "./_components/FrequencyTable";
 import { currentUser } from "@clerk/nextjs/server";
 import { db } from "@/db/dbConfig";
 import { and, eq, getTableColumns } from "drizzle-orm";
+import AddFrequencyRule from "./_components/AddFrequencyRule";
 import { Recurring_rule } from "@/db/schema";
-import RecurringTable from "./_components/RecurringTable";
-import AddRecurring from "./_components/AddRecurring";
 
 export default async function FrequencyPage() {
   const user = await currentUser();
@@ -27,10 +27,10 @@ export default async function FrequencyPage() {
         <div className="flex items-center justify-between pb-4">
           <h2 className="text-xl font-bold">Payments list</h2>
           <div>
-            <AddRecurring />
+            <AddFrequencyRule />
           </div>
         </div>
-        <RecurringTable ruleList={result} currentUser={userEmail} />
+        <FrequencyTable ruleList={result} currentUser={userEmail} />
       </div>
     </div>
   );

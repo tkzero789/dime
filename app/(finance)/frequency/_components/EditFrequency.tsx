@@ -33,7 +33,7 @@ type Props = {
   currentUser: string | undefined;
 };
 
-export default function EditRecurring({ recurringInfo, currentUser }: Props) {
+export default function EditFrequency({ recurringInfo, currentUser }: Props) {
   const [recurringName, setRecurringName] = React.useState<string>("");
   const [recurringAmount, setRecurringAmount] = React.useState<string>("");
   const [recurringCategory, setRecurringCategory] = React.useState<string>(

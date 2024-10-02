@@ -5,6 +5,7 @@ import {
   timestamp,
   uuid,
   varchar,
+  boolean,
 } from "drizzle-orm/pg-core";
 
 export const Budgets = pgTable("budgets", {
@@ -39,8 +40,24 @@ export const Income = pgTable("income", {
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const Recurring_rule = pgTable("recurring_rule", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: varchar("name").notNull(),
+  amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
+  category: varchar("category").notNull(),
+  payment_method: varchar("payment_method").notNull(),
+  set_date: date("set_date").notNull(),
+  frequency: varchar("frequency").notNull(),
+  due_date: date("due_date").notNull(),
+  created_by: varchar("created_by").notNull(),
+  isActive: boolean("isActive").notNull().default(true),
+});
+
 export const Recurrence = pgTable("recurrence", {
   id: uuid("id").primaryKey().defaultRandom(),
+  rule_id: uuid("rule_id")
+    .notNull()
+    .references(() => Recurring_rule.id),
   name: varchar("name").notNull(),
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
   category: varchar("category").notNull(),

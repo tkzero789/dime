@@ -49,6 +49,20 @@ export type RecurrenceDetail = {
   created_at: Date;
 };
 
+// recurring_rule
+export type RecurringRule = {
+  id: string;
+  name: string;
+  amount: string;
+  category: string;
+  payment_method: string;
+  set_date: string;
+  frequency: string;
+  due_date: string;
+  created_by: string;
+  isActive: boolean;
+};
+
 // single payment
 export type SingleDetail = {
   id: string;
