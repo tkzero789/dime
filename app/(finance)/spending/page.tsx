@@ -77,7 +77,7 @@ export default function SpendingPage() {
         ];
         setSpendingData(totalSpending);
 
-        // Call calculate after setting data
+        // Calculate spending
         calculate(incomeResult, totalSpending);
       }
     } catch (error) {
@@ -92,7 +92,12 @@ export default function SpendingPage() {
     const incomeByMonth = groupByMonth(incomeData);
     const spendingByMonth = groupByMonth(spendingData);
 
-    const finalData = Object.keys(incomeByMonth).map((month) => ({
+    const allMonths = new Set([
+      ...Object.keys(incomeByMonth),
+      ...Object.keys(spendingByMonth),
+    ]);
+
+    const finalData = Array.from(allMonths).map((month) => ({
       month,
       income: incomeByMonth[month]
         ? incomeByMonth[month].reduce((acc, curr) => acc + curr.amount, 0)
@@ -130,7 +135,6 @@ export default function SpendingPage() {
     <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 xl:px-20">
       <h2 className="text-2xl font-bold">Spending</h2>
       <SpendingBarChart finalData={finalData} />
-
       <SpendingPieChart spendingData={spendingData} />
     </div>
   );

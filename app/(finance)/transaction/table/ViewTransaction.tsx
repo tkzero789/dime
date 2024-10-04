@@ -29,8 +29,6 @@ type Props = {
 };
 
 export default function ViewTransaction({ transactionDetail }: Props) {
-  console.log(transactionDetail);
-
   const isExpenseDetail = (
     detail: Props["transactionDetail"],
   ): detail is ExpenseDetail => {

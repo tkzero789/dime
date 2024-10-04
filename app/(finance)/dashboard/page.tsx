@@ -36,6 +36,7 @@ export default function DashboardPage() {
   const [allData, setAllData] = React.useState<
     (IncomeDetail | NewExpenseDetail | RecurrenceDetail | SingleDetail)[]
   >([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
@@ -58,6 +59,7 @@ export default function DashboardPage() {
   ).toISOString();
 
   const getData = async () => {
+    setIsLoading(true);
     try {
       const batchResponse: BatchResponse<any> = await db.batch([
         db
@@ -157,11 +159,13 @@ export default function DashboardPage() {
 
         setBudget(budgetResult);
 
-        setAllData([...incomeResult, ...combineSpending]);
+        const combinedData = [...incomeResult, ...combineSpending];
+        setAllData(combinedData);
       }
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -169,8 +173,16 @@ export default function DashboardPage() {
       <h2 className="text-2xl font-bold">
         <GetGreeting />
       </h2>
-      <DashboardTopSection spending={spending} income={income} />
-      <DashboardMidSection allData={allData} budget={budget} />
+      <DashboardTopSection
+        spending={spending}
+        income={income}
+        isLoading={isLoading}
+      />
+      <DashboardMidSection
+        allData={allData}
+        budget={budget}
+        isLoading={isLoading}
+      />
     </div>
   );
 }

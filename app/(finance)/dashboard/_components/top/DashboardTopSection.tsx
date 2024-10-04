@@ -8,13 +8,19 @@ import React from "react";
 import { DashboardLineChart } from "../chart/DashboardLineChart";
 import DashboardAccountCard from "./DashboardFinanceOverview";
 import DashboardSeeUpcoming from "./DashboardSeeUpcoming";
+import { CardSkeleton } from "@/components/ui/card-skeleton";
 
 type Props = {
   spending: (ExpenseDetail | RecurrenceDetail | SingleDetail)[];
   income: IncomeDetail[];
+  isLoading: boolean;
 };
 
-export default function DashboardTopSection({ spending, income }: Props) {
+export default function DashboardTopSection({
+  spending,
+  income,
+  isLoading,
+}: Props) {
   const [totalIncome, setTotalIncome] = React.useState<number>(0);
   const [currentSpend, setCurrentSpend] = React.useState<number>(0);
   const [potentialSave, setPotentialSave] = React.useState<number>(0);

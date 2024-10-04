@@ -24,7 +24,6 @@ import { db } from "@/db/dbConfig";
 import { Income } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import { IncomeDetail } from "@/types/types";
 
 type Props = {
