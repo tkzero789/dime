@@ -204,7 +204,7 @@ export default function BudgetByIdPage({ params }: Props) {
             refreshData={() => getBudgetInfo()}
           />
         </div>
-        <div className="hidden xl:block">
+        <div className="hidden xl:flex xl:flex-col xl:gap-4 xl:rounded-lg xl:border xl:bg-white xl:p-6 xl:shadow-md">
           <AddExpense
             paramId={params.id}
             currentUser={currentUser || "default"}
