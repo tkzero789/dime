@@ -55,15 +55,32 @@ export default function DashboardTopSection({
   return (
     <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
       <div className="col-span-3 xl:col-span-2">
-        <DashboardLineChart spending={spending} />
+        {isLoading ? (
+          <CardSkeleton
+            title={true}
+            titleWidth={30}
+            rectangle={1}
+            height={15}
+          />
+        ) : (
+          <DashboardLineChart spending={spending} />
+        )}
       </div>
       <div className="col-span-3 flex flex-col justify-between gap-4 xl:col-span-1">
-        <DashboardAccountCard
-          totalIncome={totalIncome}
-          currentSpend={currentSpend}
-          potentialSave={potentialSave}
-        />
-        <DashboardSeeUpcoming />
+        {isLoading ? (
+          <CardSkeleton title={true} titleWidth={40} rectangle={3} height={2} />
+        ) : (
+          <DashboardAccountCard
+            totalIncome={totalIncome}
+            currentSpend={currentSpend}
+            potentialSave={potentialSave}
+          />
+        )}
+        {isLoading ? (
+          <CardSkeleton rectangle={1} height={2} />
+        ) : (
+          <DashboardSeeUpcoming />
+        )}
       </div>
     </div>
   );
