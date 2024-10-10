@@ -71,7 +71,7 @@ export function BudgetRadicalChart({ budgetList }: Props) {
   };
 
   return (
-    <Card className="flex flex-col rounded-lg shadow-md">
+    <Card className="col-span-3 flex flex-col rounded-lg shadow-md xl:col-span-1">
       <CardHeader className="items-center pb-0">
         <CardTitle className="text-xl font-bold tracking-normal">
           Budgets Tracker

@@ -1,43 +1,41 @@
 "use client";
 
 import React from "react";
-import CreateBudget from "./CreateBudget";
-import { Skeleton } from "@/components/ui/skeleton";
 import BudgetItem from "./BudgetItem";
 import { BudgetDetail } from "@/types/types";
-import { BudgetRadicalChart } from "@/app/(finance)/budgets/_components/chart/BudgetRadicalChart";
+import { Banknote } from "lucide-react";
 
 type Props = {
   budgetList: BudgetDetail[];
-  getBudgetList: () => Promise<void>;
 };
 
-export default function BudgetList({ budgetList, getBudgetList }: Props) {
+export default function BudgetList({ budgetList }: Props) {
   return (
-    <>
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Budgets list</h2>
-        <CreateBudget refreshData={() => getBudgetList()} />
-      </div>
-      <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div className="order-last col-span-3 grid h-fit grid-cols-1 gap-y-2 xl:order-first xl:col-span-2 xl:grid-cols-2 xl:gap-4">
-          {budgetList?.length > 0
-            ? budgetList.map((budget) => (
-                <BudgetItem key={budget.id} budget={budget} />
-              ))
-            : Array(6)
-                .fill(null)
-                .map((_, index) => (
-                  <Skeleton
-                    key={index}
-                    className="mt-4 h-28 w-full bg-gray-200"
-                  />
-                ))}
+    <div className="order-last col-span-3 grid h-fit grid-cols-1 gap-y-2 xl:order-first xl:col-span-2 xl:grid-cols-2 xl:gap-4">
+      {budgetList?.length > 0 ? (
+        budgetList.map((budget) => (
+          <BudgetItem key={budget.id} budget={budget} />
+        ))
+      ) : (
+        <div className="col-span-3 flex w-full flex-col items-center justify-center p-6 text-center">
+          <div className="relative h-44 w-44">
+            <Banknote
+              className="h-full w-full"
+              strokeWidth="0.75"
+              color="#b0aeae"
+            />
+            <span className="absolute left-1/2 top-1/2 h-1 w-11/12 translate-x-[-50%] translate-y-[-50%] rotate-[30deg] rounded-full bg-[#b0aeae]"></span>
+          </div>
+          <div>
+            <span className="block w-full text-xl font-bold">
+              Empty Budget List
+            </span>
+            <span className="font-medium text-medium">
+              Add a budget to start saving and tracking
+            </span>
+          </div>
         </div>
-        <div className="col-span-3 xl:col-span-1">
-          <BudgetRadicalChart budgetList={budgetList} />
-        </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 }

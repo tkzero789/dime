@@ -44,7 +44,6 @@ export default function SideNav() {
     { option: "Income", icon: Landmark, href: "/income" },
     { option: "Saving", icon: PiggyBank, href: "/saving" },
     { option: "Penny", icon: BotMessageSquare, href: "/penny" },
-    { option: "Frequency", icon: Frame, href: "/frequency" },
   ];
   // Path name
   const path = usePathname();
