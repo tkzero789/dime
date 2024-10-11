@@ -1,6 +1,12 @@
 "use client";
 import React from "react";
-import { CircleEqual, CirclePlus, MinusCircle } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  CircleEqual,
+  CirclePlus,
+  MinusCircle,
+} from "lucide-react";
 import {
   Label,
   PolarGrid,
@@ -18,8 +24,8 @@ import {
 } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { BudgetDetail } from "@/types/types";
-import GetCurrentMonth from "@/utils/getCurrentMonth";
 import FormatNumber from "@/utils/formatNumber";
+import { Button } from "@/components/ui/button";
 
 const chartData = [{ spending: 1, fill: "var(--color-spent)" }];
 const chartConfig = {
@@ -31,13 +37,42 @@ const chartConfig = {
 
 type Props = {
   budgetList: BudgetDetail[];
+  handlePreviousMonth: () => void;
+  handleNextMonth: () => void;
+  month: number;
+  year: number;
 };
 
-export function BudgetRadicalChart({ budgetList }: Props) {
+export function BudgetRadicalChart({
+  budgetList,
+  handlePreviousMonth,
+  handleNextMonth,
+  month,
+  year,
+}: Props) {
   const [totalBudget, setTotalBudget] = React.useState<number>(0);
   const [totalSpend, setTotalSpend] = React.useState<number>(0);
   const [remaining, setRemaining] = React.useState<number>(0);
   const [chartPercent, setChartPercent] = React.useState<number>(0);
+
+  const currentDate = new Date();
+  const currentMonth = currentDate.getUTCMonth();
+  const currentYear = currentDate.getUTCFullYear();
+
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   React.useEffect(() => {
     calculation();
@@ -72,13 +107,26 @@ export function BudgetRadicalChart({ budgetList }: Props) {
 
   return (
     <Card className="col-span-3 flex flex-col rounded-lg shadow-md xl:col-span-1">
-      <CardHeader className="items-center pb-0">
-        <CardTitle className="text-xl font-bold tracking-normal">
-          Budgets Tracker
-        </CardTitle>
-        <CardDescription>
-          <GetCurrentMonth month={budgetList[0]?.created_at} />
-        </CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between pb-0">
+        <Button variant="outline" size="sm" onClick={handlePreviousMonth}>
+          <ChevronLeft />
+        </Button>
+        <div>
+          <CardTitle className="text-xl font-bold tracking-normal">
+            Budgets Tracker
+          </CardTitle>
+          <CardDescription className="text-center">
+            {months[month]} - {year}
+          </CardDescription>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleNextMonth}
+          disabled={month === currentMonth && year === currentYear}
+        >
+          <ChevronRight />
+        </Button>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

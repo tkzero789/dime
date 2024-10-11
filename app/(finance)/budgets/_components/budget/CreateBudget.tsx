@@ -11,6 +11,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -104,18 +112,53 @@ export default function CreateBudget({ refreshData }: Props) {
     },
   ];
 
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const currentDate = new Date();
+  const currentMonthIndex = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
+
   const [emoji, setEmoji] = React.useState<string>("");
   const [openEmoji, setOpenEmoji] = React.useState(false);
-
   const [name, setName] = React.useState<string>("");
+  const [month, setMonth] = React.useState<number | null>(null);
   const [category, setCategory] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
   const [isExceed, setIsExceed] = React.useState<boolean>(false);
 
+  const getPreviousMonths = (currentMonthIndex: number, count: number) => {
+    const previousMonths = [];
+    for (let i = 0; i <= count; i++) {
+      const monthIndex = (currentMonthIndex - i + 12) % 12;
+      previousMonths.push({ name: months[monthIndex], index: monthIndex });
+    }
+    return previousMonths;
+  };
+
+  const previousMonths = getPreviousMonths(currentMonthIndex, 5);
+
   const { user } = useUser();
   // Create new budget
   const onCreateBudget = async () => {
-    if (!name || !amount || !user?.primaryEmailAddress?.emailAddress) {
+    if (
+      !name ||
+      !amount ||
+      !month ||
+      !currentYear ||
+      !user?.primaryEmailAddress?.emailAddress
+    ) {
       window.alert("Missing required information");
       return;
     }
@@ -127,6 +170,8 @@ export default function CreateBudget({ refreshData }: Props) {
         name: name,
         amount: amount,
         icon: emoji,
+        month: month,
+        year: currentYear,
         category: category,
         created_by: user?.primaryEmailAddress?.emailAddress,
       })
@@ -204,6 +249,23 @@ export default function CreateBudget({ refreshData }: Props) {
                   placeholder="Budget name"
                   onChange={(e) => setName(e.target.value)}
                 />
+                {/* Month */}
+                <Select
+                  value={month !== null ? month.toString() : ""}
+                  onValueChange={(value) => setMonth(Number(value))}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select month" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {previousMonths.map((m, index) => (
+                      <SelectItem key={m.index} value={m.index.toString()}>
+                        {index === 0 ? "Current month - " + m.name : m.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
                 <div className="flex items-center gap-2">
                   {/* Emoji selection */}
                   <Button
@@ -285,7 +347,7 @@ export default function CreateBudget({ refreshData }: Props) {
             <DialogClose asChild>
               <Button
                 className="w-full"
-                disabled={!(emoji && name && amount)}
+                disabled={!(emoji && name && amount && month)}
                 onClick={() => onCreateBudget()}
               >
                 Create budget

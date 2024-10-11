@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { SignOutButton } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 
 export default function SideNav() {
   // Menu list
@@ -97,7 +98,9 @@ export default function SideNav() {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel asChild>
+                  <Button variant="outline">Cancel</Button>
+                </AlertDialogCancel>
                 <AlertDialogAction asChild>
                   <SignOutButton redirectUrl="/sign-in" />
                 </AlertDialogAction>

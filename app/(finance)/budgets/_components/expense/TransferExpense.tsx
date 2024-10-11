@@ -154,7 +154,9 @@ export default function TransferExpense({
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogCancel asChild>
+                            <Button variant="outline">Cancel</Button>
+                          </AlertDialogCancel>
                           <PopoverClose asChild>
                             <AlertDialogAction
                               onClick={() => handleTransferExpense(item.id)}

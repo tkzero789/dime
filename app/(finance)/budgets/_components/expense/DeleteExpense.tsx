@@ -16,6 +16,7 @@ import { db } from "@/db/dbConfig";
 import toast from "react-hot-toast";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   refreshData: () => void;
@@ -62,7 +63,9 @@ export default function DeleteExpense({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel asChild>
+            <Button variant="outline">Cancel</Button>
+          </AlertDialogCancel>
           <PopoverClose asChild>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"

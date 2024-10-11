@@ -36,6 +36,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SignOutButton } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 
 export default function MobileNav() {
   const path = usePathname();
@@ -179,7 +180,9 @@ export default function MobileNav() {
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel asChild>
+                      <Button variant="outline">Cancel</Button>
+                    </AlertDialogCancel>
                     <AlertDialogAction asChild>
                       <SignOutButton redirectUrl="/sign-in" />
                     </AlertDialogAction>

@@ -6,6 +6,7 @@ import {
   uuid,
   varchar,
   boolean,
+  integer,
 } from "drizzle-orm/pg-core";
 
 export const Budgets = pgTable("budgets", {
@@ -14,6 +15,8 @@ export const Budgets = pgTable("budgets", {
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
   category: varchar("category").notNull(),
   icon: varchar("icon"),
+  month: integer("month").notNull(),
+  year: integer("year").notNull(),
   created_by: varchar("created_by").notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
 });

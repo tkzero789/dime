@@ -17,8 +17,8 @@ export default function BudgetList({ budgetList }: Props) {
           <BudgetItem key={budget.id} budget={budget} />
         ))
       ) : (
-        <div className="col-span-3 flex w-full flex-col items-center justify-center p-6 text-center">
-          <div className="relative h-44 w-44">
+        <div className="col-span-3 flex w-full flex-col items-center justify-center px-6 py-0 text-center lg:py-6">
+          <div className="relative h-40 w-40">
             <Banknote
               className="h-full w-full"
               strokeWidth="0.75"

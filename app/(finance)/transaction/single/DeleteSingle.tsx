@@ -20,6 +20,7 @@ import { and, eq } from "drizzle-orm";
 import toast from "react-hot-toast";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   singleId: string;
@@ -59,7 +60,9 @@ export default function DeleteSingle({ singleId, currentUser }: Props) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel asChild>
+            <Button variant="outline">Cancel</Button>
+          </AlertDialogCancel>
           <AlertDialogAction
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             onClick={() => deleteSingle(singleId)}

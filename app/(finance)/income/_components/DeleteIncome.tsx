@@ -16,6 +16,7 @@ import { db } from "@/db/dbConfig";
 import { Income } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   currentUser: string | undefined;
@@ -60,7 +61,9 @@ export default function DeleteIncome({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel asChild>
+            <Button variant="outline">Cancel</Button>
+          </AlertDialogCancel>
           <PopoverClose asChild>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"

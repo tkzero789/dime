@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS "budgets" (
 	"amount" numeric(10, 2) NOT NULL,
 	"category" varchar NOT NULL,
 	"icon" varchar,
+	"month" integer NOT NULL,
+	"year" integer NOT NULL,
 	"created_by" varchar NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );

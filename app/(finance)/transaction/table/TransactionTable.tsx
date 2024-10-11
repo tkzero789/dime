@@ -136,27 +136,27 @@ export function TransactionTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No data
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end gap-2 py-4">
+      <div className="flex items-center justify-center gap-2 py-4">
         <Button
           variant="outline"
-          size="sm"
           onClick={() => handlePageChange("previous")}
           disabled={!table.getCanPreviousPage()}
+          className="w-28"
         >
           Previous
         </Button>
         <Button
           variant="outline"
-          size="sm"
           onClick={() => handlePageChange("next")}
           disabled={!table.getCanNextPage()}
+          className="w-28"
         >
           Next
         </Button>

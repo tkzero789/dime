@@ -5,6 +5,8 @@ export type BudgetDetail = {
   amount: string;
   category: string;
   icon: string | null;
+  month: number;
+  year: number;
   total_item: number;
   total_spend: number;
   remaining: number;

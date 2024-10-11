@@ -1,5 +1,5 @@
 {
-  "id": "3c5c1b60-544a-4330-a4e2-6cf097a5b7dd",
+  "id": "d8944fee-e03f-4ff0-8ab5-6a948cc46993",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -112,6 +112,18 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
+        },
+        "month": {
+          "name": "month",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "year": {
+          "name": "year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
         },
         "created_by": {
           "name": "created_by",
