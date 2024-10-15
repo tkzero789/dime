@@ -4,14 +4,12 @@ import Logo from "../../public/coin.svg";
 import { Button } from "@/components/ui/button";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
 
-export default function Header() {
+export default function Navbar() {
   return (
     <div className="flex pt-4">
       <div className="flex items-center gap-2">
         <Image src={Logo} alt="logo" width={40} height={40} />
-        <span className="font-serif text-3xl font-bold text-teal-600">
-          Dime
-        </span>
+        <h1 className="font-serif text-3xl font-bold text-teal-600">Dime</h1>
       </div>
       <Button asChild variant="secondary" className="ml-auto mr-4">
         <SignInButton

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import Logo from "@/public/coin.svg";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider afterSignOutUrl="/sign-in">
+    <ClerkProvider
+      afterSignOutUrl="/sign-in"
+      appearance={{
+        layout: {
+          logoImageUrl: "coin.svg",
+          logoLinkUrl: "/",
+        },
+      }}
+    >
       <html lang="en">
         <body className={inter.className}>
           {children}
