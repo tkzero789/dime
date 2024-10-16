@@ -1,13 +1,19 @@
 import Container from "@/components/ui/container";
-import Hero from "./_components/Hero";
-import Navbar from "./_components/Navbar";
+import LandingBackground from "./_components/HeroSection/LandingBackground";
+import LandingNav from "./_components/Nav/LandingNav";
+import DashboardTabs from "./_components/FeatureSection/DashboardTabs";
+import HeroSection from "./_components/HeroSection/HeroSection";
+import BenefitSection from "./_components/BenefitSection/BenefitSection";
 
 export default function Home() {
   return (
     <div className="h-screen">
       <Container>
-        <Navbar />
-        <Hero />
+        <LandingBackground />
+        <LandingNav />
+        <HeroSection />
+        <DashboardTabs />
+        <BenefitSection />
       </Container>
     </div>
   );

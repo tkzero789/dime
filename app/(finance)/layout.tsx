@@ -1,6 +1,6 @@
 import React from "react";
-import SideNav from "../_components/SideNav";
-import MobileNav from "../_components/MobileNav";
+import SideNav from "../_components/Nav/SideNav";
+import MobileNav from "../_components/Nav/MobileNav";
 
 export default function FinanceLayout({
   children,

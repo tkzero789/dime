@@ -5,3 +5,21 @@
 .chat-content > :only-child {
   margin-bottom: 0rem;
 }
+
+.radial-background {
+  background-image: radial-gradient(
+      27% 37% at 27% 37%,
+      #3a8bfd 0,
+      transparent 0
+    ),
+    radial-gradient(97% 21% at 97% 21%, #71d16c 0, transparent 50%),
+    radial-gradient(52% 99% at 52% 99%, #fd3a4e 0, transparent 35%),
+    radial-gradient(10% 29% at 10% 29%, #855afc 0, transparent 50%),
+    radial-gradient(97% 96% at 97% 96%, #e4c795 0, transparent 50%),
+    radial-gradient(33% 50% at 33% 50%, #8ca8e8 0, transparent 50%),
+    radial-gradient(79% 53% at 79% 53%, #eea5ba 0, transparent 50%);
+}
+
+.nav-shadow {
+  box-shadow: 0 2px 6px 0 #63636333;
+}
