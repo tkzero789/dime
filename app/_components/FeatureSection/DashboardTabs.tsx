@@ -51,6 +51,7 @@ export default function DashboardTabs() {
           {contents.map((content) => (
             <TabsTrigger
               value={content.value}
+              key={content.value}
               className="w-32 rounded-b-none rounded-t-xl"
             >
               {content.value}
@@ -58,7 +59,11 @@ export default function DashboardTabs() {
           ))}
         </TabsList>
         {contents.map((content) => (
-          <TabsContent value={content.value} className="mt-0 w-full">
+          <TabsContent
+            value={content.value}
+            key={content.value}
+            className="mt-0 w-full"
+          >
             <div className="flex w-full rounded-xl bg-teal-500 bg-opacity-20 p-12">
               <div className="h-96 w-1/2">
                 <Image
