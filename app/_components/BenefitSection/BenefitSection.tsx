@@ -27,7 +27,7 @@ export default function BenefitSection() {
   ];
 
   return (
-    <div className="mt-12">
+    <div className="mt-24">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-medium">
           Embrace the Power of{" "}
@@ -36,7 +36,7 @@ export default function BenefitSection() {
           </span>
         </h1>
       </div>
-      <div className="mt-8 grid grid-cols-2 gap-4">
+      <div className="mt-12 grid grid-cols-2 gap-6">
         {benefits.map((benefit) => (
           <div
             key={benefit.title}

@@ -21,13 +21,19 @@ import FormatNumber from "@/utils/formatNumber";
 import { Ellipsis } from "lucide-react";
 import EditIncome from "./EditIncome";
 import DeleteIncome from "./DeleteIncome";
+import Link from "next/link";
 
 type Props = {
   filterIncome: IncomeDetail[];
   refreshData: () => void;
+  isLoading: boolean;
 };
 
-export default function IncomeTable({ filterIncome, refreshData }: Props) {
+export default function IncomeTable({
+  filterIncome,
+  refreshData,
+  isLoading,
+}: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
@@ -91,60 +97,66 @@ export default function IncomeTable({ filterIncome, refreshData }: Props) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {filterIncome.map((income) => (
-          <TableRow
-            key={income.id}
-            className={`text-xs font-medium lg:text-sm ${isClick === income.id ? "bg-neutral-100" : ""}`}
-          >
-            <TableCell className="px-4 py-2 font-medium">
-              <FormatDate numMonthNumDateUTC={new Date(income.date)} />
-            </TableCell>
-            <TableCell className="px-4 py-2">{income.name}</TableCell>
-            <TableCell className="px-4 py-2">
-              <div className="flex w-fit items-center justify-center rounded-full bg-teal-300 bg-opacity-50 px-2 py-1 text-teal-700">
-                <span className="truncate text-[13px]">
-                  <FormatString text={income.category} />
-                </span>
-              </div>
-            </TableCell>
-            <TableCell className="px-4 py-2">
-              <FormatString text={income.payment_method} />
-            </TableCell>
-            <TableCell className="px-4 py-2 text-right font-semibold text-green-700">
-              $<FormatNumber number={Number(income.amount)} />
-            </TableCell>
-            <TableCell className="text-center">
-              <Popover>
-                <div ref={popoverRef}>
-                  <PopoverTrigger
-                    className="flex w-full items-center justify-center"
-                    onClick={() => handleOnClick(income.id)}
-                  >
-                    <Ellipsis className="rounded-md transition hover:bg-neutral-200" />
-                  </PopoverTrigger>
+        {filterIncome.length > 0 ? (
+          filterIncome.map((income) => (
+            <TableRow
+              key={income.id}
+              className={`text-xs font-medium lg:text-sm ${isClick === income.id ? "bg-neutral-100" : ""}`}
+            >
+              <TableCell className="px-4 py-2 font-medium">
+                <FormatDate numMonthNumDateUTC={new Date(income.date)} />
+              </TableCell>
+              <TableCell className="px-4 py-2">{income.name}</TableCell>
+              <TableCell className="px-4 py-2">
+                <div className="flex w-fit items-center justify-center rounded-full bg-teal-300 bg-opacity-50 px-2 py-1 text-teal-700">
+                  <span className="truncate text-[13px]">
+                    <FormatString text={income.category} />
+                  </span>
                 </div>
+              </TableCell>
+              <TableCell className="px-4 py-2">
+                <FormatString text={income.payment_method} />
+              </TableCell>
+              <TableCell className="px-4 py-2 text-right font-semibold text-green-700">
+                $<FormatNumber number={Number(income.amount)} />
+              </TableCell>
+              <TableCell className="text-center">
+                <Popover>
+                  <div ref={popoverRef}>
+                    <PopoverTrigger
+                      className="flex w-full items-center justify-center"
+                      onClick={() => handleOnClick(income.id)}
+                    >
+                      <Ellipsis className="rounded-md transition hover:bg-neutral-200" />
+                    </PopoverTrigger>
+                  </div>
 
-                <PopoverContent className="flex w-40 flex-col px-0 py-0">
-                  <div className="flex items-center justify-center border-b px-3 py-2 text-sm font-semibold">
-                    Action
-                  </div>
-                  <div className="p-1">
-                    <EditIncome
-                      currentUser={currentUser || "default"}
-                      incomeInfo={income}
-                      refreshData={refreshData}
-                    />
-                    <DeleteIncome
-                      currentUser={currentUser || "default"}
-                      incomeId={income.id}
-                      refreshData={refreshData}
-                    />
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </TableCell>
+                  <PopoverContent className="flex w-40 flex-col px-0 py-0">
+                    <div className="flex items-center justify-center border-b px-3 py-2 text-sm font-semibold">
+                      Action
+                    </div>
+                    <div className="p-1">
+                      <EditIncome
+                        currentUser={currentUser || "default"}
+                        incomeInfo={income}
+                        refreshData={refreshData}
+                      />
+                      <DeleteIncome
+                        currentUser={currentUser || "default"}
+                        incomeId={income.id}
+                        refreshData={refreshData}
+                      />
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow className="h-24 text-center">
+            <TableCell colSpan={5}>No income data for this month</TableCell>
           </TableRow>
-        ))}
+        )}
       </TableBody>
       <TableFooter>
         <TableRow className="pointer-events-none bg-neutral-200">

@@ -5,7 +5,7 @@ import React from "react";
 
 export default function HeroSection() {
   return (
-    <section className="mt-32 text-center">
+    <section className="mt-32 text-center md:mt-40">
       <h1 className="mx-auto max-w-2xl text-5xl font-bold text-medium">
         Master your{" "}
         <span className="bg-gradient-to-b from-emerald-400 to-teal-600 bg-clip-text text-transparent">
@@ -20,7 +20,10 @@ export default function HeroSection() {
         Take control of your budget, track spending effortlessly, and get
         AI-powered insights to secure your financial future.
       </p>
-      <Button asChild className="mt-12 rounded-full px-6 py-6 text-base">
+      <Button
+        asChild
+        className="mt-12 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 px-6 py-6 text-base"
+      >
         <Link href="/sign-up">Start for free</Link>
       </Button>
       <div className="mt-10 flex justify-center">

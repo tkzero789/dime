@@ -4,11 +4,19 @@ import TabImg from "@/public/dashboard.webp";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import {
+  ArrowLeftRight,
+  Banknote,
+  BotMessageSquare,
+  CircleDollarSign,
+  LayoutGrid,
+} from "lucide-react";
 
 export default function DashboardTabs() {
   const contents = [
     {
       img: TabImg,
+      icon: LayoutGrid,
       value: "Dashboard",
       title: "Comprehensive Financial Overview",
       description:
@@ -16,6 +24,7 @@ export default function DashboardTabs() {
     },
     {
       img: TabImg,
+      icon: Banknote,
       value: "Budgets",
       title: "Flexible Multi-Budget Management",
       description:
@@ -23,6 +32,7 @@ export default function DashboardTabs() {
     },
     {
       img: TabImg,
+      icon: ArrowLeftRight,
       value: "Transactions",
       title: "Dynamic Transaction Tracking",
       description:
@@ -30,6 +40,7 @@ export default function DashboardTabs() {
     },
     {
       img: TabImg,
+      icon: CircleDollarSign,
       value: "Spending",
       title: "Insightful Spending Analysis",
       description:
@@ -37,6 +48,7 @@ export default function DashboardTabs() {
     },
     {
       img: TabImg,
+      icon: BotMessageSquare,
       value: "AI-Assistant",
       title: "Penny - Intelligent Financial Guidance",
       description:
@@ -52,9 +64,10 @@ export default function DashboardTabs() {
             <TabsTrigger
               value={content.value}
               key={content.value}
-              className="w-32 rounded-b-none rounded-t-xl"
+              className="flex w-40 items-center gap-2 rounded-b-none rounded-t-xl py-2"
             >
-              {content.value}
+              {<content.icon className="h-5 w-5" strokeWidth={1.5} />}
+              <span className="text-semibold font-medium">{content.value}</span>
             </TabsTrigger>
           ))}
         </TabsList>
@@ -82,7 +95,7 @@ export default function DashboardTabs() {
                 <Button
                   asChild
                   variant="outline"
-                  className="w-fit bg-transparent"
+                  className="w-fit bg-transparent hover:bg-gray-800 hover:text-white"
                 >
                   <Link href="/">Learn More</Link>
                 </Button>

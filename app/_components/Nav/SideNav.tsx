@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import Logo from "@/public/coin.svg";
+import Logo from "@/public/svg/coin.svg";
 import {
   CircleDollarSign,
   LayoutGrid,

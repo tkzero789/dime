@@ -12,6 +12,7 @@ import IncomeTable from "./_components/IncomeTable";
 import GetCurrentMonth from "@/utils/getCurrentMonth";
 import AddIncome from "./_components/AddIncome";
 import FormatMonth from "@/utils/formatMonth";
+import { CardSkeleton } from "@/components/ui/card-skeleton";
 
 export default function IncomePage() {
   const { user } = useUser();
@@ -21,6 +22,7 @@ export default function IncomePage() {
     IncomeDetail[]
   >([]);
   const [selectedMonth, setSelectedMonth] = React.useState<string | null>(null);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     user && getIncomeData();
@@ -34,6 +36,7 @@ export default function IncomePage() {
   }, [incomeList]);
 
   const getIncomeData = async () => {
+    setIsLoading(true);
     try {
       const result = await db
         .select({ ...getTableColumns(Income) })
@@ -47,6 +50,7 @@ export default function IncomePage() {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const getCurrentMonthIncome = (month: number, year: number) => {
@@ -72,25 +76,37 @@ export default function IncomePage() {
     <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 xl:px-20">
       <h2 className="text-2xl font-bold">Income</h2>
       <IncomeBarChart incomeList={incomeList} handleBarClick={handleBarClick} />
-      <div className="mt-4 h-fit rounded-lg border bg-white p-6 shadow-md xl:mt-8">
-        <div className="flex items-center justify-between pb-4">
-          <h2 className="text-xl font-bold">
-            {selectedMonth ? (
-              <FormatMonth monthYear={selectedMonth} />
-            ) : (
-              <GetCurrentMonth monthYear={new Date()} />
-            )}
-          </h2>
-          <AddIncome
-            currentUser={currentUser || "default"}
+      {isLoading ? (
+        <CardSkeleton
+          title={true}
+          titleWidth={20}
+          rectangle={1}
+          height={10}
+          style="mt-4 xl:mt-8"
+        />
+      ) : (
+        <div className="mt-4 h-fit rounded-lg border bg-white p-6 shadow-md xl:mt-8">
+          <div className="flex items-center justify-between pb-4">
+            <h2 className="text-xl font-bold">
+              {selectedMonth ? (
+                <FormatMonth monthYear={selectedMonth} />
+              ) : (
+                <GetCurrentMonth monthYear={new Date()} />
+              )}
+            </h2>
+            <AddIncome
+              currentUser={currentUser || "default"}
+              refreshData={getIncomeData}
+            />
+          </div>
+
+          <IncomeTable
+            filterIncome={filterIncomeList}
             refreshData={getIncomeData}
+            isLoading={isLoading}
           />
         </div>
-        <IncomeTable
-          filterIncome={filterIncomeList}
-          refreshData={getIncomeData}
-        />
-      </div>
+      )}
     </div>
   );
 }

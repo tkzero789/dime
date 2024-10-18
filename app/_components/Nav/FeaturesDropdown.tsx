@@ -9,35 +9,69 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import {
+  ArrowLeftRight,
+  Banknote,
+  BotMessageSquare,
+  CircleDollarSign,
+} from "lucide-react";
 
-const components: { title: string; href: string; description: string }[] = [
+const components: {
+  title: string;
+  icon: React.ElementType;
+  href: string;
+  description: string;
+}[] = [
   {
     title: "Budgets",
+    icon: Banknote,
     href: "/",
-    description:
-      "Create and manage multiple custom budgets to effectively track and control your spending across various categories.",
+    description: "Create and manage custom budgets",
   },
   {
     title: "Transactions",
+    icon: ArrowLeftRight,
     href: "/",
-    description:
-      "Easily log, view, edit, and search your financial transactions with powerful sorting and filtering capabilities.",
+    description: "Add, edit, and search transactions",
   },
   {
     title: "Spending",
+    icon: CircleDollarSign,
     href: "/",
-    description:
-      "Visualize your income versus expenses and gain insights into your spending patterns across different categories.",
+    description: "Visualize income vs. expenses",
   },
   {
-    title: "Penny",
+    title: "Penny - AI Assistant",
+    icon: BotMessageSquare,
     href: "/",
-    description:
-      "Get personalized financial advice and tips from our intelligent AI to optimize your money management and spending habits.",
+    description: "Get personalized financial advice",
   },
 ];
+
+const getTitleBg = (title: string) => {
+  if (title === "Budgets") {
+    return "bg-teal-400 bg-opacity-50";
+  } else if (title === "Transactions") {
+    return "bg-yellow-400 bg-opacity-50";
+  } else if (title === "Spending") {
+    return "bg-red-400 bg-opacity-50";
+  } else {
+    return "bg-sky-400 bg-opacity-50";
+  }
+};
+
+const getTitleStroke = (title: string) => {
+  if (title === "Budgets") {
+    return "stroke-teal-700";
+  } else if (title === "Transactions") {
+    return "stroke-yellow-700";
+  } else if (title === "Spending") {
+    return "stroke-red-700";
+  } else {
+    return "stroke-sky-700";
+  }
+};
 
 export function FeaturesDropDown() {
   return (
@@ -50,12 +84,24 @@ export function FeaturesDropDown() {
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
               {components.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
+                <ListItem key={component.title} href={component.href}>
+                  <div className="flex items-center gap-6">
+                    <div
+                      className={`rounded-full p-2 ${getTitleBg(component.title)}`}
+                    >
+                      <component.icon
+                        className={`h-5 w-5 ${getTitleStroke(component.title)}`}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <div className="text-sm font-medium text-dark">
+                        {component.title}
+                      </div>
+                      <p className="text-sm text-medium">
+                        {component.description}
+                      </p>
+                    </div>
+                  </div>
                 </ListItem>
               ))}
             </ul>
@@ -69,7 +115,7 @@ export function FeaturesDropDown() {
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
   React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+>(({ className, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
@@ -81,10 +127,7 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
+          <div>{children}</div>
         </a>
       </NavigationMenuLink>
     </li>

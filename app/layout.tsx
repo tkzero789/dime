@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import Logo from "@/public/coin.svg";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +21,7 @@ export default function RootLayout({
       afterSignOutUrl="/sign-in"
       appearance={{
         layout: {
-          logoImageUrl: "coin.svg",
+          logoImageUrl: "svg/coin.svg",
           logoLinkUrl: "/",
         },
       }}
