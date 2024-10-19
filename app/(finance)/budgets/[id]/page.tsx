@@ -30,6 +30,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, CircleEllipsis, CirclePlus } from "lucide-react";
 import Link from "next/link";
 import ExpenseTable from "../_components/expense/ExpenseTable";
+import { CardSkeleton } from "@/components/ui/card-skeleton";
 
 type Props = {
   params: {
@@ -45,6 +46,7 @@ export default function BudgetByIdPage({ params }: Props) {
   const [expenseDetail, setExpenseDetail] = React.useState<ExpenseDetail[]>([]);
 
   const [open, setOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     user && getBudgetInfo();
@@ -80,18 +82,24 @@ export default function BudgetByIdPage({ params }: Props) {
 
   // All expenses in the budget
   const getExpenseDetail = async () => {
-    const result = await db
-      .select()
-      .from(BudgetExpenses)
-      .where(
-        and(
-          eq(BudgetExpenses.created_by, currentUser ?? ""),
-          eq(BudgetExpenses.budget_id, params.id),
-        ),
-      )
-      .orderBy(desc(BudgetExpenses.date));
+    setIsLoading(true);
+    try {
+      const result = await db
+        .select()
+        .from(BudgetExpenses)
+        .where(
+          and(
+            eq(BudgetExpenses.created_by, currentUser ?? ""),
+            eq(BudgetExpenses.budget_id, params.id),
+          ),
+        )
+        .orderBy(desc(BudgetExpenses.date));
 
-    setExpenseDetail(result);
+      setExpenseDetail(result);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -167,43 +175,54 @@ export default function BudgetByIdPage({ params }: Props) {
           )}
         </div>
       </div>
+
       <div className="mt-4 grid grid-cols-3 gap-4 xl:mt-8">
-        <div className="col-span-3 h-fit rounded-lg border bg-white p-4 shadow-md lg:col-span-3 xl:col-span-2">
-          <div className="flex items-center justify-between pb-4 xl:hidden">
-            <h2 className="text-xl font-bold">Expense list</h2>
-            <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <CirclePlus strokeWidth={1.75} color="#555353" />
-                  <span className="font-semibold text-medium">Add expense</span>
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
-                <DialogHeader>
-                  <DialogTitle className="text-center">
-                    Add New Expense
-                  </DialogTitle>
-                  <DialogDescription className="flex flex-col gap-4 pt-4">
-                    <AddExpense
-                      paramId={params.id}
-                      currentUser={currentUser || "default"}
-                      refreshData={() => getBudgetInfo()}
-                      setOpen={setOpen}
-                    />
-                  </DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
-          </div>
-          <ExpenseTable
-            expenseDetail={expenseDetail}
-            currentUser={currentUser || "default"}
-            refreshData={() => getBudgetInfo()}
+        {isLoading ? (
+          <CardSkeleton
+            rectangle={1}
+            height={10}
+            style="col-span-3 lg:col-span-3 xl:col-span-2 h-fit"
           />
-        </div>
+        ) : (
+          <div className="col-span-3 h-fit rounded-lg border bg-white p-6 shadow-md lg:col-span-3 xl:col-span-2">
+            <div className="flex items-center justify-between pb-4 xl:hidden">
+              <h2 className="text-xl font-bold">Expense list</h2>
+              <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <CirclePlus strokeWidth={1.75} color="#555353" />
+                    <span className="font-semibold text-medium">
+                      Add expense
+                    </span>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
+                  <DialogHeader>
+                    <DialogTitle className="text-center">
+                      Add New Expense
+                    </DialogTitle>
+                    <DialogDescription className="flex flex-col gap-4 pt-4">
+                      <AddExpense
+                        paramId={params.id}
+                        currentUser={currentUser || "default"}
+                        refreshData={() => getBudgetInfo()}
+                        setOpen={setOpen}
+                      />
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            </div>
+            <ExpenseTable
+              expenseDetail={expenseDetail}
+              currentUser={currentUser || "default"}
+              refreshData={() => getBudgetInfo()}
+            />
+          </div>
+        )}
         <div className="hidden xl:flex xl:flex-col xl:gap-4 xl:rounded-lg xl:border xl:bg-white xl:p-6 xl:shadow-md">
           <AddExpense
             paramId={params.id}

@@ -77,58 +77,66 @@ export default function ExpenseTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {expenseDetail.map((expense) => (
-          <TableRow
-            key={expense.id}
-            className={`text-xs font-medium lg:text-sm ${isClick === expense.id ? "bg-neutral-100" : ""}`}
-          >
-            <TableCell className="px-4 py-2 font-medium">
-              <FormatDate numMonthNumDateUTC={new Date(expense.date)} />
-            </TableCell>
-            <TableCell className="truncate px-4 py-2">{expense.name}</TableCell>
-            <TableCell className="px-4 py-2">
-              <FormatString text={expense.payment_method} />
-            </TableCell>
-            <TableCell className="px-4 py-2 text-right font-semibold">
-              $<FormatNumber number={Number(expense.amount)} />
-            </TableCell>
-            <TableCell className="text-center">
-              <Popover>
-                <div ref={popoverRef}>
-                  <PopoverTrigger
-                    className="flex w-full items-center justify-center"
-                    onClick={() => handleOnClick(expense.id)}
-                  >
-                    <Ellipsis className="rounded-md transition hover:bg-neutral-200" />
-                  </PopoverTrigger>
-                </div>
+        {expenseDetail.length > 0 ? (
+          expenseDetail.map((expense) => (
+            <TableRow
+              key={expense.id}
+              className={`text-xs font-medium lg:text-sm ${isClick === expense.id ? "bg-neutral-100" : ""}`}
+            >
+              <TableCell className="px-4 py-2 font-medium">
+                <FormatDate numMonthNumDateUTC={new Date(expense.date)} />
+              </TableCell>
+              <TableCell className="truncate px-4 py-2">
+                {expense.name}
+              </TableCell>
+              <TableCell className="px-4 py-2">
+                <FormatString text={expense.payment_method} />
+              </TableCell>
+              <TableCell className="px-4 py-2 text-right font-semibold">
+                $<FormatNumber number={Number(expense.amount)} />
+              </TableCell>
+              <TableCell className="text-center">
+                <Popover>
+                  <div ref={popoverRef}>
+                    <PopoverTrigger
+                      className="flex w-full items-center justify-center"
+                      onClick={() => handleOnClick(expense.id)}
+                    >
+                      <Ellipsis className="rounded-md transition hover:bg-neutral-200" />
+                    </PopoverTrigger>
+                  </div>
 
-                <PopoverContent className="flex w-40 flex-col px-0 py-0">
-                  <div className="flex items-center justify-center border-b px-3 py-2 text-sm font-semibold">
-                    Action
-                  </div>
-                  <div className="p-1">
-                    <EditExpense
-                      refreshData={refreshData}
-                      currentUser={currentUser || "default"}
-                      expenseInfo={expense}
-                    />
-                    <TransferExpense
-                      refreshData={refreshData}
-                      currentUser={currentUser || "default"}
-                      expenseId={expense.id}
-                    />
-                    <DeleteExpense
-                      refreshData={refreshData}
-                      currentUser={currentUser || "default"}
-                      expenseId={expense.id}
-                    />
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </TableCell>
+                  <PopoverContent className="flex w-40 flex-col px-0 py-0">
+                    <div className="flex items-center justify-center border-b px-3 py-2 text-sm font-semibold">
+                      Action
+                    </div>
+                    <div className="p-1">
+                      <EditExpense
+                        refreshData={refreshData}
+                        currentUser={currentUser || "default"}
+                        expenseInfo={expense}
+                      />
+                      <TransferExpense
+                        refreshData={refreshData}
+                        currentUser={currentUser || "default"}
+                        expenseId={expense.id}
+                      />
+                      <DeleteExpense
+                        refreshData={refreshData}
+                        currentUser={currentUser || "default"}
+                        expenseId={expense.id}
+                      />
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow className="h-10 text-center">
+            <TableCell colSpan={5}>No expenses found</TableCell>
           </TableRow>
-        ))}
+        )}
       </TableBody>
     </Table>
   );

@@ -347,7 +347,7 @@ export default function CreateBudget({ refreshData }: Props) {
             <DialogClose asChild>
               <Button
                 className="w-full"
-                disabled={!(emoji && name && amount && month)}
+                disabled={!(emoji && name && amount && month && category)}
                 onClick={() => onCreateBudget()}
               >
                 Create budget
