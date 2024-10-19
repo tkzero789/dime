@@ -19,10 +19,15 @@ import FormatNumber from "@/utils/formatNumber";
 import FormatDate from "@/utils/formatDate";
 import { Button } from "@/components/ui/button";
 import MoreAction from "../single/MoreAction";
+import MoreActionRecurrence from "../recurrence/MoreActionRecurrence";
+
+type NewExpenseDetail = ExpenseDetail & {
+  category: "Budget Expenses";
+};
 
 type Props = {
   transactionDetail:
-    | ExpenseDetail
+    | NewExpenseDetail
     | IncomeDetail
     | RecurrenceDetail
     | SingleDetail;
@@ -31,7 +36,7 @@ type Props = {
 export default function ViewTransaction({ transactionDetail }: Props) {
   const isExpenseDetail = (
     detail: Props["transactionDetail"],
-  ): detail is ExpenseDetail => {
+  ): detail is NewExpenseDetail => {
     return (detail as ExpenseDetail).budget_id !== undefined;
   };
 
@@ -120,6 +125,20 @@ export default function ViewTransaction({ transactionDetail }: Props) {
                 <MoreAction
                   singleId={transactionDetail.id}
                   singleInfo={transactionDetail}
+                />
+              ) : [
+                  "mortgage",
+                  "rent",
+                  "bill and utilities",
+                  "car payment",
+                  "loan",
+                  "credit card payment",
+                  "insurance",
+                  "monthly subscription",
+                ].includes(transactionDetail.category) ? (
+                <MoreActionRecurrence
+                  recurrenceId={transactionDetail.id}
+                  recurrenceInfo={transactionDetail}
                 />
               ) : (
                 <Button asChild className="w-2/5">

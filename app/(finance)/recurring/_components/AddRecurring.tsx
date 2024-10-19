@@ -82,6 +82,8 @@ export default function AddRecurring() {
   const handleClearInput = () => {
     setName("");
     setAmount("");
+    setFrequency("");
+    setDueDate("");
     setCategory("");
     setMethod("");
   };

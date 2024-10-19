@@ -15,7 +15,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CircleCheck, Ellipsis, ReceiptText } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import { Ellipsis, Info } from "lucide-react";
 import FormatNumber from "@/utils/formatNumber";
 import { RecurringRule } from "@/types/types";
 import FormatString from "@/utils/formatString";
@@ -25,9 +32,8 @@ import { Recurrence, Recurring_rule } from "@/db/schema";
 import PayRecurring from "./PayRecurring";
 import EditRecurring from "./EditRecurring";
 import DeleteRecurring from "./DeleteRecurring";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import FormatDate from "@/utils/formatDate";
+import ViewRecurring from "./ViewRecurring";
 
 type Props = {
   ruleList: RecurringRule[];
@@ -37,14 +43,19 @@ type Props = {
 export default function RecurringTable({ ruleList, currentUser }: Props) {
   const currentMonth = new Date().getUTCMonth() + 1;
   const currentYear = new Date().getUTCFullYear();
-
   const [isPaid, setIsPaid] = React.useState<Record<string, boolean>>({});
+  const [totalAmount, setTotalAmount] = React.useState<number>(0);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    currentUser && getData();
-  }, [currentUser]);
+    if (currentUser) {
+      getData();
+      calculate();
+    }
+  }, [currentUser, ruleList]);
 
   const getData = async () => {
+    setIsLoading(true);
     try {
       const activeRules = await db
         .select({ ...getTableColumns(Recurring_rule) })
@@ -72,6 +83,7 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const getCategory = (category: string) => {
@@ -94,10 +106,15 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
     }
   };
 
+  const calculate = () => {
+    const total = ruleList.reduce((acc, curr) => acc + Number(curr.amount), 0);
+    setTotalAmount(total);
+  };
+
   return (
     <Table className="rounded-lg bg-white">
       <TableHeader>
-        <TableRow className="pointer-events-none border-none bg-neutral-200">
+        <TableRow className="border-none bg-neutral-200 hover:bg-neutral-200">
           <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-medium">
             Due date
           </TableHead>
@@ -113,8 +130,25 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
           <TableHead className="text-sm font-semibold text-medium">
             Repeat
           </TableHead>
-          <TableHead className="text-sm font-semibold text-medium">
+          <TableHead className="flex items-center gap-1 text-sm font-semibold text-medium">
             Status
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild className="cursor-pointer">
+                  <Info
+                    strokeWidth={2}
+                    color="#555353"
+                    className="h-4 w-4 hover:stroke-gray-700"
+                  />
+                </TooltipTrigger>
+                <TooltipContent className="mr-8 max-w-64 border shadow-lg">
+                  <p className="font-normal text-medium">
+                    Mark as "Paid" only if the payment is paid for the current
+                    month
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </TableHead>
           <TableHead className="text-right text-sm font-semibold text-medium">
             Amount
@@ -149,7 +183,11 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
                 <FormatString text={item.frequency} />
               </TableCell>
               <TableCell className="px-4 py-2">
-                {isPaid[item.id] ? "Paid" : "Unpaid"}
+                <div
+                  className={`rounded-md bg-opacity-50 px-2 py-1 text-[13px] ${!isLoading ? (isPaid[item.id] ? "w-fit bg-green-300 text-green-700" : "w-fit bg-red-300 text-red-700") : "h-[28px] w-[60px] animate-pulse bg-gray-200"}`}
+                >
+                  {isLoading ? "" : isPaid[item.id] ? "Paid" : "Unpaid"}
+                </div>
               </TableCell>
               <TableCell className="px-4 py-2 text-right font-semibold">
                 $<FormatNumber number={Number(item.amount)} />
@@ -167,32 +205,14 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
                       Action
                     </div>
                     <div className="p-1">
-                      {isPaid[item.id] ? (
-                        <Button
-                          asChild
-                          className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
-                        >
-                          <Link href="/transaction">
-                            <span className="pl-4">
-                              <ReceiptText
-                                strokeWidth={2}
-                                className="h-4 w-4"
-                                color="#555353"
-                              />
-                            </span>
-                            <span className="font-semibold text-medium">
-                              View
-                            </span>
-                          </Link>
-                        </Button>
-                      ) : (
+                      {!isPaid[item.id] && (
                         <PayRecurring
                           recurringInfo={item}
                           isPaid={isPaid}
                           refreshData={() => getData()}
                         />
                       )}
-
+                      <ViewRecurring recurringInfo={item} isPaid={isPaid} />
                       <EditRecurring
                         recurringInfo={item}
                         currentUser={currentUser}
@@ -225,8 +245,8 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
             Total
           </TableCell>
           <TableCell className="text-right font-bold">
-            -$
-            {/* <FormatNumber number={totalAmount} /> */}
+            $
+            <FormatNumber number={totalAmount} />
           </TableCell>
           <TableCell className="rounded-br-lg"></TableCell>
         </TableRow>

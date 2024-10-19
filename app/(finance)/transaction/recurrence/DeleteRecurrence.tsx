@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import {
   AlertDialog,
@@ -12,32 +10,35 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
 import { Trash2 } from "lucide-react";
-import { db } from "@/db/dbConfig";
-import { Single } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Recurrence } from "@/db/schema";
+import { and, eq } from "drizzle-orm";
+import { useRouter } from "next/navigation";
+import { db } from "@/db/dbConfig";
+import toast from "react-hot-toast";
 
 type Props = {
-  singleId: string;
+  recurrenceId: string;
   currentUser: string;
 };
 
-export default function DeleteSingle({ singleId, currentUser }: Props) {
+export default function DeleteRecurrence({ recurrenceId, currentUser }: Props) {
   const router = useRouter();
 
-  //Delete single
-  const deleteSingle = async (singleId: string) => {
+  const deleteRecurrence = async (recurrenceId: string) => {
     const result = await db
-      .delete(Single)
-      .where(and(eq(Single.id, singleId), eq(Single.created_by, currentUser)))
+      .delete(Recurrence)
+      .where(
+        and(
+          eq(Recurrence.id, recurrenceId),
+          eq(Recurrence.created_by, currentUser),
+        ),
+      )
       .returning();
 
     if (result) {
-      toast.success("Single Payment Deleted!");
+      toast.success("Transaction Deleted!");
       router.refresh();
     }
   };
@@ -52,10 +53,10 @@ export default function DeleteSingle({ singleId, currentUser }: Props) {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Single</AlertDialogTitle>
+          <AlertDialogTitle>Delete Transaction</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete this single payment? This action
-            cannot be undone. Click 'Delete' to confirm this action.
+            Are you sure you want to delete this transaction? This action cannot
+            be undone. Click 'Delete' to confirm this action.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -64,7 +65,7 @@ export default function DeleteSingle({ singleId, currentUser }: Props) {
           </AlertDialogCancel>
           <AlertDialogAction
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            onClick={() => deleteSingle(singleId)}
+            onClick={() => deleteRecurrence(recurrenceId)}
           >
             Delete
           </AlertDialogAction>

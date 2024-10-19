@@ -48,12 +48,16 @@ export default function EditRecurring({ recurringInfo, currentUser }: Props) {
   const [initialRecurringMethod] = React.useState<string>(
     recurringInfo.payment_method,
   );
-  const [dueDate, setDueDate] = React.useState<string>(
-    parseInt(recurringInfo.due_date).toString(),
-  );
-  const [initialDueDate] = React.useState<string>(
-    parseInt(recurringInfo.due_date).toString(),
-  );
+  const newDueDate = new Date(recurringInfo.due_date).getUTCDate().toString();
+  const [dueDate, setDueDate] = React.useState<string>(newDueDate);
+  const [initialDueDate] = React.useState<string>(newDueDate);
+
+  const currentDate = new Date();
+  const currentYear = currentDate.getUTCFullYear();
+  const currentMonth = String(currentDate.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(Math.floor(Number(dueDate))).padStart(2, "0");
+
+  const formattedDate = `${currentYear}-${currentMonth}-${day}`;
 
   const router = useRouter();
 
@@ -63,7 +67,7 @@ export default function EditRecurring({ recurringInfo, currentUser }: Props) {
     const updatedAmount = recurringAmount || recurringInfo.amount;
     const updateCategory = recurringCategory || recurringInfo.category;
     const updateMethod = recurringMethod || recurringInfo.payment_method;
-    const updateDueDate = dueDate || recurringInfo.due_date;
+    const updateDueDate = formattedDate || recurringInfo.due_date;
     const result = await db
       .update(Recurring_rule)
       .set({
@@ -91,6 +95,7 @@ export default function EditRecurring({ recurringInfo, currentUser }: Props) {
   const handleOnClickEdit = () => {
     setRecurringName("");
     setRecurringAmount("");
+    setDueDate(newDueDate);
     setRecurringCategory(recurringInfo.category);
     setRecurringMethod(recurringInfo.payment_method);
   };

@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -9,73 +8,58 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-import { Wallet } from "lucide-react";
-import { db } from "@/db/dbConfig";
-import { Recurrence } from "@/db/schema";
-import toast from "react-hot-toast";
-import { RecurringRule } from "@/types/types";
-import { Button } from "@/components/ui/button";
+import { ReceiptText } from "lucide-react";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
 import FormatDate from "@/utils/formatDate";
-import { RecurringDatePicker } from "./RecurringDatePicker";
+import { RecurrenceDetail, RecurringRule } from "@/types/types";
+import { db } from "@/db/dbConfig";
+import { eq, getTableColumns } from "drizzle-orm";
+import { Recurrence } from "@/db/schema";
+import GetCurrentMonth from "@/utils/getCurrentMonth";
 
 type Props = {
   recurringInfo: RecurringRule;
   isPaid: Record<string, boolean>;
-  refreshData: () => void;
 };
 
-export default function PayRecurring({
-  recurringInfo,
-  isPaid,
-  refreshData,
-}: Props) {
-  const [date, setDate] = React.useState<Date>(new Date());
+export default function ViewRecurring({ recurringInfo, isPaid }: Props) {
+  const [paymentList, setPaymentList] = React.useState<RecurrenceDetail[]>([]);
+  const [refresh, setRefresh] = React.useState<boolean>(false);
 
-  const payRecurrence = async () => {
-    try {
-      const result = await db
-        .insert(Recurrence)
-        .values({
-          rule_id: recurringInfo.id,
-          name: recurringInfo.name,
-          amount: recurringInfo.amount,
-          category: recurringInfo.category,
-          payment_method: recurringInfo.payment_method,
-          date: date?.toISOString(),
-          created_by: recurringInfo.created_by,
-        })
-        .returning({ insertId: Recurrence.id });
+  React.useEffect(() => {
+    getPaymentList();
+  }, [refresh]);
 
-      if (result) {
-        toast.success("Mark As Paid");
-        refreshData();
-      }
-    } catch (error) {
-      console.log(error);
+  const getPaymentList = async () => {
+    const result = await db
+      .select({ ...getTableColumns(Recurrence) })
+      .from(Recurrence)
+      .where(eq(Recurrence.rule_id, recurringInfo.id));
+
+    if (result) {
+      setPaymentList(result);
     }
   };
 
-  const handleReset = () => {
-    setDate(new Date());
+  const handleRefresh = () => {
+    setRefresh((prev) => !prev);
   };
 
   return (
     <Dialog>
       <DialogTrigger
         className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
-        onClick={handleReset}
+        onClick={handleRefresh}
       >
         <span className="pl-4">
-          <Wallet strokeWidth={2} className="h-4 w-4" color="#555353" />
+          <ReceiptText strokeWidth={2} className="h-4 w-4" color="#555353" />
         </span>
-        <span className="font-semibold text-medium">Pay</span>
+        <span className="font-semibold text-medium">View</span>
       </DialogTrigger>
       <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
         <DialogHeader>
-          <DialogTitle className="text-center">Mark As Paid</DialogTitle>
+          <DialogTitle className="text-center">Payment Detail</DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
             <div className="relative flex items-center">
               <span className="inline-block w-36 font-semibold text-dark">
@@ -128,21 +112,28 @@ export default function PayRecurring({
                 $<FormatNumber number={Number(recurringInfo.amount)} />
               </span>
             </div>
-            <div className="flex items-center">
-              <span className="inline-block w-36 font-semibold text-dark">
-                Paid on:
-              </span>
-              <RecurringDatePicker date={date} setDate={setDate} />
-            </div>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="flex-col sm:justify-start">
-          <DialogClose asChild>
-            <Button className="w-full" onClick={payRecurrence}>
-              Mark Paid
-            </Button>
-          </DialogClose>
-        </DialogFooter>
+
+        <div className="flex max-h-96 flex-col gap-4 overflow-y-auto">
+          {paymentList
+            .sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+            )
+            .map((payment) => (
+              <div
+                key={payment.id}
+                className="flex w-full items-center justify-between"
+              >
+                <span className="text-sm text-medium">
+                  <GetCurrentMonth monthYear={new Date(payment.date)} />
+                </span>
+                <span className="mr-4 rounded-md bg-green-300 bg-opacity-50 px-2 py-1 text-[13px] text-green-700">
+                  Paid
+                </span>
+              </div>
+            ))}
+        </div>
       </DialogContent>
     </Dialog>
   );

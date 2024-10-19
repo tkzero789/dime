@@ -65,21 +65,23 @@ export function BudgetByIdRadicalChart({ budget }: Props) {
               <Label
                 content={({ viewBox }) => {
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                    const remaining = budget[0]?.remaining;
+                    const isOverspent = remaining < 0;
                     return (
                       <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) - 16}
-                          className={`fill-foreground font-bold ${budget[0]?.remaining > 10000 ? "text-2xl" : "text-3xl"}`}
+                          className={`fill-foreground font-bold ${remaining > 10000 ? "text-2xl" : "text-3xl"} ${remaining < -100 ? "text-[22px]" : "text-2xl"}`}
                         >
-                          $<FormatNumber number={budget[0]?.remaining} />
+                          $<FormatNumber number={remaining} />
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 4}
-                          className="fill-muted-foreground"
+                          className={` ${isOverspent ? "fill-red-600 text-sm font-bold" : "fill-muted-foreground"}`}
                         >
-                          Left to spend
+                          {isOverspent ? "Overspent" : "Left to spend"}
                         </tspan>
                       </text>
                     );
@@ -124,7 +126,12 @@ export function BudgetByIdRadicalChart({ budget }: Props) {
           <CircleEqual className="h-5 w-5 text-sky-700" />
           <span className="text-base font-medium">Remaining</span>
           <span className="ml-auto text-base font-bold text-green-700">
-            $<FormatNumber number={budget[0]?.remaining} />
+            $
+            {budget[0]?.remaining > 0 ? (
+              <FormatNumber number={budget[0]?.remaining} />
+            ) : (
+              "0"
+            )}
           </span>
         </div>
       </CardFooter>
