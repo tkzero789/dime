@@ -9,14 +9,22 @@ type Props = {
 };
 
 export default function DashboardBudget({ budget }: Props) {
+  const currentMonth = new Date().getUTCMonth();
+  const currentYear = new Date().getUTCFullYear();
+
+  console.log(budget);
+
   return (
     <div className="col-span-3 flex flex-col gap-4 rounded-lg border bg-white p-6 shadow-md xl:col-span-1">
       <h2 className="text-xl font-bold">This month's budgets</h2>
       <div className="flex h-auto max-h-[489px] flex-1 flex-col gap-2 overflow-y-auto">
         {budget?.length > 0 ? (
-          budget.map((item) => (
-            <DashboardBudgetItem key={item.id} budget={item} />
-          ))
+          budget
+            .filter(
+              (item) =>
+                item.month === currentMonth && item.year === currentYear,
+            )
+            .map((item) => <DashboardBudgetItem key={item.id} budget={item} />)
         ) : (
           <div className="flex h-full flex-col items-center justify-center text-center">
             <div>No budgets have been added yet.</div>

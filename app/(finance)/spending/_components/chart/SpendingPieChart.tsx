@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import SpendingBreakdown from "../spending/SpendingBreakdown";
 import SpendingComparison from "../spending/SpendingComparison";
 import SpendingPieCustomTooltip from "./SpendingPieCustomTooltip";
+import { SpendingMethodPieChart } from "./SpendingMethodPieChart";
 
 export const description = "A donut chart with text";
 
@@ -60,12 +61,57 @@ const chartConfig: { [key: string]: { label: string; color?: string } } = {
   },
 } satisfies ChartConfig;
 
+const chartConfigMethod: { [key: string]: { label: string; color?: string } } =
+  {
+    spending: {
+      label: "Payment Method",
+    },
+    cash: {
+      label: "Cash",
+      color: "#f59e0b",
+    },
+    check: {
+      label: "Check",
+      color: "#38bdf8",
+    },
+    credit_card: {
+      label: "Credit Card",
+      color: "#ec4899",
+    },
+    debit_card: {
+      label: "Debit Card",
+      color: "#0ea5e9",
+    },
+    direct_deposit: {
+      label: "Direct Deposit",
+      color: "#93c5fd",
+    },
+    mobile_payment: {
+      label: "Mobile Payment",
+      color: "#f472b6",
+    },
+    payroll_card: {
+      label: "Payroll Card",
+      color: "#f9a8d4",
+    },
+    prepaid_card: {
+      label: "Prepaid Card",
+      color: "#fbcfe8",
+    },
+  } satisfies ChartConfig;
+
 type NewExpenseDetail = ExpenseDetail & {
   category: string;
 };
 
-type AggregatedExpenseDetail = {
+type AggregatedExpenseCategory = {
   category: string;
+  amount: number;
+  fill: string;
+};
+
+type AggregatedExpenseMethod = {
+  payment_method: string;
   amount: number;
   fill: string;
 };
@@ -74,9 +120,9 @@ type Props = {
   spendingData: (NewExpenseDetail | RecurrenceDetail | SingleDetail)[];
 };
 
-// Function to normalize category names
-const normalizeCategory = (category: string) => {
-  return category.toLowerCase().replace(/ /g, "_");
+// Function to normalize category & payment method names in label
+const normalizeLabel = (label: string) => {
+  return label.toLowerCase().replace(/ /g, "_");
 };
 
 export function SpendingPieChart({ spendingData }: Props) {
@@ -103,10 +149,10 @@ export function SpendingPieChart({ spendingData }: Props) {
   });
 
   // Aggregate data by category
-  const aggregatedData = Object.values(
-    filteredSpendingData.reduce<Record<string, AggregatedExpenseDetail>>(
+  const aggregatedDataCategory = Object.values(
+    filteredSpendingData.reduce<Record<string, AggregatedExpenseCategory>>(
       (acc, data) => {
-        const category = normalizeCategory(data.category);
+        const category = normalizeLabel(data.category);
         if (!acc[category]) {
           acc[category] = {
             ...data,
@@ -123,43 +169,68 @@ export function SpendingPieChart({ spendingData }: Props) {
     ),
   ).sort((a, b) => b.amount - a.amount);
 
+  // Aggregate data by payment method
+  const aggregatedDataMethod = Object.values(
+    filteredSpendingData.reduce<Record<string, AggregatedExpenseMethod>>(
+      (acc, data) => {
+        const method = normalizeLabel(data.payment_method);
+        if (!acc[method]) {
+          acc[method] = {
+            ...data,
+            amount: 0,
+            fill: chartConfigMethod[method]?.color || "#999999",
+          };
+        }
+        acc[method].amount += Number(data.amount);
+        return acc;
+      },
+      {} as {
+        [key: string]: NewExpenseDetail & { amount: number; fill: string };
+      },
+    ),
+  ).sort((a, b) => b.amount - a.amount);
+
   const spendingByMonth = React.useMemo(() => {
     return filteredSpendingData.reduce(
       (acc, curr) => acc + Number(curr.amount),
       0,
     );
-  }, [aggregatedData]);
+  }, [aggregatedDataCategory]);
 
   return (
-    <div className="mt-4 grid grid-cols-3 gap-4 xl:mt-8">
-      <Card className="col-span-3 flex flex-col rounded-lg border shadow-md xl:col-span-2">
-        <CardHeader className="flex flex-col gap-y-4 space-y-0 lg:gap-y-2">
-          <div className="flex items-start justify-between gap-4 lg:flex-row lg:items-center">
+    <div className="mt-4 grid grid-cols-4 gap-4 xl:mt-8">
+      <Card className="col-span-4 rounded-lg border bg-white shadow-md xl:col-span-2 2xl:col-span-1">
+        <CardHeader className="flex flex-col gap-y-4 space-y-0">
+          <div className="flex items-start justify-between lg:flex-row lg:items-center">
             <CardTitle className="text-xl font-bold tracking-normal">
-              Summary
+              Expenses
             </CardTitle>
-            <Button variant="outline" onClick={() => setIsSwitch(!isSwitch)}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsSwitch(!isSwitch)}
+            >
               {isSwitch ? "Show last month" : "Show current month"}
             </Button>
           </div>
           <SpendingComparison spendingData={spendingData} />
         </CardHeader>
-        <CardContent className="flex-1 pb-0">
+        <CardContent className="flex-1 pb-6">
           <ChartContainer
             config={chartConfig}
-            className="mx-auto aspect-square max-h-[500px]"
+            className="mx-auto aspect-square max-h-[220px]"
           >
             <PieChart>
               <ChartTooltip content={<SpendingPieCustomTooltip />} />
               <Pie
-                data={aggregatedData}
+                data={aggregatedDataCategory}
                 dataKey="amount"
                 nameKey="category"
                 innerRadius={60}
-                outerRadius={150}
+                outerRadius={90}
                 strokeWidth={5}
               >
-                {aggregatedData.map((entry, index) => (
+                {aggregatedDataCategory.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.fill} />
                 ))}
                 <Label
@@ -175,7 +246,7 @@ export function SpendingPieChart({ spendingData }: Props) {
                           <tspan
                             x={viewBox.cx}
                             y={viewBox.cy}
-                            className={`fill-foreground font-bold ${spendingByMonth > 10000 ? "text-xl" : "text-3xl"}`}
+                            className={`fill-foreground font-bold ${spendingByMonth > 10000 ? "text-xl" : "text-2xl"}`}
                           >
                             ${spendingByMonth.toLocaleString()}
                           </tspan>
@@ -196,7 +267,15 @@ export function SpendingPieChart({ spendingData }: Props) {
           </ChartContainer>
         </CardContent>
       </Card>
-      <SpendingBreakdown aggregatedData={aggregatedData} />
+      <SpendingMethodPieChart
+        aggregatedDataMethod={aggregatedDataMethod}
+        chartConfigMethod={chartConfigMethod}
+        spendingByMonth={spendingByMonth}
+      />
+      <SpendingBreakdown
+        aggregatedDataCategory={aggregatedDataCategory}
+        isSwitch={isSwitch}
+      />
     </div>
   );
 }

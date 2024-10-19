@@ -76,16 +76,16 @@ export default function SpendingComparison({ spendingData }: Props) {
   return (
     <>
       {currentSpend < previousSpend ? (
-        <p className="text-base font-medium text-medium">
-          You're are currently spending{" "}
+        <p className="text-sm font-medium text-medium">
+          Spend{" "}
           <span className="font-bold text-dark">
             $<FormatNumber number={difference} />
           </span>{" "}
           less than last month
         </p>
       ) : (
-        <p className="text-base font-medium text-medium">
-          You're currently spending{" "}
+        <p className="text-sm font-medium text-medium">
+          Spend{" "}
           <span className="font-bold text-dark">
             $
             <FormatNumber number={difference} />

@@ -14,6 +14,7 @@ import { db } from "@/db/dbConfig";
 import { eq, getTableColumns } from "drizzle-orm";
 import { BudgetExpenses, Income, Recurrence, Single } from "@/db/schema";
 import { SpendingPieChart } from "./_components/chart/SpendingPieChart";
+import { SpendingMethodPieChart } from "./_components/chart/SpendingMethodPieChart";
 
 type NewExpenseDetail = ExpenseDetail & {
   category: string;

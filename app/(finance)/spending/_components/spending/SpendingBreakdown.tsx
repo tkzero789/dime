@@ -6,6 +6,7 @@ import {
   BookPlus,
   CalendarHeart,
   CarFront,
+  CircleDollarSign,
   CreditCard,
   HandCoins,
   House,
@@ -22,10 +23,14 @@ type AggregatedExpenseDetail = {
 };
 
 type Props = {
-  aggregatedData: AggregatedExpenseDetail[];
+  aggregatedDataCategory: AggregatedExpenseDetail[];
+  isSwitch: boolean;
 };
 
-export default function SpendingBreakdown({ aggregatedData }: Props) {
+export default function SpendingBreakdown({
+  aggregatedDataCategory,
+  isSwitch,
+}: Props) {
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "Budget Expense":
@@ -54,16 +59,36 @@ export default function SpendingBreakdown({ aggregatedData }: Props) {
     }
   };
 
-  const total = aggregatedData.reduce(
+  const total = aggregatedDataCategory.reduce(
     (acc, curr) => acc + Number(curr.amount),
     0,
   );
 
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const currentMonth = new Date().getUTCMonth();
+
   return (
-    <div className="col-span-3 flex flex-col gap-4 rounded-lg border bg-white p-6 shadow-md xl:col-span-1">
-      <h2 className="text-xl font-bold">Breakdown</h2>
+    <div className="col-span-4 flex flex-col gap-4 rounded-lg border bg-white p-6 shadow-md xl:col-span-4 2xl:col-span-2">
+      <h2 className="text-xl font-bold tracking-normal">
+        {isSwitch ? `${months[currentMonth]}` : `${months[currentMonth - 1]}`}{" "}
+      </h2>
+
       <ul className="flex flex-col gap-4">
-        {aggregatedData.map((data, index) => (
+        {aggregatedDataCategory.map((data, index) => (
           <li
             key={index}
             className="flex gap-x-6 text-base font-semibold text-medium"
@@ -79,7 +104,7 @@ export default function SpendingBreakdown({ aggregatedData }: Props) {
         ))}
       </ul>
       <div className="flex gap-x-6 text-base font-semibold text-medium">
-        <span className="h-6 w-6"></span>
+        <CircleDollarSign className="h-6 w-6 stroke-[#555353]" />
         <span>Total</span>
         <span className="ml-auto font-bold text-dark">${total}</span>
       </div>

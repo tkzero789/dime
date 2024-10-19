@@ -214,6 +214,7 @@ export default function CreateBudget({ refreshData }: Props) {
   // Clear input
   const handleClearInput = () => {
     setName("");
+    setMonth(null);
     setEmoji("");
     setCategory("");
     setAmount("");
