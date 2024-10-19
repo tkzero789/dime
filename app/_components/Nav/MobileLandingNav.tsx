@@ -137,7 +137,7 @@ export default function MobileLandingNav() {
                         className="flex items-center gap-4 border-b py-3 first:mt-4 last:border-b-0"
                       >
                         <div
-                          className={`rounded-full p-2 ${getTitleBg(content.title)}`}
+                          className={`rounded-lg p-2 ${getTitleBg(content.title)}`}
                         >
                           <content.icon
                             className={`h-5 w-5 ${getTitleStroke(content.title)}`}

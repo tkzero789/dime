@@ -27,13 +27,13 @@ const components: {
     title: "Budgets",
     icon: Banknote,
     href: "/",
-    description: "Create and manage custom budgets",
+    description: "Create and manage budgets",
   },
   {
     title: "Transactions",
     icon: ArrowLeftRight,
     href: "/",
-    description: "Add, edit, and search transactions",
+    description: "Customize transactions",
   },
   {
     title: "Spending",
@@ -73,6 +73,18 @@ const getTitleStroke = (title: string) => {
   }
 };
 
+const getHoverBg = (title: string) => {
+  if (title === "Budgets") {
+    return "hover:bg-teal-400 hover:bg-opacity-10";
+  } else if (title === "Transactions") {
+    return "hover:bg-yellow-400 hover:bg-opacity-10";
+  } else if (title === "Spending") {
+    return "hover:bg-red-400 hover:bg-opacity-10";
+  } else {
+    return "hover:bg-sky-400 hover:bg-opacity-10";
+  }
+};
+
 export function FeaturesDropDown() {
   return (
     <NavigationMenu>
@@ -82,22 +94,26 @@ export function FeaturesDropDown() {
             Features
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[620px] md:grid-cols-2">
               {components.map((component) => (
-                <ListItem key={component.title} href={component.href}>
+                <ListItem
+                  key={component.title}
+                  href={component.href}
+                  className={`${getHoverBg(component.title)}`}
+                >
                   <div className="flex items-center gap-6">
                     <div
-                      className={`rounded-full p-2 ${getTitleBg(component.title)}`}
+                      className={`rounded-lg p-2 ${getTitleBg(component.title)}`}
                     >
                       <component.icon
                         className={`h-5 w-5 ${getTitleStroke(component.title)}`}
                       />
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <div className="text-sm font-medium text-dark">
+                    <div className="flex flex-col gap-1">
+                      <div className="text-sm leading-none text-dark">
                         {component.title}
                       </div>
-                      <p className="text-sm text-medium">
+                      <p className="text-[13px] font-normal leading-snug text-medium">
                         {component.description}
                       </p>
                     </div>

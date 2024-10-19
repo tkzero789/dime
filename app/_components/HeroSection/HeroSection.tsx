@@ -22,7 +22,7 @@ export default function HeroSection() {
       </p>
       <Button
         asChild
-        className="mt-12 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 px-6 py-6 text-base"
+        className="mt-12 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 px-6 py-6 text-base hover:to-emerald-600"
       >
         <Link href="/sign-up">Start for free</Link>
       </Button>

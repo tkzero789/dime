@@ -13,7 +13,7 @@ export default function CallToActionSection() {
         </h1>
         <Button
           asChild
-          className="mx-auto w-fit rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 md:mx-0"
+          className="mx-auto w-fit rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 text-base hover:to-emerald-600 md:mx-0"
           size="lg"
         >
           <Link href="/sign-up">Get Started</Link>

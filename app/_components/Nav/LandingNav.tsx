@@ -30,7 +30,7 @@ export default function LandingNav() {
             <Link href="/">Review</Link>
           </Button>
         </div>
-        <Button asChild variant="ghost" className="mr-4 text-base">
+        <Button asChild variant="ghost" className="mr-4 rounded-full text-base">
           <SignInButton
             forceRedirectUrl="/dashboard"
             signUpForceRedirectUrl="/dashboard"
@@ -40,7 +40,7 @@ export default function LandingNav() {
         </Button>
         <Button
           asChild
-          className="rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 text-base"
+          className="rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 px-6 text-base hover:to-emerald-600"
         >
           <SignUpButton
             forceRedirectUrl="/dashboard"
