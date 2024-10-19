@@ -74,6 +74,26 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
     }
   };
 
+  const getCategory = (category: string) => {
+    if (
+      ["car payment", "credit card payment", "insurance", "loan"].includes(
+        category,
+      )
+    ) {
+      return "bg-amber-300 text-amber-700";
+    } else if (
+      ["Budget Expense", "monthly subscription", "single payment"].includes(
+        category,
+      )
+    ) {
+      return "bg-sky-300 text-sky-700";
+    } else if (["mortgage", "rent", "bill and utilities"].includes(category)) {
+      return "bg-pink-300 text-pink-700";
+    } else {
+      return "bg-teal-300 text-teal-700";
+    }
+  };
+
   return (
     <Table className="rounded-lg bg-white">
       <TableHeader>
@@ -115,7 +135,7 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
               <TableCell className="truncate px-4 py-2">{item.name}</TableCell>
               <TableCell className="px-4 py-2">
                 <div
-                  className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1`}
+                  className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 ${getCategory(item.category)} `}
                 >
                   <span className="truncate text-[13px]">
                     <FormatString text={item.category} />

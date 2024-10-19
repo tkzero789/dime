@@ -5,7 +5,7 @@ import {
   RecurrenceDetail,
   SingleDetail,
 } from "@/types/types";
-import React, { Suspense } from "react";
+import React from "react";
 import { DashboardTable } from "./DashboardTable";
 import Link from "next/link";
 import DashboardBudget from "./DashboardBudget";
@@ -44,7 +44,7 @@ export default function DashboardMidSection({
           />
         ) : (
           <div className="col-span-3 h-fit rounded-lg border bg-white p-6 shadow-md xl:col-span-2">
-            <h2 className="pb-4 text-xl font-bold">Latest transaction</h2>
+            <h2 className="pb-4 text-xl font-bold">Latest transactions</h2>
             <DashboardTable allData={allData} />
             <Link
               href="/transaction"
