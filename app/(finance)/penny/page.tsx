@@ -25,6 +25,7 @@ export default function PennyPage() {
   });
 
   const [isEmpty, setIsEmpty] = React.useState<boolean>(true);
+  const messagesEndRef = React.useRef<HTMLDivElement>(null);
 
   const withConditionalClass =
     (Component: any) => (props: React.HTMLAttributes<HTMLElement>) => {
@@ -70,6 +71,12 @@ export default function PennyPage() {
     setIsEmpty(!isEmpty);
   };
 
+  React.useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   return (
     <div className="mx-auto flex h-full w-full flex-col md:w-[48rem]">
       <ChatTools handleUserSubmit={handleUserSubmit} setInput={setInput} />
@@ -91,7 +98,9 @@ export default function PennyPage() {
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
+
       <ChatForm
         isEmpty={isEmpty}
         setIsEmpty={setIsEmpty}
