@@ -36,15 +36,27 @@ type Props = {
 };
 
 export function BudgetByIdRadicalChart({ budget }: Props) {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   return (
     <Card className="hidden h-full flex-col rounded-lg shadow-md lg:flex">
       <CardHeader className="items-center pb-0">
         <CardTitle className="text-xl font-bold tracking-normal">
           Budget Tracker
         </CardTitle>
-        <CardDescription>
-          <GetCurrentMonth month={budget[0]?.created_at} />
-        </CardDescription>
+        <CardDescription>{months[budget[0]?.month]}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
         <ChartContainer

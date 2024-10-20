@@ -8,7 +8,7 @@ import {
 
 export default function QASection() {
   return (
-    <div className="mt-24">
+    <div className="mt-40">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-medium">
           Got a{" "}

@@ -106,7 +106,9 @@ export default function SpendingBreakdown({
       <div className="flex gap-x-6 text-base font-semibold text-medium">
         <CircleDollarSign className="h-6 w-6 stroke-[#555353]" />
         <span>Total</span>
-        <span className="ml-auto font-bold text-dark">${total}</span>
+        <span className="ml-auto font-bold text-dark">
+          $<FormatNumber number={total} />
+        </span>
       </div>
     </div>
   );

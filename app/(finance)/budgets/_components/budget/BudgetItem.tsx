@@ -22,7 +22,9 @@ export default function BudgetItem({ budget }: Props) {
         <div className="text-3xl">{budget.icon}</div>
         <div className="flex flex-col">
           <span className="font-medium">{budget.name}</span>
-          <span className="font-light text-medium">{budget.category}</span>
+          <span className="text-sm font-light text-medium">
+            {budget.category}
+          </span>
         </div>
         <div className="ml-auto font-semibold">
           $<FormatNumber number={Number(budget.amount)} />

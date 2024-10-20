@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function CallToActionSection() {
   return (
-    <div className="mt-24 flex flex-col-reverse items-center justify-center gap-4 rounded-3xl bg-gradient-to-tr from-orange-200 to-amber-300 px-10 py-10 md:flex-row md:justify-between xl:px-40">
+    <div className="mt-40 flex flex-col-reverse items-center justify-center gap-4 rounded-3xl bg-gradient-to-tr from-orange-200 to-amber-300 px-10 py-10 md:flex-row md:justify-between xl:px-40">
       <div className="flex w-full flex-col gap-8 md:w-1/2">
         <h1 className="pr-0 text-center text-2xl font-bold text-medium md:pr-8 md:text-start lg:text-3xl">
           Save More, Spend Less, and Live Better

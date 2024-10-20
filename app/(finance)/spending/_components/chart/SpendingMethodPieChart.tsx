@@ -52,7 +52,7 @@ export function SpendingMethodPieChart({
     { payment_method: "", amount: 0, fill: "" },
   );
   return (
-    <Card className="col-span-4 rounded-lg border bg-white shadow-md xl:col-span-2 2xl:col-span-1">
+    <Card className="col-span-4 h-fit rounded-lg border bg-white shadow-md xl:col-span-2 2xl:col-span-1">
       <CardHeader className="flex flex-col gap-y-4 space-y-0">
         <div className="flex items-start justify-between lg:flex-row lg:items-center">
           <CardTitle className="text-xl font-bold tracking-normal">
@@ -82,14 +82,14 @@ export function SpendingMethodPieChart({
             </Tooltip>
           </TooltipProvider>
         </div>
-        <CardDescription className="text-sm font-medium text-medium">
+        <CardDescription className="text-center text-sm font-medium text-medium">
           Most common -{" "}
           <span className="font-bold text-dark">
             <FormatString text={highestSpending.payment_method} />
           </span>
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex-1 pb-6">
         <ChartContainer
           config={chartConfigMethod}
           className="mx-auto aspect-square max-h-[220px]"
@@ -100,8 +100,8 @@ export function SpendingMethodPieChart({
               data={aggregatedDataMethod}
               dataKey="amount"
               nameKey="payment_method"
-              innerRadius={60}
-              outerRadius={90}
+              innerRadius={70}
+              outerRadius={100}
               strokeWidth={5}
             >
               <Label

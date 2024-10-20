@@ -161,7 +161,10 @@ export default function BudgetByIdPage({ params }: Props) {
       </div>
       <div className="mt-8 grid grid-cols-3 gap-4">
         <div className="order-last col-span-3 lg:order-first xl:col-span-2">
-          <ExpenseBarChart expenseDetail={expenseDetail} />
+          <ExpenseBarChart
+            budgetInfo={budgetInfo}
+            expenseDetail={expenseDetail}
+          />
         </div>
         <div className="col-span-3 xl:col-span-1">
           <BudgetByIdRadicalChart budget={budgetInfo} />

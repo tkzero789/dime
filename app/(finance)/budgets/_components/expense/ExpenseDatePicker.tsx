@@ -50,7 +50,7 @@ export function ExpenseDatePicker({ date, setDate }: Props) {
           selected={date}
           onSelect={handleOnSelect}
           initialFocus
-          disableNavigation={true}
+          disableNavigation={false}
           showOutsideDays={false}
         />
       </PopoverContent>

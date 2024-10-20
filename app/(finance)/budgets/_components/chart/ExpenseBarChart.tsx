@@ -14,7 +14,7 @@ import {
   ChartContainer,
   ChartTooltip,
 } from "@/components/ui/chart";
-import { ExpenseDetail } from "@/types/types";
+import { BudgetDetail, ExpenseDetail } from "@/types/types";
 import ExpenseCustomTooltip from "./ExpenseCustomTooltip";
 import GetCurrentMonth from "@/utils/getCurrentMonth";
 import { Button } from "@/components/ui/button";
@@ -27,10 +27,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-function getAllDaysInCurrentMonth() {
-  const now = new Date();
-  const year = now.getUTCFullYear();
-  const month = now.getUTCMonth();
+function getAllDaysInMonth(year: number, month: number) {
   const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
 
   const dates = [];
@@ -43,12 +40,19 @@ function getAllDaysInCurrentMonth() {
 }
 
 type Props = {
+  budgetInfo: BudgetDetail[];
   expenseDetail: ExpenseDetail[];
 };
 
-export function ExpenseBarChart({ expenseDetail }: Props) {
+export function ExpenseBarChart({ budgetInfo, expenseDetail }: Props) {
   const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
   const { width } = useWindowSize();
+
+  // Extract the month and year from budgetInfo
+  const budgetMonth = budgetInfo[0]?.month ?? new Date().getMonth();
+  const budgetYear = budgetInfo[0]?.year ?? new Date().getFullYear();
+
+  const allDaysInMonth = getAllDaysInMonth(budgetYear, budgetMonth);
 
   React.useEffect(() => {
     const currentMonth = new Date().getMonth();
@@ -56,10 +60,6 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
       setIsFirstHalf(false);
     }
   }, []);
-
-  const currentMonth = new Date();
-
-  const allDaysInCurrentMonth = getAllDaysInCurrentMonth();
 
   // Aggregate expenses by date
   const expenseMap = new Map<string, number>();
@@ -73,7 +73,7 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
     }
   });
 
-  const mergedData = allDaysInCurrentMonth.map((date) => ({
+  const mergedData = allDaysInMonth.map((date) => ({
     date,
     amount: expenseMap.get(date) || 0,
   }));
@@ -85,15 +85,29 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
   const filteredData = isFirstHalf
     ? sortedExpenseDetail.slice(0, 15)
     : sortedExpenseDetail.slice(15, sortedExpenseDetail.length);
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   return (
     <Card className="shadow-md">
       <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:block">
         <div>
           <CardTitle className="text-xl font-bold tracking-normal">
-            <GetCurrentMonth monthYear={currentMonth} />
+            {months[budgetInfo[0]?.month]}
           </CardTitle>
-          <CardDescription>Your current spending in this month</CardDescription>
+          <CardDescription>Your spending in this month</CardDescription>
         </div>
         <Button
           variant="outline"

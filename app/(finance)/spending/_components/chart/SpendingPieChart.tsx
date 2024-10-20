@@ -199,7 +199,7 @@ export function SpendingPieChart({ spendingData }: Props) {
 
   return (
     <div className="mt-4 grid grid-cols-4 gap-4 xl:mt-8">
-      <Card className="col-span-4 rounded-lg border bg-white shadow-md xl:col-span-2 2xl:col-span-1">
+      <Card className="col-span-4 h-fit rounded-lg border bg-white shadow-md xl:col-span-2 2xl:col-span-1">
         <CardHeader className="flex flex-col gap-y-4 space-y-0">
           <div className="flex items-start justify-between lg:flex-row lg:items-center">
             <CardTitle className="text-xl font-bold tracking-normal">
@@ -226,8 +226,8 @@ export function SpendingPieChart({ spendingData }: Props) {
                 data={aggregatedDataCategory}
                 dataKey="amount"
                 nameKey="category"
-                innerRadius={60}
-                outerRadius={90}
+                innerRadius={70}
+                outerRadius={100}
                 strokeWidth={5}
               >
                 {aggregatedDataCategory.map((entry, index) => (
