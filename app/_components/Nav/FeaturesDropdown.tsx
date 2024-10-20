@@ -53,9 +53,9 @@ const getTitleBg = (title: string) => {
   if (title === "Budgets") {
     return "bg-teal-400 bg-opacity-50";
   } else if (title === "Transactions") {
-    return "bg-yellow-400 bg-opacity-50";
-  } else if (title === "Spending") {
     return "bg-red-400 bg-opacity-50";
+  } else if (title === "Spending") {
+    return "bg-yellow-400 bg-opacity-50";
   } else {
     return "bg-sky-400 bg-opacity-50";
   }
@@ -65,9 +65,9 @@ const getTitleStroke = (title: string) => {
   if (title === "Budgets") {
     return "stroke-teal-700";
   } else if (title === "Transactions") {
-    return "stroke-yellow-700";
-  } else if (title === "Spending") {
     return "stroke-red-700";
+  } else if (title === "Spending") {
+    return "stroke-yellow-700";
   } else {
     return "stroke-sky-700";
   }
@@ -77,9 +77,9 @@ const getHoverBg = (title: string) => {
   if (title === "Budgets") {
     return "hover:bg-teal-400 hover:bg-opacity-10";
   } else if (title === "Transactions") {
-    return "hover:bg-yellow-400 hover:bg-opacity-10";
-  } else if (title === "Spending") {
     return "hover:bg-red-400 hover:bg-opacity-10";
+  } else if (title === "Spending") {
+    return "hover:bg-yellow-400 hover:bg-opacity-10";
   } else {
     return "hover:bg-sky-400 hover:bg-opacity-10";
   }

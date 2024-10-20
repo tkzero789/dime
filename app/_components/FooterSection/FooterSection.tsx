@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function FooterSection() {
   return (
-    <div className="mt-40">
+    <div className="mx-auto mt-40 w-full max-w-7xl px-4">
       <div className="grid grid-cols-5 gap-y-8 pb-12">
         <div className="col-span-5 flex flex-col gap-4 md:col-span-2">
           <Link href="/" className="flex items-center gap-2">
