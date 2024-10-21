@@ -114,7 +114,7 @@ export default function EditIncome({
       </DialogTrigger>
       <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
         <DialogHeader>
-          <DialogTitle className="text-center">Edit income</DialogTitle>
+          <DialogTitle className="text-center">Edit Income</DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
             <Input
               type="text"

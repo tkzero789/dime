@@ -115,7 +115,7 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
     <Table className="rounded-lg bg-white">
       <TableHeader>
         <TableRow className="border-none bg-neutral-200 hover:bg-neutral-200">
-          <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-medium">
+          <TableHead className="w-[100px] truncate rounded-l-lg text-sm font-semibold text-medium">
             Due date
           </TableHead>
           <TableHead className="text-sm font-semibold text-medium">

@@ -15,6 +15,7 @@ import Spending2 from "@/public/img/spending2.jpg";
 import Penny1 from "@/public/img/penny1.jpg";
 import Penny2 from "@/public/img/penny2.jpg";
 import Image from "next/image";
+import { BotMessageSquare } from "lucide-react";
 
 type PropType = {
   options?: EmblaOptionsType;
@@ -120,12 +121,23 @@ const MobileCarousel: React.FC<PropType> = (props) => {
                   AI-powered assistant
                 </p>
               </div>
-              <div className="pb-8">
-                <Image
-                  src={Penny1}
-                  alt="Dashboard chart"
-                  className="h-[14 0px] w-[260px] rounded-xl"
-                />
+              <div className="px-8 pb-8">
+                <div className="flex flex-col gap-2 rounded-xl bg-white p-2">
+                  <div className="flex gap-2">
+                    <div className="mt-2">
+                      <BotMessageSquare className="h-4 w-4" />
+                    </div>
+                    <div className="w-fit rounded-xl bg-gray-200 bg-opacity-80 p-2">
+                      <p className="text-xs font-normal">
+                        Hi! How can I assist you today with your financial data
+                        or any finance-related questions?
+                      </p>
+                    </div>
+                  </div>
+                  <div className="ml-auto rounded-xl bg-teal-600 bg-opacity-90 p-2 text-xs font-normal text-white">
+                    What are my potential savings for this month?
+                  </div>
+                </div>
               </div>
             </div>
           </div>

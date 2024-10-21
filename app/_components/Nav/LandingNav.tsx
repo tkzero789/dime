@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function LandingNav() {
   return (
-    <div className="fixed left-0 right-0 top-0 z-20 mx-auto mt-2 hidden w-full max-w-7xl rounded-full px-4 lg:block xl:px-0">
+    <div className="fixed left-0 right-0 top-0 z-50 mx-auto mt-2 hidden w-full max-w-7xl rounded-full px-4 lg:block xl:px-0">
       <div className="nav-shadow flex rounded-full bg-white px-8 py-2">
         <Link href="/" className="flex items-center gap-2">
           <Image src={Logo} alt="logo" width={40} height={40} />

@@ -1,0 +1,19 @@
+/* styles.css */
+:root {
+  --inner-radius: 60;
+  --outer-radius: 80;
+}
+
+@media (max-width: 1199px) {
+  :root {
+    --inner-radius: 50;
+    --outer-radius: 60;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --inner-radius: 60;
+    --outer-radius: 80;
+  }
+}

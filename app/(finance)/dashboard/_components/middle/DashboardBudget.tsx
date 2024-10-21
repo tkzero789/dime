@@ -12,8 +12,6 @@ export default function DashboardBudget({ budget }: Props) {
   const currentMonth = new Date().getUTCMonth();
   const currentYear = new Date().getUTCFullYear();
 
-  console.log(budget);
-
   return (
     <div className="col-span-3 flex flex-col gap-4 rounded-lg border bg-white p-6 shadow-md xl:col-span-1">
       <h2 className="text-xl font-bold">This month's budgets</h2>

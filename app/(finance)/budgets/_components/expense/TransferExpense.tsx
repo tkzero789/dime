@@ -52,28 +52,20 @@ export default function TransferExpense({
     currentUser && getActiveBudget();
   }, [currentUser]);
 
+  const currentMonth = new Date().getUTCMonth();
+  const currentYear = new Date().getUTCFullYear();
+
   //  Get all current active budgets from user
   const getActiveBudget = async () => {
     try {
-      const currentDate = new Date();
-      const firstDayOfMonth = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth(),
-        1,
-      );
-      const lastDayOfMonth = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() + 1,
-        0,
-      );
       const result = await db
         .select({ id: Budgets.id, name: Budgets.name, icon: Budgets.icon })
         .from(Budgets)
         .where(
           and(
             eq(Budgets.created_by, currentUser ?? ""),
-            gte(Budgets.created_at, firstDayOfMonth),
-            lte(Budgets.created_at, lastDayOfMonth),
+            eq(Budgets.month, currentMonth),
+            eq(Budgets.year, currentYear),
           ),
         )
         .orderBy(desc(Budgets.created_at));

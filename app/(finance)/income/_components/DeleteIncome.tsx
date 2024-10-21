@@ -54,9 +54,9 @@ export default function DeleteIncome({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Expense</AlertDialogTitle>
+          <AlertDialogTitle>Delete Income</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete this expense? This action cannot be
+            Are you sure you want to delete this income? This action cannot be
             undone. Click 'Delete' to confirm this action.
           </AlertDialogDescription>
         </AlertDialogHeader>
