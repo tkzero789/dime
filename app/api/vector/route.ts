@@ -11,7 +11,7 @@ import { clearUserCache, getUserData } from "@/lib/getData";
 export async function POST(request: Request) {
   const llm = new ChatOpenAI({
     model: "gpt-4o",
-    temperature: 1,
+    temperature: 0,
   });
   const encoder = new TextEncoder();
   const vectorStore = await loadVectorStore();
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
   }
 
   // Fetch data and filter data based on user email address (unique)
-  const incomeData = await getUserData(userEmail);
+  const financeData = await getUserData(userEmail);
   const customReadable = new ReadableStream({
     async start(controller) {
       const stream = await retrievalChain.stream({
@@ -52,9 +52,9 @@ export async function POST(request: Request) {
           {
             role: "system",
             content:
-              "You are an assistant bot that answers users about their data. Only answer questions relating to this given context or questions relating to finance in general. If the questions from user are not related to this given context or finance, simply say that you cannot answer. Furthermore, when mentioning date, always follow this format: first three letters month, date, then year.",
+              "You are an assistant bot that answers users about their data. Only answer questions relating to this given context or questions relating to finance in general. If the questions from user are not related to this given context or finance, simply say that you cannot answer. Furthermore, when mentioning date, always follow this format: first three letters month, date, then year. Also this is extremely important, please note that the month property from userBudgets represents UTCMonth, so January will start at index-0.",
           },
-          { role: "system", content: JSON.stringify(incomeData) },
+          { role: "system", content: JSON.stringify(financeData) },
           ...messages.map((i: any) =>
             i.role === "user"
               ? new HumanMessage(i.content)

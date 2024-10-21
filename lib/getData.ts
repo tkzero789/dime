@@ -59,11 +59,7 @@ export async function getUserData(userEmail: string) {
         .select({ ...getTableColumns(Budgets) })
         .from(Budgets)
         .where(
-          and(
-            eq(Budgets.created_by, userEmail),
-            gte(Budgets.created_at, new Date(firstDayOfPrevMonth)),
-            lte(Budgets.created_at, new Date(lastDayOfMonth)),
-          ),
+          and(eq(Budgets.created_by, userEmail), eq(Budgets.year, currentYear)),
         ),
       db
         .select({ ...getTableColumns(BudgetExpenses) })
