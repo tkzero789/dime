@@ -2,10 +2,10 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Dashboard1 from "@/public/img/dashboard1.png";
 import Dashboard2 from "@/public/img/dashboard2.png";
-import Budget1 from "@/public/img/budget1.jpg";
-import Budget2 from "@/public/img/budget2.jpg";
-import Transaction1 from "@/public/img/transaction1.jpg";
-import Transaction2 from "@/public/img/transaction2.jpg";
+import Budget1 from "@/public/img/budget1.png";
+import Budget2 from "@/public/img/budget2.png";
+import Transaction1 from "@/public/img/transaction1.png";
+import Transaction2 from "@/public/img/transaction2.png";
 import Image from "next/image";
 
 import {

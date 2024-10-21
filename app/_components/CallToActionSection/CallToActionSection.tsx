@@ -3,10 +3,9 @@ import Image from "next/image";
 import React from "react";
 import IMG from "@/public/remind.png";
 import Link from "next/link";
-import DashboardImg from "@/public/img/dashboard2.png";
-import BudgetImg from "@/public/img/budget2.jpg";
-import SpendingImg1 from "@/public/img/spending1.jpg";
-import SpendingImg2 from "@/public/img/spending2.jpg";
+import BudgetImg from "@/public/img/budget2.png";
+import SpendingImg1 from "@/public/img/spending1.png";
+import SpendingImg2 from "@/public/img/spending2.png";
 
 export default function CallToActionSection() {
   return (
