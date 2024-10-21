@@ -14,8 +14,12 @@ import {
   SingleDetail,
 } from "@/types/types";
 
+type NewExpenseDetail = ExpenseDetail & {
+  category: string;
+};
+
 export type Transaction =
-  | ExpenseDetail
+  | NewExpenseDetail
   | IncomeDetail
   | RecurrenceDetail
   | SingleDetail;
