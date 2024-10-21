@@ -106,7 +106,9 @@ export default function IncomeTable({
               <TableCell className="px-4 py-2 font-medium">
                 <FormatDate numMonthNumDateUTC={new Date(income.date)} />
               </TableCell>
-              <TableCell className="px-4 py-2">{income.name}</TableCell>
+              <TableCell className="truncate px-4 py-2">
+                {income.name}
+              </TableCell>
               <TableCell className="px-4 py-2">
                 <div className="flex w-fit items-center justify-center rounded-full bg-teal-300 bg-opacity-50 px-2 py-1 text-teal-700">
                   <span className="truncate text-[13px]">
