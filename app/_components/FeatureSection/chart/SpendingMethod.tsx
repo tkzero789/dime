@@ -18,7 +18,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Button } from "@/components/ui/button";
-import SpendingPieCustomTooltip from "@/app/(finance)/spending/_components/chart/SpendingPieCustomTooltip";
 import {
   Tooltip,
   TooltipContent,
@@ -27,50 +26,32 @@ import {
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
 import "@/css/chart.css";
+import SpendingMethodCustomTooltip from "@/app/(finance)/spending/_components/chart/SpendingMethodCustomTooltip";
 
 export const description = "A donut chart with text";
 
 const chartData = [
-  { paymentMethod: "single payment", amount: 752.57, fill: "#38bdf8" },
-  { paymentMethod: "Budget Expense", amount: 700.13, fill: "#0ea5e9" },
-  { paymentMethod: "insurance", amount: 604.25, fill: "#fbbf24" },
-  { paymentMethod: "car payment", amount: 505, fill: "#fcd34d" },
-  { paymentMethod: "bill and utilities", amount: 253.79, fill: "#f9a8d4" },
-  { paymentMethod: "credit card payment", amount: 200, fill: "#fde68a" },
-  { paymentMethod: "mortgage", amount: 820.45, fill: "#ec4899" },
+  { paymentMethod: "cash", amount: 610, fill: "#f59e0b" },
+  { paymentMethod: "check", amount: 820.45, fill: "#38bdf8" },
+  { paymentMethod: "credit card", amount: 363.63, fill: "#ec4899" },
+  { paymentMethod: "debit card", amount: 2042.11, fill: "#0ea5e9" },
 ];
 
 const chartConfig = {
-  expense: {
-    label: "Expense",
+  cash: {
+    label: "Cash",
   },
-  single_payment: {
-    label: "Single Payment",
+  check: {
+    label: "Check",
     color: "#38bdf8",
   },
-  budget_expense: {
-    label: "Budget Expense",
+  credit_card: {
+    label: "Credit Card",
     color: "#0ea5e9",
   },
-  insurance: {
-    label: "Insurance",
+  debit: {
+    label: "Debit",
     color: "#fbbf24",
-  },
-  car_payment: {
-    label: "Car Payment",
-    color: "#fcd34d",
-  },
-  bill_and_utilities: {
-    label: "Bill and Utilities",
-    color: "#f9a8d4",
-  },
-  credit_card_payment: {
-    label: "Credit Card Payment",
-    color: "#fde68a",
-  },
-  mortgage: {
-    label: "Mortgage",
-    color: "#ec4899",
   },
 } satisfies ChartConfig;
 
@@ -116,7 +97,7 @@ export function SpendingMethod() {
           </TooltipProvider>
         </div>
         <CardDescription className="text-center text-xs font-medium text-medium xl:text-sm">
-          Most common - <span className="font-bold text-dark">Debit Card</span>
+          Most used - <span className="font-bold text-dark">Debit Card</span>
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-6">
@@ -125,7 +106,7 @@ export function SpendingMethod() {
           className="mx-auto aspect-square max-h-[120px] xl:max-h-[180px]"
         >
           <PieChart>
-            <ChartTooltip content={<SpendingPieCustomTooltip />} />
+            <ChartTooltip content={<SpendingMethodCustomTooltip />} />
             <Pie
               className="pie"
               data={chartData}

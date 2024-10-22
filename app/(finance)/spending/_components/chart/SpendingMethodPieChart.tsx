@@ -83,7 +83,7 @@ export function SpendingMethodPieChart({
           </TooltipProvider>
         </div>
         <CardDescription className="text-center text-sm font-medium text-medium">
-          Most common -{" "}
+          Most used -{" "}
           <span className="font-bold text-dark">
             <FormatString text={highestSpending.payment_method} />
           </span>
