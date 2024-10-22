@@ -57,55 +57,62 @@ export default function ViewRecurring({ recurringInfo, isPaid }: Props) {
         </span>
         <span className="font-semibold text-medium">View</span>
       </DialogTrigger>
-      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
+      <DialogContent className="flex flex-col gap-8">
         <DialogHeader>
-          <DialogTitle className="text-center">Payment Detail</DialogTitle>
+          <DialogTitle className="text-center">
+            Payment Detail{" "}
+            <span
+              className={`mx-auto mt-2 block w-fit rounded-md bg-opacity-50 px-2 py-1 text-[13px] font-normal md:hidden ${isPaid[recurringInfo.id] ? "bg-green-300 text-green-700" : "bg-red-300 text-red-700"}`}
+            >
+              {isPaid[recurringInfo.id] ? "Paid" : "Unpaid"}
+            </span>
+          </DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
-            <div className="relative flex items-center">
-              <span className="inline-block w-36 font-semibold text-dark">
+            <div className="relative flex justify-between md:block">
+              <span className="inline-block font-semibold text-dark md:w-36">
                 Due date:
               </span>
               <span>
                 <FormatDate fullFormatUTC={new Date(recurringInfo.due_date)} />
               </span>
               <span
-                className={`absolute right-0 top-0 ml-auto rounded-md bg-opacity-50 px-2 py-1 text-[13px] ${isPaid[recurringInfo.id] ? "bg-green-300 text-green-700" : "bg-red-300 text-red-700"}`}
+                className={`absolute right-0 top-0 ml-auto hidden rounded-md bg-opacity-50 px-2 py-1 text-[13px] md:block ${isPaid[recurringInfo.id] ? "bg-green-300 text-green-700" : "bg-red-300 text-red-700"}`}
               >
                 {isPaid[recurringInfo.id] ? "Paid" : "Unpaid"}
               </span>
             </div>
-            <div>
-              <span className="inline-block w-36 font-semibold text-dark">
+            <div className="flex justify-between text-wrap md:block">
+              <span className="inline-block font-semibold text-dark md:w-36">
                 Name:
               </span>
               <span>{recurringInfo.name}</span>
             </div>
-            <div>
-              <span className="inline-block w-36 font-semibold text-dark">
+            <div className="flex justify-between md:block">
+              <span className="inline-block font-semibold text-dark md:w-36">
                 Category:
               </span>
               <span>
                 <FormatString text={recurringInfo.category} />
               </span>
             </div>
-            <div>
-              <span className="inline-block w-36 font-semibold text-dark">
+            <div className="flex justify-between md:block">
+              <span className="inline-block font-semibold text-dark md:w-36">
                 Payment method:
               </span>
               <span>
                 <FormatString text={recurringInfo.payment_method} />
               </span>
             </div>
-            <div>
-              <span className="inline-block w-36 font-semibold text-dark">
+            <div className="flex justify-between md:block">
+              <span className="inline-block font-semibold text-dark md:w-36">
                 Repeat:
               </span>
               <span>
                 <FormatString text={recurringInfo.frequency} />
               </span>
             </div>
-            <div>
-              <span className="inline-block w-36 font-semibold text-dark">
+            <div className="flex justify-between md:block">
+              <span className="inline-block font-semibold text-dark md:w-36">
                 Amount:
               </span>
               <span>
