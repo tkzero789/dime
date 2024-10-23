@@ -23,7 +23,7 @@ const MobileCarousel: React.FC<PropType> = (props) => {
     useDotButton(emblaApi);
 
   return (
-    <section className="embla mt-14 block lg:hidden">
+    <section className="embla init-fade mt-14 block lg:hidden">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           <div className="embla__slide">

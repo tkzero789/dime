@@ -7,7 +7,7 @@ import React from "react";
 export default function HeroSection() {
   return (
     <section className="mx-auto mt-32 w-full max-w-7xl px-4 text-center md:mt-40">
-      <h1 className="mx-auto block max-w-2xl text-5xl font-bold text-medium lg:hidden">
+      <h1 className="init-fade mx-auto block max-w-2xl text-5xl font-bold text-medium lg:hidden">
         Master your{" "}
         <span className="bg-gradient-to-b from-emerald-400 to-teal-600 bg-clip-text text-transparent">
           Monthly Finances

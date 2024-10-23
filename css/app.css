@@ -8,11 +8,10 @@
 
 .radial-background {
   background-image: radial-gradient(
-      27% 37% at 27% 37%,
-      #3a8bfd 0,
-      transparent 0
+      97% 21% at 85% 22%,
+      #71d16c 0,
+      transparent 50%
     ),
-    radial-gradient(97% 21% at 85% 22%, #71d16c 0, transparent 50%),
     radial-gradient(40% 70% at 50% 99%, #f15e6d 0, transparent 50%),
     radial-gradient(40% 29% at 20% 29%, #d771f1 0, transparent 50%),
     radial-gradient(97% 96% at 97% 96%, #dbb26b 0, transparent 50%),
