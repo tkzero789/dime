@@ -25,8 +25,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
-import "@/css/chart.css";
+import { motion } from "framer-motion";
 import SpendingMethodCustomTooltip from "@/app/(finance)/spending/_components/chart/SpendingMethodCustomTooltip";
+import "@/css/chart.css";
 
 export const description = "A donut chart with text";
 
@@ -55,6 +56,19 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+const slideInAnimationVariants = {
+  initial: {
+    x: -100,
+  },
+  animate: {
+    x: 0,
+    transition: {
+      duration: 0.4,
+      delay: 0.2,
+    },
+  },
+};
+
 export function SpendingMethod() {
   const totalAmount = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.amount, 0);
@@ -66,89 +80,99 @@ export function SpendingMethod() {
   };
 
   return (
-    <Card className="absolute right-[20px] top-[70px] w-1/2 rounded-lg border bg-white">
-      <CardHeader className="flex flex-col gap-y-4 space-y-0">
-        <div className="flex items-start justify-between lg:flex-row lg:items-center">
-          <CardTitle className="text-base font-bold tracking-tight xl:text-lg">
-            Payment Method
-          </CardTitle>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="rounded-full border-none"
-                >
-                  <Info
-                    strokeWidth={2}
-                    color="#555353"
-                    className="h-5 w-5 hover:stroke-gray-700"
-                  />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  This chart shows your spending across different payment
-                  methods
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-        <CardDescription className="text-center text-xs font-medium text-medium xl:text-sm">
-          Most used - <span className="font-bold text-dark">Debit Card</span>
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1 pb-6">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[120px] xl:max-h-[180px]"
-        >
-          <PieChart>
-            <ChartTooltip content={<SpendingMethodCustomTooltip />} />
-            <Pie
-              className="pie"
-              data={chartData}
-              dataKey="amount"
-              nameKey="paymentMethod"
-              innerRadius={parseInt(getRadius("inner"))}
-              outerRadius={parseInt(getRadius("outer"))}
-              strokeWidth={5}
-            >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        <tspan
+    <motion.div
+      variants={slideInAnimationVariants}
+      initial="initial"
+      whileInView="animate"
+      viewport={{
+        once: true,
+      }}
+      className="absolute right-[20px] top-[70px] w-1/2"
+    >
+      <Card className="rounded-lg border bg-white">
+        <CardHeader className="flex flex-col gap-y-4 space-y-0">
+          <div className="flex items-start justify-between lg:flex-row lg:items-center">
+            <CardTitle className="text-base font-bold tracking-tight xl:text-lg">
+              Payment Method
+            </CardTitle>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="rounded-full border-none"
+                  >
+                    <Info
+                      strokeWidth={2}
+                      color="#555353"
+                      className="h-5 w-5 hover:stroke-gray-700"
+                    />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    This chart shows your spending across different payment
+                    methods
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+          <CardDescription className="text-center text-xs font-medium text-medium xl:text-sm">
+            Most used - <span className="font-bold text-dark">Debit Card</span>
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex-1 pb-6">
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square max-h-[120px] xl:max-h-[180px]"
+          >
+            <PieChart>
+              <ChartTooltip content={<SpendingMethodCustomTooltip />} />
+              <Pie
+                className="pie"
+                data={chartData}
+                dataKey="amount"
+                nameKey="paymentMethod"
+                innerRadius={parseInt(getRadius("inner"))}
+                outerRadius={parseInt(getRadius("outer"))}
+                strokeWidth={5}
+              >
+                <Label
+                  content={({ viewBox }) => {
+                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      return (
+                        <text
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-lg font-bold xl:text-xl"
+                          textAnchor="middle"
+                          dominantBaseline="middle"
                         >
-                          ${totalAmount.toLocaleString()}
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
-                        >
-                          Total spent
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+                          <tspan
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            className="fill-foreground text-lg font-bold xl:text-xl"
+                          >
+                            ${totalAmount.toLocaleString()}
+                          </tspan>
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 24}
+                            className="fill-muted-foreground"
+                          >
+                            Total spent
+                          </tspan>
+                        </text>
+                      );
+                    }
+                  }}
+                />
+              </Pie>
+            </PieChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }

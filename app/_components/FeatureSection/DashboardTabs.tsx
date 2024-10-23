@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Dashboard1 from "@/public/img/dashboard1.png";
@@ -7,7 +9,7 @@ import Budget2 from "@/public/img/budget2.png";
 import Transaction1 from "@/public/img/transaction1.png";
 import Transaction2 from "@/public/img/transaction2.png";
 import Image from "next/image";
-
+import { motion } from "framer-motion";
 import {
   ArrowLeftRight,
   Banknote,
@@ -20,9 +22,89 @@ import Link from "next/link";
 import { SpendingExpense } from "./chart/SpendingExpense";
 import { SpendingMethod } from "./chart/SpendingMethod";
 
+// Zoom Out
+const zoomOutAnimationVariants = {
+  initial: {
+    opacity: 0,
+    scale: 0.9,
+  },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.4,
+      delay: 0.1,
+    },
+  },
+};
+
+// Fade
+const fadeInAnimationVariants = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      duration: 0.1,
+      delay: 0.1,
+    },
+  },
+};
+
+// Slide in (index)
+const slideInAnimationVariants = {
+  initial: (index: number) => ({
+    x: index === 0 ? 100 : -100,
+  }),
+  animate: {
+    x: 0,
+    transition: {
+      duration: 0.4,
+      delay: 0.2,
+    },
+  },
+};
+
+// Slide to left
+const slideLeftAnimationVariants = {
+  initial: {
+    x: 50,
+  },
+  animate: {
+    x: 0,
+    transition: {
+      duration: 0.4,
+      delay: 0.2,
+    },
+  },
+};
+
+// Slide to right
+const slideRightAnimationVariants = {
+  initial: {
+    x: -50,
+  },
+  animate: {
+    x: 0,
+    transition: {
+      duration: 0.4,
+      delay: 0.2,
+    },
+  },
+};
+
 export default function DashboardTabs() {
   return (
-    <section className="mx-auto mt-14 hidden w-full max-w-7xl items-center justify-center px-4 lg:flex">
+    <motion.section
+      variants={zoomOutAnimationVariants}
+      initial="initial"
+      whileInView="animate"
+      viewport={{
+        once: true,
+      }}
+      className="mx-auto mt-14 hidden w-full max-w-7xl items-center justify-center px-4 lg:flex"
+    >
       <Tabs defaultValue="Dashboard" className="w-full">
         <TabsList className="h-auto w-full bg-transparent pb-0">
           <TabsTrigger
@@ -64,22 +146,41 @@ export default function DashboardTabs() {
 
         {/* Dashboard */}
         <TabsContent value="Dashboard" className="mt-0 w-full">
-          <div className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]">
+          <motion.div
+            variants={fadeInAnimationVariants}
+            initial="initial"
+            whileInView="animate"
+            viewport={{
+              once: true,
+            }}
+            className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]"
+          >
             <div className="relative w-1/2">
               {[Dashboard1, Dashboard2].map((item, index) => (
-                <Image
+                <motion.div
                   key={index}
-                  src={item}
-                  alt={`${index === 0 ? "Dashboard Chart" : "Financial Overview"}`}
+                  variants={slideInAnimationVariants}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{
+                    once: true,
+                  }}
+                  custom={index}
                   className={`rounded-xl ${index === 0 ? "h-[160px] w-[380px] xl:h-[240px] xl:w-[540px]" : "absolute bottom-[120px] right-[40px] z-10 h-[120px] w-[240px] xl:bottom-[80px] xl:right-0 xl:h-[180px] xl:w-[380px]"}`}
-                />
+                >
+                  <Image
+                    src={item}
+                    alt={`${index === 0 ? "Dashboard Chart" : "Financial Overview"}`}
+                    className="h-full w-full rounded-xl"
+                  />
+                </motion.div>
               ))}
             </div>
             <div className="mt-8 flex w-1/2 flex-col gap-8 pl-12">
               <h1 className="text-3xl font-bold text-medium">
                 Comprehensive Financial Overview
               </h1>
-              <p className="w-auto text-base text-medium xl:w-11/12">
+              <p className="w-auto text-base tracking-wide text-medium xl:w-11/12">
                 The dashboard provides quick insights to help you manage and
                 adjust your financial plans easily. View your budgets, income,
                 expenses, and savings progress at a glance to stay on track with
@@ -93,27 +194,46 @@ export default function DashboardTabs() {
                 <Link href="/">Learn More</Link>
               </Button>
             </div>
-          </div>
+          </motion.div>
         </TabsContent>
 
         {/* Budgets */}
         <TabsContent value="Budgets" className="mt-0 w-full">
-          <div className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]">
+          <motion.div
+            variants={fadeInAnimationVariants}
+            initial="initial"
+            whileInView="animate"
+            viewport={{
+              once: true,
+            }}
+            className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]"
+          >
             <div className="relative w-1/2">
               {[Budget1, Budget2].map((item, index) => (
-                <Image
+                <motion.div
                   key={index}
-                  src={item}
-                  alt={`${index === 0 ? "Budget Chart" : "Budget Tracker"}`}
+                  variants={slideInAnimationVariants}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{
+                    once: true,
+                  }}
+                  custom={index}
                   className={`rounded-xl ${index === 0 ? "h-[160px] w-[380px] xl:h-[220px] xl:w-[500px]" : "absolute bottom-[80px] right-[30px] z-10 h-[200px] w-[200px] xl:bottom-[40px] xl:right-0 xl:h-[320px] xl:w-[300px]"}`}
-                />
+                >
+                  <Image
+                    src={item}
+                    alt={`${index === 0 ? "Budget Chart" : "Budget Tracker"}`}
+                    className="h-full w-full rounded-xl"
+                  />
+                </motion.div>
               ))}
             </div>
             <div className="mt-8 flex w-1/2 flex-col gap-8 pl-12">
               <h1 className="text-3xl font-bold text-medium">
                 Flexible Multi-Budget Management
               </h1>
-              <p className="w-auto text-base text-medium xl:w-11/12">
+              <p className="w-auto text-base tracking-wide text-medium xl:w-11/12">
                 Create and manage multiple budgets tailored to your unique
                 financial needs. Customize categories for each budget, allowing
                 you to track spending across various aspects of your life, from
@@ -127,27 +247,46 @@ export default function DashboardTabs() {
                 <Link href="/">Learn More</Link>
               </Button>
             </div>
-          </div>
+          </motion.div>
         </TabsContent>
 
         {/* Transactions */}
         <TabsContent value="Transactions" className="mt-0 w-full">
-          <div className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]">
+          <motion.div
+            variants={fadeInAnimationVariants}
+            initial="initial"
+            whileInView="animate"
+            viewport={{
+              once: true,
+            }}
+            className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]"
+          >
             <div className="relative w-1/2">
               {[Transaction1, Transaction2].map((item, index) => (
-                <Image
+                <motion.div
                   key={index}
-                  src={item}
-                  alt={`${index === 0 ? "Transaction Table" : "Transaction Detail"}`}
+                  variants={slideInAnimationVariants}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{
+                    once: true,
+                  }}
+                  custom={index}
                   className={`rounded-xl ${index === 0 ? "h-[160px] w-[340px] xl:h-[260px] xl:w-[500px]" : "absolute bottom-[100px] right-0 z-10 h-[150px] w-[250px] xl:bottom-[40px] xl:h-[200px] xl:w-[300px]"}`}
-                />
+                >
+                  <Image
+                    src={item}
+                    alt={`${index === 0 ? "Transaction Table" : "Transaction Detail"}`}
+                    className="h-full w-full rounded-xl"
+                  />
+                </motion.div>
               ))}
             </div>
             <div className="mt-8 flex w-1/2 flex-col gap-8 pl-12">
               <h1 className="text-3xl font-bold text-medium">
                 Dynamic Transaction Tracking
               </h1>
-              <p className="w-auto text-base text-medium xl:w-11/12">
+              <p className="w-auto text-base tracking-wide text-medium xl:w-11/12">
                 Take full control of your financial activities with our powerful
                 transaction management system. Easily view, add, edit, and
                 search your transactions, with advanced sorting and filtering
@@ -161,12 +300,20 @@ export default function DashboardTabs() {
                 <Link href="/">Learn More</Link>
               </Button>
             </div>
-          </div>
+          </motion.div>
         </TabsContent>
 
         {/* Spending */}
         <TabsContent value="Spending" className="mt-0 w-full">
-          <div className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]">
+          <motion.div
+            variants={fadeInAnimationVariants}
+            initial="initial"
+            whileInView="animate"
+            viewport={{
+              once: true,
+            }}
+            className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]"
+          >
             <div className="relative w-1/2">
               <SpendingExpense />
               <SpendingMethod />
@@ -175,7 +322,7 @@ export default function DashboardTabs() {
               <h1 className="text-3xl font-bold text-medium">
                 Insightful Spending Analysis
               </h1>
-              <p className="w-auto text-base text-medium xl:w-11/12">
+              <p className="w-auto text-base tracking-wide text-medium xl:w-11/12">
                 Gain valuable insights into your financial habits with our
                 comprehensive spending analysis tools. Visualize your spending
                 patterns in relation to your income, and dive deep into detailed
@@ -189,15 +336,31 @@ export default function DashboardTabs() {
                 <Link href="/">Learn More</Link>
               </Button>
             </div>
-          </div>
+          </motion.div>
         </TabsContent>
 
         {/* Penny */}
         <TabsContent value="AI-Assistant" className="mt-0 w-full">
-          <div className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]">
+          <motion.div
+            variants={fadeInAnimationVariants}
+            initial="initial"
+            whileInView="animate"
+            viewport={{
+              once: true,
+            }}
+            className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]"
+          >
             <div className="w-1/2">
               <div className="flex select-none flex-col gap-2 rounded-xl bg-white p-4 xl:gap-6">
-                <div className="flex gap-2 rounded-xl">
+                <motion.div
+                  variants={slideLeftAnimationVariants}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{
+                    once: true,
+                  }}
+                  className="flex gap-2 rounded-xl"
+                >
                   <div className="mt-2">
                     <BotMessageSquare className="h-5 w-5 xl:h-6 xl:w-6" />
                   </div>
@@ -207,11 +370,27 @@ export default function DashboardTabs() {
                       any finance-related questions?
                     </p>
                   </div>
-                </div>
-                <div className="ml-auto rounded-xl bg-teal-600 bg-opacity-90 px-4 py-2 text-sm text-white xl:text-base">
+                </motion.div>
+                <motion.div
+                  variants={slideRightAnimationVariants}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{
+                    once: true,
+                  }}
+                  className="ml-auto rounded-xl bg-teal-600 bg-opacity-90 px-4 py-2 text-sm text-white xl:text-base"
+                >
                   What are my potential savings for this month?
-                </div>
-                <div className="flex gap-2 rounded-xl">
+                </motion.div>
+                <motion.div
+                  variants={slideLeftAnimationVariants}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{
+                    once: true,
+                  }}
+                  className="flex gap-2 rounded-xl"
+                >
                   <div className="mt-2">
                     <BotMessageSquare className="h-5 w-5 xl:h-6 xl:w-6" />
                   </div>
@@ -230,14 +409,14 @@ export default function DashboardTabs() {
                       Expenses = $4,500.00 - $3,836.19 = $663.81
                     </p>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
             <div className="mt-8 flex w-1/2 flex-col gap-8 pl-12">
               <h1 className="text-3xl font-bold text-medium">
                 Penny - Intelligent Financial Guidance
               </h1>
-              <p className="w-auto text-base text-medium xl:w-11/12">
+              <p className="w-auto text-base tracking-wide text-medium xl:w-11/12">
                 Access personalized financial advice at your fingertips with our
                 AI-powered assistant. Ask questions about your finances, receive
                 tailored suggestions, and get proactive tips to enhance your
@@ -251,9 +430,9 @@ export default function DashboardTabs() {
                 <Link href="/">Learn More</Link>
               </Button>
             </div>
-          </div>
+          </motion.div>
         </TabsContent>
       </Tabs>
-    </section>
+    </motion.section>
   );
 }

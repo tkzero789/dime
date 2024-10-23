@@ -1,15 +1,40 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
-import IMG from "@/public/remind.png";
 import Link from "next/link";
 import BudgetImg from "@/public/img/budget2.png";
 import SpendingImg1 from "@/public/img/spending1.png";
 import SpendingImg2 from "@/public/img/spending2.png";
+import { motion } from "framer-motion";
+
+const fadeInAnimationVariants = {
+  initial: {
+    opacity: 0,
+    scale: 0.8,
+  },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.4,
+      delay: 0.4,
+    },
+  },
+};
 
 export default function CallToActionSection() {
   return (
-    <div className="mx-auto mt-40 w-full max-w-7xl px-4">
+    <motion.div
+      variants={fadeInAnimationVariants}
+      initial="initial"
+      whileInView="animate"
+      viewport={{
+        once: true,
+      }}
+      className="mx-auto mt-40 w-full max-w-7xl px-4"
+    >
       <div className="flex flex-col-reverse items-center justify-center gap-4 rounded-3xl bg-gradient-to-tr from-orange-200 to-amber-300 px-10 py-10 md:flex-row md:justify-between xl:px-32">
         <div className="flex w-full flex-col gap-8 md:w-1/2">
           <h1 className="pr-0 text-center text-2xl font-bold text-medium md:pr-8 md:text-start lg:text-3xl">
@@ -47,6 +72,6 @@ export default function CallToActionSection() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

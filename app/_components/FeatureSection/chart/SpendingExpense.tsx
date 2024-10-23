@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/chart";
 import { Button } from "@/components/ui/button";
 import SpendingPieCustomTooltip from "@/app/(finance)/spending/_components/chart/SpendingPieCustomTooltip";
+import { motion } from "framer-motion";
 import "@/css/chart.css";
 
 export const description = "A donut chart with text";
@@ -61,6 +62,19 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+const slideInAnimationVariants = {
+  initial: {
+    x: 100,
+  },
+  animate: {
+    x: 0,
+    transition: {
+      duration: 0.4,
+      delay: 0.2,
+    },
+  },
+};
+
 export function SpendingExpense() {
   const totalAmount = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.amount, 0);
@@ -72,74 +86,84 @@ export function SpendingExpense() {
   };
 
   return (
-    <Card className="w-1/2 rounded-lg border bg-white">
-      <CardHeader className="flex flex-col gap-y-4 space-y-0">
-        <div className="flex items-start justify-between lg:flex-row lg:items-center">
-          <CardTitle className="text-base font-bold tracking-tight xl:text-lg">
-            Expenses
-          </CardTitle>
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-[26px] px-1 text-[8px] xl:h-[36px] xl:px-3 xl:text-sm"
-          >
-            Show last month
-          </Button>
-        </div>
-        <p className="text-center text-xs font-medium text-medium xl:text-sm">
-          Spend <span className="font-bold text-dark">$135</span> less than last
-          month
-        </p>
-      </CardHeader>
-      <CardContent className="flex-1 pb-6">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[120px] xl:max-h-[180px]"
-        >
-          <PieChart>
-            <ChartTooltip content={<SpendingPieCustomTooltip />} />
-            <Pie
-              className="pie"
-              data={chartData}
-              dataKey="amount"
-              nameKey="paymentMethod"
-              innerRadius={parseInt(getRadius("inner"))}
-              outerRadius={parseInt(getRadius("outer"))}
-              strokeWidth={5}
+    <motion.div
+      variants={slideInAnimationVariants}
+      initial="initial"
+      whileInView="animate"
+      viewport={{
+        once: true,
+      }}
+      className="w-1/2"
+    >
+      <Card className="rounded-lg border bg-white">
+        <CardHeader className="flex flex-col gap-y-4 space-y-0">
+          <div className="flex items-start justify-between lg:flex-row lg:items-center">
+            <CardTitle className="text-base font-bold tracking-tight xl:text-lg">
+              Expenses
+            </CardTitle>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-[26px] px-1 text-[8px] xl:h-[36px] xl:px-3 xl:text-sm"
             >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        <tspan
+              Show last month
+            </Button>
+          </div>
+          <p className="text-center text-xs font-medium text-medium xl:text-sm">
+            Spend <span className="font-bold text-dark">$135</span> less than
+            last month
+          </p>
+        </CardHeader>
+        <CardContent className="flex-1 pb-6">
+          <ChartContainer
+            config={chartConfig}
+            className="mx-auto aspect-square max-h-[120px] xl:max-h-[180px]"
+          >
+            <PieChart>
+              <ChartTooltip content={<SpendingPieCustomTooltip />} />
+              <Pie
+                className="pie"
+                data={chartData}
+                dataKey="amount"
+                nameKey="paymentMethod"
+                innerRadius={parseInt(getRadius("inner"))}
+                outerRadius={parseInt(getRadius("outer"))}
+                strokeWidth={5}
+              >
+                <Label
+                  content={({ viewBox }) => {
+                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      return (
+                        <text
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-lg font-bold xl:text-xl"
+                          textAnchor="middle"
+                          dominantBaseline="middle"
                         >
-                          ${totalAmount.toLocaleString()}
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
-                        >
-                          Total spent
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+                          <tspan
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            className="fill-foreground text-lg font-bold xl:text-xl"
+                          >
+                            ${totalAmount.toLocaleString()}
+                          </tspan>
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 24}
+                            className="fill-muted-foreground"
+                          >
+                            Total spent
+                          </tspan>
+                        </text>
+                      );
+                    }
+                  }}
+                />
+              </Pie>
+            </PieChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }

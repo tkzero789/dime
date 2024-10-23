@@ -1,4 +1,19 @@
+"use client";
+
 import React from "react";
+import { motion } from "framer-motion";
+
+const fadeInAnimationVariants = {
+  initial: {
+    opacity: 0,
+  },
+  animate: (index: number) => ({
+    opacity: 1,
+    transition: {
+      delay: 0.2 * index,
+    },
+  }),
+};
 
 export default function BenefitSection() {
   const benefits = [
@@ -27,7 +42,7 @@ export default function BenefitSection() {
   ];
 
   return (
-    <div className="mx-auto mt-40 w-full max-w-7xl px-4">
+    <section className="mx-auto mt-40 w-full max-w-7xl px-4">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-medium">
           Embrace the Power of{" "}
@@ -37,9 +52,16 @@ export default function BenefitSection() {
         </h1>
       </div>
       <div className="mt-12 grid grid-cols-2 gap-6">
-        {benefits.map((benefit) => (
-          <div
+        {benefits.map((benefit, index) => (
+          <motion.div
             key={benefit.title}
+            variants={fadeInAnimationVariants}
+            initial="initial"
+            whileInView="animate"
+            viewport={{
+              once: true,
+            }}
+            custom={index}
             className="group col-span-2 flex flex-col gap-2 rounded-2xl bg-teal-500 bg-opacity-10 p-8 shadow-sm transition-all hover:bg-teal-500 lg:col-span-1"
           >
             <span className="w-fit rounded-lg bg-teal-600 bg-opacity-30 px-2 py-1 text-xs font-medium text-teal-700 group-hover:bg-yellow-400 group-hover:text-blue-700">
@@ -51,9 +73,9 @@ export default function BenefitSection() {
             <p className="text-base font-light text-medium group-hover:text-gray-100">
               {benefit.description}
             </p>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
