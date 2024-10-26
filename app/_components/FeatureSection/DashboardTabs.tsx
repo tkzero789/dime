@@ -55,7 +55,7 @@ const fadeInAnimationVariants = {
 // Slide in (index)
 const slideInAnimationVariants = {
   initial: (index: number) => ({
-    x: index === 0 ? 100 : -100,
+    x: index === 0 ? 50 : -50,
   }),
   animate: {
     x: 0,
@@ -153,7 +153,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]"
+            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[480px]"
           >
             <div className="relative w-1/2">
               {[Dashboard1, Dashboard2].map((item, index) => (
@@ -206,7 +206,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]"
+            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[480px]"
           >
             <div className="relative w-1/2">
               {[Budget1, Budget2].map((item, index) => (
@@ -259,7 +259,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]"
+            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[480px]"
           >
             <div className="relative w-1/2">
               {[Transaction1, Transaction2].map((item, index) => (
@@ -312,7 +312,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]"
+            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[480px]"
           >
             <div className="relative w-1/2">
               <SpendingExpense />
@@ -348,7 +348,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[440px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[536px]"
+            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[480px]"
           >
             <div className="w-1/2">
               <div className="flex select-none flex-col gap-2 rounded-xl bg-white p-4 xl:gap-6">

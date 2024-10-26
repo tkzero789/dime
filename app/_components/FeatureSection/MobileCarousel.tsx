@@ -115,7 +115,7 @@ const MobileCarousel: React.FC<PropType> = (props) => {
                   AI-powered assistant
                 </p>
               </div>
-              <div className="px-8 pb-8">
+              <div className="px-8 pb-8 md:px-40">
                 <div className="flex flex-col gap-2 rounded-xl bg-white p-2">
                   <div className="flex gap-2">
                     <div className="mt-2">
