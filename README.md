@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![DimeProject](https://github.com/user-attachments/assets/10b9846c-7e0f-48e6-a4ed-be88bbd2f5a9)
 
-## Getting Started
+## Table of Contents
 
-First, run the development server:
+- [About](#about)
+- [Tech Stack](#tech-stack)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## About
+This budgeting app helps users manage multiple budgets with shared categories while tracking spending, income, and savings. With a built-in AI assistant offering personalized financial advice, users can get a clear view of their finances and make informed decisions with ease:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Budgets**: users can create and manage multiple budgets with shared categories.
+- **Transactions**: sort, search, and track spending, income, and savings effortlessly.
+- **AI Assistant**: get personalized financial advice to optimize budgeting and spending decisions.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+[Visit site](https://dime-mu.vercel.app/)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Tech Stack
+Here's an overview of the key technologies powering my project:
 
-## Learn More
+- **Core Stack**
+    - Next.js
+- **Styling**
+    - Tailwind CSS
+    - shadcn/ui
+    - Framer Motion
+- **Authentication**
+    - Clerk.js
+- **Cloud Services and APIs**
+    - Drizzle ORM
+    - Neon (PostgreSQL)
+    - OpenAI API
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
