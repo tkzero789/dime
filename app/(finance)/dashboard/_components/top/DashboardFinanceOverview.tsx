@@ -75,7 +75,7 @@ export default function DashboardFinanceOverview({
         <span className="ml-auto font-bold text-green-700">
           $<FormatNumber number={potentialSave} />
         </span>
-        <Link href={"/"}>
+        <Link href={"/saving"}>
           <Plus
             strokeWidth={2}
             color="#555353"
