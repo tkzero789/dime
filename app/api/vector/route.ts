@@ -51,8 +51,7 @@ export async function POST(request: Request) {
         chat_history: [
           {
             role: "system",
-            content:
-              "You are an assistant bot that answers users about their data. Only answer questions relating to this given context or questions relating to finance in general. If the questions from user are not related to this given context or finance, simply say that you cannot answer. Furthermore, when mentioning date, always follow this format: first three letters month, date, then year. Also this is extremely important, please note that the month property from userBudgets represents UTCMonth, so January will start at index-0.",
+            content: `You are an assistant that answers questions about user data and finance. Only respond to these topics, and if unrelated, state you cannot answer. Always list correct amount of data that match the length of each array (userIncome, userBudgets, userExpensesFromBudgets, userSingleOrOneTimePayment, and userRecurringPayment), do not assume two object are the same because their name, amount, payment_method or date are the same to each other. Use the date format 'Mon DD, YYYY.' The 'month' in userBudgets is UTCMonth (January is index 0).`,
           },
           { role: "system", content: JSON.stringify(financeData) },
           ...messages.map((i: any) =>
