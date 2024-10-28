@@ -145,7 +145,10 @@ export default function DashboardTabs() {
         </TabsList>
 
         {/* Dashboard */}
-        <TabsContent value="Dashboard" className="mt-0 w-full">
+        <TabsContent
+          value="Dashboard"
+          className="feature-tab relative mt-0 w-full"
+        >
           <motion.div
             variants={fadeInAnimationVariants}
             initial="initial"
@@ -153,9 +156,9 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[480px]"
+            className="bg-feature flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
-            <div className="relative w-1/2">
+            <div className="relative z-10 w-1/2">
               {[Dashboard1, Dashboard2].map((item, index) => (
                 <motion.div
                   key={index}
@@ -198,7 +201,10 @@ export default function DashboardTabs() {
         </TabsContent>
 
         {/* Budgets */}
-        <TabsContent value="Budgets" className="mt-0 w-full">
+        <TabsContent
+          value="Budgets"
+          className="feature-tab relative mt-0 w-full"
+        >
           <motion.div
             variants={fadeInAnimationVariants}
             initial="initial"
@@ -206,9 +212,9 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[480px]"
+            className="bg-feature flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
-            <div className="relative w-1/2">
+            <div className="relative z-10 w-1/2">
               {[Budget1, Budget2].map((item, index) => (
                 <motion.div
                   key={index}
@@ -251,7 +257,10 @@ export default function DashboardTabs() {
         </TabsContent>
 
         {/* Transactions */}
-        <TabsContent value="Transactions" className="mt-0 w-full">
+        <TabsContent
+          value="Transactions"
+          className="feature-tab relative mt-0 w-full"
+        >
           <motion.div
             variants={fadeInAnimationVariants}
             initial="initial"
@@ -259,9 +268,9 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[480px]"
+            className="bg-feature flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
-            <div className="relative w-1/2">
+            <div className="relative z-10 w-1/2">
               {[Transaction1, Transaction2].map((item, index) => (
                 <motion.div
                   key={index}
@@ -304,7 +313,10 @@ export default function DashboardTabs() {
         </TabsContent>
 
         {/* Spending */}
-        <TabsContent value="Spending" className="mt-0 w-full">
+        <TabsContent
+          value="Spending"
+          className="feature-tab relative mt-0 w-full"
+        >
           <motion.div
             variants={fadeInAnimationVariants}
             initial="initial"
@@ -312,9 +324,9 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[480px]"
+            className="bg-feature flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
-            <div className="relative w-1/2">
+            <div className="relative z-10 w-1/2">
               <SpendingExpense />
               <SpendingMethod />
             </div>
@@ -340,7 +352,10 @@ export default function DashboardTabs() {
         </TabsContent>
 
         {/* Penny */}
-        <TabsContent value="AI-Assistant" className="mt-0 w-full">
+        <TabsContent
+          value="AI-Assistant"
+          className="feature-tab relative mt-0 w-full"
+        >
           <motion.div
             variants={fadeInAnimationVariants}
             initial="initial"
@@ -348,9 +363,9 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 p-12 xl:h-[480px]"
+            className="bg-feature flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
-            <div className="w-1/2">
+            <div className="z-10 w-1/2">
               <div className="flex select-none flex-col gap-2 rounded-xl bg-white p-4 xl:gap-6">
                 <motion.div
                   variants={slideLeftAnimationVariants}

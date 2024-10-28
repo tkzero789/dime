@@ -8,7 +8,7 @@ import {
 
 export default function QASection() {
   return (
-    <div className="mx-auto mt-40 w-full max-w-7xl px-4">
+    <section className="mx-auto mt-40 w-full max-w-7xl px-4">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-medium">
           Got a{" "}
@@ -71,11 +71,11 @@ export default function QASection() {
               How can I contact customer support if I encounter issues?
             </AccordionTrigger>
             <AccordionContent className="text-base text-medium">
-              You can contact our support team via [email]
+              You can contact our support team via dimesupport@gmail.com
             </AccordionContent>
           </AccordionItem>
         </Accordion>
       </div>
-    </div>
+    </section>
   );
 }

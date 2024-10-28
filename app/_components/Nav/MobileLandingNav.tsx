@@ -87,7 +87,7 @@ export default function MobileLandingNav() {
   };
 
   return (
-    <div className="init-fade fixed left-0 right-0 top-0 z-50 mt-2 px-2 lg:hidden">
+    <nav className="init-fade fixed left-0 right-0 top-0 z-50 mt-2 px-2 lg:hidden">
       <div className="nav-shadow flex items-center justify-between rounded-full bg-white px-4 py-2">
         <Link href="/" className="flex items-center gap-2">
           <Image src={Logo} alt="logo" width={34} height={34} />
@@ -163,6 +163,6 @@ export default function MobileLandingNav() {
           </SheetContent>
         </Sheet>
       </div>
-    </div>
+    </nav>
   );
 }

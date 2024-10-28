@@ -35,3 +35,19 @@
     opacity: 1;
   }
 }
+
+.feature-tab {
+  overflow: hidden;
+}
+
+.feature-tab::after {
+  content: "";
+  position: absolute;
+  bottom: -25rem;
+  left: -15rem;
+  height: 40rem;
+  width: 40rem;
+  background-color: rgb(255, 255, 255);
+  opacity: 0.4;
+  clip-path: circle(50% at 50% 50%);
+}
