@@ -1,4 +1,3 @@
-import Container from "@/components/ui/container";
 import LandingBackground from "./_components/HeroSection/LandingBackground";
 import LandingNav from "./_components/Nav/LandingNav";
 import DashboardTabs from "./_components/FeatureSection/DashboardTabs";
@@ -17,7 +16,7 @@ export default function Home() {
   const OPTIONS: EmblaOptionsType = { containScroll: false };
 
   return (
-    <div className="h-screen">
+    <main className="h-screen">
       <LandingBackground />
       <LandingNav />
       <MobileLandingNav />
@@ -28,6 +27,6 @@ export default function Home() {
       <QASection />
       <CallToActionSection />
       <FooterSection />
-    </div>
+    </main>
   );
 }
