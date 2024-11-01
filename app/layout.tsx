@@ -7,8 +7,23 @@ import { ClerkProvider } from "@clerk/nextjs";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Dime",
-  description: "Budgeting AI Finance Assistant Application",
+  metadataBase: new URL("https://dime-mu.vercel.app/"),
+  keywords: [
+    "Dime",
+    "Dime AI finance assistant",
+    "Dime budgeting application",
+    "Dime",
+    "Budgeting application",
+    "AI assistant",
+  ],
+  title: {
+    default: "Dime",
+    template: `%s | Dime`,
+  },
+  openGraph: {
+    description:
+      "Budgeting AI finance assistant application for people who want to find a smarter way to manange their money",
+  },
 };
 
 export default function RootLayout({
