@@ -95,7 +95,7 @@ export function TransactionTable<TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      className={`text-sm font-semibold text-medium ${header.id === "amount" && "text-right"} ${header.id === "date" && "rounded-l-lg"} ${header.id === "actions" && "rounded-r-lg"} `}
+                      className={`truncate text-sm font-semibold text-medium ${header.id === "amount" && "text-right"} ${header.id === "date" && "rounded-l-lg"} ${header.id === "actions" && "rounded-r-lg"} $`}
                     >
                       {header.isPlaceholder
                         ? null

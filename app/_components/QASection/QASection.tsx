@@ -13,7 +13,7 @@ export default function QASection() {
         <h1 className="text-3xl font-bold text-medium">
           Got a{" "}
           <span className="bg-gradient-to-b from-orange-400 to-amber-600 bg-clip-text text-transparent">
-            Questions?
+            Question?
           </span>{" "}
           <span className="block md:inline-block">Look here</span>
         </h1>
