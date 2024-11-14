@@ -75,35 +75,37 @@ export function BudgetRadicalChart({
   ];
 
   React.useEffect(() => {
+    const calculation = () => {
+      const { totalAmount, totalSpend, remainingAmount } = budgetList?.reduce(
+        (acc, budget) => {
+          acc.totalAmount += Number(budget.amount);
+          acc.totalSpend += budget.total_spend;
+          if (budget.remaining === null) {
+            acc.remainingAmount += Number(budget.amount);
+          } else {
+            acc.remainingAmount += budget.remaining;
+          }
+          return acc;
+        },
+        { totalAmount: 0, totalSpend: 0, remainingAmount: 0 },
+      ) || { totalAmount: 0, totalSpend: 0, remainingAmount: 0 };
+
+      setTotalBudget(totalAmount);
+      setTotalSpend(totalSpend);
+      setRemaining(remainingAmount);
+
+      totalSpendChartDegree(totalAmount, totalSpend);
+    };
+
+    // Get the degree number to display in endAngle
+    const totalSpendChartDegree = (totalBudget: number, totalSpend: number) => {
+      const spendingPercent = (totalSpend / totalBudget) * 100;
+      const chartPercent = (360 * spendingPercent) / 100;
+      setChartPercent(chartPercent);
+    };
+
     calculation();
-    totalSpendChartDegree(totalBudget, totalSpend);
-  }, [budgetList, totalBudget, totalSpend]);
-
-  // Calculate budget amount and total spending
-  const calculation = () => {
-    const { totalAmount, totalSpend, remainingAmount } = budgetList?.reduce(
-      (acc, budget) => {
-        acc.totalAmount += Number(budget.amount);
-        acc.totalSpend += budget.total_spend;
-        acc.remainingAmount += budget.remaining;
-        return acc;
-      },
-      { totalAmount: 0, totalSpend: 0, remainingAmount: 0 },
-    ) || { totalAmount: 0, totalSpend: 0, remainingAmount: 0 };
-
-    setTotalBudget(totalAmount);
-    setTotalSpend(totalSpend);
-    setRemaining(remainingAmount);
-
-    totalSpendChartDegree(totalBudget, totalSpend);
-  };
-
-  // Get the degree number to display in endAngle
-  const totalSpendChartDegree = (totalBudget: number, totalSpend: number) => {
-    const spendingPercent = (totalSpend / totalBudget) * 100;
-    const chartPercent = (360 * spendingPercent) / 100;
-    setChartPercent(chartPercent);
-  };
+  }, [budgetList]);
 
   return (
     <Card className="col-span-3 flex flex-col rounded-lg shadow-md xl:col-span-1">

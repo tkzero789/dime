@@ -50,6 +50,7 @@ export function BudgetByIdRadicalChart({ budget }: Props) {
     "November",
     "December",
   ];
+
   return (
     <Card className="hidden h-full flex-col rounded-lg shadow-md lg:flex">
       <CardHeader className="items-center pb-0">
@@ -142,7 +143,7 @@ export function BudgetByIdRadicalChart({ budget }: Props) {
             {budget[0]?.remaining > 0 ? (
               <FormatNumber number={budget[0]?.remaining} />
             ) : (
-              "0"
+              <FormatNumber number={Number(budget[0]?.amount)} />
             )}
           </span>
         </div>
