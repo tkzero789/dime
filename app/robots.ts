@@ -16,6 +16,6 @@ export default function robots(): MetadataRoute.Robots {
         "/transaction(.*)",
       ],
     },
-    sitemap: "https://dime-mu.vercel.app/sitemap.xml",
+    sitemap: "https://dimebudget.com/sitemap.xml",
   };
 }

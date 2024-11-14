@@ -7,7 +7,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dime-mu.vercel.app/"),
+  metadataBase: new URL("https://dimebudget.com"),
   keywords: [
     "Dime",
     "Dime AI finance assistant",
@@ -65,11 +65,11 @@ export default function RootLayout({
             property="og:description"
             content="Dime is a budgeting application that helps you manage your finances and interact with an AI Assistant for insights and tips."
           />
-          <meta property="og:url" content="https://dime-mu.vercel.app/" />
+          <meta property="og:url" content="https://dimebudget.com" />
           <meta property="og:type" content="website" />
           <meta
             property="og:image"
-            content="https://dime-mu.vercel.app/img/budget2.png"
+            content="https://dimebudget.com/img/budget2.png"
           />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="Dime - Budgeting Application" />
@@ -79,7 +79,7 @@ export default function RootLayout({
           />
           <meta
             name="twitter:image"
-            content="https://dime-mu.vercel.app/img/budget2.png"
+            content="https://dimebudget.com/img/budget2.png"
           />
           <link rel="icon" href="/favicon.ico" />
           <title>Dime</title>
