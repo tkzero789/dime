@@ -33,7 +33,7 @@ export default function FooterSection() {
               </Link>
             </li>
             <li>
-              <Link href="/" className="hover:text-dark">
+              <Link href="/privacy-policy" className="hover:text-dark">
                 Privacy Policy
               </Link>
             </li>
@@ -73,7 +73,7 @@ export default function FooterSection() {
               </Link>
             </li>
             <li>
-              <Link href="/" className="hover:text-dark">
+              <Link href="/terms-of-service" className="hover:text-dark">
                 Terms of Service
               </Link>
             </li>
