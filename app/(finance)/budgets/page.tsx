@@ -87,7 +87,7 @@ export default function BudgetsPage() {
   return (
     <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 xl:px-20">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Budgets list</h2>
+        <h2 className="text-2xl font-bold">Budgets List</h2>
         <CreateBudget refreshData={() => getBudgetList()} />
       </div>
       <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
