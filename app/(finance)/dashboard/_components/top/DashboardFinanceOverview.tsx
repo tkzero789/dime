@@ -73,7 +73,7 @@ export default function DashboardFinanceOverview({
         <PiggyBank className="h-5 w-5 stroke-teal-700" />
         <span>Potential Saving</span>
         <span className="ml-auto font-bold text-green-700">
-          $<FormatNumber number={potentialSave} />
+          ${potentialSave >= 0 ? <FormatNumber number={potentialSave} /> : 0}
         </span>
         <Link href={"/saving"}>
           <Plus

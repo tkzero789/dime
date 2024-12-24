@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 const isPublicRoute = createRouteMatcher([
   "/",
@@ -9,15 +10,34 @@ const isPublicRoute = createRouteMatcher([
   "/sitemap.xml",
 ]);
 
-// const isProtectedRoute = createRouteMatcher(["/dashboard(.*)", "/budgets(.*)"]);
+const isProtectedRoute = createRouteMatcher([
+  "/dashboard(.*)",
+  "/budgets(.*)",
+  "/income(.*)",
+  "/penny(.*)",
+  "/recurring(.*)",
+  "/saving(.*)",
+  "/spending(.*)",
+  "/transaction(.*)",
+]);
 
 export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
-    const { userId } = auth();
-    if (!userId) {
-      return auth().redirectToSignIn({ returnBackUrl: req.url });
-    }
-    auth().protect();
+  // if (!isPublicRoute(req)) {
+  //   const { userId } = auth();
+  //   if (!userId) {
+  //     return auth().redirectToSignIn({ returnBackUrl: req.url });
+  //   }
+  //   auth().protect();
+  // }
+
+  const { userId, redirectToSignIn } = auth();
+
+  if (!userId && isProtectedRoute(req)) {
+    return redirectToSignIn();
+  }
+
+  if (userId && isPublicRoute(req)) {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 });
 
