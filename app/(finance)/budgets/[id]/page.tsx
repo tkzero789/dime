@@ -160,7 +160,7 @@ export default function BudgetByIdPage({ params }: Props) {
         </Popover>
       </div>
       <div className="mt-8 grid grid-cols-3 gap-4">
-        <div className="order-last col-span-3 lg:order-first xl:col-span-2">
+        <div className="order-last col-span-3 xl:order-first xl:col-span-2 xl:h-full">
           <ExpenseBarChart
             budgetInfo={budgetInfo}
             expenseDetail={expenseDetail}

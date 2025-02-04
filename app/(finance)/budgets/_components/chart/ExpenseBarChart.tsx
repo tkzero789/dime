@@ -101,7 +101,7 @@ export function ExpenseBarChart({ budgetInfo, expenseDetail }: Props) {
   ];
 
   return (
-    <Card className="shadow-md">
+    <Card className="shadow-md xl:h-full">
       <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:block">
         <div>
           <CardTitle className="text-xl font-bold tracking-normal">
@@ -117,10 +117,10 @@ export function ExpenseBarChart({ budgetInfo, expenseDetail }: Props) {
           {isFirstHalf ? "Show Last Half" : "Show First Half"}
         </Button>
       </CardHeader>
-      <CardContent>
+      <CardContent className="xl:h-[calc(100%-96px)]">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[200px] w-full xl:h-[280px]"
+          className="aspect-auto h-[200px] w-full xl:h-full"
         >
           <BarChart
             accessibilityLayer

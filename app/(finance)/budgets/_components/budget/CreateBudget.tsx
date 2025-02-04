@@ -155,11 +155,11 @@ export default function CreateBudget({ refreshData }: Props) {
     if (
       !name ||
       !amount ||
-      !month ||
+      month === null ||
       !currentYear ||
       !user?.primaryEmailAddress?.emailAddress
     ) {
-      window.alert("Missing required information");
+      toast.error("Missing required information");
       return;
     }
 
@@ -219,6 +219,8 @@ export default function CreateBudget({ refreshData }: Props) {
     setCategory("");
     setAmount("");
   };
+
+  console.log(month);
 
   return (
     <>
@@ -348,7 +350,9 @@ export default function CreateBudget({ refreshData }: Props) {
             <DialogClose asChild>
               <Button
                 className="w-full"
-                disabled={!(emoji && name && amount && month && category)}
+                disabled={
+                  !(emoji && name && amount && month !== null && category)
+                }
                 onClick={() => onCreateBudget()}
               >
                 Create budget
