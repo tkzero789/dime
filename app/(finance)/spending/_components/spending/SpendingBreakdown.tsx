@@ -114,7 +114,7 @@ export default function SpendingBreakdown({
           </div>
         </div>
       ) : (
-        <div className="flex h-28 items-center justify-center rounded-lg border border-dashed border-neutral-400 text-sm xl:h-full">
+        <div className="flex h-28 items-center justify-center rounded-lg border border-dashed border-neutral-400 text-sm 2xl:h-full">
           No data for this month
         </div>
       )}
