@@ -199,7 +199,7 @@ export function SpendingPieChart({ spendingData }: Props) {
 
   return (
     <div className="mt-4 grid grid-cols-4 gap-4 xl:mt-8">
-      <Card className="col-span-4 h-fit rounded-lg border bg-white shadow-md xl:col-span-2 2xl:col-span-1">
+      <Card className="col-span-4 flex flex-col rounded-lg border bg-white shadow-md xl:col-span-2 2xl:col-span-1">
         <CardHeader className="flex flex-col gap-y-4 space-y-0">
           <div className="flex items-start justify-between lg:flex-row lg:items-center">
             <CardTitle className="text-xl font-bold tracking-normal">
@@ -213,58 +213,66 @@ export function SpendingPieChart({ spendingData }: Props) {
               {isSwitch ? "Show last month" : "Show current month"}
             </Button>
           </div>
-          <SpendingComparison spendingData={spendingData} />
+          {spendingByMonth > 0 && (
+            <SpendingComparison spendingData={spendingData} />
+          )}
         </CardHeader>
         <CardContent className="flex-1 pb-6">
-          <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square max-h-[220px]"
-          >
-            <PieChart>
-              <ChartTooltip content={<SpendingPieCustomTooltip />} />
-              <Pie
-                data={aggregatedDataCategory}
-                dataKey="amount"
-                nameKey="category"
-                innerRadius={70}
-                outerRadius={100}
-                strokeWidth={5}
-              >
-                {aggregatedDataCategory.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.fill} />
-                ))}
-                <Label
-                  content={({ viewBox }) => {
-                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                      return (
-                        <text
-                          x={viewBox.cx}
-                          y={viewBox.cy}
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                        >
-                          <tspan
+          {spendingByMonth > 0 ? (
+            <ChartContainer
+              config={chartConfig}
+              className="mx-auto aspect-square h-[220px]"
+            >
+              <PieChart>
+                <ChartTooltip content={<SpendingPieCustomTooltip />} />
+                <Pie
+                  data={aggregatedDataCategory}
+                  dataKey="amount"
+                  nameKey="category"
+                  innerRadius={70}
+                  outerRadius={100}
+                  strokeWidth={5}
+                >
+                  {aggregatedDataCategory.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                  ))}
+                  <Label
+                    content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                        return (
+                          <text
                             x={viewBox.cx}
                             y={viewBox.cy}
-                            className={`fill-foreground font-bold ${spendingByMonth > 10000 ? "text-xl" : "text-2xl"}`}
+                            textAnchor="middle"
+                            dominantBaseline="middle"
                           >
-                            ${spendingByMonth.toLocaleString()}
-                          </tspan>
-                          <tspan
-                            x={viewBox.cx}
-                            y={(viewBox.cy || 0) + 24}
-                            className="fill-muted-foreground"
-                          >
-                            Total Spent
-                          </tspan>
-                        </text>
-                      );
-                    }
-                  }}
-                />
-              </Pie>
-            </PieChart>
-          </ChartContainer>
+                            <tspan
+                              x={viewBox.cx}
+                              y={viewBox.cy}
+                              className={`fill-foreground font-bold ${spendingByMonth > 10000 ? "text-xl" : "text-2xl"}`}
+                            >
+                              ${spendingByMonth.toLocaleString()}
+                            </tspan>
+                            <tspan
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) + 24}
+                              className="fill-muted-foreground"
+                            >
+                              Total Spent
+                            </tspan>
+                          </text>
+                        );
+                      }
+                    }}
+                  />
+                </Pie>
+              </PieChart>
+            </ChartContainer>
+          ) : (
+            <div className="flex h-24 items-center justify-center rounded-lg border border-dashed border-neutral-400 text-sm xl:h-[220px]">
+              No data for this month
+            </div>
+          )}
         </CardContent>
       </Card>
       <SpendingMethodPieChart

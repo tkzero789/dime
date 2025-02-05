@@ -87,29 +87,37 @@ export default function SpendingBreakdown({
         {isSwitch ? `${months[currentMonth]}` : `${months[currentMonth - 1]}`}{" "}
       </h2>
 
-      <ul className="flex flex-col gap-4">
-        {aggregatedDataCategory.map((data, index) => (
-          <li
-            key={index}
-            className="flex gap-x-6 text-base font-semibold text-medium"
-          >
-            <span>{getCategoryIcon(data.category)}</span>
-            <span>
-              <FormatString text={data.category} />
-            </span>
+      {total > 0 ? (
+        <div className="flex flex-1 flex-col justify-between">
+          <ul className="flex flex-col gap-4">
+            {aggregatedDataCategory.map((data, index) => (
+              <li
+                key={index}
+                className="flex gap-x-6 text-base font-semibold text-medium"
+              >
+                <span>{getCategoryIcon(data.category)}</span>
+                <span>
+                  <FormatString text={data.category} />
+                </span>
+                <span className="ml-auto font-bold text-dark">
+                  $<FormatNumber number={data.amount} />
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 flex gap-x-6 text-base font-semibold text-medium">
+            <CircleDollarSign className="h-6 w-6 stroke-[#555353]" />
+            <span>Total</span>
             <span className="ml-auto font-bold text-dark">
-              $<FormatNumber number={data.amount} />
+              $<FormatNumber number={total} />
             </span>
-          </li>
-        ))}
-      </ul>
-      <div className="flex gap-x-6 text-base font-semibold text-medium">
-        <CircleDollarSign className="h-6 w-6 stroke-[#555353]" />
-        <span>Total</span>
-        <span className="ml-auto font-bold text-dark">
-          $<FormatNumber number={total} />
-        </span>
-      </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex h-28 items-center justify-center rounded-lg border border-dashed border-neutral-400 text-sm xl:h-full">
+          No data for this month
+        </div>
+      )}
     </div>
   );
 }
