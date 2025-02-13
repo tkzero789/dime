@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
-import { and, desc, eq, gte, lte } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { Budgets, BudgetExpenses } from "@/db/schema";
 import {
   Dialog,
@@ -48,15 +48,11 @@ export default function TransferExpense({
   const params = useParams();
   const [budgetList, setBudgetList] = React.useState<BudgetList[]>([]);
 
-  React.useEffect(() => {
-    currentUser && getActiveBudget();
-  }, [currentUser]);
-
   const currentMonth = new Date().getUTCMonth();
   const currentYear = new Date().getUTCFullYear();
 
   //  Get all current active budgets from user
-  const getActiveBudget = async () => {
+  const getActiveBudget = React.useCallback(async () => {
     try {
       const result = await db
         .select({ id: Budgets.id, name: Budgets.name, icon: Budgets.icon })
@@ -76,7 +72,13 @@ export default function TransferExpense({
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [currentUser, currentMonth, currentYear]);
+
+  React.useEffect(() => {
+    if (currentUser) {
+      getActiveBudget();
+    }
+  }, [currentUser, getActiveBudget]);
 
   //   On transfer expense to another budget
   const handleTransferExpense = async (budget_id: string) => {

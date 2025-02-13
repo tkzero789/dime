@@ -5,40 +5,64 @@ import { SpendingBarChart } from "./_components/chart/SpendingBarChart";
 import { useUser } from "@clerk/nextjs";
 import {
   ExpenseDetail,
+  ExpenseDetailWithCategory,
   IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types/types";
-import { BatchResponse } from "drizzle-orm/batch";
 import { db } from "@/db/dbConfig";
 import { eq, getTableColumns } from "drizzle-orm";
 import { BudgetExpenses, Income, Recurrence, Single } from "@/db/schema";
 import { SpendingPieChart } from "./_components/chart/SpendingPieChart";
-import { SpendingMethodPieChart } from "./_components/chart/SpendingMethodPieChart";
-
-type NewExpenseDetail = ExpenseDetail & {
-  category: string;
-};
 
 export default function SpendingPage() {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [incomeData, setIncomeData] = React.useState<IncomeDetail[]>([]);
   const [spendingData, setSpendingData] = React.useState<
-    (NewExpenseDetail | RecurrenceDetail | SingleDetail)[]
+    (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
   >([]);
   const [finalData, setFinalData] = React.useState<
     { month: string; income: number; spending: number }[]
   >([]);
 
-  React.useEffect(() => {
-    user && getData();
-  }, [user]);
+  const calculate = React.useCallback(
+    (
+      incomeData: IncomeDetail[],
+      spendingData: (
+        | ExpenseDetailWithCategory
+        | RecurrenceDetail
+        | SingleDetail
+      )[],
+    ) => {
+      const incomeByMonth = groupByMonth(incomeData);
+      const spendingByMonth = groupByMonth(spendingData);
+
+      const allMonths = new Set([
+        ...Object.keys(incomeByMonth),
+        ...Object.keys(spendingByMonth),
+      ]);
+
+      const finalData = Array.from(allMonths).map((month) => ({
+        month,
+        income: incomeByMonth[month]
+          ? incomeByMonth[month].reduce((acc, curr) => acc + curr.amount, 0)
+          : 0,
+        spending: spendingByMonth[month]
+          ? spendingByMonth[month].reduce((acc, curr) => acc + curr.amount, 0)
+          : 0,
+      }));
+
+      setFinalData(finalData);
+    },
+    [],
+  );
 
   const getData = React.useCallback(async () => {
     try {
-      const batchResponse: BatchResponse<any> = await db.batch([
+      const batchResponse = await db.batch([
         db
           .select({ ...getTableColumns(Income) })
           .from(Income)
@@ -60,19 +84,27 @@ export default function SpendingPage() {
       ]);
 
       if (batchResponse) {
+        // eslint-disable-next-line prefer-const
         let [incomeResult, expenseResult, recurringResult, singleResult] =
           batchResponse;
 
         setIncomeData(incomeResult);
 
         // Add category property to each row in expenseResult
-        expenseResult = expenseResult.map((row: NewExpenseDetail) => ({
+        expenseResult = expenseResult.map((row: ExpenseDetail) => ({
           ...row,
           category: "Budget Expense",
         }));
 
-        const totalSpending = [
-          ...expenseResult,
+        const totalSpending: (
+          | ExpenseDetailWithCategory
+          | RecurrenceDetail
+          | SingleDetail
+        )[] = [
+          ...expenseResult.map((expense) => ({
+            ...expense,
+            category: "Budget Expense",
+          })),
           ...recurringResult,
           ...singleResult,
         ];
@@ -84,32 +116,13 @@ export default function SpendingPage() {
     } catch (error) {
       console.log(error);
     }
-  }, [currentUser]);
+  }, [currentUser, calculate]);
 
-  const calculate = (
-    incomeData: IncomeDetail[],
-    spendingData: (NewExpenseDetail | RecurrenceDetail | SingleDetail)[],
-  ) => {
-    const incomeByMonth = groupByMonth(incomeData);
-    const spendingByMonth = groupByMonth(spendingData);
-
-    const allMonths = new Set([
-      ...Object.keys(incomeByMonth),
-      ...Object.keys(spendingByMonth),
-    ]);
-
-    const finalData = Array.from(allMonths).map((month) => ({
-      month,
-      income: incomeByMonth[month]
-        ? incomeByMonth[month].reduce((acc, curr) => acc + curr.amount, 0)
-        : 0,
-      spending: spendingByMonth[month]
-        ? spendingByMonth[month].reduce((acc, curr) => acc + curr.amount, 0)
-        : 0,
-    }));
-
-    setFinalData(finalData);
-  };
+  React.useEffect(() => {
+    if (user) {
+      getData();
+    }
+  }, [user, getData]);
 
   const groupByMonth = (data: { date: string; amount: string }[]) => {
     return data.reduce(
@@ -133,7 +146,7 @@ export default function SpendingPage() {
   };
 
   return (
-    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 xl:px-20">
+    <div className="min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 2xl:px-20">
       <h2 className="text-2xl font-bold">Spending</h2>
       <SpendingBarChart finalData={finalData} />
       <SpendingPieChart spendingData={spendingData} />

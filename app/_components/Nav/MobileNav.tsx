@@ -176,7 +176,7 @@ export default function MobileNav() {
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                       This action will terminate your current session, and
-                      you'll need to log in again to access your account.
+                      you&apos;ll need to log in again to access your account.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>

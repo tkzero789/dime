@@ -15,10 +15,16 @@ import {
   ChartContainer,
   ChartTooltip,
 } from "@/components/ui/chart";
-import { ExpenseDetail, RecurrenceDetail, SingleDetail } from "@/types/types";
+import {
+  ExpenseDetail,
+  IncomeDetail,
+  RecurrenceDetail,
+  SingleDetail,
+} from "@/types/types";
 import GetCurrentMonth from "@/utils/getCurrentMonth";
 import LineCustomTooltip from "./LineCustomTooltip";
 import useWindowSize from "@/hooks/useWindowSize";
+import DashboardFinanceInfo from "./DashboardFinanceInfo";
 
 export const description = "A multiple line chart";
 
@@ -35,9 +41,10 @@ const chartConfig = {
 
 type Props = {
   spending: (ExpenseDetail | RecurrenceDetail | SingleDetail)[];
+  income: IncomeDetail[];
 };
 
-export function DashboardLineChart({ spending }: Props) {
+export function DashboardLineChart({ spending, income }: Props) {
   const { width } = useWindowSize();
   const currentMonth = new Date().getUTCMonth();
   const prevMonth = new Date();
@@ -118,21 +125,24 @@ export function DashboardLineChart({ spending }: Props) {
   );
 
   return (
-    <Card className="rounded-lg border shadow-md">
-      <CardHeader>
-        <CardTitle className="text-xl font-bold tracking-normal">
-          <GetCurrentMonth monthYear={new Date()} />
-        </CardTitle>
-        <CardDescription className="text-medium">
-          Daily spending trends for{" "}
-          <span>{prevMonth.toLocaleString("en-US", { month: "long" })}</span>{" "}
-          vs. <GetCurrentMonth month={new Date()} />
-        </CardDescription>
+    <Card className="rounded-lg border shadow-md xl:h-full">
+      <CardHeader className="flex flex-row justify-between gap-16 space-y-0">
+        <div className="flex flex-col gap-2">
+          <CardTitle className="text-xl font-bold tracking-normal">
+            <GetCurrentMonth monthYear={new Date()} />
+          </CardTitle>
+          <CardDescription className="text-medium">
+            Spending trends for{" "}
+            <span>{prevMonth.toLocaleString("en-US", { month: "long" })}</span>{" "}
+            vs. <GetCurrentMonth month={new Date()} />
+          </CardDescription>
+        </div>
+        <DashboardFinanceInfo spending={spending} income={income} />
       </CardHeader>
-      <CardContent>
+      <CardContent className="xl:h-[calc(100%-102px)]">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[250px] w-full"
+          className="aspect-auto h-[250px] w-full xl:h-[250px]"
         >
           <LineChart
             accessibilityLayer

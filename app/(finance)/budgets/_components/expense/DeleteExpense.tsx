@@ -59,7 +59,7 @@ export default function DeleteExpense({
           <AlertDialogTitle>Delete Expense</AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to delete this expense? This action cannot be
-            undone. Click 'Delete' to confirm this action.
+            undone. Click &apos;Delete&apos; to confirm this action.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

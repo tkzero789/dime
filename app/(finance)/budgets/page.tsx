@@ -3,15 +3,13 @@
 import React from "react";
 import BudgetList from "./_components/budget/BudgetList";
 import { db } from "@/db/dbConfig";
-import { and, desc, eq, getTableColumns, gte, lte, sql } from "drizzle-orm";
+import { and, desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { Budgets, BudgetExpenses } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { BudgetDetail } from "@/types/types";
 import CreateBudget from "./_components/budget/CreateBudget";
 import { BudgetRadicalChart } from "./_components/chart/BudgetRadicalChart";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 
 export default function BudgetsPage() {
@@ -27,12 +25,7 @@ export default function BudgetsPage() {
   const [month, setMonth] = React.useState<number>(monthSelected);
   const [year, setYear] = React.useState<number>(yearSelected);
 
-  React.useEffect(() => {
-    user && getBudgetList();
-  }, [user, month, year]);
-
-  // List of all budgets
-  const getBudgetList = async () => {
+  const getBudgetList = React.useCallback(async () => {
     setIsLoading(true);
     try {
       const result = await db
@@ -64,7 +57,15 @@ export default function BudgetsPage() {
       console.log(error);
     }
     setIsLoading(false);
-  };
+  }, [currentUser, month, year]);
+
+  React.useEffect(() => {
+    if (user) {
+      getBudgetList();
+    }
+  }, [user, getBudgetList]);
+
+  // List of all budgets
 
   const handlePreviousMonth = () => {
     if (month === 0) {
@@ -85,7 +86,7 @@ export default function BudgetsPage() {
   };
 
   return (
-    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 xl:px-20">
+    <div className="min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 2xl:px-20">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">Budgets List</h2>
         <CreateBudget refreshData={() => getBudgetList()} />

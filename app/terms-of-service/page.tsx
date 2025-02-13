@@ -13,8 +13,8 @@ export default function TermsOfServicePage() {
         <h2 className="mb-4 text-xl font-semibold">1. Service Description</h2>
         <p className="mb-4">
           Dime is a budgeting application that provides manual budget tracking
-          and AI-powered financial insights. The service is provided "as is"
-          without any guarantees of continuous availability.
+          and AI-powered financial insights. The service is provided &quot;as
+          is&quot; without any guarantees of continuous availability.
         </p>
       </section>
 

@@ -1,15 +1,13 @@
 "use client";
 
 import React from "react";
-import IncomeList from "./_components/IncomeList";
 import { db } from "@/db/dbConfig";
 import { Income } from "@/db/schema";
-import { and, desc, eq, getTableColumns, gte, lte } from "drizzle-orm";
+import { desc, eq, getTableColumns, and, lte, gte } from "drizzle-orm";
 import { IncomeBarChart } from "./_components/IncomeBarChart";
 import { useUser } from "@clerk/nextjs";
 import { IncomeDetail } from "@/types/types";
 import IncomeTable from "./_components/IncomeTable";
-import GetCurrentMonth from "@/utils/getCurrentMonth";
 import AddIncome from "./_components/AddIncome";
 import FormatMonth from "@/utils/formatMonth";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
@@ -17,31 +15,34 @@ import { CardSkeleton } from "@/components/ui/card-skeleton";
 export default function IncomePage() {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
+
+  const [currentYear, setCurrentYear] = React.useState<number>(
+    new Date().getUTCFullYear(),
+  );
+
+  const firstDayOfYear = `${currentYear}-01-01`;
+  const lastDayOfYear = `${currentYear}-12-31`;
+
   const [incomeList, setIncomeList] = React.useState<IncomeDetail[]>([]);
   const [filterIncomeList, setFilterIncomeList] = React.useState<
     IncomeDetail[]
   >([]);
+  const [activeMonth, setActiveMonth] = React.useState<string | null>(null);
   const [selectedMonth, setSelectedMonth] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
-  React.useEffect(() => {
-    user && getIncomeData();
-  }, [user]);
-
-  React.useEffect(() => {
-    getCurrentMonthIncome(
-      new Date().getUTCMonth(),
-      new Date().getUTCFullYear(),
-    );
-  }, [incomeList]);
-
-  const getIncomeData = async () => {
-    setIsLoading(true);
+  const getIncomeData = React.useCallback(async () => {
     try {
       const result = await db
         .select({ ...getTableColumns(Income) })
         .from(Income)
-        .where(eq(Income.created_by, currentUser ?? ""))
+        .where(
+          and(
+            eq(Income.created_by, currentUser ?? ""),
+            gte(Income.date, firstDayOfYear),
+            lte(Income.date, lastDayOfYear),
+          ),
+        )
         .orderBy(desc(Income.date));
 
       if (result) {
@@ -49,33 +50,68 @@ export default function IncomePage() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  };
+  }, [currentUser, firstDayOfYear, lastDayOfYear]);
 
-  const getCurrentMonthIncome = (month: number, year: number) => {
-    const filteredIncomeList = incomeList?.filter((income) => {
-      const incomeDate = new Date(income.date);
-      return (
-        incomeDate.getUTCMonth() === month &&
-        incomeDate.getUTCFullYear() === year
-      );
-    });
+  const getActiveMonthIncome = React.useCallback(
+    (month: number, year: number) => {
+      const filteredIncomeList = incomeList?.filter((income) => {
+        const incomeDate = new Date(income.date);
+        return (
+          incomeDate.getUTCMonth() === month &&
+          incomeDate.getUTCFullYear() === year
+        );
+      });
 
-    setFilterIncomeList(filteredIncomeList);
-  };
+      setFilterIncomeList(filteredIncomeList);
+    },
+    [incomeList],
+  );
+
+  React.useEffect(() => {
+    if (user) {
+      getIncomeData();
+    }
+  }, [user, getIncomeData]);
+
+  React.useEffect(() => {
+    if (activeMonth === null) {
+      getActiveMonthIncome(new Date().getUTCMonth(), currentYear);
+    } else {
+      const activeMonthIndex = new Date(
+        Date.parse(activeMonth + " 1, 2021"),
+      ).getUTCMonth();
+      getActiveMonthIncome(activeMonthIndex, currentYear);
+    }
+  }, [incomeList, getActiveMonthIncome, currentYear, activeMonth]);
 
   const handleBarClick = (month: string, year: string) => {
     const monthIndex = new Date(Date.parse(month + " 1, 2021")).getUTCMonth();
     const yearNumber = parseInt(year, 10);
     setSelectedMonth(month);
-    getCurrentMonthIncome(monthIndex, yearNumber);
+    setActiveMonth(month);
+    getActiveMonthIncome(monthIndex, yearNumber);
+  };
+
+  const handleYearChange = (mode: string) => {
+    if (mode === "previous") {
+      setCurrentYear((prev) => prev - 1);
+    } else {
+      setCurrentYear((prev) => prev + 1);
+    }
   };
 
   return (
-    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 xl:px-20">
+    <div className="min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 2xl:px-20">
       <h2 className="text-2xl font-bold">Income</h2>
-      <IncomeBarChart incomeList={incomeList} handleBarClick={handleBarClick} />
+      <IncomeBarChart
+        currentYear={currentYear}
+        incomeList={incomeList}
+        handleBarClick={handleBarClick}
+        handleYearChange={handleYearChange}
+      />
       {isLoading ? (
         <CardSkeleton
           title={true}
@@ -89,9 +125,11 @@ export default function IncomePage() {
           <div className="flex items-center justify-between pb-4">
             <h2 className="text-xl font-bold">
               {selectedMonth ? (
-                <FormatMonth monthYear={selectedMonth} />
+                <FormatMonth month={selectedMonth} />
               ) : (
-                <GetCurrentMonth monthYear={new Date()} />
+                <FormatMonth
+                  month={new Date().toLocaleString("en-US", { month: "short" })}
+                />
               )}
             </h2>
             <AddIncome
@@ -99,11 +137,9 @@ export default function IncomePage() {
               refreshData={getIncomeData}
             />
           </div>
-
           <IncomeTable
             filterIncome={filterIncomeList}
             refreshData={getIncomeData}
-            isLoading={isLoading}
           />
         </div>
       )}

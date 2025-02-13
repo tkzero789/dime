@@ -16,6 +16,7 @@ export async function POST(request: Request) {
   const encoder = new TextEncoder();
   const vectorStore = await loadVectorStore();
   const { messages = [] } = await request.json();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const userMessages = messages.filter((i: any) => i.role === "user");
   const input = userMessages[userMessages.length - 1].content;
   const retrievalQAChatPrompt = await pull<ChatPromptTemplate>(
@@ -54,6 +55,7 @@ export async function POST(request: Request) {
             content: `You are an assistant that answers questions about user data and finance. Only respond to these topics, and if unrelated, state you cannot answer. Always list correct amount of data that match the length of each array (userIncome, userBudgets, userExpensesFromBudgets, userSingleOrOneTimePayment, and userRecurringPayment), do not assume two object are the same because their name, amount, payment_method or date are the same to each other. Use the date format 'Mon DD, YYYY.' The 'month' in userBudgets is UTCMonth (January is index 0).`,
           },
           { role: "system", content: JSON.stringify(financeData) },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ...messages.map((i: any) =>
             i.role === "user"
               ? new HumanMessage(i.content)

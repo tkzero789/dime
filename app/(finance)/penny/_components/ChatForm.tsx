@@ -7,7 +7,7 @@ type Props = {
   isEmpty: boolean;
   setIsEmpty: Dispatch<SetStateAction<boolean>>;
   input: string;
-  handleInputChange: (e: any) => void;
+  handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: () => void;
   isLoading: boolean;
 };
@@ -20,10 +20,15 @@ export default function ChatForm({
   handleSubmit,
   isLoading,
 }: Props) {
-  const handleInput = (e: any) => {
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     handleInputChange(e);
     setIsEmpty(e.currentTarget.value.trim() === "");
   };
+
+  const handleFormSubmit = React.useCallback(() => {
+    handleSubmit();
+    setIsEmpty(true);
+  }, [handleSubmit, setIsEmpty]);
 
   React.useEffect(() => {
     if (
@@ -35,12 +40,7 @@ export default function ChatForm({
     ) {
       handleFormSubmit();
     }
-  }, [input, isEmpty]);
-
-  const handleFormSubmit = () => {
-    handleSubmit();
-    setIsEmpty(true);
-  };
+  }, [input, isEmpty, handleFormSubmit]);
 
   return (
     <>

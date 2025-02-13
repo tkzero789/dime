@@ -4,7 +4,7 @@ import React from "react";
 
 type Props = {
   active?: boolean;
-  payload?: any;
+  payload?: { payload: { date: string; amount: number } }[];
   label?: string;
 };
 

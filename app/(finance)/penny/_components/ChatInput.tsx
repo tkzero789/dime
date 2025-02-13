@@ -1,4 +1,4 @@
-import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
+import React from "react";
 
 type Props = {
   input: string;
@@ -27,7 +27,7 @@ export default function ChatInput({ input, handleInput }: Props) {
         textarea.value =
           value.substring(0, start) + "\n" + value.substring(end);
         textarea.selectionStart = textarea.selectionEnd = start + 1;
-        handleInput(e as any);
+        handleInput(e as unknown as React.ChangeEvent<HTMLTextAreaElement>);
       } else {
         e.preventDefault();
         const form = e.currentTarget.form;

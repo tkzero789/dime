@@ -14,8 +14,6 @@ import {
   ArrowLeftRight,
   RefreshCcwDot,
   BotMessageSquare,
-  Table,
-  Frame,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -93,8 +91,8 @@ export default function SideNav() {
                   Are you sure you want to sign out?
                 </AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action will terminate your current session, and you'll
-                  need to log in again to access your account.
+                  This action will terminate your current session, and
+                  you&apos;ll need to log in again to access your account.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>

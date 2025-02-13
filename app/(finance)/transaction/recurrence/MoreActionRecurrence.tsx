@@ -9,20 +9,15 @@ import {
 
 import { ChevronDown, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { RecurrenceDetail } from "@/types/types";
 import { useUser } from "@clerk/nextjs";
 import DeleteRecurrence from "./DeleteRecurrence";
 import Link from "next/link";
 
 type Props = {
   recurrenceId: string;
-  recurrenceInfo: RecurrenceDetail;
 };
 
-export default function MoreActionRecurrence({
-  recurrenceId,
-  recurrenceInfo,
-}: Props) {
+export default function MoreActionRecurrence({ recurrenceId }: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress ?? "";
   return (

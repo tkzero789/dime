@@ -57,7 +57,7 @@ export default function DeleteIncome({
           <AlertDialogTitle>Delete Income</AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to delete this income? This action cannot be
-            undone. Click 'Delete' to confirm this action.
+            undone. Click &apos;Delete&apos; to confirm this action.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

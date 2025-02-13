@@ -8,18 +8,14 @@ import FormatDate from "@/utils/formatDate";
 import FormatString from "@/utils/formatString";
 import ViewTransaction from "./ViewTransaction";
 import {
-  ExpenseDetail,
+  ExpenseDetailWithCategory,
   IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types/types";
 
-type NewExpenseDetail = ExpenseDetail & {
-  category: string;
-};
-
 export type Transaction =
-  | NewExpenseDetail
+  | ExpenseDetailWithCategory
   | IncomeDetail
   | RecurrenceDetail
   | SingleDetail;
@@ -32,7 +28,9 @@ const getCategory = (category: string) => {
   ) {
     return "bg-amber-300 text-amber-700";
   } else if (
-    [undefined, "monthly subscription", "single payment"].includes(category)
+    ["budget expense", "monthly subscription", "single payment"].includes(
+      category,
+    )
   ) {
     return "bg-sky-300 text-sky-700";
   } else if (["mortgage", "rent", "bill and utilities"].includes(category)) {

@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/chart";
 import { BudgetDetail, ExpenseDetail } from "@/types/types";
 import ExpenseCustomTooltip from "./ExpenseCustomTooltip";
-import GetCurrentMonth from "@/utils/getCurrentMonth";
 import { Button } from "@/components/ui/button";
 import useWindowSize from "@/hooks/useWindowSize";
 

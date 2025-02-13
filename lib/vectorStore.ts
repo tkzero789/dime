@@ -1,6 +1,5 @@
 import { NeonPostgres } from "@langchain/community/vectorstores/neon";
 import { OpenAIEmbeddings } from "@langchain/openai";
-import { Client } from "pg";
 
 const embeddings = new OpenAIEmbeddings({
   dimensions: 512,

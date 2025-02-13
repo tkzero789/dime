@@ -8,7 +8,6 @@ import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart";
 import { ExpenseDetail, RecurrenceDetail, SingleDetail } from "@/types/types";
 import { Button } from "@/components/ui/button";
@@ -195,7 +194,7 @@ export function SpendingPieChart({ spendingData }: Props) {
       (acc, curr) => acc + Number(curr.amount),
       0,
     );
-  }, [aggregatedDataCategory]);
+  }, [filteredSpendingData]);
 
   return (
     <div className="mt-4 grid grid-cols-4 gap-4 xl:mt-8">

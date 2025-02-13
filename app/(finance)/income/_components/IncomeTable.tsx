@@ -21,34 +21,31 @@ import FormatNumber from "@/utils/formatNumber";
 import { Ellipsis } from "lucide-react";
 import EditIncome from "./EditIncome";
 import DeleteIncome from "./DeleteIncome";
-import Link from "next/link";
 
 type Props = {
   filterIncome: IncomeDetail[];
   refreshData: () => void;
-  isLoading: boolean;
 };
 
-export default function IncomeTable({
-  filterIncome,
-  refreshData,
-  isLoading,
-}: Props) {
+export default function IncomeTable({ filterIncome, refreshData }: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
   React.useEffect(() => {
-    user && calculateTotalAmount();
+    const calculateTotalAmount = () => {
+      const totalAmount = filterIncome.reduce(
+        (acc, curr) => acc + Number(curr.amount),
+        0,
+      );
+      setTotalAmount(totalAmount);
+    };
+
+    if (user) {
+      calculateTotalAmount();
+    }
   }, [user, filterIncome]);
 
   const [totalAmount, setTotalAmount] = React.useState<number>(0);
-  const calculateTotalAmount = () => {
-    const totalAmount = filterIncome.reduce(
-      (acc, curr) => acc + Number(curr.amount),
-      0,
-    );
-    setTotalAmount(totalAmount);
-  };
 
   const [isClick, setIsClick] = React.useState<string | null>(null);
   const popoverRef = React.useRef<HTMLDivElement>(null);
@@ -74,6 +71,7 @@ export default function IncomeTable({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   return (
     <Table className="rounded-lg bg-white">
       <TableHeader>

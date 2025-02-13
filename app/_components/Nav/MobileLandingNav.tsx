@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { ChevronDown, ChevronUp, LogIn, Menu } from "lucide-react";
+import { ChevronDown, LogIn, Menu } from "lucide-react";
 import {
   ArrowLeftRight,
   Banknote,

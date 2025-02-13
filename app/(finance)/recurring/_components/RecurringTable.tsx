@@ -47,14 +47,7 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
   const [totalAmount, setTotalAmount] = React.useState<number>(0);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
-  React.useEffect(() => {
-    if (currentUser) {
-      getData();
-      calculate();
-    }
-  }, [currentUser, ruleList]);
-
-  const getData = async () => {
+  const getData = React.useCallback(async () => {
     setIsLoading(true);
     try {
       const activeRules = await db
@@ -84,7 +77,22 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
       console.log(error);
     }
     setIsLoading(false);
-  };
+  }, [currentMonth, currentYear]);
+
+  React.useEffect(() => {
+    const calculate = () => {
+      const total = ruleList.reduce(
+        (acc, curr) => acc + Number(curr.amount),
+        0,
+      );
+      setTotalAmount(total);
+    };
+
+    if (currentUser) {
+      getData();
+      calculate();
+    }
+  }, [currentUser, ruleList, currentMonth, currentYear, getData]);
 
   const getCategory = (category: string) => {
     if (
@@ -104,11 +112,6 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
     } else {
       return "bg-teal-300 text-teal-700";
     }
-  };
-
-  const calculate = () => {
-    const total = ruleList.reduce((acc, curr) => acc + Number(curr.amount), 0);
-    setTotalAmount(total);
   };
 
   return (
@@ -143,8 +146,8 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
                 </TooltipTrigger>
                 <TooltipContent className="mr-8 max-w-64 border shadow-lg">
                   <p className="font-normal text-medium">
-                    Mark as "Paid" only if the payment is paid for the current
-                    month
+                    Mark as &quot;Paid&quot; only if the payment is paid for the
+                    current month
                   </p>
                 </TooltipContent>
               </Tooltip>
@@ -230,7 +233,8 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
         ) : (
           <TableRow>
             <TableCell colSpan={8} className="h-24 text-center">
-              Click the <span className="font-semibold">'Add New Payment'</span>{" "}
+              Click the{" "}
+              <span className="font-semibold">&apos;Add New Payment&apos;</span>{" "}
               button to set up your first recurring payment.
             </TableCell>
           </TableRow>

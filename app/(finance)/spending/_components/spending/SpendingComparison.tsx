@@ -47,31 +47,31 @@ export default function SpendingComparison({ spendingData }: Props) {
   });
 
   React.useEffect(() => {
+    const calculation = () => {
+      const currentSpending = currentMonthData.reduce(
+        (acc, curr) => acc + Number(curr.amount),
+        0,
+      );
+
+      const previousSpending = previousMonthData.reduce(
+        (acc, curr) => acc + Number(curr.amount),
+        0,
+      );
+
+      setCurrentSpend(currentSpending);
+      setPreviousSpend(previousSpending);
+
+      if (currentSpending < previousSpending) {
+        setDifference(previousSpending - currentSpending);
+      } else {
+        setDifference(currentSpending - previousSpending);
+      }
+    };
+
     if (currentMonthData && previousMonthData) {
       calculation();
     }
   }, [currentMonthData, previousMonthData]);
-
-  const calculation = () => {
-    const currentSpending = currentMonthData.reduce(
-      (acc, curr) => acc + Number(curr.amount),
-      0,
-    );
-
-    const previousSpending = previousMonthData.reduce(
-      (acc, curr) => acc + Number(curr.amount),
-      0,
-    );
-
-    setCurrentSpend(currentSpending);
-    setPreviousSpend(previousSpending);
-
-    if (currentSpending < previousSpending) {
-      setDifference(previousSpending - currentSpending);
-    } else {
-      setDifference(currentSpending - previousSpending);
-    }
-  };
 
   return (
     <>

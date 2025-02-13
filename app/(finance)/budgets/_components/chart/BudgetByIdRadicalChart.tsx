@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { CircleEqual, CirclePlus, MinusCircle, TrendingUp } from "lucide-react";
+import { CircleEqual, CirclePlus, MinusCircle } from "lucide-react";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 import {
   Card,
@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/chart";
 import { BudgetDetail } from "@/types/types";
 import FormatNumber from "@/utils/formatNumber";
-import GetCurrentMonth from "@/utils/getCurrentMonth";
+
 const chartConfig = {
   remaining: {
     label: "Remaining",

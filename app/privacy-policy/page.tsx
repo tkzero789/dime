@@ -28,7 +28,7 @@ export default function PrivacyPolicyPage() {
         <p className="mb-4">
           Our AI assistant: - Processes user-provided financial data to generate
           insights - Does not store conversation history permanently - Uses
-          OpenAI's API with standard privacy protections
+          OpenAI&lsquo;s API with standard privacy protections
         </p>
       </section>
 

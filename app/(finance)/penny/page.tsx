@@ -28,6 +28,7 @@ export default function PennyPage() {
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
 
   const withConditionalClass =
+    // eslint-disable-next-line react/display-name, @typescript-eslint/no-explicit-any
     (Component: any) => (props: React.HTMLAttributes<HTMLElement>) => {
       const heading = ["h1", "h2", "h3"].includes(Component)
         ? "font-bold text-lg mt-4"
@@ -66,7 +67,7 @@ export default function PennyPage() {
     strong: withConditionalClass("strong"),
   };
 
-  const handleUserSubmit = (e: any) => {
+  const handleUserSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsEmpty(!isEmpty);
   };

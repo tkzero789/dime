@@ -2,7 +2,7 @@ import { ArrowLeftRight, CircleDollarSign, Landmark } from "lucide-react";
 import React, { Dispatch, SetStateAction } from "react";
 
 type Props = {
-  handleUserSubmit: (e: any) => void;
+  handleUserSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
   setInput: Dispatch<SetStateAction<string>>;
 };
 
@@ -25,7 +25,10 @@ export default function ChatTools({ handleUserSubmit, setInput }: Props) {
     },
   ];
 
-  const handleClick = (e: any, text: string) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    text: string,
+  ) => {
     e.preventDefault();
     setInput(text);
     handleUserSubmit(e);

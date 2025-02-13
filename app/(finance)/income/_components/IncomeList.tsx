@@ -31,22 +31,23 @@ export default function IncomeList({
 }: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
-
-  React.useEffect(() => {
-    user && calculateTotalAmount();
-  }, [user, filterIncome]);
-
+  const [isClick, setIsClick] = React.useState<string | null>(null);
+  const popoverRef = React.useRef<HTMLDivElement>(null);
   const [totalAmount, setTotalAmount] = React.useState<number>(0);
-  const calculateTotalAmount = () => {
+
+  const calculateTotalAmount = React.useCallback(() => {
     const totalAmount = filterIncome.reduce(
       (acc, curr) => acc + Number(curr.amount),
       0,
     );
     setTotalAmount(totalAmount);
-  };
+  }, [filterIncome]);
 
-  const [isClick, setIsClick] = React.useState<string | null>(null);
-  const popoverRef = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    if (user) {
+      calculateTotalAmount();
+    }
+  }, [user, calculateTotalAmount]);
 
   // Handle on click
   const handleOnClick = (incomeId: string) => {

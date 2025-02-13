@@ -61,7 +61,7 @@ export default function DeleteRecurring({ recurringId, currentUser }: Props) {
           <AlertDialogTitle>Delete Recurring Payment</AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to delete this recurring payment? This action
-            cannot be undone. Click 'Delete' to confirm this action.
+            cannot be undone. Click &apos;Delete&apos; to confirm this action.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

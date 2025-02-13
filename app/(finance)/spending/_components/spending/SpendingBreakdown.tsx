@@ -1,7 +1,6 @@
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
 import {
-  BadgeDollarSign,
   Banknote,
   BookPlus,
   CalendarHeart,

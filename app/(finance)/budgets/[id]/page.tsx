@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React from "react";
 import { db } from "@/db/dbConfig";
 import { Budgets, BudgetExpenses } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
@@ -48,12 +48,30 @@ export default function BudgetByIdPage({ params }: Props) {
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
-  React.useEffect(() => {
-    user && getBudgetInfo();
-  }, [user]);
+  // All expenses in the budget
+  const getExpenseDetail = React.useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const result = await db
+        .select()
+        .from(BudgetExpenses)
+        .where(
+          and(
+            eq(BudgetExpenses.created_by, currentUser ?? ""),
+            eq(BudgetExpenses.budget_id, params.id),
+          ),
+        )
+        .orderBy(desc(BudgetExpenses.date));
+
+      setExpenseDetail(result);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  }, [currentUser, params.id]);
 
   // Budget info
-  const getBudgetInfo = async () => {
+  const getBudgetInfo = React.useCallback(async () => {
     const result = await db
       .select({
         ...getTableColumns(Budgets),
@@ -78,32 +96,16 @@ export default function BudgetByIdPage({ params }: Props) {
       setBudgetInfo(result);
       getExpenseDetail();
     }
-  };
+  }, [currentUser, getExpenseDetail, params.id]);
 
-  // All expenses in the budget
-  const getExpenseDetail = async () => {
-    setIsLoading(true);
-    try {
-      const result = await db
-        .select()
-        .from(BudgetExpenses)
-        .where(
-          and(
-            eq(BudgetExpenses.created_by, currentUser ?? ""),
-            eq(BudgetExpenses.budget_id, params.id),
-          ),
-        )
-        .orderBy(desc(BudgetExpenses.date));
-
-      setExpenseDetail(result);
-    } catch (error) {
-      console.log(error);
+  React.useEffect(() => {
+    if (user) {
+      getBudgetInfo();
     }
-    setIsLoading(false);
-  };
+  }, [user, getBudgetInfo]);
 
   return (
-    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 xl:px-20">
+    <div className="min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 2xl:px-20">
       <div className="flex items-center justify-between">
         <div className="hidden items-center gap-4 lg:flex">
           <Link

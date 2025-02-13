@@ -6,17 +6,17 @@ import {
   Single,
 } from "@/db/schema";
 import {
-  BudgetDetail,
+  BudgetDetailGetData,
   ExpenseDetail,
   IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types/types";
 import { Client } from "pg";
-import { BatchResponse } from "drizzle-orm/batch";
 import { db } from "@/db/dbConfig";
 import { and, eq, getTableColumns, gte, lte } from "drizzle-orm";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cache: { [key: string]: any } = {};
 
 // Function to query the income table
@@ -44,7 +44,7 @@ export async function getUserData(userEmail: string) {
   ).toISOString();
 
   try {
-    const batchReponse: BatchResponse<any> = await db.batch([
+    const batchReponse = await db.batch([
       db
         .select({ ...getTableColumns(Income) })
         .from(Income)
@@ -94,7 +94,7 @@ export async function getUserData(userEmail: string) {
     ]);
 
     let incomeResult: IncomeDetail[] = [];
-    let budgetsResult: BudgetDetail[] = [];
+    let budgetsResult: BudgetDetailGetData[] = [];
     let budgetExpensesResult: ExpenseDetail[] = [];
     let singleResult: SingleDetail[] = [];
     let recurringResult: RecurrenceDetail[] = [];

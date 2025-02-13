@@ -9,12 +9,12 @@ import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart";
 import { IncomeDetail } from "@/types/types";
 import useWindowSize from "@/hooks/useWindowSize";
 import IncomeCustomTooltip from "./IncomeCustomTooltip";
 import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const chartConfig = {
   income: {
@@ -48,11 +48,18 @@ function aggregateIncomeByMonth(incomeList: IncomeDetail[]) {
 }
 
 type Props = {
+  currentYear: number;
   incomeList: IncomeDetail[];
   handleBarClick: (month: string, year: string) => void;
+  handleYearChange: (mode: string) => void;
 };
 
-export function IncomeBarChart({ incomeList, handleBarClick }: Props) {
+export function IncomeBarChart({
+  currentYear,
+  incomeList,
+  handleBarClick,
+  handleYearChange,
+}: Props) {
   const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
   const { width } = useWindowSize();
 
@@ -72,9 +79,26 @@ export function IncomeBarChart({ incomeList, handleBarClick }: Props) {
   return (
     <Card className="mt-8 rounded-lg border shadow-md">
       <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:flex-row lg:items-center">
-        <CardTitle className="text-xl font-bold tracking-normal">
-          Monthly Income Distribution
-        </CardTitle>
+        <div className="flex items-center gap-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleYearChange("previous")}
+          >
+            <ChevronLeft className="h-5 w-5" strokeWidth={2} />
+          </Button>
+          <CardTitle className="text-xl font-bold tracking-normal">
+            {currentYear}
+          </CardTitle>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleYearChange("next")}
+            disabled={currentYear === new Date().getUTCFullYear()}
+          >
+            <ChevronRight className="h-5 w-5" strokeWidth={2} />
+          </Button>
+        </div>
         <Button
           variant="outline"
           className="block w-full px-8 md:hidden lg:w-auto"
@@ -112,7 +136,9 @@ export function IncomeBarChart({ incomeList, handleBarClick }: Props) {
                   cursor="pointer"
                 />
               }
-              onClick={(data) => handleBarClick(data.month, data.year)}
+              onClick={(data) =>
+                handleBarClick(data.month, currentYear.toString())
+              }
             />
           </BarChart>
         </ChartContainer>

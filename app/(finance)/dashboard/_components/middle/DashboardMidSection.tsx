@@ -48,7 +48,7 @@ export default function DashboardMidSection({
             <DashboardTable allData={allData} />
             <Link
               href="/transaction"
-              className="mt-2 block rounded-md border border-neutral-500 p-2 text-center text-sm font-medium hover:bg-neutral-200"
+              className="mt-2 block rounded-md border border-neutral-500 p-2 text-center text-sm font-medium hover:bg-neutral-100"
             >
               View all transactions
             </Link>

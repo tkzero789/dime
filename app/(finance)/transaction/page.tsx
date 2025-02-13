@@ -4,13 +4,12 @@ import { db } from "@/db/dbConfig";
 import { eq, getTableColumns } from "drizzle-orm";
 import { BudgetExpenses, Income, Recurrence, Single } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
-import { BatchResponse } from "drizzle-orm/batch";
 import { TransactionTable } from "./table/TransactionTable";
 
 async function getData(): Promise<Transaction[]> {
   const user = await currentUser();
   const onlineUser = user?.primaryEmailAddress?.emailAddress ?? "";
-  const batchResponse: BatchResponse<any> = await db.batch([
+  const batchResponse = await db.batch([
     db
       .select({ ...getTableColumns(Income) })
       .from(Income)
@@ -31,7 +30,10 @@ async function getData(): Promise<Transaction[]> {
 
   const transactions = [
     ...batchResponse[0],
-    ...batchResponse[1],
+    ...batchResponse[1].map((expense) => ({
+      ...expense,
+      category: "budget expense",
+    })),
     ...batchResponse[2],
     ...batchResponse[3],
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -42,7 +44,7 @@ async function getData(): Promise<Transaction[]> {
 export default async function TransactionPage() {
   const data = await getData();
   return (
-    <div className="sm:py-18 min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 xl:px-20">
+    <div className="min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 2xl:px-20">
       <h2 className="text-2xl font-bold">Transaction Table</h2>
       <TransactionTable columns={columns} data={data} />
     </div>

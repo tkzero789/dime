@@ -14,6 +14,18 @@ export type BudgetDetail = {
   created_at: Date;
 };
 
+export type BudgetDetailGetData = {
+  id: string;
+  name: string;
+  amount: string;
+  category: string;
+  icon: string | null;
+  month: number;
+  year: number;
+  created_by: string;
+  created_at: Date;
+};
+
 // expense
 export type ExpenseDetail = {
   id: string;
@@ -24,6 +36,11 @@ export type ExpenseDetail = {
   date: string;
   created_by: string;
   created_at: Date;
+};
+
+// expense with category
+export type ExpenseDetailWithCategory = ExpenseDetail & {
+  category: string;
 };
 
 // income

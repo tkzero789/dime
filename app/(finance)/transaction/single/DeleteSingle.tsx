@@ -55,7 +55,7 @@ export default function DeleteSingle({ singleId, currentUser }: Props) {
           <AlertDialogTitle>Delete Single</AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to delete this single payment? This action
-            cannot be undone. Click 'Delete' to confirm this action.
+            cannot be undone. Click &apos;Delete&apos; to confirm this action.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

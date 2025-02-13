@@ -56,7 +56,7 @@ export default function DeleteRecurrence({ recurrenceId, currentUser }: Props) {
           <AlertDialogTitle>Delete Transaction</AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to delete this transaction? This action cannot
-            be undone. Click 'Delete' to confirm this action.
+            be undone. Click &apos;Delete&apos; to confirm this action.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -3,7 +3,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -28,19 +27,19 @@ export default function ViewRecurring({ recurringInfo, isPaid }: Props) {
   const [refresh, setRefresh] = React.useState<boolean>(false);
 
   React.useEffect(() => {
+    const getPaymentList = async () => {
+      const result = await db
+        .select({ ...getTableColumns(Recurrence) })
+        .from(Recurrence)
+        .where(eq(Recurrence.rule_id, recurringInfo.id));
+
+      if (result) {
+        setPaymentList(result);
+      }
+    };
+
     getPaymentList();
-  }, [refresh]);
-
-  const getPaymentList = async () => {
-    const result = await db
-      .select({ ...getTableColumns(Recurrence) })
-      .from(Recurrence)
-      .where(eq(Recurrence.rule_id, recurringInfo.id));
-
-    if (result) {
-      setPaymentList(result);
-    }
-  };
+  }, [refresh, recurringInfo.id]);
 
   const handleRefresh = () => {
     setRefresh((prev) => !prev);
