@@ -44,7 +44,7 @@ export default function BenefitSection() {
 
   return (
     <section className="mt-40">
-      <Container className="px-6">
+      <Container>
         <div className="flex flex-col gap-12">
           <div className="text-center">
             <h1 className="text-3xl font-bold text-medium">
