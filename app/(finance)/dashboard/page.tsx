@@ -26,6 +26,7 @@ import DashboardNav from "./_components/nav/DashboardNav";
 
 export default function DashboardPage() {
   const [accounts, setAccounts] = React.useState<AccountDetail[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [income, setIncome] = React.useState<IncomeDetail[]>([]);
   const [spending, setSpending] = React.useState<
     (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
