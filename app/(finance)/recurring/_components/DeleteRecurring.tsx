@@ -32,7 +32,7 @@ export default function DeleteRecurring({ recurringId, currentUser }: Props) {
     const result = await db
       .update(Recurring_rule)
       .set({
-        isActive: false,
+        is_actived: false,
       })
       .where(
         and(
