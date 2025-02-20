@@ -6,8 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import {
-  ExpenseDetail,
+  ExpenseDetailWithCategory,
   IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
@@ -15,59 +16,36 @@ import {
 import FormatDate from "@/utils/formatDate";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
+import getTransactionCategory from "@/utils/getTransactionCategory";
 import Link from "next/link";
-
-type NewExpenseDetail = ExpenseDetail & {
-  category: string;
-};
 
 type Props = {
   allData: (
     | IncomeDetail
-    | NewExpenseDetail
+    | ExpenseDetailWithCategory
     | RecurrenceDetail
     | SingleDetail
   )[];
 };
 
 export function DashboardTable({ allData }: Props) {
-  const getCategory = (category: string) => {
-    if (
-      ["car payment", "credit card payment", "insurance", "loan"].includes(
-        category,
-      )
-    ) {
-      return "bg-amber-300 text-amber-700";
-    } else if (
-      ["Budget Expense", "monthly subscription", "single payment"].includes(
-        category,
-      )
-    ) {
-      return "bg-sky-300 text-sky-700";
-    } else if (["mortgage", "rent", "bill and utilities"].includes(category)) {
-      return "bg-pink-300 text-pink-700";
-    } else {
-      return "bg-teal-300 text-teal-700";
-    }
-  };
-
   return (
     <Table className="rounded-lg bg-white">
       <TableHeader>
         <TableRow className="pointer-events-none border-none bg-neutral-200">
-          <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-medium">
+          <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-secondary-foreground">
             Date
           </TableHead>
-          <TableHead className="text-sm font-semibold text-medium">
+          <TableHead className="text-sm font-semibold text-secondary-foreground">
             Name
           </TableHead>
-          <TableHead className="text-sm font-semibold text-medium">
+          <TableHead className="text-sm font-semibold text-secondary-foreground">
             Category
           </TableHead>
-          <TableHead className="truncate text-sm font-semibold text-medium">
+          <TableHead className="truncate text-sm font-semibold text-secondary-foreground">
             Payment Method
           </TableHead>
-          <TableHead className="rounded-r-lg text-right text-sm font-semibold text-medium">
+          <TableHead className="rounded-r-lg text-right text-sm font-semibold text-secondary-foreground">
             Amount
           </TableHead>
         </TableRow>
@@ -92,11 +70,12 @@ export function DashboardTable({ allData }: Props) {
                 </TableCell>
                 <TableCell className="px-4 py-2">
                   <div
-                    className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 ${getCategory(item.category)} `}
+                    className={cn(
+                      "flex w-fit items-center justify-center truncate rounded-full bg-opacity-50 px-2 py-1 text-[13px]",
+                      getTransactionCategory(item.category),
+                    )}
                   >
-                    <span className="truncate text-[13px]">
-                      <FormatString text={item.category} />
-                    </span>
+                    <FormatString text={item.category} />
                   </div>
                 </TableCell>
                 <TableCell className="px-4 py-2">

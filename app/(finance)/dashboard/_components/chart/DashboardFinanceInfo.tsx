@@ -84,7 +84,7 @@ export default function DashboardFinanceInfo({ spending, income }: Props) {
                 />
               </TooltipTrigger>
               <TooltipContent className="mr-8 max-w-64 border shadow-lg">
-                <p className="font-normal text-medium">
+                <p className="font-normal text-secondary-foreground">
                   The sum of all your expenses, including those budgeted and
                   unbudgeted (such as bills, utilities, subscriptions, mortgage,
                   etc.)

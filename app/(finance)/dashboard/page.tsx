@@ -8,10 +8,11 @@ import {
   Income,
   Recurrence,
   Single,
+  Accounts,
 } from "@/db/schema";
 import {
+  AccountDetail,
   BudgetDetail,
-  ExpenseDetail,
   ExpenseDetailWithCategory,
   IncomeDetail,
   RecurrenceDetail,
@@ -19,11 +20,12 @@ import {
 } from "@/types/types";
 import { useUser } from "@clerk/nextjs";
 import { and, desc, eq, getTableColumns, gte, lte, sql } from "drizzle-orm";
-import GetGreeting from "@/utils/getGreeting";
 import DashboardTopSection from "./_components/top/DashboardTopSection";
 import DashboardMidSection from "./_components/middle/DashboardMidSection";
+import DashboardNav from "./_components/nav/DashboardNav";
 
 export default function DashboardPage() {
+  const [accounts, setAccounts] = React.useState<AccountDetail[]>([]);
   const [income, setIncome] = React.useState<IncomeDetail[]>([]);
   const [spending, setSpending] = React.useState<
     (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
@@ -38,10 +40,8 @@ export default function DashboardPage() {
     )[]
   >([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
-
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
-
   const currentMonth = new Date().getUTCMonth();
   const currentYear = new Date().getUTCFullYear();
   const firstDayOfPrevMonth = new Date(
@@ -56,8 +56,23 @@ export default function DashboardPage() {
 
   React.useEffect(() => {
     const getData = async () => {
-      setIsLoading(true);
       try {
+        // Accounts
+        const accountDataReponse = await db
+          .select({
+            ...getTableColumns(Accounts),
+          })
+          .from(Accounts)
+          .where(
+            and(
+              eq(Accounts.created_by, currentUser || ""),
+              eq(Accounts.is_actived, true),
+            ),
+          );
+
+        if (accountDataReponse) setAccounts(accountDataReponse);
+
+        // Spending Data
         const batchResponse = await db.batch([
           db
             .select({
@@ -143,7 +158,7 @@ export default function DashboardPage() {
           setIncome(incomeResult);
 
           // Add category property to each object in expenseResult
-          expenseResult = expenseResult.map((row: ExpenseDetail) => ({
+          expenseResult = expenseResult.map((row) => ({
             ...row,
             category: "Budget Expense",
           }));
@@ -190,13 +205,11 @@ export default function DashboardPage() {
   ]);
 
   return (
-    <div className="min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 2xl:px-20">
-      <h2 className="text-2xl font-bold">
-        <GetGreeting />
-      </h2>
+    <div className="grid gap-6">
+      <DashboardNav />
       <DashboardTopSection
+        accounts={accounts}
         spending={spending}
-        income={income}
         isLoading={isLoading}
       />
       <DashboardMidSection

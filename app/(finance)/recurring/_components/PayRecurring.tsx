@@ -65,13 +65,13 @@ export default function PayRecurring({
   return (
     <Dialog>
       <DialogTrigger
-        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
+        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-neutral-200"
         onClick={handleReset}
       >
         <span className="pl-4">
           <Wallet strokeWidth={2} className="h-4 w-4" color="#555353" />
         </span>
-        <span className="font-semibold text-medium">Pay</span>
+        <span className="font-semibold text-secondary-foreground">Pay</span>
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-8">
         <DialogHeader>
@@ -85,7 +85,7 @@ export default function PayRecurring({
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
             <div className="relative flex justify-between md:block">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Due date:
               </span>
               <span>
@@ -98,13 +98,13 @@ export default function PayRecurring({
               </span>
             </div>
             <div className="flex justify-between md:block">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Name:
               </span>
               <span>{recurringInfo.name}</span>
             </div>
             <div className="flex justify-between md:block">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Category:
               </span>
               <span>
@@ -112,7 +112,7 @@ export default function PayRecurring({
               </span>
             </div>
             <div className="flex justify-between md:block">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Payment method:
               </span>
               <span>
@@ -120,7 +120,7 @@ export default function PayRecurring({
               </span>
             </div>
             <div className="flex justify-between md:block">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Repeat:
               </span>
               <span>
@@ -128,7 +128,7 @@ export default function PayRecurring({
               </span>
             </div>
             <div className="flex justify-between md:block">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Amount:
               </span>
               <span>
@@ -136,7 +136,7 @@ export default function PayRecurring({
               </span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Paid on:
               </span>
               <RecurringDatePicker date={date} setDate={setDate} />

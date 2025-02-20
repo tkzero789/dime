@@ -31,7 +31,7 @@ const chartData = [{ spending: 1, fill: "var(--color-spent)" }];
 const chartConfig = {
   spent: {
     label: "Spent",
-    color: "hsl(var(--chart-5))",
+    color: "hsl(var(--chart-outflow))",
   },
 } satisfies ChartConfig;
 
@@ -43,7 +43,7 @@ type Props = {
   year: number;
 };
 
-export function BudgetRadicalChart({
+export function BudgetRadialChart({
   budgetList,
   handlePreviousMonth,
   handleNextMonth,
@@ -108,10 +108,10 @@ export function BudgetRadicalChart({
   }, [budgetList]);
 
   return (
-    <Card className="col-span-3 flex flex-col rounded-lg shadow-md xl:col-span-1">
+    <Card className="col-span-3 flex flex-col xl:col-span-1">
       <CardHeader className="flex flex-row items-center justify-between pb-0">
-        <Button variant="outline" size="sm" onClick={handlePreviousMonth}>
-          <ChevronLeft />
+        <Button variant="outline" size="icon" onClick={handlePreviousMonth}>
+          <ChevronLeft className="h-6 w-6" strokeWidth={1.5} />
         </Button>
         <div>
           <CardTitle className="text-xl font-bold tracking-normal">
@@ -123,11 +123,11 @@ export function BudgetRadicalChart({
         </div>
         <Button
           variant="outline"
-          size="sm"
+          size="icon"
           onClick={handleNextMonth}
           disabled={month === currentMonth && year === currentYear}
         >
-          <ChevronRight />
+          <ChevronRight className="h-6 w-6" strokeWidth={1.5} />
         </Button>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
@@ -186,14 +186,14 @@ export function BudgetRadicalChart({
       </CardContent>
       <CardFooter className="flex-col px-6 pb-6 text-sm lg:px-10">
         <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">
-          <CirclePlus className="h-5 w-5 text-sky-700" />
+          <CirclePlus className="h-5 w-5 text-primary" />
           <span className="text-base font-medium">Spending Budget</span>
           <span className="ml-auto text-base font-bold">
             $<FormatNumber number={totalBudget} />
           </span>
         </div>
         <div className="flex w-full items-center gap-4 border-b border-t py-3 font-medium leading-none">
-          <MinusCircle className="h-5 w-5 text-sky-700" />
+          <MinusCircle className="h-5 w-5 text-primary" />
           <span className="text-base font-medium">Current Spending</span>
           <span className="ml-auto text-base font-bold">
             -$
@@ -201,7 +201,7 @@ export function BudgetRadicalChart({
           </span>
         </div>
         <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">
-          <CircleEqual className="h-5 w-5 text-sky-700" />
+          <CircleEqual className="h-5 w-5 text-primary" />
           <span className="text-base font-medium">Remaining</span>
           <span className="ml-auto text-base font-bold text-green-700">
             $<FormatNumber number={remaining} />

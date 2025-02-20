@@ -9,7 +9,7 @@ export default function HeroSection() {
   return (
     <section className="mt-32 text-center md:mt-40">
       <Container>
-        <h1 className="init-fade mx-auto block max-w-2xl text-5xl font-bold text-medium lg:hidden">
+        <h1 className="init-fade mx-auto block max-w-2xl text-5xl font-bold text-secondary-foreground lg:hidden">
           Master your{" "}
           <span className="bg-gradient-to-b from-emerald-400 to-teal-600 bg-clip-text text-transparent">
             Monthly Finances
@@ -32,7 +32,7 @@ export default function HeroSection() {
           indexStyle="bg-gradient-to-b from-emerald-400 to-teal-600 bg-clip-text text-transparent"
           text="Finances and Build Stability"
         />
-        <p className="init-fade mx-auto mt-6 max-w-xl font-medium text-medium">
+        <p className="init-fade mx-auto mt-6 max-w-xl font-medium text-secondary-foreground">
           Take control of your budget, track spending effortlessly, and get
           AI-powered insights to secure your financial future.
         </p>
@@ -49,7 +49,7 @@ export default function HeroSection() {
                 <Check className="h-4 w-4 stroke-green-700" />
               </div>
 
-              <span className="text-sm text-medium">
+              <span className="text-sm text-secondary-foreground">
                 Intuitive Budget Management
               </span>
             </div>
@@ -57,7 +57,7 @@ export default function HeroSection() {
               <div className="rounded-full bg-green-500 bg-opacity-50 p-1">
                 <Check className="h-4 w-4 stroke-green-700" />
               </div>
-              <span className="text-sm text-medium">
+              <span className="text-sm text-secondary-foreground">
                 AI-Powered Spending Insights
               </span>
             </div>
@@ -65,7 +65,7 @@ export default function HeroSection() {
               <div className="rounded-full bg-green-500 bg-opacity-50 p-1">
                 <Check className="h-4 w-4 stroke-green-700" />
               </div>
-              <span className="text-sm text-medium">
+              <span className="text-sm text-secondary-foreground">
                 Visualize Savings Progress
               </span>
             </div>

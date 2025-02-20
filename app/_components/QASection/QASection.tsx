@@ -13,7 +13,7 @@ export default function QASection() {
       <Container>
         <div className="flex flex-col gap-12">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-medium">
+            <h1 className="text-3xl font-bold text-secondary-foreground">
               Got a{" "}
               <span className="bg-gradient-to-b from-orange-400 to-amber-600 bg-clip-text text-transparent">
                 Question?
@@ -31,7 +31,7 @@ export default function QASection() {
                 <AccordionTrigger className="text-start">
                   What features does your budgeting website offer?
                 </AccordionTrigger>
-                <AccordionContent className="text-base text-medium">
+                <AccordionContent className="text-base text-secondary-foreground">
                   Our website provides tools for tracking income and expenses,
                   setting budgets, analyzing spending habits, and saving for
                   goals.
@@ -41,7 +41,7 @@ export default function QASection() {
                 <AccordionTrigger className="text-start">
                   Is my data safe from unauthorized access?
                 </AccordionTrigger>
-                <AccordionContent className="text-base text-medium">
+                <AccordionContent className="text-base text-secondary-foreground">
                   Yes, your data is treated with the utmost confidentiality. We
                   do not share your information with third parties without your
                   consent.
@@ -52,7 +52,7 @@ export default function QASection() {
                   What are the different pricing plans for your budgeting
                   website?
                 </AccordionTrigger>
-                <AccordionContent className="text-base text-medium">
+                <AccordionContent className="text-base text-secondary-foreground">
                   <div className="font-semibold">
                     We offer two pricing plans:
                   </div>
@@ -77,7 +77,7 @@ export default function QASection() {
                 <AccordionTrigger className="text-start">
                   How can I contact customer support if I encounter issues?
                 </AccordionTrigger>
-                <AccordionContent className="text-base text-medium">
+                <AccordionContent className="text-base text-secondary-foreground">
                   You can contact our support team via dimesupport@gmail.com
                 </AccordionContent>
               </AccordionItem>

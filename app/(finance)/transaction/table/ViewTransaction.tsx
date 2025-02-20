@@ -10,6 +10,7 @@ import { CircleChevronRight } from "lucide-react";
 import Link from "next/link";
 import {
   ExpenseDetail,
+  ExpenseDetailWithCategory,
   IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
@@ -21,13 +22,9 @@ import { Button } from "@/components/ui/button";
 import MoreAction from "../single/MoreAction";
 import MoreActionRecurrence from "../recurrence/MoreActionRecurrence";
 
-type NewExpenseDetail = ExpenseDetail & {
-  category: "Budget Expenses";
-};
-
 type Props = {
   transactionDetail:
-    | NewExpenseDetail
+    | ExpenseDetailWithCategory
     | IncomeDetail
     | RecurrenceDetail
     | SingleDetail;
@@ -36,7 +33,7 @@ type Props = {
 export default function ViewTransaction({ transactionDetail }: Props) {
   const isExpenseDetail = (
     detail: Props["transactionDetail"],
-  ): detail is NewExpenseDetail => {
+  ): detail is ExpenseDetailWithCategory => {
     return (detail as ExpenseDetail).budget_id !== undefined;
   };
 
@@ -88,19 +85,19 @@ export default function ViewTransaction({ transactionDetail }: Props) {
           <DialogTitle className="text-center">Transaction Detail</DialogTitle>
           <div className="flex flex-col gap-4 px-4 pt-4">
             <div className="flex items-center justify-between">
-              <span className="font-semibold text-dark">
+              <span className="font-semibold text-foreground">
                 <FormatDate fullFormatUTC={new Date(transactionDetail.date)} />
               </span>
             </div>
             <div className="text-left">
               <span className="inline-block w-24 font-semibold">Name:</span>
-              <span className="font-medium text-medium">
+              <span className="font-medium text-secondary-foreground">
                 {transactionDetail.name}
               </span>
             </div>
             <div className="text-left">
               <span className="inline-block w-24 font-semibold">Category:</span>
-              <span className="font-medium text-medium">
+              <span className="font-medium text-secondary-foreground">
                 {transactionDetail.category === undefined ? (
                   "Budget Expenses"
                 ) : (
@@ -110,13 +107,13 @@ export default function ViewTransaction({ transactionDetail }: Props) {
             </div>
             <div className="text-left">
               <span className="inline-block w-24 font-semibold">Method:</span>
-              <span className="font-medium text-medium">
+              <span className="font-medium text-secondary-foreground">
                 <FormatString text={transactionDetail.payment_method} />
               </span>
             </div>
             <div className="text-left">
               <span className="inline-block w-24 font-semibold">Amount:</span>
-              <span className="font-medium text-medium">
+              <span className="font-medium text-secondary-foreground">
                 $<FormatNumber number={Number(transactionDetail.amount)} />
               </span>
             </div>
@@ -136,10 +133,7 @@ export default function ViewTransaction({ transactionDetail }: Props) {
                   "insurance",
                   "monthly subscription",
                 ].includes(transactionDetail.category) ? (
-                <MoreActionRecurrence
-                  recurrenceId={transactionDetail.id}
-                  recurrenceInfo={transactionDetail}
-                />
+                <MoreActionRecurrence recurrenceId={transactionDetail.id} />
               ) : (
                 <Button asChild className="w-2/5">
                   <Link href={getCategory(transactionDetail.category)}>

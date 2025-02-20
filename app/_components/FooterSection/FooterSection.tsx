@@ -14,66 +14,66 @@ export default function FooterSection() {
               Dime
             </h1>
           </Link>
-          <p className="w-full text-sm text-medium md:w-4/5">
+          <p className="w-full text-sm text-secondary-foreground md:w-4/5">
             Track your spending, plan your savings, and gain control over your
             finances with ease.
           </p>
         </div>
         <div className="col-span-5 flex flex-col gap-4 md:col-span-1">
-          <span className="font-bold text-medium">About</span>
-          <ul className="flex flex-col gap-3 text-sm font-light text-medium">
+          <span className="font-bold text-secondary-foreground">About</span>
+          <ul className="flex flex-col gap-3 text-sm font-light text-secondary-foreground">
             <li>
-              <Link href="/" className="hover:text-dark">
+              <Link href="/" className="hover:text-foreground">
                 Features
               </Link>
             </li>
             <li>
-              <Link href="/" className="hover:text-dark">
+              <Link href="/" className="hover:text-foreground">
                 Contact
               </Link>
             </li>
             <li>
-              <Link href="/privacy-policy" className="hover:text-dark">
+              <Link href="/privacy-policy" className="hover:text-foreground">
                 Privacy Policy
               </Link>
             </li>
           </ul>
         </div>
         <div className="col-span-5 flex flex-col gap-4 md:col-span-1">
-          <span className="font-bold text-medium">Product</span>
-          <ul className="flex flex-col gap-3 text-sm font-light text-medium">
+          <span className="font-bold text-secondary-foreground">Product</span>
+          <ul className="flex flex-col gap-3 text-sm font-light text-secondary-foreground">
             <li>
-              <Link href="/" className="hover:text-dark">
+              <Link href="/" className="hover:text-foreground">
                 Pricing
               </Link>
             </li>
             <li>
-              <Link href="/" className="hover:text-dark">
+              <Link href="/" className="hover:text-foreground">
                 Features
               </Link>
             </li>
             <li>
-              <Link href="/" className="hover:text-dark">
+              <Link href="/" className="hover:text-foreground">
                 Blog
               </Link>
             </li>
           </ul>
         </div>
         <div className="col-span-5 flex flex-col gap-4 md:col-span-1">
-          <span className="font-bold text-medium">Resources</span>
-          <ul className="flex flex-col gap-3 text-sm font-light text-medium">
+          <span className="font-bold text-secondary-foreground">Resources</span>
+          <ul className="flex flex-col gap-3 text-sm font-light text-secondary-foreground">
             <li>
-              <Link href="/" className="hover:text-dark">
+              <Link href="/" className="hover:text-foreground">
                 FAQs
               </Link>
             </li>
             <li>
-              <Link href="/" className="hover:text-dark">
+              <Link href="/" className="hover:text-foreground">
                 Help Center
               </Link>
             </li>
             <li>
-              <Link href="/terms-of-service" className="hover:text-dark">
+              <Link href="/terms-of-service" className="hover:text-foreground">
                 Terms of Service
               </Link>
             </li>
@@ -81,7 +81,7 @@ export default function FooterSection() {
         </div>
       </div>
       <div className="border-t py-6 text-center">
-        <span className="text-sm font-light text-medium">
+        <span className="text-sm font-light text-secondary-foreground">
           © 2024 Dime. All rights reserved.
         </span>
       </div>

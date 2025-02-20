@@ -1,27 +1,27 @@
 import {
+  AccountDetail,
   ExpenseDetail,
-  IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types/types";
 import React from "react";
 import { DashboardLineChart } from "../chart/DashboardLineChart";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
-import DashboardFinanceOverview from "./DashboardFinanceOverview";
+import DashboardAccount from "./DashboardAccount";
 
 type Props = {
+  accounts: AccountDetail[];
   spending: (ExpenseDetail | RecurrenceDetail | SingleDetail)[];
-  income: IncomeDetail[];
   isLoading: boolean;
 };
 
 export default function DashboardTopSection({
+  accounts,
   spending,
-  income,
   isLoading,
 }: Props) {
   return (
-    <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
       <div className="col-span-3 xl:col-span-2">
         {isLoading ? (
           <CardSkeleton
@@ -31,7 +31,7 @@ export default function DashboardTopSection({
             height={26}
           />
         ) : (
-          <DashboardLineChart spending={spending} income={income} />
+          <DashboardLineChart spending={spending} />
         )}
       </div>
       <div className="col-span-3 xl:col-span-1">
@@ -43,7 +43,7 @@ export default function DashboardTopSection({
             height={26}
           />
         ) : (
-          <DashboardFinanceOverview />
+          <DashboardAccount accounts={accounts} />
         )}
       </div>
     </div>

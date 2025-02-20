@@ -27,7 +27,7 @@ export function GradualSpacingText({
   className,
 }: GradualSpacingProps) {
   return (
-    <div className="mx-auto hidden max-w-2xl justify-center text-5xl font-bold text-medium lg:flex">
+    <div className="mx-auto hidden max-w-2xl justify-center text-5xl font-bold text-secondary-foreground lg:flex">
       <AnimatePresence>
         {text.split("").map((char, i) => (
           <motion.h1

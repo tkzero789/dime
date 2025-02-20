@@ -61,19 +61,19 @@ export default function ExpenseTable({
     <Table className="rounded-lg bg-white">
       <TableHeader>
         <TableRow className="pointer-events-none border-none bg-neutral-200">
-          <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-medium">
+          <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-secondary-foreground">
             Date
           </TableHead>
-          <TableHead className="text-sm font-semibold text-medium">
+          <TableHead className="text-sm font-semibold text-secondary-foreground">
             Name
           </TableHead>
-          <TableHead className="truncate text-sm font-semibold text-medium">
+          <TableHead className="truncate text-sm font-semibold text-secondary-foreground">
             Payment Method
           </TableHead>
-          <TableHead className="text-right text-sm font-semibold text-medium">
+          <TableHead className="text-right text-sm font-semibold text-secondary-foreground">
             Amount
           </TableHead>
-          <TableHead className="rounded-r-lg text-center text-sm font-semibold text-medium"></TableHead>
+          <TableHead className="rounded-r-lg text-center text-sm font-semibold text-secondary-foreground"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

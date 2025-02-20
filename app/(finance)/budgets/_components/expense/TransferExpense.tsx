@@ -105,13 +105,15 @@ export default function TransferExpense({
   return (
     <Dialog>
       <DialogTrigger
-        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
+        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-neutral-200"
         onClick={getActiveBudget}
       >
         <span className="pl-4">
           <RefreshCcw strokeWidth={2} className="h-4 w-4" color="#555353" />
         </span>
-        <span className="font-semibold text-medium">Transfer</span>
+        <span className="font-semibold text-secondary-foreground">
+          Transfer
+        </span>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -128,7 +130,7 @@ export default function TransferExpense({
                     <div className="w-[60px] text-center text-3xl">
                       {item.icon}
                     </div>
-                    <span className="pl-2 text-base font-semibold text-dark">
+                    <span className="pl-2 text-base font-semibold text-foreground">
                       {item.name}
                     </span>
 
@@ -141,7 +143,7 @@ export default function TransferExpense({
                           <AlertDialogTitle>Transfer expense</AlertDialogTitle>
                           <AlertDialogDescription>
                             This expense will be transferred to {item.icon}{" "}
-                            <span className="font-semibold text-dark">
+                            <span className="font-semibold text-foreground">
                               {item.name}
                             </span>{" "}
                             budget. Do you want to proceed?

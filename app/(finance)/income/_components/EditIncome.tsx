@@ -104,13 +104,13 @@ export default function EditIncome({
   return (
     <Dialog>
       <DialogTrigger
-        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
+        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-neutral-200"
         onClick={handleOnClickEdit}
       >
         <span className="pl-4">
           <Pencil strokeWidth={2} className="h-4 w-4" color="#555353" />
         </span>
-        <span className="font-semibold text-medium">Edit</span>
+        <span className="font-semibold text-secondary-foreground">Edit</span>
       </DialogTrigger>
       <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
         <DialogHeader>

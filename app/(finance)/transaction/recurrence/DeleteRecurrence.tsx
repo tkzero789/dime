@@ -45,11 +45,11 @@ export default function DeleteRecurrence({ recurrenceId, currentUser }: Props) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200">
+      <AlertDialogTrigger className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-neutral-200">
         <span className="pl-4">
           <Trash2 strokeWidth={2} className="h-4 w-4" color="#555353" />
         </span>
-        <span className="font-semibold text-medium">Delete</span>
+        <span className="font-semibold text-secondary-foreground">Delete</span>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

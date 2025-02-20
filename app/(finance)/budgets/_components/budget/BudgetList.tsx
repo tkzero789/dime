@@ -11,7 +11,7 @@ type Props = {
 
 export default function BudgetList({ budgetList }: Props) {
   return (
-    <div className="order-last col-span-3 grid h-fit grid-cols-1 gap-y-2 xl:order-first xl:col-span-2 xl:grid-cols-2 xl:gap-4">
+    <div className="order-last col-span-3 grid h-fit grid-cols-1 gap-y-2 xl:order-first xl:col-span-2 xl:grid-cols-2 xl:gap-6">
       {budgetList?.length > 0 ? (
         budgetList.map((budget) => (
           <BudgetItem key={budget.id} budget={budget} />
@@ -30,7 +30,7 @@ export default function BudgetList({ budgetList }: Props) {
             <span className="block w-full text-xl font-bold">
               Empty Budget List
             </span>
-            <span className="font-medium text-medium">
+            <span className="font-medium text-secondary-foreground">
               Add a budget to start saving and tracking
             </span>
           </div>

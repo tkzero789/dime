@@ -32,13 +32,15 @@ export default function MoreActionRecurrence({ recurrenceId }: Props) {
         <div className="p-1">
           <Button
             asChild
-            className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
+            className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-neutral-200"
           >
             <Link href="/recurring">
               <span className="pl-4">
                 <Pencil strokeWidth={2} className="h-4 w-4" color="#555353" />
               </span>
-              <span className="font-semibold text-medium">Edit</span>
+              <span className="font-semibold text-secondary-foreground">
+                Edit
+              </span>
             </Link>
           </Button>
           <DeleteRecurrence

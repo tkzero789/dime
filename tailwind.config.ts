@@ -19,9 +19,7 @@ const config = {
     },
     extend: {
       colors: {
-        dark: "hsl(var(--dark))",
         medium: "hsl(var(--medium))",
-        subtle: "hsl(var(--subtle))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -43,10 +41,6 @@ const config = {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
@@ -55,6 +49,9 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "chart-outflow": "hsl(var(--chart-outflow))",
+        "chart-outflow-subtle": "hsl(var(--chart-outflow-subtle))",
+        "chart-inflow": "hsl(var(--chart-inflow))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -63,6 +60,10 @@ const config = {
       },
       backgroundImage: {
         feature: "url('/img/feature-bg.png')",
+      },
+      boxShadow: {
+        "card-shadow": "var(--card-shadow)",
+        "card-hover": "var(--card-hover)",
       },
       keyframes: {
         "accordion-down": {
@@ -88,6 +89,7 @@ const config = {
       },
     },
   },
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
 

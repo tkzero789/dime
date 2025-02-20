@@ -4,7 +4,6 @@ import React from "react";
 import { SpendingBarChart } from "./_components/chart/SpendingBarChart";
 import { useUser } from "@clerk/nextjs";
 import {
-  ExpenseDetail,
   ExpenseDetailWithCategory,
   IncomeDetail,
   RecurrenceDetail,
@@ -91,7 +90,7 @@ export default function SpendingPage() {
         setIncomeData(incomeResult);
 
         // Add category property to each row in expenseResult
-        expenseResult = expenseResult.map((row: ExpenseDetail) => ({
+        expenseResult = expenseResult.map((row) => ({
           ...row,
           category: "Budget Expense",
         }));
@@ -146,7 +145,7 @@ export default function SpendingPage() {
   };
 
   return (
-    <div className="min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 2xl:px-20">
+    <div>
       <h2 className="text-2xl font-bold">Spending</h2>
       <SpendingBarChart finalData={finalData} />
       <SpendingPieChart spendingData={spendingData} />

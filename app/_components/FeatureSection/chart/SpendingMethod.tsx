@@ -118,8 +118,9 @@ export function SpendingMethod() {
               </Tooltip>
             </TooltipProvider>
           </div>
-          <CardDescription className="text-center text-xs font-medium text-medium xl:text-sm">
-            Most used - <span className="font-bold text-dark">Debit Card</span>
+          <CardDescription className="text-center text-xs font-medium text-secondary-foreground xl:text-sm">
+            Most used -{" "}
+            <span className="font-bold text-foreground">Debit Card</span>
           </CardDescription>
         </CardHeader>
         <CardContent className="flex-1 pb-6">

@@ -28,7 +28,7 @@ const MobileCarousel: React.FC<PropType> = (props) => {
         <div className="embla__container">
           <div className="embla__slide">
             <div className="embla__slide__number mobile-feature bg-teal-500 bg-opacity-20 bg-feature bg-no-repeat">
-              <div className="z-10 px-8 pt-8 text-center text-medium">
+              <div className="z-10 px-8 pt-8 text-center text-secondary-foreground">
                 <h1 className="text-lg font-semibold tracking-wide">
                   Dashboard
                 </h1>
@@ -48,7 +48,7 @@ const MobileCarousel: React.FC<PropType> = (props) => {
           </div>
           <div className="embla__slide">
             <div className="embla__slide__number mobile-feature bg-teal-500 bg-opacity-20 bg-feature bg-no-repeat">
-              <div className="z-10 px-8 pt-8 text-center text-medium">
+              <div className="z-10 px-8 pt-8 text-center text-secondary-foreground">
                 <h1 className="text-lg font-semibold tracking-wide">Budgets</h1>
                 <p className="mt-2 text-sm font-normal">
                   Create and manage multiple budgets tailored to your unique
@@ -66,7 +66,7 @@ const MobileCarousel: React.FC<PropType> = (props) => {
           </div>
           <div className="embla__slide">
             <div className="embla__slide__number mobile-feature bg-teal-500 bg-opacity-20 bg-feature bg-no-repeat">
-              <div className="z-10 px-8 pt-8 text-center text-medium">
+              <div className="z-10 px-8 pt-8 text-center text-secondary-foreground">
                 <h1 className="text-lg font-semibold tracking-wide">
                   Transactions
                 </h1>
@@ -86,7 +86,7 @@ const MobileCarousel: React.FC<PropType> = (props) => {
           </div>
           <div className="embla__slide">
             <div className="embla__slide__number mobile-feature bg-teal-500 bg-opacity-20 bg-feature bg-no-repeat">
-              <div className="z-10 px-8 pt-8 text-center text-medium">
+              <div className="z-10 px-8 pt-8 text-center text-secondary-foreground">
                 <h1 className="text-lg font-semibold tracking-wide">
                   Spending
                 </h1>
@@ -106,7 +106,7 @@ const MobileCarousel: React.FC<PropType> = (props) => {
           </div>
           <div className="embla__slide">
             <div className="embla__slide__number mobile-feature bg-teal-500 bg-opacity-20 bg-feature bg-no-repeat">
-              <div className="z-10 px-8 pt-8 text-center text-medium">
+              <div className="z-10 px-8 pt-8 text-center text-secondary-foreground">
                 <h1 className="text-lg font-semibold tracking-wide">
                   AI Assistant
                 </h1>

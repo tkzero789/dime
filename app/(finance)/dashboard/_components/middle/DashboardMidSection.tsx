@@ -10,6 +10,7 @@ import { DashboardTable } from "./DashboardTable";
 import Link from "next/link";
 import DashboardBudget from "./DashboardBudget";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
+import { Button } from "@/components/ui/button";
 
 type NewExpenseDetail = ExpenseDetail & {
   category: string;
@@ -33,7 +34,7 @@ export default function DashboardMidSection({
 }: Props) {
   return (
     <>
-      <div className="mt-4 grid grid-cols-3 gap-4 xl:mt-8">
+      <div className="grid grid-cols-3 gap-6">
         {isLoading ? (
           <CardSkeleton
             title={true}
@@ -43,15 +44,12 @@ export default function DashboardMidSection({
             style="col-span-3 xl:col-span-2 h-fit"
           />
         ) : (
-          <div className="col-span-3 h-fit rounded-lg border bg-white p-6 shadow-md xl:col-span-2">
+          <div className="col-span-3 h-fit rounded-2xl bg-white p-6 shadow-card-shadow xl:col-span-2">
             <h2 className="pb-4 text-xl font-bold">Latest transactions</h2>
             <DashboardTable allData={allData} />
-            <Link
-              href="/transaction"
-              className="mt-2 block rounded-md border border-neutral-500 p-2 text-center text-sm font-medium hover:bg-neutral-100"
-            >
-              View all transactions
-            </Link>
+            <Button asChild variant="outline" className="w-full">
+              <Link href="/transaction">View all transactions</Link>
+            </Button>
           </div>
         )}
 

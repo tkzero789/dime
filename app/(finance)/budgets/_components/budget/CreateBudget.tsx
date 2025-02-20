@@ -30,12 +30,12 @@ import {
   BriefcaseMedical,
   Building2,
   Car,
-  CirclePlus,
   Drama,
   HeartHandshake,
   Martini,
   PawPrint,
   Plane,
+  Plus,
   School,
   ShoppingBag,
   ShoppingCart,
@@ -220,24 +220,13 @@ export default function CreateBudget({ refreshData }: Props) {
     setAmount("");
   };
 
-  console.log(month);
-
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button
-            variant="secondary"
-            className="group flex items-center justify-center gap-2"
-            onClick={checkBudgetAmount}
-          >
-            <CirclePlus
-              strokeWidth={1.75}
-              className="rounded-full group-hover:bg-teal-700 group-hover:stroke-white"
-            />
-            <span className="font-bold group-hover:text-teal-700">
-              Create new budget
-            </span>
+          <Button className="gap-2" onClick={checkBudgetAmount}>
+            <Plus className="h-6 w-6" strokeWidth={1.5} />
+            New budget
           </Button>
         </DialogTrigger>
         <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
@@ -299,7 +288,7 @@ export default function CreateBudget({ refreshData }: Props) {
                                   strokeWidth={1.5}
                                   className="h-[30px] w-[30px]"
                                 />
-                                <span className="pl-4 text-base font-semibold text-dark lg:pl-6">
+                                <span className="pl-4 text-base font-semibold lg:pl-6">
                                   {item.name}
                                 </span>
                                 <DialogClose asChild>

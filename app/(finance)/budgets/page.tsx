@@ -7,10 +7,10 @@ import { and, desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { Budgets, BudgetExpenses } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { BudgetDetail } from "@/types/types";
-import CreateBudget from "./_components/budget/CreateBudget";
-import { BudgetRadicalChart } from "./_components/chart/BudgetRadicalChart";
+import { BudgetRadialChart } from "./_components/chart/BudgetRadialChart";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { Spinner } from "@/components/ui/spinner";
+import BudgetNav from "./_components/nav/BudgetNav";
 
 export default function BudgetsPage() {
   const { user } = useUser();
@@ -86,12 +86,9 @@ export default function BudgetsPage() {
   };
 
   return (
-    <div className="min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 2xl:px-20">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Budgets List</h2>
-        <CreateBudget refreshData={() => getBudgetList()} />
-      </div>
-      <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
+    <div className="grid gap-6">
+      <BudgetNav refreshData={() => getBudgetList()} />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {isLoading ? (
           <div className="order-last col-span-3 flex items-center justify-center p-6 xl:order-first xl:col-span-2 xl:grid-cols-2">
             <Spinner size={36} />
@@ -108,7 +105,7 @@ export default function BudgetsPage() {
             style="col-span-3 xl:col-span-1"
           />
         ) : (
-          <BudgetRadicalChart
+          <BudgetRadialChart
             budgetList={budgetList}
             handlePreviousMonth={handlePreviousMonth}
             handleNextMonth={handleNextMonth}

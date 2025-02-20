@@ -1,6 +1,7 @@
 import React from "react";
-import SideNav from "../_components/Nav/SideNav";
+import SideNav from "./_components/SideNav";
 import MobileNav from "../_components/Nav/MobileNav";
+import "@/css/app.css";
 
 export default function FinanceLayout({
   children,
@@ -8,11 +9,9 @@ export default function FinanceLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="flex">
+    <main className="flex bg-[#fbfbfb]">
       <SideNav />
-      <div className="flex-1 overflow-hidden">
-        <div className="h-full">{children}</div>
-      </div>
+      <div className="finance-layout relative flex-1">{children}</div>
       <MobileNav />
     </main>
   );

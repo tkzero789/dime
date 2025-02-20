@@ -48,13 +48,13 @@ export default function ViewRecurring({ recurringInfo, isPaid }: Props) {
   return (
     <Dialog>
       <DialogTrigger
-        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-dark hover:bg-neutral-200"
+        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-neutral-200"
         onClick={handleRefresh}
       >
         <span className="pl-4">
           <ReceiptText strokeWidth={2} className="h-4 w-4" color="#555353" />
         </span>
-        <span className="font-semibold text-medium">View</span>
+        <span className="font-semibold text-secondary-foreground">View</span>
       </DialogTrigger>
       <DialogContent className="flex flex-col gap-8">
         <DialogHeader>
@@ -68,7 +68,7 @@ export default function ViewRecurring({ recurringInfo, isPaid }: Props) {
           </DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
             <div className="relative flex justify-between md:block">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Due date:
               </span>
               <span>
@@ -81,13 +81,13 @@ export default function ViewRecurring({ recurringInfo, isPaid }: Props) {
               </span>
             </div>
             <div className="flex justify-between text-wrap md:block">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Name:
               </span>
               <span>{recurringInfo.name}</span>
             </div>
             <div className="flex justify-between md:block">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Category:
               </span>
               <span>
@@ -95,7 +95,7 @@ export default function ViewRecurring({ recurringInfo, isPaid }: Props) {
               </span>
             </div>
             <div className="flex justify-between md:block">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Payment method:
               </span>
               <span>
@@ -103,7 +103,7 @@ export default function ViewRecurring({ recurringInfo, isPaid }: Props) {
               </span>
             </div>
             <div className="flex justify-between md:block">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Repeat:
               </span>
               <span>
@@ -111,7 +111,7 @@ export default function ViewRecurring({ recurringInfo, isPaid }: Props) {
               </span>
             </div>
             <div className="flex justify-between md:block">
-              <span className="inline-block font-semibold text-dark md:w-36">
+              <span className="inline-block font-semibold text-foreground md:w-36">
                 Amount:
               </span>
               <span>
@@ -131,7 +131,7 @@ export default function ViewRecurring({ recurringInfo, isPaid }: Props) {
                 key={payment.id}
                 className="flex w-full items-center justify-between"
               >
-                <span className="text-sm text-medium">
+                <span className="text-sm text-secondary-foreground">
                   <GetCurrentMonth monthYear={new Date(payment.date)} />
                 </span>
                 <span className="mr-4 rounded-md bg-green-300 bg-opacity-50 px-2 py-1 text-[13px] text-green-700">

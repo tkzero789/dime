@@ -17,7 +17,7 @@ export default function ExpenseCustomTooltip({ active, payload }: Props) {
           {<FormatDate shortMonthNumDateUTC={new Date(date)} />}
         </p>
         <div className="flex items-center gap-2">
-          <div className="block h-3 w-3 rounded-sm bg-[#0ea5e9]"></div>
+          <div className="bg-chart-outflow block h-3 w-3 rounded-sm"></div>
           <p>
             Amount:{" "}
             <span className="font-bold">

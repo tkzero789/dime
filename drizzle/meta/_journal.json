@@ -15,6 +15,20 @@
       "when": 1739467094358,
       "tag": "0001_third_jigsaw",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1739824440643,
+      "tag": "0002_careful_charles_xavier",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1739826611601,
+      "tag": "0003_bored_the_phantom",
+      "breakpoints": true
     }
   ]
 }

@@ -86,7 +86,7 @@ export default function IncomeList({
           refreshData={refreshData}
         />
       </div>
-      <div className="grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-lg bg-neutral-200 py-2 text-sm font-semibold text-medium">
+      <div className="grid grid-cols-[90px_1fr_200px_180px_120px_100px] gap-2 rounded-lg bg-neutral-200 py-2 text-sm font-semibold text-secondary-foreground">
         <div className="text-center">Date</div>
         <div className="pl-4">Name</div>
         <div className="text-start">Category</div>
@@ -142,11 +142,11 @@ export default function IncomeList({
           </div>
         ))
       ) : (
-        <div className="flex items-center justify-center pt-4 text-medium">
+        <div className="flex items-center justify-center pt-4 text-secondary-foreground">
           No income added yet
         </div>
       )}
-      <div className="grid grid-cols-[90px_1fr_100px] gap-2 rounded-b-lg bg-neutral-200 py-2 text-sm font-semibold text-medium">
+      <div className="grid grid-cols-[90px_1fr_100px] gap-2 rounded-b-lg bg-neutral-200 py-2 text-sm font-semibold text-secondary-foreground">
         <span className="text-center">Total</span>
         <span className="text-end font-bold text-green-700">
           $<FormatNumber number={totalAmount} />

@@ -34,6 +34,7 @@ import EditRecurring from "./EditRecurring";
 import DeleteRecurring from "./DeleteRecurring";
 import FormatDate from "@/utils/formatDate";
 import ViewRecurring from "./ViewRecurring";
+import getTransactionCategory from "@/utils/getTransactionCategory";
 
 type Props = {
   ruleList: RecurringRule[];
@@ -53,7 +54,7 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
       const activeRules = await db
         .select({ ...getTableColumns(Recurring_rule) })
         .from(Recurring_rule)
-        .where(eq(Recurring_rule.isActive, true));
+        .where(eq(Recurring_rule.is_actived, true));
 
       const paidStatus: Record<string, boolean> = {};
 
@@ -94,46 +95,26 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
     }
   }, [currentUser, ruleList, currentMonth, currentYear, getData]);
 
-  const getCategory = (category: string) => {
-    if (
-      ["car payment", "credit card payment", "insurance", "loan"].includes(
-        category,
-      )
-    ) {
-      return "bg-amber-300 text-amber-700";
-    } else if (
-      ["Budget Expense", "monthly subscription", "single payment"].includes(
-        category,
-      )
-    ) {
-      return "bg-sky-300 text-sky-700";
-    } else if (["mortgage", "rent", "bill and utilities"].includes(category)) {
-      return "bg-pink-300 text-pink-700";
-    } else {
-      return "bg-teal-300 text-teal-700";
-    }
-  };
-
   return (
     <Table className="rounded-lg bg-white">
       <TableHeader>
         <TableRow className="border-none bg-neutral-200 hover:bg-neutral-200">
-          <TableHead className="w-[100px] truncate rounded-l-lg text-sm font-semibold text-medium">
+          <TableHead className="w-[100px] truncate rounded-l-lg text-sm font-semibold text-secondary-foreground">
             Due date
           </TableHead>
-          <TableHead className="text-sm font-semibold text-medium">
+          <TableHead className="text-sm font-semibold text-secondary-foreground">
             Name
           </TableHead>
-          <TableHead className="text-sm font-semibold text-medium">
+          <TableHead className="text-sm font-semibold text-secondary-foreground">
             Category
           </TableHead>
-          <TableHead className="truncate text-sm font-semibold text-medium">
+          <TableHead className="truncate text-sm font-semibold text-secondary-foreground">
             Payment Method
           </TableHead>
-          <TableHead className="text-sm font-semibold text-medium">
+          <TableHead className="text-sm font-semibold text-secondary-foreground">
             Repeat
           </TableHead>
-          <TableHead className="flex items-center gap-1 text-sm font-semibold text-medium">
+          <TableHead className="flex items-center gap-1 text-sm font-semibold text-secondary-foreground">
             Status
             <TooltipProvider>
               <Tooltip>
@@ -145,7 +126,7 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
                   />
                 </TooltipTrigger>
                 <TooltipContent className="mr-8 max-w-64 border shadow-lg">
-                  <p className="font-normal text-medium">
+                  <p className="font-normal text-secondary-foreground">
                     Mark as &quot;Paid&quot; only if the payment is paid for the
                     current month
                   </p>
@@ -153,10 +134,10 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
               </Tooltip>
             </TooltipProvider>
           </TableHead>
-          <TableHead className="text-right text-sm font-semibold text-medium">
+          <TableHead className="text-right text-sm font-semibold text-secondary-foreground">
             Amount
           </TableHead>
-          <TableHead className="rounded-r-lg text-center text-sm font-semibold text-medium"></TableHead>
+          <TableHead className="rounded-r-lg text-center text-sm font-semibold text-secondary-foreground"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -172,7 +153,7 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
               <TableCell className="truncate px-4 py-2">{item.name}</TableCell>
               <TableCell className="px-4 py-2">
                 <div
-                  className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 ${getCategory(item.category)} `}
+                  className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 ${getTransactionCategory(item.category)} `}
                 >
                   <span className="truncate text-[13px]">
                     <FormatString text={item.category} />
@@ -244,7 +225,7 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
         <TableRow className="pointer-events-none bg-neutral-200">
           <TableCell
             colSpan={6}
-            className="rounded-bl-lg text-sm font-semibold text-medium"
+            className="rounded-bl-lg text-sm font-semibold text-secondary-foreground"
           >
             Total
           </TableCell>

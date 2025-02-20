@@ -16,11 +16,11 @@ import SpendingBarCustomTooltip from "./SpendingBarCustomTooltip";
 const chartConfig = {
   income: {
     label: "Income",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-inflow))",
   },
   spending: {
     label: "Spending",
-    color: "hsl(var(--chart-5))",
+    color: "hsl(var(--chart-outflow))",
   },
 } satisfies ChartConfig;
 
@@ -106,7 +106,6 @@ export function SpendingBarChart({ finalData }: Props) {
               radius={4}
               activeBar={
                 <Rectangle
-                  fill="#14b8a6"
                   stroke="#262626"
                   strokeWidth="1px"
                   cursor="pointer"
@@ -119,7 +118,6 @@ export function SpendingBarChart({ finalData }: Props) {
               radius={4}
               activeBar={
                 <Rectangle
-                  fill="#0ea5e9"
                   stroke="#262626"
                   strokeWidth="1px"
                   cursor="pointer"

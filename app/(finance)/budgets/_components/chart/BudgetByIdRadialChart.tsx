@@ -27,7 +27,7 @@ const chartConfig = {
   },
   spent: {
     label: "Spent",
-    color: "hsl(var(--chart-5))",
+    color: "hsl(var(--chart-outflow))",
   },
 } satisfies ChartConfig;
 
@@ -35,7 +35,7 @@ type Props = {
   budget: BudgetDetail[];
 };
 
-export function BudgetByIdRadicalChart({ budget }: Props) {
+export function BudgetByIdRadialChart({ budget }: Props) {
   const months = [
     "January",
     "February",
@@ -52,7 +52,7 @@ export function BudgetByIdRadicalChart({ budget }: Props) {
   ];
 
   return (
-    <Card className="hidden h-full flex-col rounded-lg shadow-md lg:flex">
+    <Card className="hidden h-full flex-col rounded-xl shadow-md lg:flex">
       <CardHeader className="items-center pb-0">
         <CardTitle className="text-xl font-bold tracking-normal">
           Budget Tracker
@@ -121,14 +121,14 @@ export function BudgetByIdRadicalChart({ budget }: Props) {
       </CardContent>
       <CardFooter className="flex-col px-6 pb-6 text-sm lg:px-10">
         <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">
-          <CirclePlus className="h-5 w-5 text-sky-700" />
+          <CirclePlus className="h-5 w-5 text-primary" />
           <span className="text-base font-medium">Spending Budget</span>
           <span className="ml-auto text-base font-bold">
             $<FormatNumber number={Number(budget[0]?.amount)} />
           </span>
         </div>
         <div className="flex w-full items-center gap-4 border-b border-t py-3 font-medium leading-none">
-          <MinusCircle className="h-5 w-5 text-sky-700" />
+          <MinusCircle className="h-5 w-5 text-primary" />
           <span className="text-base font-medium">Current Spending</span>
           <span className="ml-auto text-base font-bold">
             -$
@@ -136,7 +136,7 @@ export function BudgetByIdRadicalChart({ budget }: Props) {
           </span>
         </div>
         <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">
-          <CircleEqual className="h-5 w-5 text-sky-700" />
+          <CircleEqual className="h-5 w-5 text-primary" />
           <span className="text-base font-medium">Remaining</span>
           <span className="ml-auto text-base font-bold text-green-700">
             $

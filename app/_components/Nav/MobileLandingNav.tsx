@@ -104,11 +104,11 @@ export default function MobileLandingNav() {
                 <SheetDescription></SheetDescription>
               </SheetHeader>
             </VisuallyHidden>
-            <div className="mt-8 flex flex-col gap-8 font-medium text-dark">
+            <div className="mt-8 flex flex-col gap-8 font-medium text-foreground">
               <div className="flex flex-col gap-4">
                 <Button
                   asChild
-                  className="w-full rounded-full border bg-gray-100 text-dark hover:bg-gray-200"
+                  className="w-full rounded-full border bg-gray-100 text-foreground hover:bg-gray-200"
                 >
                   <Link href="/sign-in" className="flex items-center gap-2">
                     <LogIn className="h-4 w-4" strokeWidth={1.25} />
@@ -145,10 +145,10 @@ export default function MobileLandingNav() {
                           />
                         </div>
                         <div className="flex flex-col gap-1">
-                          <div className="text-sm font-medium text-dark">
+                          <div className="text-sm font-medium text-foreground">
                             {content.title}
                           </div>
-                          <div className="text-xs text-medium">
+                          <div className="text-xs text-secondary-foreground">
                             {content.description}
                           </div>
                         </div>

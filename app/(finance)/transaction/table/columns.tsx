@@ -13,32 +13,13 @@ import {
   RecurrenceDetail,
   SingleDetail,
 } from "@/types/types";
+import getTransactionCategory from "@/utils/getTransactionCategory";
 
 export type Transaction =
   | ExpenseDetailWithCategory
   | IncomeDetail
   | RecurrenceDetail
   | SingleDetail;
-
-const getCategory = (category: string) => {
-  if (
-    ["car payment", "credit card payment", "insurance", "loan"].includes(
-      category,
-    )
-  ) {
-    return "bg-amber-300 text-amber-700";
-  } else if (
-    ["budget expense", "monthly subscription", "single payment"].includes(
-      category,
-    )
-  ) {
-    return "bg-sky-300 text-sky-700";
-  } else if (["mortgage", "rent", "bill and utilities"].includes(category)) {
-    return "bg-pink-300 text-pink-700";
-  } else {
-    return "bg-teal-300 text-teal-700";
-  }
-};
 
 export const columns: ColumnDef<Transaction>[] = [
   {
@@ -68,7 +49,7 @@ export const columns: ColumnDef<Transaction>[] = [
         );
       return (
         <div
-          className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 ${getCategory(row.getValue("category"))}`}
+          className={`flex w-fit items-center justify-center rounded-full bg-opacity-50 px-2 py-1 ${getTransactionCategory(row.getValue("category"))}`}
         >
           <div className="text-[13px]">{category}</div>
         </div>
@@ -90,7 +71,7 @@ export const columns: ColumnDef<Transaction>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="justify-end px-0 text-sm font-semibold text-medium"
+          className="justify-end px-0 text-sm font-semibold text-secondary-foreground"
         >
           Amount
           <ArrowUpDown className="ml-2 h-4 w-4" />

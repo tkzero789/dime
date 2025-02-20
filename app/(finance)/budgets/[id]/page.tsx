@@ -24,7 +24,7 @@ import EditBudget from "@/app/(finance)/budgets/_components/budget/EditBudget";
 import BudgetItem from "@/app/(finance)/budgets/_components/budget/BudgetItem";
 import AddExpense from "@/app/(finance)/budgets/_components/expense/AddExpense";
 import { ExpenseBarChart } from "@/app/(finance)/budgets/_components/chart/ExpenseBarChart";
-import { BudgetByIdRadicalChart } from "@/app/(finance)/budgets/_components/chart/BudgetByIdRadicalChart";
+import { BudgetByIdRadialChart } from "@/app/(finance)/budgets/_components/chart/BudgetByIdRadialChart";
 import DeleteBudget from "../_components/budget/DeleteBudget";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, CircleEllipsis, CirclePlus } from "lucide-react";
@@ -105,26 +105,22 @@ export default function BudgetByIdPage({ params }: Props) {
   }, [user, getBudgetInfo]);
 
   return (
-    <div className="min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 2xl:px-20">
+    <div>
       <div className="flex items-center justify-between">
         <div className="hidden items-center gap-4 lg:flex">
-          <Link
-            href="/budgets"
-            className="group flex flex-col items-center justify-center"
+          <Button
+            size="icon"
+            className="flex items-center justify-center rounded-md bg-gray-200 text-foreground hover:bg-gray-300"
           >
-            <span className="rounded-md bg-gray-200 group-hover:bg-gray-300">
-              <ChevronLeft
-                strokeWidth={2}
-                className="h-8 w-8"
-                color="#555353"
-              />
-            </span>
-          </Link>
+            <Link href="/budgets">
+              <ChevronLeft strokeWidth={1.5} className="h-6 w-6" />
+            </Link>
+          </Button>
           <div className="flex items-center gap-4">
             <span className="text-4xl">{budgetInfo[0]?.icon}</span>
             <div>
               <h2 className="text-2xl font-bold">{budgetInfo[0]?.name}</h2>
-              <span className="font-light text-medium">
+              <span className="font-light text-secondary-foreground">
                 {budgetInfo[0]?.category}
               </span>
             </div>
@@ -169,7 +165,7 @@ export default function BudgetByIdPage({ params }: Props) {
           />
         </div>
         <div className="col-span-3 xl:col-span-1">
-          <BudgetByIdRadicalChart budget={budgetInfo} />
+          <BudgetByIdRadialChart budget={budgetInfo} />
 
           {budgetInfo.length > 0 ? (
             <div className="lg:hidden">
@@ -199,7 +195,7 @@ export default function BudgetByIdPage({ params }: Props) {
                     className="flex items-center justify-center gap-2"
                   >
                     <CirclePlus strokeWidth={1.75} color="#555353" />
-                    <span className="font-semibold text-medium">
+                    <span className="font-semibold text-secondary-foreground">
                       Add expense
                     </span>
                   </Button>

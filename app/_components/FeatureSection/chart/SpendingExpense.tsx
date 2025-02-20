@@ -108,9 +108,9 @@ export function SpendingExpense() {
               Show last month
             </Button>
           </div>
-          <p className="text-center text-xs font-medium text-medium xl:text-sm">
-            Spend <span className="font-bold text-dark">$135</span> less than
-            last month
+          <p className="text-center text-xs font-medium text-secondary-foreground xl:text-sm">
+            Spend <span className="font-bold text-foreground">$135</span> less
+            than last month
           </p>
         </CardHeader>
         <CardContent className="flex-1 pb-6">

@@ -1,3 +1,29 @@
+.finance-layout {
+  width: 100%;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 768px) {
+  .finance-layout {
+    padding-top: 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .finance-layout {
+    padding-top: 74px;
+    padding-left: 0rem;
+    padding-right: 0rem;
+  }
+}
+
 .ol-adjust ul {
   padding-left: 0.5rem;
 }

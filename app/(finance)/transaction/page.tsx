@@ -44,7 +44,7 @@ async function getData(): Promise<Transaction[]> {
 export default async function TransactionPage() {
   const data = await getData();
   return (
-    <div className="min-h-dvh w-dvw bg-[#f5f5f5] px-2 pb-20 pt-6 md:w-full md:px-4 2xl:px-20">
+    <div>
       <h2 className="text-2xl font-bold">Transaction Table</h2>
       <TransactionTable columns={columns} data={data} />
     </div>

@@ -93,11 +93,11 @@ export default function AddRecurring() {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="flex items-center justify-center gap-2"
+          className="flex items-center gap-2"
           onClick={handleClearInput}
         >
-          <CirclePlus strokeWidth={1.75} color="#555353" />
-          <span className="font-semibold text-medium">Add New Payment</span>
+          <CirclePlus strokeWidth={1.5} />
+          Add New Payment
         </Button>
       </DialogTrigger>
       <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">

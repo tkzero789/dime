@@ -67,7 +67,7 @@ export default function MobileNav() {
               className="flex h-full w-full flex-col items-center justify-center"
             >
               <span
-                className={`text-medium ${path.startsWith(item.href) && "text-teal-700"}`}
+                className={`text-secondary-foreground ${path.startsWith(item.href) && "text-teal-700"}`}
               >
                 <item.icon
                   strokeWidth={2}
@@ -75,7 +75,7 @@ export default function MobileNav() {
                 />
               </span>
               <span
-                className={`text-sm font-medium text-medium ${path.startsWith(item.href) && "text-teal-700"}`}
+                className={`text-sm font-medium text-secondary-foreground ${path.startsWith(item.href) && "text-teal-700"}`}
               >
                 {item.option}
               </span>
@@ -85,10 +85,12 @@ export default function MobileNav() {
 
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger className="flex h-full w-full flex-col items-center justify-center">
-            <span className="text-medium">
+            <span className="text-secondary-foreground">
               <Menu strokeWidth={2.25} />
             </span>
-            <span className="text-sm font-medium text-medium">More</span>
+            <span className="text-sm font-medium text-secondary-foreground">
+              More
+            </span>
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
@@ -101,10 +103,12 @@ export default function MobileNav() {
                 onClick={handleLinkClick}
                 className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
               >
-                <span className="text-medium">
+                <span className="text-secondary-foreground">
                   <Bell strokeWidth={2} />
                 </span>
-                <span className="font-medium text-medium">Notifications</span>
+                <span className="font-medium text-secondary-foreground">
+                  Notifications
+                </span>
               </Link>
               {/* Upgrade */}
               <Link
@@ -112,10 +116,12 @@ export default function MobileNav() {
                 onClick={handleLinkClick}
                 className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
               >
-                <span className="text-medium">
+                <span className="text-secondary-foreground">
                   <BookUp2 strokeWidth={2} />
                 </span>
-                <span className="font-medium text-medium">Upgrade</span>
+                <span className="font-medium text-secondary-foreground">
+                  Upgrade
+                </span>
               </Link>
               {/* Saving */}
               <Link
@@ -123,10 +129,12 @@ export default function MobileNav() {
                 onClick={handleLinkClick}
                 className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
               >
-                <span className="text-medium">
+                <span className="text-secondary-foreground">
                   <PiggyBank strokeWidth={2} />
                 </span>
-                <span className="font-medium text-medium">Saving</span>
+                <span className="font-medium text-secondary-foreground">
+                  Saving
+                </span>
               </Link>
               {/* Recurring */}
               <Link
@@ -134,10 +142,12 @@ export default function MobileNav() {
                 onClick={handleLinkClick}
                 className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
               >
-                <span className="text-medium">
+                <span className="text-secondary-foreground">
                   <RefreshCcwDot strokeWidth={2} />
                 </span>
-                <span className="font-medium text-medium">Recurring</span>
+                <span className="font-medium text-secondary-foreground">
+                  Recurring
+                </span>
               </Link>
               {/* Transaction */}
               <Link
@@ -145,10 +155,12 @@ export default function MobileNav() {
                 onClick={handleLinkClick}
                 className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
               >
-                <span className="text-medium">
+                <span className="text-secondary-foreground">
                   <ArrowLeftRight strokeWidth={2} />
                 </span>
-                <span className="font-medium text-medium">Transaction</span>
+                <span className="font-medium text-secondary-foreground">
+                  Transaction
+                </span>
               </Link>
               {/* Penny Chatbot */}
               <Link
@@ -156,18 +168,22 @@ export default function MobileNav() {
                 onClick={handleLinkClick}
                 className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
               >
-                <span className="text-medium">
+                <span className="text-secondary-foreground">
                   <BotMessageSquare strokeWidth={2} />
                 </span>
-                <span className="font-medium text-medium">Penny</span>
+                <span className="font-medium text-secondary-foreground">
+                  Penny
+                </span>
               </Link>
               {/* Sign Out */}
               <AlertDialog>
-                <AlertDialogTrigger className="flex flex-col items-center justify-center rounded-lg border p-2 text-medium shadow-md">
-                  <span className="text-medium">
+                <AlertDialogTrigger className="flex flex-col items-center justify-center rounded-lg border p-2 text-secondary-foreground shadow-md">
+                  <span className="text-secondary-foreground">
                     <LogOut strokeWidth={2} />
                   </span>
-                  <span className="font-medium text-medium">Sign Out</span>
+                  <span className="font-medium text-secondary-foreground">
+                    Sign Out
+                  </span>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
@@ -195,10 +211,12 @@ export default function MobileNav() {
                 onClick={handleLinkClick}
                 className="flex flex-col items-center justify-center rounded-lg border p-2 shadow-md"
               >
-                <span className="text-medium">
+                <span className="text-secondary-foreground">
                   <CircleHelp strokeWidth={2} />
                 </span>
-                <span className="font-medium text-medium">Help & Privacy</span>
+                <span className="font-medium text-secondary-foreground">
+                  Help & Privacy
+                </span>
               </Link>
             </div>
           </DrawerContent>

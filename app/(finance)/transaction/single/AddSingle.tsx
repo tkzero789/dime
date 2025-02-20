@@ -112,7 +112,7 @@ export default function AddSingle() {
               {/* DatePicker */}
               <SingleDatePicker date={date} setDate={setDate} />
               {/* Payment Category */}
-              <div className="flex h-10 items-center justify-start rounded-md border border-input px-3 py-2 text-dark">
+              <div className="flex h-10 items-center justify-start rounded-md border border-input px-3 py-2 text-foreground">
                 Single payment
               </div>
               {/* Payment method */}

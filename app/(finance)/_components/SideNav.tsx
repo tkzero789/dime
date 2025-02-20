@@ -28,7 +28,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
 import { SignOutButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 
@@ -49,41 +48,45 @@ export default function SideNav() {
 
   return (
     <aside className="sticky left-0 top-0 hidden h-dvh w-60 flex-col gap-y-4 border-r shadow-sm lg:flex">
-      <div className="flex items-center gap-2 border-b px-6 py-4">
+      <div className="flex h-[74px] items-center gap-2 border-b px-6 py-4">
         <Image src={Logo} alt="logo" width={40} height={40} />
-        <span className="font-serif text-2xl font-bold text-teal-600">
-          Dime
-        </span>
+        <div className="font-serif text-2xl font-bold text-teal-600">Dime</div>
       </div>
+      {/* <SideNavAccount /> */}
       <ul className="flex flex-1 flex-col gap-y-4 px-4 pb-4">
         {menu.map((item, index) => (
           <li
             key={index}
-            className={`cursor-pointer rounded-md font-semibold transition-all hover:bg-gray-200 ${path.startsWith(item.href) && "text-teal-700"}`}
+            className={`cursor-pointer rounded-md transition-all hover:bg-gray-200 ${path.startsWith(item.href) && "bg-gray-100"}`}
           >
             <Link href={item.href} className="flex items-center gap-2 p-2">
               <span>
                 <item.icon
-                  className={`${path.startsWith(item.href) && "fill-teal-500 stroke-teal-800"}`}
+                  className={`h-6 w-6 ${path.startsWith(item.href) && "stroke-teal-600"}`}
+                  strokeWidth={2}
                 />
               </span>
-              <span>{item.option}</span>
+              <div
+                className={`text-sm ${path.startsWith(item.href) ? "font-semibold" : "font-medium"}`}
+              >
+                {item.option}
+              </div>
             </Link>
           </li>
         ))}
         <div className="mt-auto flex flex-col gap-y-4">
-          <div className="flex cursor-pointer items-center gap-2 rounded-md p-2 font-semibold transition-all hover:bg-gray-200">
+          <div className="flex cursor-pointer items-center gap-2 rounded-md p-2 transition-all hover:bg-gray-200">
             <span>
-              <Settings />
+              <Settings className="h-6 w-6" strokeWidth={2} />
             </span>
-            <span>Settings</span>
+            <div className="text-sm font-medium">Settings</div>
           </div>
           <AlertDialog>
-            <AlertDialogTrigger className="flex w-full items-center gap-2 rounded-md p-2 font-semibold transition-all hover:bg-gray-200">
+            <AlertDialogTrigger className="flex w-full items-center gap-2 rounded-md p-2 transition-all hover:bg-gray-200">
               <span>
-                <LogOut />
+                <LogOut className="h-6 w-6" strokeWidth={2} />
               </span>
-              <span>Sign out</span>
+              <div className="text-sm font-medium">Sign out</div>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>

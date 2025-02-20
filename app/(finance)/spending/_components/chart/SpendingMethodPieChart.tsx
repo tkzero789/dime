@@ -79,9 +79,9 @@ export function SpendingMethodPieChart({
           </TooltipProvider>
         </div>
         {spendingByMonth > 0 && (
-          <CardDescription className="text-center text-sm font-medium text-medium">
+          <CardDescription className="text-center text-sm font-medium text-secondary-foreground">
             Most used -{" "}
-            <span className="font-bold text-dark">
+            <span className="font-bold text-foreground">
               <FormatString text={highestSpending.payment_method} />
             </span>
           </CardDescription>

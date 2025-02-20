@@ -90,7 +90,7 @@ export function FeaturesDropDown() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="bg-transparent text-base hover:bg-transparent hover:text-medium focus:bg-transparent">
+          <NavigationMenuTrigger className="bg-transparent text-base hover:bg-transparent hover:text-secondary-foreground focus:bg-transparent">
             Features
           </NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -110,10 +110,10 @@ export function FeaturesDropDown() {
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <div className="text-sm leading-none text-dark">
+                      <div className="text-sm leading-none text-foreground">
                         {component.title}
                       </div>
-                      <p className="text-[13px] font-normal leading-snug text-medium">
+                      <p className="text-[13px] font-normal leading-snug text-secondary-foreground">
                         {component.description}
                       </p>
                     </div>
@@ -138,7 +138,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-secondary hover:text-secondary-foreground focus:bg-secondary focus:text-secondary-foreground",
             className,
           )}
           {...props}

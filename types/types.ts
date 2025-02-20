@@ -1,3 +1,16 @@
+// account
+export type AccountDetail = {
+  id: string;
+  name: string;
+  type: string;
+  amount: string;
+  debt: string;
+  color: string;
+  is_actived: boolean;
+  created_by: string;
+  created_at: Date;
+};
+
 // budget
 export type BudgetDetail = {
   id: string;
@@ -78,7 +91,7 @@ export type RecurringRule = {
   frequency: string;
   due_date: string;
   created_by: string;
-  isActive: boolean;
+  is_actived: boolean;
 };
 
 // single payment

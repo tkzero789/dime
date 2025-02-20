@@ -18,14 +18,14 @@ export default function LandingNav() {
           <FeaturesDropDown />
           <Button
             asChild
-            className="bg-transparent text-base text-dark hover:bg-transparent hover:text-medium"
+            className="bg-transparent text-base text-foreground hover:bg-transparent hover:text-secondary-foreground"
           >
             <Link href="/">Pricing</Link>
           </Button>
 
           <Button
             asChild
-            className="bg-transparent text-base text-dark hover:bg-transparent hover:text-medium"
+            className="bg-transparent text-base text-foreground hover:bg-transparent hover:text-secondary-foreground"
           >
             <Link href="/">Review</Link>
           </Button>

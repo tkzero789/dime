@@ -92,22 +92,22 @@ export default function SpendingBreakdown({
             {aggregatedDataCategory.map((data, index) => (
               <li
                 key={index}
-                className="flex gap-x-6 text-base font-semibold text-medium"
+                className="flex gap-x-6 text-base font-semibold text-secondary-foreground"
               >
                 <span>{getCategoryIcon(data.category)}</span>
                 <span>
                   <FormatString text={data.category} />
                 </span>
-                <span className="ml-auto font-bold text-dark">
+                <span className="ml-auto font-bold text-foreground">
                   $<FormatNumber number={data.amount} />
                 </span>
               </li>
             ))}
           </ul>
-          <div className="mt-8 flex gap-x-6 text-base font-semibold text-medium">
+          <div className="mt-8 flex gap-x-6 text-base font-semibold text-secondary-foreground">
             <CircleDollarSign className="h-6 w-6 stroke-[#555353]" />
             <span>Total</span>
-            <span className="ml-auto font-bold text-dark">
+            <span className="ml-auto font-bold text-foreground">
               $<FormatNumber number={total} />
             </span>
           </div>

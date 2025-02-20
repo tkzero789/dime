@@ -16,12 +16,9 @@ export default function AddTransaction() {
   return (
     <Dialog>
       <DialogTrigger asChild className="w-full md:w-auto">
-        <Button
-          variant="outline"
-          className="flex items-center justify-center gap-2"
-        >
-          <CirclePlus strokeWidth={1.75} color="#555353" />
-          <span className="font-semibold text-medium">Add New Transaction</span>
+        <Button variant="outline" className="flex items-center gap-2">
+          <CirclePlus strokeWidth={1.5} />
+          Add New Transaction
         </Button>
       </DialogTrigger>
       <DialogContent>

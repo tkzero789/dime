@@ -19,7 +19,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const chartConfig = {
   income: {
     label: "Income",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-inflow))",
   },
 } satisfies ChartConfig;
 
@@ -82,21 +82,21 @@ export function IncomeBarChart({
         <div className="flex items-center gap-4">
           <Button
             variant="outline"
-            size="sm"
+            size="icon"
             onClick={() => handleYearChange("previous")}
           >
-            <ChevronLeft className="h-5 w-5" strokeWidth={2} />
+            <ChevronLeft className="h-6 w-6" strokeWidth={1.5} />
           </Button>
           <CardTitle className="text-xl font-bold tracking-normal">
             {currentYear}
           </CardTitle>
           <Button
             variant="outline"
-            size="sm"
+            size="icon"
             onClick={() => handleYearChange("next")}
             disabled={currentYear === new Date().getUTCFullYear()}
           >
-            <ChevronRight className="h-5 w-5" strokeWidth={2} />
+            <ChevronRight className="h-6 w-6" strokeWidth={1.5} />
           </Button>
         </div>
         <Button
@@ -130,9 +130,8 @@ export function IncomeBarChart({
               radius={4}
               activeBar={
                 <Rectangle
-                  fill="#14b8a6"
                   stroke="#262626"
-                  strokeWidth="2px"
+                  strokeWidth="1px"
                   cursor="pointer"
                 />
               }

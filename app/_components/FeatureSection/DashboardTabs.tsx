@@ -156,7 +156,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="bg-feature flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
+            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
             <div className="relative z-10 w-1/2">
               {[Dashboard1, Dashboard2].map((item, index) => (
@@ -180,10 +180,10 @@ export default function DashboardTabs() {
               ))}
             </div>
             <div className="mt-8 flex w-1/2 flex-col gap-8 pl-12">
-              <h1 className="text-3xl font-bold text-medium">
+              <h1 className="text-3xl font-bold text-secondary-foreground">
                 Comprehensive Financial Overview
               </h1>
-              <p className="w-auto text-base tracking-wide text-medium xl:w-11/12">
+              <p className="w-auto text-base tracking-wide text-secondary-foreground xl:w-11/12">
                 The dashboard provides quick insights to help you manage and
                 adjust your financial plans easily. View your budgets, income,
                 expenses, and savings progress at a glance to stay on track with
@@ -212,7 +212,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="bg-feature flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
+            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
             <div className="relative z-10 w-1/2">
               {[Budget1, Budget2].map((item, index) => (
@@ -236,10 +236,10 @@ export default function DashboardTabs() {
               ))}
             </div>
             <div className="mt-8 flex w-1/2 flex-col gap-8 pl-12">
-              <h1 className="text-3xl font-bold text-medium">
+              <h1 className="text-3xl font-bold text-secondary-foreground">
                 Flexible Multi-Budget Management
               </h1>
-              <p className="w-auto text-base tracking-wide text-medium xl:w-11/12">
+              <p className="w-auto text-base tracking-wide text-secondary-foreground xl:w-11/12">
                 Create and manage multiple budgets tailored to your unique
                 financial needs. Customize categories for each budget, allowing
                 you to track spending across various aspects of your life, from
@@ -268,7 +268,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="bg-feature flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
+            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
             <div className="relative z-10 w-1/2">
               {[Transaction1, Transaction2].map((item, index) => (
@@ -292,10 +292,10 @@ export default function DashboardTabs() {
               ))}
             </div>
             <div className="mt-8 flex w-1/2 flex-col gap-8 pl-12">
-              <h1 className="text-3xl font-bold text-medium">
+              <h1 className="text-3xl font-bold text-secondary-foreground">
                 Dynamic Transaction Tracking
               </h1>
-              <p className="w-auto text-base tracking-wide text-medium xl:w-11/12">
+              <p className="w-auto text-base tracking-wide text-secondary-foreground xl:w-11/12">
                 Take full control of your financial activities with our powerful
                 transaction management system. Easily view, add, edit, and
                 search your transactions, with advanced sorting and filtering
@@ -324,17 +324,17 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="bg-feature flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
+            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
             <div className="relative z-10 w-1/2">
               <SpendingExpense />
               <SpendingMethod />
             </div>
             <div className="mt-8 flex w-1/2 flex-col gap-8 pl-12">
-              <h1 className="text-3xl font-bold text-medium">
+              <h1 className="text-3xl font-bold text-secondary-foreground">
                 Insightful Spending Analysis
               </h1>
-              <p className="w-auto text-base tracking-wide text-medium xl:w-11/12">
+              <p className="w-auto text-base tracking-wide text-secondary-foreground xl:w-11/12">
                 Gain valuable insights into your financial habits with our
                 comprehensive spending analysis tools. Visualize your spending
                 patterns in relation to your income, and dive deep into detailed
@@ -363,7 +363,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="bg-feature flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
+            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
             <div className="z-10 w-1/2">
               <div className="flex select-none flex-col gap-2 rounded-xl bg-white p-4 xl:gap-6">
@@ -428,10 +428,10 @@ export default function DashboardTabs() {
               </div>
             </div>
             <div className="mt-8 flex w-1/2 flex-col gap-8 pl-12">
-              <h1 className="text-3xl font-bold text-medium">
+              <h1 className="text-3xl font-bold text-secondary-foreground">
                 Penny - Intelligent Financial Guidance
               </h1>
-              <p className="w-auto text-base tracking-wide text-medium xl:w-11/12">
+              <p className="w-auto text-base tracking-wide text-secondary-foreground xl:w-11/12">
                 Access personalized financial advice at your fingertips with our
                 AI-powered assistant. Ask questions about your finances, receive
                 tailored suggestions, and get proactive tips to enhance your
