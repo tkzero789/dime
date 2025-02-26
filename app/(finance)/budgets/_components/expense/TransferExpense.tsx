@@ -36,8 +36,8 @@ type Props = {
 
 type BudgetList = {
   id: string;
-  name: string;
-  icon: string | null;
+  category: string;
+  emoji: string | null;
 };
 
 export default function TransferExpense({
@@ -55,7 +55,11 @@ export default function TransferExpense({
   const getActiveBudget = React.useCallback(async () => {
     try {
       const result = await db
-        .select({ id: Budgets.id, name: Budgets.name, icon: Budgets.icon })
+        .select({
+          id: Budgets.id,
+          category: Budgets.category,
+          emoji: Budgets.emoji,
+        })
         .from(Budgets)
         .where(
           and(
@@ -128,10 +132,10 @@ export default function TransferExpense({
                     className="flex flex-wrap items-center py-4"
                   >
                     <div className="w-[60px] text-center text-3xl">
-                      {item.icon}
+                      {item.emoji}
                     </div>
                     <span className="pl-2 text-base font-semibold text-foreground">
-                      {item.name}
+                      {item.category}
                     </span>
 
                     <AlertDialog>
@@ -142,9 +146,9 @@ export default function TransferExpense({
                         <AlertDialogHeader>
                           <AlertDialogTitle>Transfer expense</AlertDialogTitle>
                           <AlertDialogDescription>
-                            This expense will be transferred to {item.icon}{" "}
+                            This expense will be transferred to {item.emoji}{" "}
                             <span className="font-semibold text-foreground">
-                              {item.name}
+                              {item.category}
                             </span>{" "}
                             budget. Do you want to proceed?
                           </AlertDialogDescription>
