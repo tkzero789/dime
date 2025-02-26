@@ -6,7 +6,7 @@ import { Budgets, BudgetExpenses } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { and, desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { Skeleton } from "@/components/ui/skeleton";
-import { BudgetDetail, ExpenseDetail } from "@/types/types";
+import { BudgetData, ExpenseData } from "@/types";
 import {
   Popover,
   PopoverContent,
@@ -42,8 +42,8 @@ export default function BudgetByIdPage({ params }: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
-  const [budgetInfo, setBudgetInfo] = React.useState<BudgetDetail[]>([]);
-  const [expenseDetail, setExpenseDetail] = React.useState<ExpenseDetail[]>([]);
+  const [budgetInfo, setBudgetInfo] = React.useState<BudgetData[]>([]);
+  const [expenseDetail, setExpenseDetail] = React.useState<ExpenseData[]>([]);
 
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
@@ -117,9 +117,9 @@ export default function BudgetByIdPage({ params }: Props) {
             </Link>
           </Button>
           <div className="flex items-center gap-4">
-            <span className="text-4xl">{budgetInfo[0]?.icon}</span>
+            <span className="text-4xl">{budgetInfo[0]?.emoji}</span>
             <div>
-              <h2 className="text-2xl font-bold">{budgetInfo[0]?.name}</h2>
+              <h2 className="text-2xl font-bold">{budgetInfo[0]?.category}</h2>
               <span className="font-light text-secondary-foreground">
                 {budgetInfo[0]?.category}
               </span>

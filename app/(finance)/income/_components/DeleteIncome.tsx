@@ -15,20 +15,14 @@ import { Trash2 } from "lucide-react";
 import { db } from "@/db/dbConfig";
 import { Income } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
-import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 
 type Props = {
   currentUser: string | undefined;
   incomeId: string;
-  refreshData: () => void;
 };
 
-export default function DeleteIncome({
-  currentUser,
-  incomeId,
-  refreshData,
-}: Props) {
+export default function DeleteIncome({ currentUser, incomeId }: Props) {
   //Delete income
   const deleteIncome = async (incomeId: string) => {
     const result = await db
@@ -38,10 +32,7 @@ export default function DeleteIncome({
       )
       .returning();
 
-    if (result) {
-      toast.success("Income Deleted!");
-      refreshData();
-    }
+    console.log(result);
   };
 
   return (

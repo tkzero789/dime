@@ -12,7 +12,7 @@ import {
   IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
-} from "@/types/types";
+} from "@/types";
 import FormatDate from "@/utils/formatDate";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";

@@ -15,7 +15,7 @@ import {
   RefreshCcwDot,
   BotMessageSquare,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   AlertDialog,
@@ -30,24 +30,27 @@ import {
 } from "@/components/ui/alert-dialog";
 import { SignOutButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+const menu = [
+  { option: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
+  { option: "Budgets", icon: Banknote, href: "/budgets" },
+  { option: "Spending", icon: CircleDollarSign, href: "/spending" },
+  { option: "Transaction", icon: ArrowLeftRight, href: "/transaction" },
+  { option: "Recurring", icon: RefreshCcwDot, href: "/recurring" },
+  {
+    option: "Income",
+    icon: Landmark,
+    href: "/income",
+  },
+  { option: "Saving", icon: PiggyBank, href: "/saving" },
+  { option: "Penny", icon: BotMessageSquare, href: "/penny" },
+];
 
 export default function SideNav() {
-  // Menu list
-  const menu = [
-    { option: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
-    { option: "Budgets", icon: Banknote, href: "/budgets" },
-    { option: "Spending", icon: CircleDollarSign, href: "/spending" },
-    { option: "Transaction", icon: ArrowLeftRight, href: "/transaction" },
-    { option: "Recurring", icon: RefreshCcwDot, href: "/recurring" },
-    { option: "Income", icon: Landmark, href: "/income" },
-    { option: "Saving", icon: PiggyBank, href: "/saving" },
-    { option: "Penny", icon: BotMessageSquare, href: "/penny" },
-  ];
-  // Path name
   const path = usePathname();
+  const router = useRouter();
 
   return (
-    <aside className="sticky left-0 top-0 hidden h-dvh w-60 flex-col gap-y-4 border-r shadow-sm lg:flex">
+    <aside className="sticky left-0 top-0 hidden h-dvh w-60 flex-col gap-y-4 border-r bg-white shadow-sm lg:flex">
       <div className="flex h-[74px] items-center gap-2 border-b px-6 py-4">
         <Image src={Logo} alt="logo" width={40} height={40} />
         <div className="font-serif text-2xl font-bold text-teal-600">Dime</div>
@@ -59,7 +62,18 @@ export default function SideNav() {
             key={index}
             className={`cursor-pointer rounded-md transition-all hover:bg-gray-200 ${path.startsWith(item.href) && "bg-gray-100"}`}
           >
-            <Link href={item.href} className="flex items-center gap-2 p-2">
+            <Link
+              href={item.href}
+              onClick={(e) => {
+                if (item.href === "/income") {
+                  e.preventDefault();
+                  router.replace(
+                    "/income?startDate=2025-01-01&endDate=2025-12-31",
+                  );
+                }
+              }}
+              className="flex items-center gap-2 p-2"
+            >
               <span>
                 <item.icon
                   className={`h-6 w-6 ${path.startsWith(item.href) && "stroke-teal-600"}`}

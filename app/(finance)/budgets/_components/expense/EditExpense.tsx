@@ -24,12 +24,12 @@ import toast from "react-hot-toast";
 import { ExpenseDatePicker } from "./ExpenseDatePicker";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Pencil } from "lucide-react";
-import { ExpenseDetail } from "@/types/types";
+import { ExpenseData } from "@/types";
 
 type Props = {
   refreshData: () => void;
   currentUser: string | undefined;
-  expenseInfo: ExpenseDetail;
+  expenseInfo: ExpenseData;
 };
 
 export default function EditExpense({

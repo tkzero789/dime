@@ -13,7 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ExpenseDetail } from "@/types/types";
+import { ExpenseData } from "@/types";
 import FormatDate from "@/utils/formatDate";
 import FormatString from "@/utils/formatString";
 import FormatNumber from "@/utils/formatNumber";
@@ -22,7 +22,7 @@ import TransferExpense from "./TransferExpense";
 import DeleteExpense from "./DeleteExpense";
 
 type Props = {
-  expenseDetail: ExpenseDetail[];
+  expenseDetail: ExpenseData[];
   currentUser: string | undefined;
   refreshData: () => void;
 };

@@ -23,20 +23,14 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
 import { Income } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
-import toast from "react-hot-toast";
-import { IncomeDetail } from "@/types/types";
+import { IncomeDetail } from "@/types";
 
 type Props = {
   currentUser: string | undefined;
   incomeInfo: IncomeDetail;
-  refreshData: () => void;
 };
 
-export default function EditIncome({
-  currentUser,
-  incomeInfo,
-  refreshData,
-}: Props) {
+export default function EditIncome({ currentUser, incomeInfo }: Props) {
   // Correct date displays for datepicker in edit income
   const convertToLocalDate = (dateString: string): Date => {
     const [year, month, day] = dateString.split("-").map(Number);
@@ -86,10 +80,7 @@ export default function EditIncome({
       )
       .returning();
 
-    if (result) {
-      toast.success("Your income is updated!");
-      refreshData();
-    }
+    console.log(result);
   };
 
   // On click edit (reset to original)

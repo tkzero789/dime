@@ -24,7 +24,7 @@ import {
 
 import { Ellipsis, Info } from "lucide-react";
 import FormatNumber from "@/utils/formatNumber";
-import { RecurringRule } from "@/types/types";
+import { RecurringRule } from "@/types";
 import FormatString from "@/utils/formatString";
 import { db } from "@/db/dbConfig";
 import { and, eq, getTableColumns, sql } from "drizzle-orm";

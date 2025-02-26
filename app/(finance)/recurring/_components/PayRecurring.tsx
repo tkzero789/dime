@@ -14,7 +14,7 @@ import { Wallet } from "lucide-react";
 import { db } from "@/db/dbConfig";
 import { Recurrence } from "@/db/schema";
 import toast from "react-hot-toast";
-import { RecurringRule } from "@/types/types";
+import { RecurringRule } from "@/types";
 import { Button } from "@/components/ui/button";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";

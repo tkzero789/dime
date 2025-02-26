@@ -14,7 +14,7 @@ import {
   ChartContainer,
   ChartTooltip,
 } from "@/components/ui/chart";
-import { BudgetDetail, ExpenseDetail } from "@/types/types";
+import { BudgetData, ExpenseData } from "@/types";
 import ExpenseCustomTooltip from "./ExpenseCustomTooltip";
 import { Button } from "@/components/ui/button";
 import useWindowSize from "@/hooks/useWindowSize";
@@ -39,8 +39,8 @@ function getAllDaysInMonth(year: number, month: number) {
 }
 
 type Props = {
-  budgetInfo: BudgetDetail[];
-  expenseDetail: ExpenseDetail[];
+  budgetInfo: BudgetData[];
+  expenseDetail: ExpenseData[];
 };
 
 export function ExpenseBarChart({ budgetInfo, expenseDetail }: Props) {

@@ -33,7 +33,7 @@ export default function LineCustomTooltip({ active, payload }: Props) {
           )}
         </p>
         <div className="flex items-center gap-2">
-          <div className="bg-chart-outflow block h-3 w-3 rounded-sm"></div>
+          <div className="block h-3 w-3 rounded-sm bg-chart-outflow"></div>
           <p>
             Current Month:{" "}
             <span className="font-bold">
@@ -42,7 +42,7 @@ export default function LineCustomTooltip({ active, payload }: Props) {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="bg-chart-outflow-subtle block h-3 w-3 rounded-sm"></div>
+          <div className="bg-chart-outflow-blue block h-3 w-3 rounded-sm"></div>
           <p>
             Last Month:{" "}
             <span className="font-bold">

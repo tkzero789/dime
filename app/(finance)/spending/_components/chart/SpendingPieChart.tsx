@@ -9,7 +9,11 @@ import {
   ChartContainer,
   ChartTooltip,
 } from "@/components/ui/chart";
-import { ExpenseDetail, RecurrenceDetail, SingleDetail } from "@/types/types";
+import {
+  ExpenseDetailWithCategory,
+  RecurrenceDetail,
+  SingleDetail,
+} from "@/types";
 import { Button } from "@/components/ui/button";
 import SpendingBreakdown from "../spending/SpendingBreakdown";
 import SpendingComparison from "../spending/SpendingComparison";
@@ -99,10 +103,6 @@ const chartConfigMethod: { [key: string]: { label: string; color?: string } } =
     },
   } satisfies ChartConfig;
 
-type NewExpenseDetail = ExpenseDetail & {
-  category: string;
-};
-
 type AggregatedExpenseCategory = {
   category: string;
   amount: number;
@@ -116,7 +116,7 @@ type AggregatedExpenseMethod = {
 };
 
 type Props = {
-  spendingData: (NewExpenseDetail | RecurrenceDetail | SingleDetail)[];
+  spendingData: (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[];
 };
 
 // Function to normalize category & payment method names in label
@@ -163,7 +163,10 @@ export function SpendingPieChart({ spendingData }: Props) {
         return acc;
       },
       {} as {
-        [key: string]: NewExpenseDetail & { amount: number; fill: string };
+        [key: string]: ExpenseDetailWithCategory & {
+          amount: number;
+          fill: string;
+        };
       },
     ),
   ).sort((a, b) => b.amount - a.amount);
@@ -184,7 +187,10 @@ export function SpendingPieChart({ spendingData }: Props) {
         return acc;
       },
       {} as {
-        [key: string]: NewExpenseDetail & { amount: number; fill: string };
+        [key: string]: ExpenseDetailWithCategory & {
+          amount: number;
+          fill: string;
+        };
       },
     ),
   ).sort((a, b) => b.amount - a.amount);

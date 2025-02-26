@@ -8,7 +8,7 @@ import {
   IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
-} from "@/types/types";
+} from "@/types";
 import { db } from "@/db/dbConfig";
 import { eq, getTableColumns } from "drizzle-orm";
 import { BudgetExpenses, Income, Recurrence, Single } from "@/db/schema";

@@ -10,7 +10,7 @@ import {
   ChartContainer,
   ChartTooltip,
 } from "@/components/ui/chart";
-import { IncomeDetail } from "@/types/types";
+import { IncomeDetail } from "@/types";
 import useWindowSize from "@/hooks/useWindowSize";
 import IncomeCustomTooltip from "./IncomeCustomTooltip";
 import { Button } from "@/components/ui/button";
@@ -49,21 +49,21 @@ function aggregateIncomeByMonth(incomeList: IncomeDetail[]) {
 
 type Props = {
   currentYear: number;
-  incomeList: IncomeDetail[];
+  incomeData: IncomeDetail[];
   handleBarClick: (month: string, year: string) => void;
   handleYearChange: (mode: string) => void;
 };
 
 export function IncomeBarChart({
   currentYear,
-  incomeList,
+  incomeData,
   handleBarClick,
   handleYearChange,
 }: Props) {
   const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
   const { width } = useWindowSize();
 
-  const aggregatedData = aggregateIncomeByMonth(incomeList);
+  const aggregatedData = aggregateIncomeByMonth(incomeData);
 
   React.useEffect(() => {
     const currentMonth = new Date().getMonth();

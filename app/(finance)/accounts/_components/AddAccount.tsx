@@ -3,8 +3,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -25,22 +23,15 @@ import PickCardBg from "./PickCardBg";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
 import { db } from "@/db/dbConfig";
-import { Accounts } from "@/db/schema";
+import { accounts } from "@/db/schema";
 import toast from "react-hot-toast";
-
-type AddAccountState = {
-  name: string;
-  type: string;
-  amount: string;
-  debt: string;
-  color: string;
-};
+import { AddAccountType } from "@/types";
 
 export default function AddAccount() {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
-  const [addAccount, setAddAccount] = React.useState<AddAccountState>({
+  const [addAccount, setAddAccount] = React.useState<AddAccountType>({
     name: "",
     type: "",
     amount: "",
@@ -48,7 +39,7 @@ export default function AddAccount() {
     color: "from-blue-600 to-blue-800",
   });
 
-  const handleFormChange = (field: keyof AddAccountState, value: string) => {
+  const handleFormChange = (field: keyof AddAccountType, value: string) => {
     setAddAccount((prev) => ({
       ...prev,
       [field]: value,
@@ -61,17 +52,14 @@ export default function AddAccount() {
       return;
     }
     try {
-      const result = await db
-        .insert(Accounts)
-        .values({
-          name: addAccount.name,
-          type: addAccount.type,
-          amount: addAccount.amount,
-          debt: addAccount.debt,
-          color: addAccount.color,
-          created_by: currentUser,
-        })
-        .returning({ insertedId: Accounts.id });
+      const result = await db.insert(accounts).values({
+        name: addAccount.name,
+        type: addAccount.type,
+        amount: addAccount.amount,
+        debt: addAccount.debt,
+        color: addAccount.color,
+        created_by: currentUser,
+      });
 
       if (result) {
         toast.success("New Account Added!");
@@ -81,8 +69,6 @@ export default function AddAccount() {
     }
   };
 
-  console.log(addAccount);
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -91,11 +77,12 @@ export default function AddAccount() {
           Add
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
-        <DialogHeader>
-          <DialogTitle className="text-center">Add New Account</DialogTitle>
-          <DialogDescription className="hidden"></DialogDescription>
-          <div className="flex flex-col gap-4 pt-4">
+      <DialogContent>
+        <form className="flex flex-col gap-8">
+          <DialogHeader>
+            <DialogTitle>Add New Account</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col gap-4">
             {/* Name */}
             <Input
               placeholder="Account name"
@@ -173,8 +160,6 @@ export default function AddAccount() {
               </div>
             </div>
           </div>
-        </DialogHeader>
-        <DialogFooter className="flex-col sm:justify-start">
           <DialogClose asChild>
             <Button
               className="w-full"
@@ -184,7 +169,7 @@ export default function AddAccount() {
               Add account
             </Button>
           </DialogClose>
-        </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

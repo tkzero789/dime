@@ -11,7 +11,7 @@ import { ReceiptText } from "lucide-react";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
 import FormatDate from "@/utils/formatDate";
-import { RecurrenceDetail, RecurringRule } from "@/types/types";
+import { RecurrenceDetail, RecurringRule } from "@/types";
 import { db } from "@/db/dbConfig";
 import { eq, getTableColumns } from "drizzle-orm";
 import { Recurrence } from "@/db/schema";

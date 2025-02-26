@@ -8,16 +8,16 @@ import {
   Income,
   Recurrence,
   Single,
-  Accounts,
+  accounts,
 } from "@/db/schema";
 import {
-  AccountDetail,
-  BudgetDetail,
+  AccountDataType,
+  BudgetData,
   ExpenseDetailWithCategory,
   IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
-} from "@/types/types";
+} from "@/types";
 import { useUser } from "@clerk/nextjs";
 import { and, desc, eq, getTableColumns, gte, lte, sql } from "drizzle-orm";
 import DashboardTopSection from "./_components/top/DashboardTopSection";
@@ -25,13 +25,13 @@ import DashboardMidSection from "./_components/middle/DashboardMidSection";
 import DashboardNav from "./_components/nav/DashboardNav";
 
 export default function DashboardPage() {
-  const [accounts, setAccounts] = React.useState<AccountDetail[]>([]);
+  const [accountData, setAccountData] = React.useState<AccountDataType[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [income, setIncome] = React.useState<IncomeDetail[]>([]);
   const [spending, setSpending] = React.useState<
     (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
   >([]);
-  const [budget, setBudget] = React.useState<BudgetDetail[]>([]);
+  const [budget, setBudget] = React.useState<BudgetData[]>([]);
   const [allData, setAllData] = React.useState<
     (
       | IncomeDetail
@@ -61,17 +61,17 @@ export default function DashboardPage() {
         // Accounts
         const accountDataReponse = await db
           .select({
-            ...getTableColumns(Accounts),
+            ...getTableColumns(accounts),
           })
-          .from(Accounts)
+          .from(accounts)
           .where(
             and(
-              eq(Accounts.created_by, currentUser || ""),
-              eq(Accounts.is_actived, true),
+              eq(accounts.created_by, currentUser || ""),
+              eq(accounts.is_actived, true),
             ),
           );
 
-        if (accountDataReponse) setAccounts(accountDataReponse);
+        if (accountDataReponse) setAccountData(accountDataReponse);
 
         // Spending Data
         const batchResponse = await db.batch([
@@ -209,7 +209,7 @@ export default function DashboardPage() {
     <div className="grid gap-6">
       <DashboardNav />
       <DashboardTopSection
-        accounts={accounts}
+        accountData={accountData}
         spending={spending}
         isLoading={isLoading}
       />

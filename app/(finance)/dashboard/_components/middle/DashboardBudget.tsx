@@ -1,11 +1,11 @@
-import { BudgetDetail } from "@/types/types";
+import { BudgetData } from "@/types";
 import React from "react";
 import DashboardBudgetItem from "./DashboardBudgetItem";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 type Props = {
-  budget: BudgetDetail[];
+  budget: BudgetData[];
 };
 
 export default function DashboardBudget({ budget }: Props) {

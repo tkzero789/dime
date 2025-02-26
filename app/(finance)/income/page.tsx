@@ -1,106 +1,82 @@
 "use client";
 
 import React from "react";
-import { db } from "@/db/dbConfig";
-import { Income } from "@/db/schema";
-import { desc, eq, getTableColumns, and, lte, gte } from "drizzle-orm";
 import { IncomeBarChart } from "./_components/IncomeBarChart";
-import { useUser } from "@clerk/nextjs";
-import { IncomeDetail } from "@/types/types";
+import { IncomeDetail } from "@/types";
 import IncomeTable from "./_components/IncomeTable";
 import AddIncome from "./_components/AddIncome";
 import FormatMonth from "@/utils/formatMonth";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
-export default function IncomePage() {
-  const { user } = useUser();
-  const currentUser = user?.primaryEmailAddress?.emailAddress;
+type Props = {
+  searchParams: {
+    startDate: string;
+    endDate: string;
+  };
+};
 
-  const [currentYear, setCurrentYear] = React.useState<number>(
-    new Date().getUTCFullYear(),
-  );
+async function getIncomeData(searchParams: {
+  startDate: string;
+  endDate: string;
+}): Promise<IncomeDetail[]> {
+  const params = new URLSearchParams({
+    startDate: searchParams.startDate,
+    endDate: searchParams.endDate,
+  });
+  const response = await fetch(`/api/income?${params.toString()}`);
+  return response.json();
+}
 
-  const firstDayOfYear = `${currentYear}-01-01`;
-  const lastDayOfYear = `${currentYear}-12-31`;
-
-  const [incomeList, setIncomeList] = React.useState<IncomeDetail[]>([]);
-  const [filterIncomeList, setFilterIncomeList] = React.useState<
-    IncomeDetail[]
-  >([]);
-  const [activeMonth, setActiveMonth] = React.useState<string | null>(null);
-  const [selectedMonth, setSelectedMonth] = React.useState<string | null>(null);
-  const [isLoading, setIsLoading] = React.useState<boolean>(true);
-
-  const getIncomeData = React.useCallback(async () => {
-    try {
-      const result = await db
-        .select({ ...getTableColumns(Income) })
-        .from(Income)
-        .where(
-          and(
-            eq(Income.created_by, currentUser ?? ""),
-            gte(Income.date, firstDayOfYear),
-            lte(Income.date, lastDayOfYear),
-          ),
-        )
-        .orderBy(desc(Income.date));
-
-      if (result) {
-        setIncomeList(result);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
+export default function IncomePage({ searchParams }: Props) {
+  const router = useRouter();
+  const [currentYear, setCurrentYear] = React.useState<number>(() => {
+    if (searchParams.startDate && searchParams.endDate) {
+      return new Date(searchParams.startDate).getUTCFullYear();
     }
-  }, [currentUser, firstDayOfYear, lastDayOfYear]);
+    return new Date().getUTCFullYear();
+  });
+  const [selectedMonth, setSelectedMonth] = React.useState<string | null>(null);
+  const currentMonth = selectedMonth
+    ? new Date(Date.parse(`${selectedMonth} 1, 2021`)).getUTCMonth()
+    : new Date().getUTCMonth();
 
-  const getActiveMonthIncome = React.useCallback(
-    (month: number, year: number) => {
-      const filteredIncomeList = incomeList?.filter((income) => {
+  const { data: incomeData, isLoading } = useQuery({
+    queryKey: ["income", currentYear],
+    queryFn: () =>
+      getIncomeData({
+        startDate: `${currentYear}-01-01`,
+        endDate: `${currentYear}-12-31`,
+      }),
+    select: (data) => ({
+      all: data,
+      filtered: data?.filter((income) => {
         const incomeDate = new Date(income.date);
         return (
-          incomeDate.getUTCMonth() === month &&
-          incomeDate.getUTCFullYear() === year
+          incomeDate.getUTCMonth() === currentMonth &&
+          incomeDate.getFullYear() === currentYear
         );
-      });
-
-      setFilterIncomeList(filteredIncomeList);
-    },
-    [incomeList],
-  );
-
-  React.useEffect(() => {
-    if (user) {
-      getIncomeData();
-    }
-  }, [user, getIncomeData]);
-
-  React.useEffect(() => {
-    if (activeMonth === null) {
-      getActiveMonthIncome(new Date().getUTCMonth(), currentYear);
-    } else {
-      const activeMonthIndex = new Date(
-        Date.parse(activeMonth + " 1, 2021"),
-      ).getUTCMonth();
-      getActiveMonthIncome(activeMonthIndex, currentYear);
-    }
-  }, [incomeList, getActiveMonthIncome, currentYear, activeMonth]);
+      }),
+    }),
+  });
 
   const handleBarClick = (month: string, year: string) => {
-    const monthIndex = new Date(Date.parse(month + " 1, 2021")).getUTCMonth();
-    const yearNumber = parseInt(year, 10);
     setSelectedMonth(month);
-    setActiveMonth(month);
-    getActiveMonthIncome(monthIndex, yearNumber);
+    setCurrentYear(parseInt(year, 10));
   };
 
   const handleYearChange = (mode: string) => {
-    if (mode === "previous") {
-      setCurrentYear((prev) => prev - 1);
-    } else {
-      setCurrentYear((prev) => prev + 1);
-    }
+    const newYear = mode === "previous" ? currentYear - 1 : currentYear + 1;
+    const newParams = {
+      startDate: `${newYear}-01-01`,
+      endDate: `${newYear}-12-31`,
+    };
+
+    setCurrentYear(newYear);
+    router.replace(
+      `/income?startDate=${newParams.startDate}&endDate=${newParams.endDate}`,
+    );
   };
 
   return (
@@ -108,7 +84,7 @@ export default function IncomePage() {
       <h2 className="text-2xl font-bold">Income</h2>
       <IncomeBarChart
         currentYear={currentYear}
-        incomeList={incomeList}
+        incomeData={incomeData?.all || []}
         handleBarClick={handleBarClick}
         handleYearChange={handleYearChange}
       />
@@ -132,15 +108,9 @@ export default function IncomePage() {
                 />
               )}
             </h2>
-            <AddIncome
-              currentUser={currentUser || "default"}
-              refreshData={getIncomeData}
-            />
+            <AddIncome />
           </div>
-          <IncomeTable
-            filterIncome={filterIncomeList}
-            refreshData={getIncomeData}
-          />
+          <IncomeTable filteredIncome={incomeData?.filtered || []} />
         </div>
       )}
     </div>

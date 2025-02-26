@@ -1,11 +1,11 @@
 import { Progress } from "@/components/ui/progress";
-import { BudgetDetail } from "@/types/types";
+import { BudgetData } from "@/types";
 import FormatNumber from "@/utils/formatNumber";
 import Link from "next/link";
 import React from "react";
 
 type Props = {
-  budget: BudgetDetail;
+  budget: BudgetData;
 };
 
 export default function DashboardBudgetItem({ budget }: Props) {
@@ -16,12 +16,12 @@ export default function DashboardBudgetItem({ budget }: Props) {
   return (
     <Link
       href={`/budgets/` + budget?.id}
-      className="flex cursor-pointer flex-col rounded-lg border bg-white p-4 hover:border-neutral-400"
+      className="flex cursor-pointer flex-col rounded-2xl border bg-white p-4 hover:border-neutral-400"
     >
       <div className="flex items-center gap-4">
-        <div className="text-3xl">{budget.icon}</div>
+        <div className="text-3xl">{budget.emoji}</div>
         <div className="flex flex-col">
-          <span className="font-medium">{budget.name}</span>
+          <span className="font-medium">{budget.category}</span>
           <span className="font-light text-secondary-foreground">
             {budget.category}
           </span>

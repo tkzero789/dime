@@ -7,11 +7,11 @@ import {
 } from "@/db/schema";
 import {
   BudgetDetailGetData,
-  ExpenseDetail,
+  ExpenseData,
   IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
-} from "@/types/types";
+} from "@/types";
 import { Client } from "pg";
 import { db } from "@/db/dbConfig";
 import { and, eq, getTableColumns, gte, lte } from "drizzle-orm";
@@ -95,7 +95,7 @@ export async function getUserData(userEmail: string) {
 
     let incomeResult: IncomeDetail[] = [];
     let budgetsResult: BudgetDetailGetData[] = [];
-    let budgetExpensesResult: ExpenseDetail[] = [];
+    let budgetExpensesResult: ExpenseData[] = [];
     let singleResult: SingleDetail[] = [];
     let recurringResult: RecurrenceDetail[] = [];
 

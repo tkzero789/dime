@@ -50,7 +50,7 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         "chart-outflow": "hsl(var(--chart-outflow))",
-        "chart-outflow-subtle": "hsl(var(--chart-outflow-subtle))",
+        "chart-outflow-blue": "hsl(var(--chart-outflow-blue))",
         "chart-inflow": "hsl(var(--chart-inflow))",
       },
       borderRadius: {

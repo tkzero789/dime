@@ -23,7 +23,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
-import { BudgetDetail } from "@/types/types";
+import { BudgetData } from "@/types";
 import FormatNumber from "@/utils/formatNumber";
 import { Button } from "@/components/ui/button";
 
@@ -36,7 +36,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 type Props = {
-  budgetList: BudgetDetail[];
+  budgetList: BudgetData[];
   handlePreviousMonth: () => void;
   handleNextMonth: () => void;
   month: number;

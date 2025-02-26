@@ -24,7 +24,7 @@ import { Single } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import toast from "react-hot-toast";
 import { SingleDatePicker } from "./SingleDatePicker";
-import { SingleDetail } from "@/types/types";
+import { SingleDetail } from "@/types";
 import { useRouter } from "next/navigation";
 
 type Props = {

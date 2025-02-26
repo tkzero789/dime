@@ -26,7 +26,7 @@ import { Recurring_rule } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { RecurringRule } from "@/types/types";
+import { RecurringRule } from "@/types";
 
 type Props = {
   recurringInfo: RecurringRule;

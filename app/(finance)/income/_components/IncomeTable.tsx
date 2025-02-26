@@ -13,7 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { IncomeDetail } from "@/types/types";
+import { IncomeDetail } from "@/types";
 import { useUser } from "@clerk/nextjs";
 import FormatDate from "@/utils/formatDate";
 import FormatString from "@/utils/formatString";
@@ -23,17 +23,17 @@ import EditIncome from "./EditIncome";
 import DeleteIncome from "./DeleteIncome";
 
 type Props = {
-  filterIncome: IncomeDetail[];
-  refreshData: () => void;
+  filteredIncome: IncomeDetail[];
+  refreshData?: () => void;
 };
 
-export default function IncomeTable({ filterIncome, refreshData }: Props) {
+export default function IncomeTable({ filteredIncome }: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
   React.useEffect(() => {
     const calculateTotalAmount = () => {
-      const totalAmount = filterIncome.reduce(
+      const totalAmount = filteredIncome.reduce(
         (acc, curr) => acc + Number(curr.amount),
         0,
       );
@@ -43,7 +43,7 @@ export default function IncomeTable({ filterIncome, refreshData }: Props) {
     if (user) {
       calculateTotalAmount();
     }
-  }, [user, filterIncome]);
+  }, [user, filteredIncome]);
 
   const [totalAmount, setTotalAmount] = React.useState<number>(0);
 
@@ -95,8 +95,8 @@ export default function IncomeTable({ filterIncome, refreshData }: Props) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {filterIncome.length > 0 ? (
-          filterIncome.map((income) => (
+        {filteredIncome.length > 0 ? (
+          filteredIncome.map((income) => (
             <TableRow
               key={income.id}
               className={`text-xs font-medium lg:text-sm ${isClick === income.id ? "bg-neutral-100" : ""}`}
@@ -139,12 +139,10 @@ export default function IncomeTable({ filterIncome, refreshData }: Props) {
                       <EditIncome
                         currentUser={currentUser || "default"}
                         incomeInfo={income}
-                        refreshData={refreshData}
                       />
                       <DeleteIncome
                         currentUser={currentUser || "default"}
                         incomeId={income.id}
-                        refreshData={refreshData}
                       />
                     </div>
                   </PopoverContent>

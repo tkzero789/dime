@@ -13,7 +13,7 @@ export default function SpendingBarCustomTooltip({ active, payload }: Props) {
       <div className="flex flex-col gap-1 rounded-lg border bg-white p-2 shadow-md">
         <p className="font-bold">{payload[0].payload.month.split(" ")[0]}</p>
         <div className="flex items-center gap-2">
-          <div className="bg-chart-inflow block h-3 w-3 rounded-sm"></div>
+          <div className="block h-3 w-3 rounded-sm bg-chart-inflow"></div>
           <p>
             Income:{" "}
             <span className="font-bold">
@@ -22,7 +22,7 @@ export default function SpendingBarCustomTooltip({ active, payload }: Props) {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="bg-chart-outflow block h-3 w-3 rounded-sm"></div>
+          <div className="bg-chart-outflow-blue block h-3 w-3 rounded-sm"></div>
           <p>
             Spending:{" "}
             <span className="font-bold">

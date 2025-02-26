@@ -1,7 +1,7 @@
 import React from "react";
 import { CalendarDays, EllipsisVertical, PiggyBank } from "lucide-react";
 import Link from "next/link";
-import { AccountDetail } from "@/types/types";
+import { AccountDataType } from "@/types";
 // import FormatString from "@/utils/formatString";
 import FormatNumber from "@/utils/formatNumber";
 import Image from "next/image";
@@ -10,10 +10,10 @@ import AddAccount from "@/app/(finance)/accounts/_components/AddAccount";
 import { Button } from "@/components/ui/button";
 
 type Props = {
-  accounts: AccountDetail[];
+  accountData: AccountDataType[];
 };
 
-export default function DashboardAccount({ accounts }: Props) {
+export default function DashboardAccount({ accountData }: Props) {
   return (
     <div className="flex h-full flex-col gap-4 rounded-2xl bg-white p-6 shadow-card-shadow">
       <div className="flex items-center justify-between">
@@ -27,7 +27,7 @@ export default function DashboardAccount({ accounts }: Props) {
             {/* Top */}
             <div className="flex items-center justify-between">
               <div className="text-lg font-semibold text-white">
-                {accounts[0]?.name}
+                {accountData[0]?.name}
               </div>
               <Button
                 size="icon"
@@ -43,7 +43,7 @@ export default function DashboardAccount({ accounts }: Props) {
             <div className="flex justify-between">
               <div className="flex flex-col gap-1">
                 <div className="text-2xl tracking-wide text-white">
-                  ${<FormatNumber number={Number(accounts[0]?.debt)} />}
+                  ${<FormatNumber number={Number(accountData[0]?.debt)} />}
                 </div>
                 <div className="text-xs tracking-wide text-white/50">
                   Current balance
@@ -51,7 +51,7 @@ export default function DashboardAccount({ accounts }: Props) {
               </div>
               <div className="flex flex-col gap-1">
                 <div className="text-2xl tracking-wide text-white">
-                  ${<FormatNumber number={Number(accounts[0]?.amount)} />}
+                  ${<FormatNumber number={Number(accountData[0]?.amount)} />}
                 </div>
                 <div className="text-xs tracking-wide text-white/50">
                   Available credit

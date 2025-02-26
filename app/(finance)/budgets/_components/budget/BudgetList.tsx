@@ -2,11 +2,11 @@
 
 import React from "react";
 import BudgetItem from "./BudgetItem";
-import { BudgetDetail } from "@/types/types";
+import { BudgetData } from "@/types";
 import { Banknote } from "lucide-react";
 
 type Props = {
-  budgetList: BudgetDetail[];
+  budgetList: BudgetData[];
 };
 
 export default function BudgetList({ budgetList }: Props) {

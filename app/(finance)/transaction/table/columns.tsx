@@ -12,7 +12,7 @@ import {
   IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
-} from "@/types/types";
+} from "@/types";
 import getTransactionCategory from "@/utils/getTransactionCategory";
 
 export type Transaction =

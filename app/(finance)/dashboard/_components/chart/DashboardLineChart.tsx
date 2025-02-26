@@ -15,7 +15,7 @@ import {
   ChartContainer,
   ChartTooltip,
 } from "@/components/ui/chart";
-import { ExpenseDetail, RecurrenceDetail, SingleDetail } from "@/types/types";
+import { ExpenseData, RecurrenceDetail, SingleDetail } from "@/types";
 import GetCurrentMonth from "@/utils/getCurrentMonth";
 import LineCustomTooltip from "./LineCustomTooltip";
 import useWindowSize from "@/hooks/useWindowSize";
@@ -29,12 +29,12 @@ const chartConfig = {
   },
   prev: {
     label: "Prev",
-    color: "hsl(var(--chart-outflow-subtle))",
+    color: "hsl(var(--chart-outflow-blue))",
   },
 } satisfies ChartConfig;
 
 type Props = {
-  spending: (ExpenseDetail | RecurrenceDetail | SingleDetail)[];
+  spending: (ExpenseData | RecurrenceDetail | SingleDetail)[];
 };
 
 export function DashboardLineChart({ spending }: Props) {
@@ -67,10 +67,10 @@ export function DashboardLineChart({ spending }: Props) {
   const addedItemsSet = new Set<string>();
 
   const mergedSpendingList = allDates.map((date) => {
-    const currentItems: (ExpenseDetail | RecurrenceDetail | SingleDetail)[] =
+    const currentItems: (ExpenseData | RecurrenceDetail | SingleDetail)[] =
       currentSpendingList.filter((item) => item.date === date);
 
-    const prevItems: (ExpenseDetail | RecurrenceDetail | SingleDetail)[] =
+    const prevItems: (ExpenseData | RecurrenceDetail | SingleDetail)[] =
       prevSpendingList.filter((item) => {
         const itemDate = new Date(item.date);
         const isSameDate =

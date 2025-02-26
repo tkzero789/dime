@@ -1,11 +1,11 @@
 import { Progress } from "@/components/ui/progress";
-import { BudgetDetail } from "@/types/types";
+import { BudgetData } from "@/types";
 import FormatNumber from "@/utils/formatNumber";
 import Link from "next/link";
 import React from "react";
 
 type Props = {
-  budget: BudgetDetail;
+  budget: BudgetData;
 };
 
 export default function BudgetItem({ budget }: Props) {
@@ -19,9 +19,9 @@ export default function BudgetItem({ budget }: Props) {
       className="flex flex-1 cursor-pointer flex-col rounded-2xl bg-white p-4 shadow-card-shadow transition-all hover:shadow-card-hover"
     >
       <div className="flex items-center gap-4">
-        <div className="text-3xl">{budget.icon}</div>
+        <div className="text-3xl">{budget.emoji}</div>
         <div className="flex flex-col">
-          <span className="font-medium">{budget.name}</span>
+          <span className="font-medium">{budget.category}</span>
           <span className="text-sm font-light text-secondary-foreground">
             {budget.category}
           </span>

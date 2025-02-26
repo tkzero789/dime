@@ -11,7 +11,7 @@ import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DeleteSingle from "./DeleteSingle";
 
-import { SingleDetail } from "@/types/types";
+import { SingleDetail } from "@/types";
 import EditSingle from "./EditSingle";
 import { useUser } from "@clerk/nextjs";
 

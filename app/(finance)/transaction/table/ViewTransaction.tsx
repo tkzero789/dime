@@ -9,12 +9,12 @@ import {
 import { CircleChevronRight } from "lucide-react";
 import Link from "next/link";
 import {
-  ExpenseDetail,
+  ExpenseData,
   ExpenseDetailWithCategory,
   IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
-} from "@/types/types";
+} from "@/types";
 import FormatString from "@/utils/formatString";
 import FormatNumber from "@/utils/formatNumber";
 import FormatDate from "@/utils/formatDate";
@@ -34,7 +34,7 @@ export default function ViewTransaction({ transactionDetail }: Props) {
   const isExpenseDetail = (
     detail: Props["transactionDetail"],
   ): detail is ExpenseDetailWithCategory => {
-    return (detail as ExpenseDetail).budget_id !== undefined;
+    return (detail as ExpenseData).budget_id !== undefined;
   };
 
   const getCategory = (category: string) => {

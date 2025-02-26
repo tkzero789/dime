@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/popover";
 import AddIncome from "./AddIncome";
 import { useUser } from "@clerk/nextjs";
-import { IncomeDetail } from "@/types/types";
+import { IncomeDetail } from "@/types";
 import FormatDate from "@/utils/formatDate";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";

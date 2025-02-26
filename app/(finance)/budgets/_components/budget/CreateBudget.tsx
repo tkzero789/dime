@@ -6,7 +6,6 @@ import {
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -25,93 +24,17 @@ import { Input } from "@/components/ui/input";
 import { Budgets } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { db } from "@/db/dbConfig";
-import {
-  BadgeDollarSign,
-  BriefcaseMedical,
-  Building2,
-  Car,
-  Drama,
-  HeartHandshake,
-  Martini,
-  PawPrint,
-  Plane,
-  Plus,
-  School,
-  ShoppingBag,
-  ShoppingCart,
-} from "lucide-react";
+import { Plus } from "lucide-react";
 import { and, count, eq, gte, lte } from "drizzle-orm";
 import toast from "react-hot-toast";
+import BudgetCategory from "./BudgetCategory";
+import { NewBudgetType } from "@/types";
 
 type Props = {
   refreshData: () => void;
 };
 
 export default function CreateBudget({ refreshData }: Props) {
-  // Budget types list
-  const budgetCategory = [
-    {
-      icon: Car,
-      color: "#000000",
-      name: "Auto & Transport",
-    },
-    {
-      icon: Building2,
-      color: "#000000",
-      name: "Business",
-    },
-    {
-      icon: Martini,
-      color: "#000000",
-      name: "Dining & Drinks",
-    },
-    {
-      icon: School,
-      color: "#000000",
-      name: "Education",
-    },
-    {
-      icon: Drama,
-      color: "#000000",
-      name: "Entertainment",
-    },
-    {
-      icon: HeartHandshake,
-      color: "#000000",
-      name: "Gifts & Donations",
-    },
-    {
-      icon: ShoppingCart,
-      color: "#000000",
-      name: "Groceries",
-    },
-    {
-      icon: BriefcaseMedical,
-      color: "#000000",
-      name: "Medical",
-    },
-    {
-      icon: PawPrint,
-      color: "#000000",
-      name: "Pets",
-    },
-    {
-      icon: ShoppingBag,
-      color: "#000000",
-      name: "Shopping",
-    },
-    {
-      icon: Plane,
-      color: "#000000",
-      name: "Travel & Vacation",
-    },
-    {
-      icon: BadgeDollarSign,
-      color: "#000000",
-      name: "Others",
-    },
-  ];
-
   const months = [
     "January",
     "February",
@@ -130,12 +53,15 @@ export default function CreateBudget({ refreshData }: Props) {
   const currentMonthIndex = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
 
-  const [emoji, setEmoji] = React.useState<string>("");
+  const [newBudget, setNewBudget] = React.useState<NewBudgetType>({
+    amount: "",
+    category: "",
+    emoji: "",
+    month: 0,
+    year: currentYear,
+  });
+
   const [openEmoji, setOpenEmoji] = React.useState(false);
-  const [name, setName] = React.useState<string>("");
-  const [month, setMonth] = React.useState<number | null>(null);
-  const [category, setCategory] = React.useState<string>("");
-  const [amount, setAmount] = React.useState<string>("");
   const [isExceed, setIsExceed] = React.useState<boolean>(false);
 
   const getPreviousMonths = (currentMonthIndex: number, count: number) => {
@@ -153,9 +79,8 @@ export default function CreateBudget({ refreshData }: Props) {
   // Create new budget
   const onCreateBudget = async () => {
     if (
-      !name ||
-      !amount ||
-      month === null ||
+      !newBudget.amount ||
+      !newBudget.month === null ||
       !currentYear ||
       !user?.primaryEmailAddress?.emailAddress
     ) {
@@ -167,12 +92,11 @@ export default function CreateBudget({ refreshData }: Props) {
     const result = await db
       .insert(Budgets)
       .values({
-        name: name,
-        amount: amount,
-        icon: emoji,
-        month: month,
+        amount: newBudget.amount,
+        emoji: newBudget.emoji,
+        month: newBudget.month,
         year: currentYear,
-        category: category,
+        category: newBudget.category,
         created_by: user?.primaryEmailAddress?.emailAddress,
       })
       .returning({ insertedId: Budgets.id });
@@ -186,7 +110,6 @@ export default function CreateBudget({ refreshData }: Props) {
   // Check the amount of budgets of current month
   const checkBudgetAmount = async () => {
     handleClearInput();
-    // Count the total budgets of the current month
     const currentDate = new Date();
     const firstDayOfMonth = new Date(
       currentDate.getFullYear(),
@@ -204,152 +127,128 @@ export default function CreateBudget({ refreshData }: Props) {
         ),
       );
 
-    // If more than 14 budgets in current month
     const budgetCountResult = budgetCount[0]?.count;
     if (budgetCountResult > 13) {
       setIsExceed(true);
     }
   };
 
-  // Clear input
+  const handleFormChange = (
+    field: keyof NewBudgetType,
+    value: string | number,
+  ) => {
+    setNewBudget((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
   const handleClearInput = () => {
-    setName("");
-    setMonth(null);
-    setEmoji("");
-    setCategory("");
-    setAmount("");
+    setNewBudget({
+      amount: "",
+      category: "",
+      emoji: "",
+      month: 0,
+      year: currentYear,
+    });
   };
 
   return (
-    <>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button className="gap-2" onClick={checkBudgetAmount}>
-            <Plus className="h-6 w-6" strokeWidth={1.5} />
-            New budget
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
-          <DialogHeader>
-            <DialogTitle className="text-center">Create New Budget</DialogTitle>
-            {isExceed ? (
-              <DialogDescription>Cannot create more</DialogDescription>
-            ) : (
-              <DialogDescription className="flex flex-col gap-4 pt-4">
-                {/* Name */}
-                <Input
-                  placeholder="Budget name"
-                  onChange={(e) => setName(e.target.value)}
-                />
-                {/* Month */}
-                <Select
-                  value={month !== null ? month.toString() : ""}
-                  onValueChange={(value) => setMonth(Number(value))}
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="gap-2" onClick={checkBudgetAmount}>
+          <Plus className="h-6 w-6" strokeWidth={1.5} />
+          New budget
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Create New Budget</DialogTitle>
+          <DialogDescription />
+        </DialogHeader>
+        {!isExceed && (
+          <form className="grid gap-8">
+            <div className="grid gap-4">
+              {/* Month */}
+              <Select
+                value={
+                  newBudget.month !== null ? newBudget.month.toString() : ""
+                }
+                onValueChange={(value) => handleFormChange("month", value)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select month" />
+                </SelectTrigger>
+                <SelectContent>
+                  {previousMonths.map((m, index) => (
+                    <SelectItem key={m.index} value={m.index.toString()}>
+                      {index === 0 ? "Current month - " + m.name : m.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div className="flex items-center gap-2">
+                {/* Emoji selection */}
+                <Button
+                  variant="outline"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOpenEmoji(!openEmoji);
+                  }}
                 >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select month" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {previousMonths.map((m, index) => (
-                      <SelectItem key={m.index} value={m.index.toString()}>
-                        {index === 0 ? "Current month - " + m.name : m.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                <div className="flex items-center gap-2">
-                  {/* Emoji selection */}
-                  <Button
-                    variant="outline"
-                    onClick={() => setOpenEmoji(!openEmoji)}
-                  >
-                    {emoji ? emoji : "Icon"}
-                  </Button>
-                  {/* Budget category */}
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="outline" className="flex-1 border">
-                        {category || "Budget category"}
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>What is this budget for?</DialogTitle>
-                        <DialogDescription>
-                          <div className="item flex max-h-96 flex-col overflow-y-auto">
-                            {budgetCategory.map((item, index) => (
-                              <div
-                                key={index}
-                                className="flex items-center py-4 pr-4"
-                              >
-                                <item.icon
-                                  color={item.color}
-                                  strokeWidth={1.5}
-                                  className="h-[30px] w-[30px]"
-                                />
-                                <span className="pl-4 text-base font-semibold lg:pl-6">
-                                  {item.name}
-                                </span>
-                                <DialogClose asChild>
-                                  <Button
-                                    className="ml-auto"
-                                    onClick={() => setCategory(item.name)}
-                                  >
-                                    Select
-                                  </Button>
-                                </DialogClose>
-                              </div>
-                            ))}
-                          </div>
-                        </DialogDescription>
-                      </DialogHeader>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-                {/* Emoji pop-up */}
-                <div className="absolute z-10">
-                  <EmojiPicker
-                    open={openEmoji}
-                    emojiStyle={EmojiStyle.TWITTER}
-                    onEmojiClick={(e) => {
-                      setEmoji(e.emoji);
-                      setOpenEmoji(false);
-                    }}
-                  />
-                </div>
-                {/* Amount */}
-                <Input
-                  type="number"
-                  placeholder="Amount"
-                  className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  onChange={(e) => {
-                    const value = parseFloat(e.target.value);
-                    if (value > 0) {
-                      setAmount(e.target.value);
-                    } else {
-                      e.target.value = "";
-                    }
+                  {newBudget.emoji ? newBudget.emoji : "Emoji"}
+                </Button>
+                {/* Budget category */}
+                <BudgetCategory
+                  category={newBudget.category}
+                  handleFormChange={handleFormChange}
+                />
+              </div>
+              {/* Emoji pop-up */}
+              <div className="absolute z-10">
+                <EmojiPicker
+                  open={openEmoji}
+                  emojiStyle={EmojiStyle.TWITTER}
+                  onEmojiClick={(e) => {
+                    handleFormChange("emoji", e.emoji);
+                    setOpenEmoji(false);
                   }}
                 />
-              </DialogDescription>
-            )}
-          </DialogHeader>
-          <DialogFooter className="flex-col sm:justify-start">
+              </div>
+              {/* Amount */}
+              <Input
+                type="number"
+                placeholder="Amount"
+                onChange={(e) => {
+                  const value = Number(e.target.value);
+                  if (value > 0) {
+                    handleFormChange("amount", value);
+                  } else {
+                    e.target.value = "";
+                  }
+                }}
+              />
+            </div>
             <DialogClose asChild>
               <Button
                 className="w-full"
                 disabled={
-                  !(emoji && name && amount && month !== null && category)
+                  !(
+                    newBudget.emoji &&
+                    newBudget.amount &&
+                    newBudget.month !== null &&
+                    newBudget.category
+                  )
                 }
                 onClick={() => onCreateBudget()}
               >
                 Create budget
               </Button>
             </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </>
+          </form>
+        )}
+        {isExceed && <div>Budget amount exceeded</div>}
+      </DialogContent>
+    </Dialog>
   );
 }

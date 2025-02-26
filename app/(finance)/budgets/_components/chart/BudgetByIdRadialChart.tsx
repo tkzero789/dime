@@ -17,7 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { BudgetDetail } from "@/types/types";
+import { BudgetData } from "@/types";
 import FormatNumber from "@/utils/formatNumber";
 
 const chartConfig = {
@@ -32,7 +32,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 type Props = {
-  budget: BudgetDetail[];
+  budget: BudgetData[];
 };
 
 export function BudgetByIdRadialChart({ budget }: Props) {

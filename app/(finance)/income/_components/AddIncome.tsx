@@ -25,14 +25,16 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
 import { Income } from "@/db/schema";
 import { IncomeDatePicker } from "./IncomeDatePicker";
-import toast from "react-hot-toast";
+import { useUser } from "@clerk/nextjs";
 
-type Props = {
-  currentUser: string | undefined;
-  refreshData: () => void;
-};
+// type Props = {
 
-export default function AddIncome({ currentUser, refreshData }: Props) {
+//   refreshData?: () => void;
+// };
+
+export default function AddIncome() {
+  const { user } = useUser();
+
   const [name, setName] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
   const [category, setCategory] = React.useState<string>("");
@@ -40,7 +42,7 @@ export default function AddIncome({ currentUser, refreshData }: Props) {
   const [date, setDate] = React.useState<Date>(new Date());
 
   const addNewIncome = async () => {
-    if (!amount || !date || !category || !method || !currentUser) {
+    if (!amount || !date || !category || !method || !user) {
       window.alert("Missing required information");
       return;
     }
@@ -52,14 +54,16 @@ export default function AddIncome({ currentUser, refreshData }: Props) {
         date: date?.toISOString(),
         category: category,
         payment_method: method,
-        created_by: currentUser,
+        created_by: user?.primaryEmailAddress?.emailAddress || "",
       })
       .returning({ insertedId: Income.id });
 
-    if (result) {
-      toast.success("New Income Added!");
-      refreshData();
-    }
+    console.log(result);
+
+    // if (result) {
+    //   toast.success("New Income Added!");
+    //   refreshData();
+    // }
   };
 
   const handleClearInput = () => {

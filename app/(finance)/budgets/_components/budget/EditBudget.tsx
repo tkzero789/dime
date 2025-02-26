@@ -5,7 +5,7 @@ import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
 import { Button } from "@/components/ui/button";
 import { PenBox } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { BudgetDetail } from "@/types/types";
+import { BudgetData } from "@/types";
 import { db } from "@/db/dbConfig";
 import { Budgets } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
@@ -37,7 +37,7 @@ import toast from "react-hot-toast";
 import { PopoverClose } from "@radix-ui/react-popover";
 
 type Props = {
-  budgetInfo: BudgetDetail[];
+  budgetInfo: BudgetData[];
   currentUser: string | undefined;
   refreshData: () => void;
 };
@@ -114,23 +114,18 @@ export default function EditBudget({
   const [emoji, setEmoji] = React.useState<string>("");
   const [initialEmoji, setInitialEmoji] = React.useState<string>("");
   const [openEmoji, setOpenEmoji] = React.useState(false);
-
   const [category, setCategory] = React.useState<string>("");
   const [initialCategory, setInitalCategory] = React.useState<string>("");
-
-  const [name, setName] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
 
   // Edit budget
   const onUpdateBudget = async () => {
-    const updatedName = name || budgetInfo[0]?.name;
     const updatedAmount = amount || budgetInfo[0]?.amount;
     const result = await db
       .update(Budgets)
       .set({
-        name: updatedName,
         amount: updatedAmount,
-        icon: emoji,
+        emoji: emoji,
         category: category,
       })
       .where(
@@ -149,8 +144,8 @@ export default function EditBudget({
 
   // On click edit (reset to original)
   const handleOnClickEdit = () => {
-    setInitialEmoji(budgetInfo[0]?.icon || "");
-    setEmoji(budgetInfo[0]?.icon || "");
+    setInitialEmoji(budgetInfo[0]?.emoji || "");
+    setEmoji(budgetInfo[0]?.emoji || "");
     setInitalCategory(budgetInfo[0]?.category);
     setCategory(budgetInfo[0]?.category);
   };
@@ -174,11 +169,6 @@ export default function EditBudget({
         <DialogHeader>
           <DialogTitle className="text-center">Edit Budget</DialogTitle>
           <DialogDescription className="flex flex-col gap-4 pt-4">
-            {/* Name */}
-            <Input
-              defaultValue={budgetInfo[0]?.name}
-              onChange={(e) => setName(e.target.value)}
-            />
             <div className="flex items-center gap-2">
               {/* Emoji selection */}
               <Button
@@ -254,7 +244,6 @@ export default function EditBudget({
               className="w-full"
               disabled={
                 !(
-                  name ||
                   amount ||
                   emoji !== initialEmoji ||
                   category !== initialCategory

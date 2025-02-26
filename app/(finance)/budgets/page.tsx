@@ -6,16 +6,16 @@ import { db } from "@/db/dbConfig";
 import { and, desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { Budgets, BudgetExpenses } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
-import { BudgetDetail } from "@/types/types";
 import { BudgetRadialChart } from "./_components/chart/BudgetRadialChart";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import BudgetNav from "./_components/nav/BudgetNav";
+import { BudgetData } from "@/types";
 
 export default function BudgetsPage() {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress ?? "";
-  const [budgetList, setBudgetList] = React.useState<BudgetDetail[]>([]);
+  const [budgetList, setBudgetList] = React.useState<BudgetData[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   const currentDate = new Date();

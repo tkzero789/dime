@@ -1,10 +1,10 @@
 import {
-  BudgetDetail,
-  ExpenseDetail,
+  BudgetData,
+  ExpenseDetailWithCategory,
   IncomeDetail,
   RecurrenceDetail,
   SingleDetail,
-} from "@/types/types";
+} from "@/types";
 import React from "react";
 import { DashboardTable } from "./DashboardTable";
 import Link from "next/link";
@@ -12,18 +12,14 @@ import DashboardBudget from "./DashboardBudget";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { Button } from "@/components/ui/button";
 
-type NewExpenseDetail = ExpenseDetail & {
-  category: string;
-};
-
 type Props = {
   allData: (
     | IncomeDetail
-    | NewExpenseDetail
+    | ExpenseDetailWithCategory
     | RecurrenceDetail
     | SingleDetail
   )[];
-  budget: BudgetDetail[];
+  budget: BudgetData[];
   isLoading: boolean;
 };
 

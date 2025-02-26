@@ -1,5 +1,22 @@
-// account
-export type AccountDetail = {
+// Mutation type ========================
+export type AddAccountType = {
+  name: string;
+  type: string;
+  amount: string;
+  debt: string;
+  color: string;
+};
+
+export type NewBudgetType = {
+  amount: string;
+  category: string;
+  emoji: string | null;
+  month: number;
+  year: number;
+};
+
+// Query type ========================
+export type AccountDataType = {
   id: string;
   name: string;
   type: string;
@@ -11,13 +28,11 @@ export type AccountDetail = {
   created_at: Date;
 };
 
-// budget
-export type BudgetDetail = {
+export type BudgetData = {
   id: string;
-  name: string;
   amount: string;
   category: string;
-  icon: string | null;
+  emoji: string | null;
   month: number;
   year: number;
   total_item: number;
@@ -29,18 +44,16 @@ export type BudgetDetail = {
 
 export type BudgetDetailGetData = {
   id: string;
-  name: string;
   amount: string;
   category: string;
-  icon: string | null;
+  emoji: string | null;
   month: number;
   year: number;
   created_by: string;
   created_at: Date;
 };
 
-// expense
-export type ExpenseDetail = {
+export type ExpenseData = {
   id: string;
   budget_id: string | null;
   name: string;
@@ -51,12 +64,10 @@ export type ExpenseDetail = {
   created_at: Date;
 };
 
-// expense with category
-export type ExpenseDetailWithCategory = ExpenseDetail & {
+export type ExpenseDetailWithCategory = ExpenseData & {
   category: string;
 };
 
-// income
 export type IncomeDetail = {
   id: string;
   name: string;
@@ -68,7 +79,6 @@ export type IncomeDetail = {
   created_at: Date;
 };
 
-// recurrence
 export type RecurrenceDetail = {
   id: string;
   name: string;
@@ -80,7 +90,6 @@ export type RecurrenceDetail = {
   created_at: Date;
 };
 
-// recurring_rule
 export type RecurringRule = {
   id: string;
   name: string;
@@ -94,7 +103,6 @@ export type RecurringRule = {
   is_actived: boolean;
 };
 
-// single payment
 export type SingleDetail = {
   id: string;
   name: string;
