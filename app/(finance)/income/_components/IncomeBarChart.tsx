@@ -77,7 +77,7 @@ export function IncomeBarChart({
     : aggregatedData.slice(6, 12);
 
   return (
-    <Card className="mt-8 rounded-lg border shadow-md">
+    <Card className="mt-8">
       <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:flex-row lg:items-center">
         <div className="flex items-center gap-4">
           <Button

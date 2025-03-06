@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Skeleton } from "./skeleton";
 
 type Props = {
@@ -18,7 +19,9 @@ export function CardSkeleton({
   const customeTitleWidth = titleWidth;
   const customStyle = style;
   return (
-    <div className={`rounded-lg border bg-white p-6 shadow-md ${customStyle}`}>
+    <div
+      className={cn("rounded-xl bg-white p-6 shadow-card-shadow", customStyle)}
+    >
       {title && (
         <Skeleton
           className="mb-4 h-7 w-full bg-gray-200"

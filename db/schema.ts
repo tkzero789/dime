@@ -44,7 +44,7 @@ export const BudgetExpenses = pgTable("budget_expenses", {
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const Income = pgTable("income", {
+export const income = pgTable("income", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: varchar("name").notNull(),
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),

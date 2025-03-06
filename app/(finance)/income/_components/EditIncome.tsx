@@ -17,11 +17,11 @@ import {
 } from "@/components/ui/select";
 import { Pencil } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { IncomeDatePicker } from "./IncomeDatePicker";
+// import { IncomeDatePicker } from "./IncomeDatePicker";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
-import { Income } from "@/db/schema";
+import { income } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { IncomeDetail } from "@/types";
 
@@ -64,7 +64,7 @@ export default function EditIncome({ currentUser, incomeInfo }: Props) {
     const updateCategory = incomeCategory || incomeInfo.category;
     const updateMethod = incomeMethod || incomeInfo.payment_method;
     const result = await db
-      .update(Income)
+      .update(income)
       .set({
         name: updateName,
         amount: updatedAmount,
@@ -74,8 +74,8 @@ export default function EditIncome({ currentUser, incomeInfo }: Props) {
       })
       .where(
         and(
-          eq(Income.id, incomeInfo.id),
-          eq(Income.created_by, currentUser ?? ""),
+          eq(income.id, incomeInfo.id),
+          eq(income.created_by, currentUser ?? ""),
         ),
       )
       .returning();
@@ -95,7 +95,7 @@ export default function EditIncome({ currentUser, incomeInfo }: Props) {
   return (
     <Dialog>
       <DialogTrigger
-        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-neutral-200"
+        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-muted"
         onClick={handleOnClickEdit}
       >
         <span className="pl-4">
@@ -118,7 +118,7 @@ export default function EditIncome({ currentUser, incomeInfo }: Props) {
               defaultValue={Number(incomeInfo.amount)}
               onChange={(e) => setIncomeAmount(e.target.value)}
             />
-            <IncomeDatePicker date={incomeDate} setDate={setIncomeDate} />
+            {/* <IncomeDatePicker date={incomeDate} setDate={setIncomeDate} /> */}
             <Select
               value={incomeCategory}
               onValueChange={(value) => setIncomeCategory(value)}

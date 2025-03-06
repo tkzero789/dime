@@ -1,5 +1,5 @@
 import {
-  AccountDataType,
+  AccountData,
   ExpenseData,
   RecurrenceDetail,
   SingleDetail,
@@ -10,7 +10,7 @@ import { CardSkeleton } from "@/components/ui/card-skeleton";
 import DashboardAccount from "./DashboardAccount";
 
 type Props = {
-  accountData: AccountDataType[];
+  accountData: AccountData[];
   spending: (ExpenseData | RecurrenceDetail | SingleDetail)[];
   isLoading: boolean;
 };
@@ -28,7 +28,7 @@ export default function DashboardTopSection({
             title={true}
             titleWidth={30}
             rectangle={1}
-            height={26}
+            height={18}
           />
         ) : (
           <DashboardLineChart spending={spending} />
@@ -40,7 +40,7 @@ export default function DashboardTopSection({
             title={true}
             titleWidth={40}
             rectangle={1}
-            height={26}
+            height={18}
           />
         ) : (
           <DashboardAccount accountData={accountData} />

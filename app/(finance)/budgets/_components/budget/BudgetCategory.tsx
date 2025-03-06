@@ -23,7 +23,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { NewBudgetType } from "@/types";
+import { BudgetState } from "@/types";
 
 const budgetCategory = [
   {
@@ -90,10 +90,7 @@ const budgetCategory = [
 
 type Props = {
   category: string;
-  handleFormChange: (
-    field: keyof NewBudgetType,
-    value: string | number,
-  ) => void;
+  handleFormChange: (field: keyof BudgetState, value: string | number) => void;
 };
 
 export default function BudgetCategory({ category, handleFormChange }: Props) {

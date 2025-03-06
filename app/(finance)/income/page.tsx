@@ -2,13 +2,13 @@
 
 import React from "react";
 import { IncomeBarChart } from "./_components/IncomeBarChart";
-import { IncomeDetail } from "@/types";
 import IncomeTable from "./_components/IncomeTable";
 import AddIncome from "./_components/AddIncome";
 import FormatMonth from "@/utils/formatMonth";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { getIncomeData } from "@/lib/api/income";
 
 type Props = {
   searchParams: {
@@ -16,18 +16,6 @@ type Props = {
     endDate: string;
   };
 };
-
-async function getIncomeData(searchParams: {
-  startDate: string;
-  endDate: string;
-}): Promise<IncomeDetail[]> {
-  const params = new URLSearchParams({
-    startDate: searchParams.startDate,
-    endDate: searchParams.endDate,
-  });
-  const response = await fetch(`/api/income?${params.toString()}`);
-  return response.json();
-}
 
 export default function IncomePage({ searchParams }: Props) {
   const router = useRouter();
@@ -81,7 +69,7 @@ export default function IncomePage({ searchParams }: Props) {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold">Income</h2>
+      <h1 className="text-2xl font-bold">Income</h1>
       <IncomeBarChart
         currentYear={currentYear}
         incomeData={incomeData?.all || []}
@@ -97,7 +85,7 @@ export default function IncomePage({ searchParams }: Props) {
           style="mt-4 xl:mt-8"
         />
       ) : (
-        <div className="mt-4 h-fit rounded-lg border bg-white p-6 shadow-md xl:mt-8">
+        <div className="mt-4 h-fit rounded-2xl bg-white p-6 shadow-card-shadow xl:mt-8">
           <div className="flex items-center justify-between pb-4">
             <h2 className="text-xl font-bold">
               {selectedMonth ? (

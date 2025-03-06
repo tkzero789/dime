@@ -25,13 +25,13 @@ import { useUser } from "@clerk/nextjs";
 import { db } from "@/db/dbConfig";
 import { accounts } from "@/db/schema";
 import toast from "react-hot-toast";
-import { AddAccountType } from "@/types";
+import { AccountState } from "@/types";
 
 export default function AddAccount() {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
-  const [addAccount, setAddAccount] = React.useState<AddAccountType>({
+  const [addAccount, setAddAccount] = React.useState<AccountState>({
     name: "",
     type: "",
     amount: "",
@@ -39,7 +39,7 @@ export default function AddAccount() {
     color: "from-blue-600 to-blue-800",
   });
 
-  const handleFormChange = (field: keyof AddAccountType, value: string) => {
+  const handleFormChange = (field: keyof AccountState, value: string) => {
     setAddAccount((prev) => ({
       ...prev,
       [field]: value,

@@ -14,13 +14,14 @@ import {
 } from "@/components/ui/popover";
 import "@/css/calendar.css";
 import { SelectSingleEventHandler } from "react-day-picker";
+import { IncomeState } from "@/types";
 
 type Props = {
   date: Date;
-  setDate: (date: Date) => void;
+  handleFormChange: (field: keyof IncomeState, value: string | Date) => void;
 };
 
-export function IncomeDatePicker({ date, setDate }: Props) {
+export function IncomeDatePicker({ date, handleFormChange }: Props) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const currentDate = new Date();
   const fromMonth = new Date(1900, 0);
@@ -28,7 +29,7 @@ export function IncomeDatePicker({ date, setDate }: Props) {
 
   const handleOnSelect: SelectSingleEventHandler = (date) => {
     if (date) {
-      setDate(date);
+      handleFormChange("date", date);
     }
     setIsOpen(false);
   };
@@ -38,7 +39,7 @@ export function IncomeDatePicker({ date, setDate }: Props) {
         <Button
           variant="outline"
           className={cn(
-            "w-full justify-start text-left font-normal",
+            "h-12 w-full justify-start rounded-xl text-left text-base font-normal",
             !date && "text-muted-foreground",
           )}
         >

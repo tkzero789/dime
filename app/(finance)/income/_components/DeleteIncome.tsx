@@ -13,7 +13,7 @@ import {
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Trash2 } from "lucide-react";
 import { db } from "@/db/dbConfig";
-import { Income } from "@/db/schema";
+import { income } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { Button } from "@/components/ui/button";
 
@@ -26,9 +26,9 @@ export default function DeleteIncome({ currentUser, incomeId }: Props) {
   //Delete income
   const deleteIncome = async (incomeId: string) => {
     const result = await db
-      .delete(Income)
+      .delete(income)
       .where(
-        and(eq(Income.id, incomeId), eq(Income.created_by, currentUser ?? "")),
+        and(eq(income.id, incomeId), eq(income.created_by, currentUser ?? "")),
       )
       .returning();
 
@@ -37,7 +37,7 @@ export default function DeleteIncome({ currentUser, incomeId }: Props) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-neutral-200">
+      <AlertDialogTrigger className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-muted">
         <span className="pl-4">
           <Trash2 strokeWidth={2} className="h-4 w-4" color="#555353" />
         </span>

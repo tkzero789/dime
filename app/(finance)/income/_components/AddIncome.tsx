@@ -5,8 +5,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -18,104 +16,146 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-import { CirclePlus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { db } from "@/db/dbConfig";
-import { Income } from "@/db/schema";
 import { IncomeDatePicker } from "./IncomeDatePicker";
-import { useUser } from "@clerk/nextjs";
-
-// type Props = {
-
-//   refreshData?: () => void;
-// };
+import { IncomeState } from "@/types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addIncome } from "@/lib/api/income";
+import toast from "react-hot-toast";
 
 export default function AddIncome() {
-  const { user } = useUser();
+  const [open, setOpen] = React.useState<boolean>(false);
 
-  const [name, setName] = React.useState<string>("");
-  const [amount, setAmount] = React.useState<string>("");
-  const [category, setCategory] = React.useState<string>("");
-  const [method, setMethod] = React.useState<string>("");
-  const [date, setDate] = React.useState<Date>(new Date());
+  const [newIncome, setNewIncome] = React.useState<IncomeState>({
+    name: "",
+    amount: "",
+    category: "",
+    method: "",
+    date: new Date(),
+  });
 
-  const addNewIncome = async () => {
-    if (!amount || !date || !category || !method || !user) {
-      window.alert("Missing required information");
+  const handleFormChange = (field: keyof IncomeState, value: string | Date) => {
+    setNewIncome((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: addIncome,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["income"] });
+      setOpen(false);
+      toast.success("Income added successfully");
+    },
+    onError: (error) => {
+      toast.error("Failed to add income");
+      console.log("Failed to add income", error);
+    },
+    onSettled: () => {
+      handleClearInput();
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (
+      !newIncome.name ||
+      !newIncome.amount ||
+      !newIncome.date ||
+      !newIncome.category ||
+      !newIncome.method
+    ) {
+      toast.error("Missing required information");
       return;
     }
-    const result = await db
-      .insert(Income)
-      .values({
-        name: name,
-        amount: amount,
-        date: date?.toISOString(),
-        category: category,
-        payment_method: method,
-        created_by: user?.primaryEmailAddress?.emailAddress || "",
-      })
-      .returning({ insertedId: Income.id });
 
-    console.log(result);
-
-    // if (result) {
-    //   toast.success("New Income Added!");
-    //   refreshData();
-    // }
+    mutate({
+      name: newIncome.name,
+      amount: newIncome.amount,
+      date: newIncome.date,
+      category: newIncome.category,
+      method: newIncome.method,
+    });
   };
 
   const handleClearInput = () => {
-    setName("");
-    setAmount("");
-    setCategory("");
-    setMethod("");
-    setDate(new Date());
+    setNewIncome({
+      name: "",
+      amount: "",
+      category: "",
+      method: "",
+      date: new Date(),
+    });
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className="flex items-center gap-2"
-          onClick={handleClearInput}
-        >
-          <CirclePlus strokeWidth={1.5} />
-          Add Income
+        <Button className="gap-2" onClick={handleClearInput}>
+          <Plus className="h-6 w-6" strokeWidth={1.5} />
+          Add income
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-center">Add Income</DialogTitle>
-          <DialogDescription className="flex flex-col gap-4 pt-4">
-            {/* Income Name */}
+          <DialogTitle>Add income</DialogTitle>
+          <DialogClose asChild className="lg:hidden">
+            <Button
+              size="icon"
+              type="submit"
+              form="addIncomeForm"
+              disabled={
+                !(
+                  newIncome.name &&
+                  newIncome.amount &&
+                  newIncome.date &&
+                  newIncome.category &&
+                  newIncome.method
+                ) || isPending
+              }
+            >
+              <Plus className="h-6 w-6" strokeWidth={1.5} />
+            </Button>
+          </DialogClose>
+        </DialogHeader>
+        <form
+          id="addIncomeForm"
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-8"
+        >
+          <div className="flex flex-col gap-4 px-6">
             <Input
-              placeholder="Income name"
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              placeholder="Income name"
+              value={newIncome.name}
+              onChange={(e) => handleFormChange("name", e.target.value)}
             />
             {/* Income Amount */}
             <Input
-              placeholder="Amount"
               type="number"
-              className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-              value={amount}
+              placeholder="Amount"
+              value={newIncome.amount}
               onChange={(e) => {
                 const value = e.target.value;
                 if (parseFloat(value) > 0 || value === "") {
-                  setAmount(e.target.value);
+                  handleFormChange("amount", value);
                 }
               }}
             />
             {/* DatePicker */}
-            <IncomeDatePicker date={date} setDate={setDate} />
+            <IncomeDatePicker
+              date={newIncome.date}
+              handleFormChange={handleFormChange}
+            />
             {/* Category */}
             <Select
-              value={category}
-              onValueChange={(value) => setCategory(value)}
+              value={newIncome.category}
+              onValueChange={(value) => handleFormChange("category", value)}
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Category" />
@@ -129,7 +169,10 @@ export default function AddIncome() {
               </SelectContent>
             </Select>
             {/* Payment Method */}
-            <Select value={method} onValueChange={(value) => setMethod(value)}>
+            <Select
+              value={newIncome.method}
+              onValueChange={(value) => handleFormChange("method", value)}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Payment method" />
               </SelectTrigger>
@@ -143,19 +186,26 @@ export default function AddIncome() {
                 <SelectItem value="payroll card">Payroll Card</SelectItem>
               </SelectContent>
             </Select>
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter className="flex-col sm:justify-start">
-          <DialogClose asChild>
+          </div>
+          <div className="flex items-center justify-end border-t px-6 py-4">
             <Button
-              className="w-full"
-              disabled={!(name && amount && date && category && method)}
-              onClick={() => addNewIncome()}
+              type="submit"
+              className="hidden lg:block"
+              disabled={
+                !(
+                  newIncome.name &&
+                  newIncome.amount &&
+                  newIncome.date &&
+                  newIncome.category &&
+                  newIncome.method
+                ) || isPending
+              }
             >
+              {isPending && "loading..."}
               Add income
             </Button>
-          </DialogClose>
-        </DialogFooter>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

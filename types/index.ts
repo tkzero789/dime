@@ -1,5 +1,5 @@
 // Mutation type ========================
-export type AddAccountType = {
+export type AccountState = {
   name: string;
   type: string;
   amount: string;
@@ -7,7 +7,7 @@ export type AddAccountType = {
   color: string;
 };
 
-export type NewBudgetType = {
+export type BudgetState = {
   amount: string;
   category: string;
   emoji: string | null;
@@ -15,8 +15,16 @@ export type NewBudgetType = {
   year: number;
 };
 
+export type IncomeState = {
+  name: string;
+  amount: string;
+  category: string;
+  method: string;
+  date: Date;
+};
+
 // Query type ========================
-export type AccountDataType = {
+export type AccountData = {
   id: string;
   name: string;
   type: string;
@@ -99,8 +107,8 @@ export type RecurringRule = {
   set_date: string;
   frequency: string;
   due_date: string;
-  created_by: string;
   is_actived: boolean;
+  created_by: string;
 };
 
 export type SingleDetail = {

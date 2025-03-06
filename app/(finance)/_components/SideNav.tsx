@@ -60,7 +60,7 @@ export default function SideNav() {
         {menu.map((item, index) => (
           <li
             key={index}
-            className={`cursor-pointer rounded-md transition-all hover:bg-gray-200 ${path.startsWith(item.href) && "bg-gray-100"}`}
+            className={`cursor-pointer rounded-md transition-all hover:bg-muted ${path.startsWith(item.href) && "bg-muted"}`}
           >
             <Link
               href={item.href}

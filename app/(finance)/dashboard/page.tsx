@@ -5,13 +5,13 @@ import { db } from "@/db/dbConfig";
 import {
   Budgets,
   BudgetExpenses,
-  Income,
   Recurrence,
   Single,
   accounts,
+  income,
 } from "@/db/schema";
 import {
-  AccountDataType,
+  AccountData,
   BudgetData,
   ExpenseDetailWithCategory,
   IncomeDetail,
@@ -25,9 +25,9 @@ import DashboardMidSection from "./_components/middle/DashboardMidSection";
 import DashboardNav from "./_components/nav/DashboardNav";
 
 export default function DashboardPage() {
-  const [accountData, setAccountData] = React.useState<AccountDataType[]>([]);
+  const [accountData, setAccountData] = React.useState<AccountData[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [income, setIncome] = React.useState<IncomeDetail[]>([]);
+  const [incomeData, setIncomeData] = React.useState<IncomeDetail[]>([]);
   const [spending, setSpending] = React.useState<
     (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
   >([]);
@@ -77,14 +77,14 @@ export default function DashboardPage() {
         const batchResponse = await db.batch([
           db
             .select({
-              ...getTableColumns(Income),
+              ...getTableColumns(income),
             })
-            .from(Income)
+            .from(income)
             .where(
               and(
-                eq(Income.created_by, currentUser ?? ""),
-                gte(Income.date, firstDayOfMonth),
-                lte(Income.date, lastDayOfMonth),
+                eq(income.created_by, currentUser ?? ""),
+                gte(income.date, firstDayOfMonth),
+                lte(income.date, lastDayOfMonth),
               ),
             ),
           db
@@ -156,7 +156,7 @@ export default function DashboardPage() {
             // eslint-disable-next-line prefer-const
             budgetResult,
           ] = batchResponse;
-          setIncome(incomeResult);
+          setIncomeData(incomeResult);
 
           // Add category property to each object in expenseResult
           expenseResult = expenseResult.map((row) => ({

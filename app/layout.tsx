@@ -57,11 +57,17 @@ export default function RootLayout({
               bottom: 28,
             }}
             toastOptions={{
-              className:
-                "border border-green-600 font-semibold text-foreground",
+              className: "border font-semibold text-foreground",
               success: {
                 style: {
-                  background: "#dcfce7",
+                  borderColor: "#16a34a",
+                  background: "#f0fdf4",
+                },
+              },
+              error: {
+                style: {
+                  borderColor: "#dc2626",
+                  backgroundColor: "#fef2f2",
                 },
               },
             }}

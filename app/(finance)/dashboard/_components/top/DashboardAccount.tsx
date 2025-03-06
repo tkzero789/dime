@@ -1,7 +1,7 @@
 import React from "react";
 import { CalendarDays, EllipsisVertical, PiggyBank } from "lucide-react";
 import Link from "next/link";
-import { AccountDataType } from "@/types";
+import { AccountData } from "@/types";
 // import FormatString from "@/utils/formatString";
 import FormatNumber from "@/utils/formatNumber";
 import Image from "next/image";
@@ -10,7 +10,7 @@ import AddAccount from "@/app/(finance)/accounts/_components/AddAccount";
 import { Button } from "@/components/ui/button";
 
 type Props = {
-  accountData: AccountDataType[];
+  accountData: AccountData[];
 };
 
 export default function DashboardAccount({ accountData }: Props) {

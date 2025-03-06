@@ -1,9 +1,38 @@
 import { db } from "@/db/dbConfig";
-import { Income } from "@/db/schema";
+import { income } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { getTableColumns } from "drizzle-orm";
 import { and, desc, eq, gte, lte } from "drizzle-orm";
 import { NextResponse } from "next/server";
+
+export async function POST(request: Request) {
+  const user = await currentUser();
+
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const body = await request.json();
+
+    const data = await db.insert(income).values({
+      name: body.name,
+      amount: body.amount,
+      date: body.date,
+      category: body.category,
+      payment_method: body.method,
+      created_by: user?.primaryEmailAddress?.emailAddress || "",
+    });
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Server error adding income" },
+      { status: 500 },
+    );
+  }
+}
 
 export async function GET(request: Request) {
   const user = await currentUser();
@@ -11,8 +40,6 @@ export async function GET(request: Request) {
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-
-  const userEmail = user?.primaryEmailAddress?.emailAddress;
 
   const url = new URL(request.url);
   const startDate = url.searchParams.get("startDate");
@@ -25,21 +52,18 @@ export async function GET(request: Request) {
     );
   }
 
-  console.log(startDate);
-  console.log(endDate);
-
   try {
     const data = await db
-      .select({ ...getTableColumns(Income) })
-      .from(Income)
+      .select({ ...getTableColumns(income) })
+      .from(income)
       .where(
         and(
-          eq(Income.created_by, userEmail || ""),
-          gte(Income.date, startDate),
-          lte(Income.date, endDate),
+          eq(income.created_by, user?.primaryEmailAddress?.emailAddress || ""),
+          gte(income.date, startDate),
+          lte(income.date, endDate),
         ),
       )
-      .orderBy(desc(Income.date));
+      .orderBy(desc(income.date));
 
     return NextResponse.json(data);
   } catch (error) {

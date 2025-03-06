@@ -28,7 +28,7 @@ import { Plus } from "lucide-react";
 import { and, count, eq, gte, lte } from "drizzle-orm";
 import toast from "react-hot-toast";
 import BudgetCategory from "./BudgetCategory";
-import { NewBudgetType } from "@/types";
+import { BudgetState } from "@/types";
 
 type Props = {
   refreshData: () => void;
@@ -53,7 +53,7 @@ export default function CreateBudget({ refreshData }: Props) {
   const currentMonthIndex = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
 
-  const [newBudget, setNewBudget] = React.useState<NewBudgetType>({
+  const [newBudget, setNewBudget] = React.useState<BudgetState>({
     amount: "",
     category: "",
     emoji: "",
@@ -134,7 +134,7 @@ export default function CreateBudget({ refreshData }: Props) {
   };
 
   const handleFormChange = (
-    field: keyof NewBudgetType,
+    field: keyof BudgetState,
     value: string | number,
   ) => {
     setNewBudget((prev) => ({

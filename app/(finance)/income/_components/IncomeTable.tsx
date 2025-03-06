@@ -21,6 +21,7 @@ import FormatNumber from "@/utils/formatNumber";
 import { Ellipsis } from "lucide-react";
 import EditIncome from "./EditIncome";
 import DeleteIncome from "./DeleteIncome";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   filteredIncome: IncomeDetail[];
@@ -47,35 +48,10 @@ export default function IncomeTable({ filteredIncome }: Props) {
 
   const [totalAmount, setTotalAmount] = React.useState<number>(0);
 
-  const [isClick, setIsClick] = React.useState<string | null>(null);
-  const popoverRef = React.useRef<HTMLDivElement>(null);
-
-  // Handle on click
-  const handleOnClick = (incomeId: string) => {
-    setIsClick(incomeId);
-  };
-
-  // Effect to handle clicks outside of the PopoverTrigger (remove the bg-neutral-200 on the income item)
-  React.useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        popoverRef.current &&
-        !popoverRef.current.contains(event.target as Node)
-      ) {
-        setIsClick(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   return (
     <Table className="rounded-lg bg-white">
       <TableHeader>
-        <TableRow className="pointer-events-none border-none bg-neutral-200">
+        <TableRow className="pointer-events-none border-none bg-muted">
           <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-secondary-foreground">
             Date
           </TableHead>
@@ -99,7 +75,7 @@ export default function IncomeTable({ filteredIncome }: Props) {
           filteredIncome.map((income) => (
             <TableRow
               key={income.id}
-              className={`text-xs font-medium lg:text-sm ${isClick === income.id ? "bg-neutral-100" : ""}`}
+              className="text-xs font-medium lg:text-sm"
             >
               <TableCell className="px-4 py-2 font-medium">
                 <FormatDate numMonthNumDateUTC={new Date(income.date)} />
@@ -122,14 +98,11 @@ export default function IncomeTable({ filteredIncome }: Props) {
               </TableCell>
               <TableCell className="text-center">
                 <Popover>
-                  <div ref={popoverRef}>
-                    <PopoverTrigger
-                      className="flex w-full items-center justify-center"
-                      onClick={() => handleOnClick(income.id)}
-                    >
-                      <Ellipsis className="rounded-md transition hover:bg-neutral-200" />
-                    </PopoverTrigger>
-                  </div>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <Ellipsis className="h-6 w-6" strokeWidth={1.5} />
+                    </Button>
+                  </PopoverTrigger>
 
                   <PopoverContent className="flex w-40 flex-col px-0 py-0">
                     <div className="flex items-center justify-center border-b px-3 py-2 text-sm font-semibold">
@@ -157,7 +130,7 @@ export default function IncomeTable({ filteredIncome }: Props) {
         )}
       </TableBody>
       <TableFooter>
-        <TableRow className="pointer-events-none bg-neutral-200">
+        <TableRow className="pointer-events-none bg-muted">
           <TableCell
             colSpan={4}
             className="rounded-bl-lg text-sm font-semibold text-secondary-foreground"

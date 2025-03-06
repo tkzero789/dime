@@ -11,7 +11,7 @@ import {
 } from "@/types";
 import { db } from "@/db/dbConfig";
 import { eq, getTableColumns } from "drizzle-orm";
-import { BudgetExpenses, Income, Recurrence, Single } from "@/db/schema";
+import { BudgetExpenses, income, Recurrence, Single } from "@/db/schema";
 import { SpendingPieChart } from "./_components/chart/SpendingPieChart";
 
 export default function SpendingPage() {
@@ -63,9 +63,9 @@ export default function SpendingPage() {
     try {
       const batchResponse = await db.batch([
         db
-          .select({ ...getTableColumns(Income) })
-          .from(Income)
-          .where(eq(Income.created_by, currentUser ?? "")),
+          .select({ ...getTableColumns(income) })
+          .from(income)
+          .where(eq(income.created_by, currentUser ?? "")),
         db
           .select({
             ...getTableColumns(BudgetExpenses),

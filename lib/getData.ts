@@ -1,7 +1,7 @@
 import {
   BudgetExpenses,
   Budgets,
-  Income,
+  income,
   Recurrence,
   Single,
 } from "@/db/schema";
@@ -46,13 +46,13 @@ export async function getUserData(userEmail: string) {
   try {
     const batchReponse = await db.batch([
       db
-        .select({ ...getTableColumns(Income) })
-        .from(Income)
+        .select({ ...getTableColumns(income) })
+        .from(income)
         .where(
           and(
-            eq(Income.created_by, userEmail),
-            gte(Income.date, firstDayOfPrevMonth),
-            lte(Income.date, lastDayOfMonth),
+            eq(income.created_by, userEmail),
+            gte(income.date, firstDayOfPrevMonth),
+            lte(income.date, lastDayOfMonth),
           ),
         ),
       db

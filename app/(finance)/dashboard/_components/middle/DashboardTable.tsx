@@ -32,7 +32,7 @@ export function DashboardTable({ allData }: Props) {
   return (
     <Table className="rounded-lg bg-white">
       <TableHeader>
-        <TableRow className="pointer-events-none border-none bg-neutral-200">
+        <TableRow className="pointer-events-none border-none bg-muted">
           <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-secondary-foreground">
             Date
           </TableHead>
