@@ -31,7 +31,7 @@ const chartData = [{ spending: 1, fill: "var(--color-spent)" }];
 const chartConfig = {
   spent: {
     label: "Spent",
-    color: "hsl(var(--chart-outflow))",
+    color: "hsl(var(--chart-outflow-main))",
   },
 } satisfies ChartConfig;
 
@@ -111,7 +111,7 @@ export function BudgetRadialChart({
     <Card className="col-span-3 flex flex-col xl:col-span-1">
       <CardHeader className="flex flex-row items-center justify-between pb-0">
         <Button variant="outline" size="icon" onClick={handlePreviousMonth}>
-          <ChevronLeft className="h-6 w-6" strokeWidth={1.5} />
+          <ChevronLeft />
         </Button>
         <div>
           <CardTitle className="text-xl font-bold tracking-normal">
@@ -127,7 +127,7 @@ export function BudgetRadialChart({
           onClick={handleNextMonth}
           disabled={month === currentMonth && year === currentYear}
         >
-          <ChevronRight className="h-6 w-6" strokeWidth={1.5} />
+          <ChevronRight />
         </Button>
       </CardHeader>
       <CardContent className="flex-1 pb-0">

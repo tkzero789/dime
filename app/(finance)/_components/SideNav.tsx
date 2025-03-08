@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { SignOutButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 const menu = [
   { option: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
   { option: "Budgets", icon: Banknote, href: "/budgets" },
@@ -58,49 +59,50 @@ export default function SideNav() {
       {/* <SideNavAccount /> */}
       <ul className="flex flex-1 flex-col gap-y-4 px-4 pb-4">
         {menu.map((item, index) => (
-          <li
-            key={index}
-            className={`cursor-pointer rounded-md transition-all hover:bg-muted ${path.startsWith(item.href) && "bg-muted"}`}
-          >
-            <Link
-              href={item.href}
-              onClick={(e) => {
-                if (item.href === "/income") {
-                  e.preventDefault();
-                  router.replace(
-                    "/income?startDate=2025-01-01&endDate=2025-12-31",
-                  );
-                }
-              }}
-              className="flex items-center gap-2 p-2"
+          <li key={index}>
+            <Button
+              asChild
+              variant="ghost"
+              className={cn(
+                "w-full justify-start",
+                path.startsWith(item.href) && "bg-muted",
+              )}
             >
-              <span>
-                <item.icon
-                  className={`h-6 w-6 ${path.startsWith(item.href) && "stroke-teal-600"}`}
-                  strokeWidth={2}
-                />
-              </span>
-              <div
-                className={`text-sm ${path.startsWith(item.href) ? "font-semibold" : "font-medium"}`}
+              <Link
+                href={item.href}
+                onClick={(e) => {
+                  if (item.href === "/income") {
+                    e.preventDefault();
+                    router.replace(
+                      "/income?startDate=2025-01-01&endDate=2025-12-31",
+                    );
+                  }
+                }}
+                className="flex items-center gap-2 p-2"
               >
-                {item.option}
-              </div>
-            </Link>
+                <item.icon
+                  className={`${path.startsWith(item.href) && "stroke-primary"}`}
+                />
+                <div
+                  className={`${path.startsWith(item.href) && "font-semibold"}`}
+                >
+                  {item.option}
+                </div>
+              </Link>
+            </Button>
           </li>
         ))}
         <div className="mt-auto flex flex-col gap-y-4">
-          <div className="flex cursor-pointer items-center gap-2 rounded-md p-2 transition-all hover:bg-gray-200">
-            <span>
-              <Settings className="h-6 w-6" strokeWidth={2} />
-            </span>
-            <div className="text-sm font-medium">Settings</div>
-          </div>
+          <Button variant="ghost" className="justify-start">
+            <Settings />
+            Settings
+          </Button>
           <AlertDialog>
-            <AlertDialogTrigger className="flex w-full items-center gap-2 rounded-md p-2 transition-all hover:bg-gray-200">
-              <span>
-                <LogOut className="h-6 w-6" strokeWidth={2} />
-              </span>
-              <div className="text-sm font-medium">Sign out</div>
+            <AlertDialogTrigger asChild>
+              <Button variant="ghost" className="justify-start">
+                <LogOut />
+                Sign out
+              </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>

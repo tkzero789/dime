@@ -14,7 +14,7 @@ import { IncomeDetail } from "@/types";
 import useWindowSize from "@/hooks/useWindowSize";
 import IncomeCustomTooltip from "./IncomeCustomTooltip";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { IncomeToggleYear } from "./IncomeToggleYear";
 
 const chartConfig = {
   income: {
@@ -50,19 +50,16 @@ function aggregateIncomeByMonth(incomeList: IncomeDetail[]) {
 type Props = {
   currentYear: number;
   incomeData: IncomeDetail[];
-  handleBarClick: (month: string, year: string) => void;
-  handleYearChange: (mode: string) => void;
+  handleYearChange: (year: number) => void;
 };
 
 export function IncomeBarChart({
   currentYear,
   incomeData,
-  handleBarClick,
   handleYearChange,
 }: Props) {
   const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
   const { width } = useWindowSize();
-
   const aggregatedData = aggregateIncomeByMonth(incomeData);
 
   React.useEffect(() => {
@@ -77,31 +74,19 @@ export function IncomeBarChart({
     : aggregatedData.slice(6, 12);
 
   return (
-    <Card className="mt-8">
+    <Card className="col-span-3 xl:col-span-2">
       <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:flex-row lg:items-center">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => handleYearChange("previous")}
-          >
-            <ChevronLeft className="h-6 w-6" strokeWidth={1.5} />
-          </Button>
-          <CardTitle className="text-xl font-bold tracking-normal">
-            {currentYear}
-          </CardTitle>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => handleYearChange("next")}
-            disabled={currentYear === new Date().getUTCFullYear()}
-          >
-            <ChevronRight className="h-6 w-6" strokeWidth={1.5} />
-          </Button>
+        <div className="flex w-full items-center justify-between">
+          <CardTitle>Monthly Earnings</CardTitle>
+          <IncomeToggleYear
+            currentYear={currentYear}
+            handleYearChange={handleYearChange}
+          />
         </div>
         <Button
           variant="outline"
-          className="block w-full px-8 md:hidden lg:w-auto"
+          size="sm"
+          className="block w-full md:hidden"
           onClick={() => setIsFirstHalf(!isFirstHalf)}
         >
           {isFirstHalf ? "Show July to December" : "Show January to June"}
@@ -134,9 +119,6 @@ export function IncomeBarChart({
                   strokeWidth="1px"
                   cursor="pointer"
                 />
-              }
-              onClick={(data) =>
-                handleBarClick(data.month, currentYear.toString())
               }
             />
           </BarChart>

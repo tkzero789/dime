@@ -130,7 +130,7 @@ export default function BudgetByIdPage({ params }: Props) {
         <Popover>
           <PopoverTrigger asChild>
             <Button
-              variant="secondary"
+              variant="subtle"
               className="group flex items-center justify-center gap-2"
             >
               <CircleEllipsis

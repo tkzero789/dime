@@ -8,9 +8,9 @@ export default function DashboardNav() {
   return (
     <div className="rounded-xl bg-white p-4 shadow-card-shadow">
       <div className="flex items-center justify-between">
-        <div className="text-xl font-semibold">
+        <h1 className="text-xl font-semibold">
           <GetGreeting />
-        </div>
+        </h1>
         <Button>Action</Button>
       </div>
     </div>

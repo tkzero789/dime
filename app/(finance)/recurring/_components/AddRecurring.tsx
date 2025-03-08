@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { CirclePlus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
@@ -91,12 +91,8 @@ export default function AddRecurring() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className="flex items-center gap-2"
-          onClick={handleClearInput}
-        >
-          <CirclePlus strokeWidth={1.5} />
+        <Button variant="outline" onClick={handleClearInput}>
+          <Plus />
           Add New Payment
         </Button>
       </DialogTrigger>

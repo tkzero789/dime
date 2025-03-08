@@ -40,7 +40,7 @@ export default function DashboardMidSection({
             style="col-span-3 xl:col-span-2 h-fit"
           />
         ) : (
-          <div className="col-span-3 h-fit rounded-2xl bg-white p-6 shadow-card-shadow xl:col-span-2">
+          <div className="col-span-3 h-fit rounded-xl bg-white p-6 shadow-card-shadow xl:col-span-2">
             <h2 className="pb-4 text-xl font-bold">Latest transactions</h2>
             <DashboardTable allData={allData} />
             <Button asChild variant="outline" className="w-full">

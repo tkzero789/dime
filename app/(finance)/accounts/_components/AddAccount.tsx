@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { PlusCircle } from "lucide-react";
+import { Plus } from "lucide-react";
 import React from "react";
 import FormatString from "@/utils/formatString";
 import FormatNumber from "@/utils/formatNumber";
@@ -72,8 +72,8 @@ export default function AddAccount() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="flex items-center gap-2">
-          <PlusCircle className="h-6 w-6" strokeWidth={1.5} />
+        <Button variant="outline">
+          <Plus />
           Add
         </Button>
       </DialogTrigger>

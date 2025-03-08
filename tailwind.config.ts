@@ -49,8 +49,8 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        "chart-outflow": "hsl(var(--chart-outflow))",
-        "chart-outflow-blue": "hsl(var(--chart-outflow-blue))",
+        "chart-outflow-main": "hsl(var(--chart-outflow-main))",
+        "chart-outflow-comparative": "hsl(var(--chart-outflow-comparative))",
         "chart-inflow": "hsl(var(--chart-inflow))",
       },
       borderRadius: {

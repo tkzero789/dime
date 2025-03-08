@@ -27,7 +27,7 @@ const chartConfig = {
   },
   spent: {
     label: "Spent",
-    color: "hsl(var(--chart-outflow))",
+    color: "hsl(var(--chart-outflow-main))",
   },
 } satisfies ChartConfig;
 

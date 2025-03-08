@@ -20,7 +20,7 @@ const chartConfig = {
   },
   spending: {
     label: "Spending",
-    color: "hsl(var(--chart-outflow-blue))",
+    color: "hsl(var(--chart-outflow-comparative))",
   },
 } satisfies ChartConfig;
 

@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus } from "lucide-react";
+import { LoaderCircle, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { IncomeDatePicker } from "./IncomeDatePicker";
@@ -24,6 +24,26 @@ import { IncomeState } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addIncome } from "@/lib/api/income";
 import toast from "react-hot-toast";
+
+const selectOptions = {
+  categories: [
+    { value: "salary", label: "Salary" },
+    { value: "business", label: "Business" },
+    { value: "investments", label: "Investments" },
+    { value: "rental income", label: "Rental Income" },
+    { value: "pensions", label: "Pensions" },
+  ],
+  paymentMethods: [
+    { value: "cash", label: "Cash" },
+    { value: "check", label: "Check" },
+    { value: "direct deposit", label: "Direct Deposit" },
+    {
+      value: "mobile payment",
+      label: "Mobile Payment (Paypal, CashApp, Zelle, etc.)",
+    },
+    { value: "payroll card", label: "Payroll Card" },
+  ],
+};
 
 export default function AddIncome() {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -96,7 +116,7 @@ export default function AddIncome() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="gap-2" onClick={handleClearInput}>
+        <Button onClick={handleClearInput}>
           <Plus className="h-6 w-6" strokeWidth={1.5} />
           Add income
         </Button>
@@ -126,7 +146,7 @@ export default function AddIncome() {
         <form
           id="addIncomeForm"
           onSubmit={handleSubmit}
-          className="flex flex-col gap-8"
+          className="flex flex-col gap-6"
         >
           <div className="flex flex-col gap-4 px-6">
             <Input
@@ -161,11 +181,11 @@ export default function AddIncome() {
                 <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="salary">Salary</SelectItem>
-                <SelectItem value="business">Business</SelectItem>
-                <SelectItem value="investments">Investments</SelectItem>
-                <SelectItem value="rental income">Rental Income</SelectItem>
-                <SelectItem value="pensions">Pensions</SelectItem>
+                {selectOptions.categories.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             {/* Payment Method */}
@@ -177,20 +197,17 @@ export default function AddIncome() {
                 <SelectValue placeholder="Payment method" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="cash">Cash</SelectItem>
-                <SelectItem value="check">Check</SelectItem>
-                <SelectItem value="direct deposit">Direct Deposit</SelectItem>
-                <SelectItem value="mobile payment">
-                  Mobile Payment (Paypal, CashApp, Zelle, etc.)
-                </SelectItem>
-                <SelectItem value="payroll card">Payroll Card</SelectItem>
+                {selectOptions.paymentMethods.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
-          <div className="flex items-center justify-end border-t px-6 py-4">
+          <div className="hidden items-center justify-end border-t p-6 lg:flex">
             <Button
               type="submit"
-              className="hidden lg:block"
               disabled={
                 !(
                   newIncome.name &&
@@ -201,8 +218,7 @@ export default function AddIncome() {
                 ) || isPending
               }
             >
-              {isPending && "loading..."}
-              Add income
+              {isPending && <LoaderCircle className="animate-spin" />}Add income
             </Button>
           </div>
         </form>

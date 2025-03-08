@@ -12,7 +12,7 @@ export default function IncomeCustomTooltip({ active, payload, label }: Props) {
     return (
       <div className="rounded-lg border bg-white p-2 shadow-md">
         <div className="flex items-center gap-2">
-          <div className="bg-chart-inflow block h-3 w-3 rounded-sm"></div>
+          <div className="block h-3 w-3 rounded-sm bg-chart-inflow"></div>
           <p className="font-bold">{`${label}`}</p>
         </div>
         <p>

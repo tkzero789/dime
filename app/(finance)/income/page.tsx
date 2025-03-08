@@ -1,14 +1,14 @@
 "use client";
 
 import React from "react";
-import { IncomeBarChart } from "./_components/IncomeBarChart";
-import IncomeTable from "./_components/IncomeTable";
-import AddIncome from "./_components/AddIncome";
-import FormatMonth from "@/utils/formatMonth";
+import { IncomeBarChart } from "./_components/chart/IncomeBarChart";
+import IncomeTable from "./_components/table/IncomeTable";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { getIncomeData } from "@/lib/api/income";
+import IncomeNav from "./_components/nav/IncomeNav";
+import IncomeSummary from "./_components/IncomeSummary";
 
 type Props = {
   searchParams: {
@@ -25,10 +25,6 @@ export default function IncomePage({ searchParams }: Props) {
     }
     return new Date().getUTCFullYear();
   });
-  const [selectedMonth, setSelectedMonth] = React.useState<string | null>(null);
-  const currentMonth = selectedMonth
-    ? new Date(Date.parse(`${selectedMonth} 1, 2021`)).getUTCMonth()
-    : new Date().getUTCMonth();
 
   const { data: incomeData, isLoading } = useQuery({
     queryKey: ["income", currentYear],
@@ -39,43 +35,31 @@ export default function IncomePage({ searchParams }: Props) {
       }),
     select: (data) => ({
       all: data,
-      filtered: data?.filter((income) => {
-        const incomeDate = new Date(income.date);
-        return (
-          incomeDate.getUTCMonth() === currentMonth &&
-          incomeDate.getFullYear() === currentYear
-        );
-      }),
     }),
   });
 
-  const handleBarClick = (month: string, year: string) => {
-    setSelectedMonth(month);
-    setCurrentYear(parseInt(year, 10));
-  };
-
-  const handleYearChange = (mode: string) => {
-    const newYear = mode === "previous" ? currentYear - 1 : currentYear + 1;
+  const handleYearChange = (year: number) => {
     const newParams = {
-      startDate: `${newYear}-01-01`,
-      endDate: `${newYear}-12-31`,
+      startDate: `${year}-01-01`,
+      endDate: `${year}-12-31`,
     };
-
-    setCurrentYear(newYear);
+    setCurrentYear(year);
     router.replace(
       `/income?startDate=${newParams.startDate}&endDate=${newParams.endDate}`,
     );
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Income</h1>
-      <IncomeBarChart
-        currentYear={currentYear}
-        incomeData={incomeData?.all || []}
-        handleBarClick={handleBarClick}
-        handleYearChange={handleYearChange}
-      />
+    <div className="flex flex-col gap-6">
+      <IncomeNav />
+      <div className="grid grid-cols-3 gap-6">
+        <IncomeBarChart
+          currentYear={currentYear}
+          incomeData={incomeData?.all || []}
+          handleYearChange={handleYearChange}
+        />
+        <IncomeSummary incomeData={incomeData?.all || []} />
+      </div>
       {isLoading ? (
         <CardSkeleton
           title={true}
@@ -85,21 +69,7 @@ export default function IncomePage({ searchParams }: Props) {
           style="mt-4 xl:mt-8"
         />
       ) : (
-        <div className="mt-4 h-fit rounded-2xl bg-white p-6 shadow-card-shadow xl:mt-8">
-          <div className="flex items-center justify-between pb-4">
-            <h2 className="text-xl font-bold">
-              {selectedMonth ? (
-                <FormatMonth month={selectedMonth} />
-              ) : (
-                <FormatMonth
-                  month={new Date().toLocaleString("en-US", { month: "short" })}
-                />
-              )}
-            </h2>
-            <AddIncome />
-          </div>
-          <IncomeTable filteredIncome={incomeData?.filtered || []} />
-        </div>
+        <IncomeTable incomeData={incomeData?.all || []} />
       )}
     </div>
   );

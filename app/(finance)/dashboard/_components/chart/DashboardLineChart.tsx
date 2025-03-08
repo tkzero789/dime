@@ -25,11 +25,11 @@ export const description = "A multiple line chart";
 const chartConfig = {
   current: {
     label: "Current",
-    color: "hsl(var(--chart-outflow))",
+    color: "hsl(var(--chart-outflow-main))",
   },
   prev: {
     label: "Prev",
-    color: "hsl(var(--chart-outflow-blue))",
+    color: "hsl(var(--chart-outflow-comparative))",
   },
 } satisfies ChartConfig;
 

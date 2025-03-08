@@ -13,7 +13,7 @@ export default function DashboardBudget({ budget }: Props) {
   const currentYear = new Date().getUTCFullYear();
 
   return (
-    <div className="col-span-3 flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-card-shadow xl:col-span-1">
+    <div className="col-span-3 flex flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow xl:col-span-1">
       <h2 className="text-xl font-bold">This month&apos; budgets</h2>
       <div className="flex h-auto max-h-[489px] flex-1 flex-col gap-2 overflow-y-auto">
         {budget?.length > 0 ? (

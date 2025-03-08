@@ -15,7 +15,7 @@ type Props = {
 
 export default function DashboardAccount({ accountData }: Props) {
   return (
-    <div className="flex h-full flex-col gap-4 rounded-2xl bg-white p-6 shadow-card-shadow">
+    <div className="flex h-full flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold">Accounts</h2>
         <AddAccount />
@@ -69,15 +69,15 @@ export default function DashboardAccount({ accountData }: Props) {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <Button asChild variant="outline" className="gap-2">
+        <Button asChild variant="outline">
           <Link href="/recurring">
-            <CalendarDays className="h-6 w-6" strokeWidth={1.5} />
+            <CalendarDays />
             Upcoming Bills
           </Link>
         </Button>
-        <Button asChild variant="outline" className="gap-2">
+        <Button asChild variant="outline">
           <Link href="/saving">
-            <PiggyBank className="h-6 w-6" strokeWidth={1.5} />
+            <PiggyBank />
             Saving Goals
           </Link>
         </Button>

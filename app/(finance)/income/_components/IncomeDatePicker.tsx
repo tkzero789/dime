@@ -39,12 +39,12 @@ export function IncomeDatePicker({ date, handleFormChange }: Props) {
         <Button
           variant="outline"
           className={cn(
-            "h-12 w-full justify-start rounded-xl text-left text-base font-normal",
+            "h-12 rounded-lg px-3 text-base font-normal",
             !date && "text-muted-foreground",
           )}
         >
           {date ? format(date, "PPP") : <span>Date</span>}
-          <CalendarIcon className="ml-auto h-4 w-4" />
+          <CalendarIcon className="ml-auto h-5 w-5" strokeWidth={1.5} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

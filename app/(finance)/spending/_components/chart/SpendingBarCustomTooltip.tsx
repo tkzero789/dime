@@ -22,7 +22,7 @@ export default function SpendingBarCustomTooltip({ active, payload }: Props) {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="bg-chart-outflow-blue block h-3 w-3 rounded-sm"></div>
+          <div className="bg-chart-outflow-comparative block h-3 w-3 rounded-sm"></div>
           <p>
             Spending:{" "}
             <span className="font-bold">

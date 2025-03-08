@@ -20,6 +20,7 @@
 
 .rdp-button[aria-selected="true"] {
   background-color: #0d9488;
+  color: white;
 }
 
 .react-datepicker__day--outside-month {

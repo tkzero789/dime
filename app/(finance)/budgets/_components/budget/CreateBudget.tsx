@@ -156,8 +156,8 @@ export default function CreateBudget({ refreshData }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="gap-2" onClick={checkBudgetAmount}>
-          <Plus className="h-6 w-6" strokeWidth={1.5} />
+        <Button onClick={checkBudgetAmount}>
+          <Plus />
           New budget
         </Button>
       </DialogTrigger>

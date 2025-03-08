@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Banknote, CirclePlus, RefreshCcwDot } from "lucide-react";
+import { Banknote, Plus, RefreshCcwDot } from "lucide-react";
 import Link from "next/link";
 import AddSingle from "../single/AddSingle";
 
@@ -16,8 +16,8 @@ export default function AddTransaction() {
   return (
     <Dialog>
       <DialogTrigger asChild className="w-full md:w-auto">
-        <Button variant="outline" className="flex items-center gap-2">
-          <CirclePlus strokeWidth={1.5} />
+        <Button variant="outline">
+          <Plus />
           Add New Transaction
         </Button>
       </DialogTrigger>

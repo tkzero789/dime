@@ -65,7 +65,7 @@ export default function BenefitSection() {
                   once: true,
                 }}
                 custom={index}
-                className="group col-span-2 flex flex-col gap-2 rounded-2xl bg-teal-500 bg-opacity-10 p-8 shadow-sm transition-all hover:bg-teal-500 lg:col-span-1"
+                className="group col-span-2 flex flex-col gap-2 rounded-xl bg-teal-500 bg-opacity-10 p-8 shadow-sm transition-all hover:bg-teal-500 lg:col-span-1"
               >
                 <span className="w-fit rounded-lg bg-teal-600 bg-opacity-30 px-2 py-1 text-xs font-medium text-teal-700 group-hover:bg-yellow-400 group-hover:text-blue-700">
                   {benefit.tag}
