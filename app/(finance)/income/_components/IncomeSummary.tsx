@@ -9,6 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
+import { format } from "date-fns";
 
 type Props = {
   incomeData: IncomeDetail[];
@@ -60,7 +61,15 @@ export default function IncomeSummary({ incomeData }: Props) {
 
   return (
     <div className="order-first col-span-3 rounded-xl bg-white p-6 shadow-card-shadow xl:order-last xl:col-span-1">
-      <h2 className="text-xl font-semibold">Summary</h2>
+      <h2 className="inline items-center text-xl font-semibold">Summary</h2>
+      <span className="ml-2 inline-block text-secondary-foreground">
+        (
+        {format(
+          new Date(new Date().getUTCFullYear(), new Date().getUTCMonth()),
+          "MMM yyyy",
+        )}
+        )
+      </span>
       <div className="mt-4 flex items-center justify-between gap-4 pb-2 text-sm">
         <div>Total Earnings</div>
         <div className="font-semibold">

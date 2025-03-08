@@ -51,13 +51,12 @@ export default function IncomePage({ searchParams }: Props) {
 
   return (
     <div className="flex flex-col gap-6">
-      <IncomeNav />
+      <IncomeNav
+        currentYear={currentYear}
+        handleYearChange={handleYearChange}
+      />
       <div className="grid grid-cols-3 gap-6">
-        <IncomeBarChart
-          currentYear={currentYear}
-          incomeData={incomeData?.all || []}
-          handleYearChange={handleYearChange}
-        />
+        <IncomeBarChart incomeData={incomeData?.all || []} />
         <IncomeSummary incomeData={incomeData?.all || []} />
       </div>
       {isLoading ? (

@@ -14,7 +14,6 @@ import { IncomeDetail } from "@/types";
 import useWindowSize from "@/hooks/useWindowSize";
 import IncomeCustomTooltip from "./IncomeCustomTooltip";
 import { Button } from "@/components/ui/button";
-import { IncomeToggleYear } from "./IncomeToggleYear";
 
 const chartConfig = {
   income: {
@@ -48,16 +47,10 @@ function aggregateIncomeByMonth(incomeList: IncomeDetail[]) {
 }
 
 type Props = {
-  currentYear: number;
   incomeData: IncomeDetail[];
-  handleYearChange: (year: number) => void;
 };
 
-export function IncomeBarChart({
-  currentYear,
-  incomeData,
-  handleYearChange,
-}: Props) {
+export function IncomeBarChart({ incomeData }: Props) {
   const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
   const { width } = useWindowSize();
   const aggregatedData = aggregateIncomeByMonth(incomeData);
@@ -76,13 +69,8 @@ export function IncomeBarChart({
   return (
     <Card className="col-span-3 xl:col-span-2">
       <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:flex-row lg:items-center">
-        <div className="flex w-full items-center justify-between">
-          <CardTitle>Monthly Earnings</CardTitle>
-          <IncomeToggleYear
-            currentYear={currentYear}
-            handleYearChange={handleYearChange}
-          />
-        </div>
+        <CardTitle>Monthly Earnings</CardTitle>
+
         <Button
           variant="outline"
           size="sm"

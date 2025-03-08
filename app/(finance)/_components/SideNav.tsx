@@ -51,48 +51,51 @@ export default function SideNav() {
   const router = useRouter();
 
   return (
-    <aside className="sticky left-0 top-0 hidden h-dvh w-60 flex-col gap-y-4 border-r bg-white shadow-sm lg:flex">
-      <div className="flex h-[74px] items-center gap-2 border-b px-6 py-4">
-        <Image src={Logo} alt="logo" width={40} height={40} />
-        <div className="font-serif text-2xl font-bold text-teal-600">Dime</div>
-      </div>
-      {/* <SideNavAccount /> */}
-      <ul className="flex flex-1 flex-col gap-y-4 px-4 pb-4">
-        {menu.map((item, index) => (
-          <li key={index}>
-            <Button
-              asChild
-              variant="ghost"
-              className={cn(
-                "w-full justify-start",
-                path.startsWith(item.href) && "bg-muted",
-              )}
-            >
-              <Link
-                href={item.href}
-                onClick={(e) => {
-                  if (item.href === "/income") {
-                    e.preventDefault();
-                    router.replace(
-                      "/income?startDate=2025-01-01&endDate=2025-12-31",
-                    );
-                  }
-                }}
-                className="flex items-center gap-2 p-2"
+    <aside className="sticky left-0 top-0 hidden h-dvh flex-col items-center gap-y-4 py-6 pl-6 lg:flex 2xl:py-[74px]">
+      <div className="flex h-full w-60 flex-col rounded-xl bg-white shadow-card-shadow">
+        <div className="flex h-[74px] items-center gap-2 border-b px-6 py-4">
+          <Image src={Logo} alt="logo" width={40} height={40} />
+          <div className="font-serif text-2xl font-bold text-teal-600">
+            Dime
+          </div>
+        </div>
+        <ul className="flex flex-1 flex-col gap-y-4 p-4">
+          {menu.map((item, index) => (
+            <li key={index}>
+              <Button
+                asChild
+                variant="ghost"
+                className={cn(
+                  "w-full justify-start",
+                  path.startsWith(item.href) && "bg-muted",
+                )}
               >
-                <item.icon
-                  className={`${path.startsWith(item.href) && "stroke-primary"}`}
-                />
-                <div
-                  className={`${path.startsWith(item.href) && "font-semibold"}`}
+                <Link
+                  href={item.href}
+                  onClick={(e) => {
+                    if (item.href === "/income") {
+                      e.preventDefault();
+                      router.replace(
+                        "/income?startDate=2025-01-01&endDate=2025-12-31",
+                      );
+                    }
+                  }}
+                  className="flex items-center gap-2 p-2"
                 >
-                  {item.option}
-                </div>
-              </Link>
-            </Button>
-          </li>
-        ))}
-        <div className="mt-auto flex flex-col gap-y-4">
+                  <item.icon
+                    className={`${path.startsWith(item.href) && "stroke-primary"}`}
+                  />
+                  <div
+                    className={`${path.startsWith(item.href) && "font-semibold"}`}
+                  >
+                    {item.option}
+                  </div>
+                </Link>
+              </Button>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-auto flex flex-col gap-4 border-t p-4">
           <Button variant="ghost" className="justify-start">
             <Settings />
             Settings
@@ -125,7 +128,7 @@ export default function SideNav() {
             </AlertDialogContent>
           </AlertDialog>
         </div>
-      </ul>
+      </div>
     </aside>
   );
 }

@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/popover";
 import { IncomeDetail } from "@/types";
 import { useUser } from "@clerk/nextjs";
-import FormatDate from "@/utils/formatDate";
 import FormatString from "@/utils/formatString";
 import FormatNumber from "@/utils/formatNumber";
 import { Download, Ellipsis } from "lucide-react";
@@ -24,6 +23,7 @@ import DeleteIncome from "../DeleteIncome";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import IncomeTableFilters from "./IncomeTableFilters";
+import { format } from "date-fns";
 
 type Props = {
   incomeData: IncomeDetail[];
@@ -93,7 +93,7 @@ export default function IncomeTable({ incomeData }: Props) {
                 className="text-xs font-medium lg:text-sm"
               >
                 <TableCell className="px-4 py-2 font-medium">
-                  <FormatDate numMonthNumDateUTC={new Date(income.date)} />
+                  {format(new Date(income.date), "MMM d")}
                 </TableCell>
                 <TableCell className="truncate px-4 py-2">
                   {income.name}
