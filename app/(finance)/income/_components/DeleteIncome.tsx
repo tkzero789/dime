@@ -16,32 +16,34 @@ import { db } from "@/db/dbConfig";
 import { income } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@clerk/nextjs";
 
 type Props = {
-  currentUser: string | undefined;
   incomeId: string;
 };
 
-export default function DeleteIncome({ currentUser, incomeId }: Props) {
-  //Delete income
+export default function DeleteIncome({ incomeId }: Props) {
+  const { user } = useUser();
+
   const deleteIncome = async (incomeId: string) => {
     const result = await db
       .delete(income)
       .where(
-        and(eq(income.id, incomeId), eq(income.created_by, currentUser ?? "")),
+        and(
+          eq(income.id, incomeId),
+          eq(income.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
+        ),
       )
       .returning();
-
-    console.log(result);
   };
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-muted">
-        <span className="pl-4">
-          <Trash2 strokeWidth={2} className="h-4 w-4" color="#555353" />
-        </span>
-        <span className="font-semibold text-secondary-foreground">Delete</span>
+      <AlertDialogTrigger asChild>
+        <Button variant="ghost" size="sm" className="w-full justify-start">
+          <Trash2 />
+          Delete
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

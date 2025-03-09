@@ -9,7 +9,7 @@ import FormatString from "@/utils/formatString";
 import ViewTransaction from "./ViewTransaction";
 import {
   ExpenseDetailWithCategory,
-  IncomeDetail,
+  IncomeData,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types";
@@ -17,7 +17,7 @@ import getTransactionCategory from "@/utils/getTransactionCategory";
 
 export type Transaction =
   | ExpenseDetailWithCategory
-  | IncomeDetail
+  | IncomeData
   | RecurrenceDetail
   | SingleDetail;
 

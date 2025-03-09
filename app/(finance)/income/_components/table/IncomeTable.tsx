@@ -3,58 +3,60 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { IncomeDetail } from "@/types";
-import { useUser } from "@clerk/nextjs";
-import FormatString from "@/utils/formatString";
-import FormatNumber from "@/utils/formatNumber";
-import { Download, Ellipsis } from "lucide-react";
-import EditIncome from "../EditIncome";
-import DeleteIncome from "../DeleteIncome";
+import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import IncomeTableFilters from "./IncomeTableFilters";
-import { format } from "date-fns";
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { cn } from "@/lib/utils";
 
-type Props = {
-  incomeData: IncomeDetail[];
-  refreshData?: () => void;
-};
+interface IncomeTableProps<TData, TValue> {
+  data: TData[];
+  columns: ColumnDef<TData, TValue>[];
+}
 
-export default function IncomeTable({ incomeData }: Props) {
-  const { user } = useUser();
-  const currentUser = user?.primaryEmailAddress?.emailAddress;
+export default function IncomeTable<TData, TValue>({
+  data,
+  columns,
+}: IncomeTableProps<TData, TValue>) {
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
 
-  React.useEffect(() => {
-    const calculateTotalAmount = () => {
-      const totalAmount = incomeData.reduce(
-        (acc, curr) => acc + Number(curr.amount),
-        0,
-      );
-      setTotalAmount(totalAmount);
-    };
-
-    if (user) {
-      calculateTotalAmount();
-    }
-  }, [user, incomeData]);
-
-  const [totalAmount, setTotalAmount] = React.useState<number>(0);
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      columnFilters,
+    },
+  });
 
   return (
     <div className="flex h-fit flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-4">
-          <Input placeholder="Search..." className="h-10 max-w-2xl" />
+          <Input
+            placeholder="Search by name..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(e) =>
+              table.getColumn("name")?.setFilterValue(e.target.value)
+            }
+            className="h-10 max-w-2xl"
+          />
           <Button variant="outline">
             <Download />
             Export
@@ -66,98 +68,61 @@ export default function IncomeTable({ incomeData }: Props) {
       </div>
       <Table className="rounded-lg bg-white">
         <TableHeader>
-          <TableRow className="pointer-events-none border-none bg-muted">
-            <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-secondary-foreground">
-              Date
-            </TableHead>
-            <TableHead className="text-sm font-semibold text-secondary-foreground">
-              Name
-            </TableHead>
-            <TableHead className="text-sm font-semibold text-secondary-foreground">
-              Category
-            </TableHead>
-            <TableHead className="truncate text-sm font-semibold text-secondary-foreground">
-              Payment Method
-            </TableHead>
-            <TableHead className="text-right text-sm font-semibold text-secondary-foreground">
-              Amount
-            </TableHead>
-            <TableHead className="rounded-r-lg text-center text-sm font-semibold text-secondary-foreground"></TableHead>
-          </TableRow>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id} className="border-none bg-muted">
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead
+                    key={header.id}
+                    className={cn(
+                      "truncate text-sm font-semibold text-secondary-foreground",
+                      header.id === "amount" && "text-right",
+                      header.id === "date" && "rounded-l-lg",
+                      header.id === "actions" && "rounded-r-lg",
+                    )}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
         </TableHeader>
         <TableBody>
-          {incomeData.length > 0 ? (
-            incomeData.map((income) => (
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows?.map((row) => (
               <TableRow
-                key={income.id}
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
                 className="text-xs font-medium lg:text-sm"
               >
-                <TableCell className="px-4 py-2 font-medium">
-                  {format(new Date(income.date), "MMM d")}
-                </TableCell>
-                <TableCell className="truncate px-4 py-2">
-                  {income.name}
-                </TableCell>
-                <TableCell className="px-4 py-2">
-                  <div className="flex w-fit items-center justify-center rounded-full bg-teal-300 bg-opacity-50 px-2 py-1 text-teal-700">
-                    <span className="truncate text-[13px]">
-                      <FormatString text={income.category} />
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell className="px-4 py-2">
-                  <FormatString text={income.payment_method} />
-                </TableCell>
-                <TableCell className="px-4 py-2 text-right font-semibold text-green-700">
-                  $<FormatNumber number={Number(income.amount)} />
-                </TableCell>
-                <TableCell className="text-center">
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <Ellipsis className="h-6 w-6" strokeWidth={1.5} />
-                      </Button>
-                    </PopoverTrigger>
-
-                    <PopoverContent className="flex w-40 flex-col px-0 py-0">
-                      <div className="flex items-center justify-center border-b px-3 py-2 text-sm font-semibold">
-                        Action
-                      </div>
-                      <div className="p-1">
-                        <EditIncome
-                          currentUser={currentUser || "default"}
-                          incomeInfo={income}
-                        />
-                        <DeleteIncome
-                          currentUser={currentUser || "default"}
-                          incomeId={income.id}
-                        />
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </TableCell>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    className={cn(
+                      "truncate px-4 py-2",
+                      cell.column.id === "actions" &&
+                        "flex items-center justify-center",
+                    )}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
               </TableRow>
             ))
           ) : (
-            <TableRow className="h-24 text-center">
-              <TableCell colSpan={5}>No income data for this month</TableCell>
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No data
+              </TableCell>
             </TableRow>
           )}
         </TableBody>
-        <TableFooter>
-          <TableRow className="pointer-events-none bg-muted">
-            <TableCell
-              colSpan={4}
-              className="rounded-bl-lg text-sm font-semibold text-secondary-foreground"
-            >
-              Total
-            </TableCell>
-            <TableCell className="text-right font-bold text-green-700">
-              $<FormatNumber number={totalAmount} />
-            </TableCell>
-            <TableCell className="rounded-br-lg"></TableCell>
-          </TableRow>
-        </TableFooter>
       </Table>
     </div>
   );

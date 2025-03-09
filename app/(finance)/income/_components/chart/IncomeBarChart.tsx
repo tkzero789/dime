@@ -10,7 +10,7 @@ import {
   ChartContainer,
   ChartTooltip,
 } from "@/components/ui/chart";
-import { IncomeDetail } from "@/types";
+import { IncomeData } from "@/types";
 import useWindowSize from "@/hooks/useWindowSize";
 import IncomeCustomTooltip from "./IncomeCustomTooltip";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-function aggregateIncomeByMonth(incomeList: IncomeDetail[]) {
+function aggregateIncomeByMonth(incomeList: IncomeData[]) {
   const monthlyIncome = Array(12)
     .fill(0)
     .map((_, index) => ({
@@ -47,7 +47,7 @@ function aggregateIncomeByMonth(incomeList: IncomeDetail[]) {
 }
 
 type Props = {
-  incomeData: IncomeDetail[];
+  incomeData: IncomeData[];
 };
 
 export function IncomeBarChart({ incomeData }: Props) {
@@ -68,9 +68,8 @@ export function IncomeBarChart({ incomeData }: Props) {
 
   return (
     <Card className="col-span-3 xl:col-span-2">
-      <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:flex-row lg:items-center">
-        <CardTitle>Monthly Earnings</CardTitle>
-
+      <CardHeader className="flex items-start justify-between gap-4 lg:flex-row lg:items-center">
+        <CardTitle>Monthly earnings</CardTitle>
         <Button
           variant="outline"
           size="sm"

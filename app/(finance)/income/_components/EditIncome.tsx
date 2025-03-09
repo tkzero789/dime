@@ -23,14 +23,16 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
 import { income } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
-import { IncomeDetail } from "@/types";
+import { IncomeData } from "@/types";
+import { useUser } from "@clerk/nextjs";
 
 type Props = {
-  currentUser: string | undefined;
-  incomeInfo: IncomeDetail;
+  incomeData: IncomeData;
 };
 
-export default function EditIncome({ currentUser, incomeInfo }: Props) {
+export default function EditIncome({ incomeData }: Props) {
+  const { user } = useUser();
+
   // Correct date displays for datepicker in edit income
   const convertToLocalDate = (dateString: string): Date => {
     const [year, month, day] = dateString.split("-").map(Number);
@@ -40,29 +42,29 @@ export default function EditIncome({ currentUser, incomeInfo }: Props) {
   const [incomeName, setIncomeName] = React.useState<string>("");
   const [incomeAmount, setIncomeAmount] = React.useState<string>("");
   const [incomeDate, setIncomeDate] = React.useState<Date>(
-    convertToLocalDate(incomeInfo.date),
+    convertToLocalDate(incomeData.date),
   );
   const [initialIncomeDate] = React.useState<Date>(
-    convertToLocalDate(incomeInfo.date),
+    convertToLocalDate(incomeData.date),
   );
   const [incomeCategory, setIncomeCategory] = React.useState<string>(
-    incomeInfo.category,
+    incomeData.category,
   );
-  const [initialIncomeCategory] = React.useState<string>(incomeInfo.category);
+  const [initialIncomeCategory] = React.useState<string>(incomeData.category);
   const [incomeMethod, setIncomeMethod] = React.useState<string>(
-    incomeInfo.payment_method,
+    incomeData.payment_method,
   );
   const [initialIncomeMethod] = React.useState<string>(
-    incomeInfo.payment_method,
+    incomeData.payment_method,
   );
 
   // Update income
   const onUpdateIncome = async () => {
-    const updateName = incomeName || incomeInfo.name;
-    const updatedAmount = incomeAmount || incomeInfo.amount;
-    const updateDate = incomeDate || incomeInfo.date;
-    const updateCategory = incomeCategory || incomeInfo.category;
-    const updateMethod = incomeMethod || incomeInfo.payment_method;
+    const updateName = incomeName || incomeData.name;
+    const updatedAmount = incomeAmount || incomeData.amount;
+    const updateDate = incomeDate || incomeData.date;
+    const updateCategory = incomeCategory || incomeData.category;
+    const updateMethod = incomeMethod || incomeData.payment_method;
     const result = await db
       .update(income)
       .set({
@@ -74,8 +76,8 @@ export default function EditIncome({ currentUser, incomeInfo }: Props) {
       })
       .where(
         and(
-          eq(income.id, incomeInfo.id),
-          eq(income.created_by, currentUser ?? ""),
+          eq(income.id, incomeData.id),
+          eq(income.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
         ),
       )
       .returning();
@@ -87,21 +89,23 @@ export default function EditIncome({ currentUser, incomeInfo }: Props) {
   const handleOnClickEdit = () => {
     setIncomeName("");
     setIncomeAmount("");
-    setIncomeCategory(incomeInfo.category);
-    setIncomeMethod(incomeInfo.payment_method);
-    setIncomeDate(convertToLocalDate(incomeInfo.date));
+    setIncomeCategory(incomeData.category);
+    setIncomeMethod(incomeData.payment_method);
+    setIncomeDate(convertToLocalDate(incomeData.date));
   };
 
   return (
     <Dialog>
-      <DialogTrigger
-        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-muted"
-        onClick={handleOnClickEdit}
-      >
-        <span className="pl-4">
-          <Pencil strokeWidth={2} className="h-4 w-4" color="#555353" />
-        </span>
-        <span className="font-semibold text-secondary-foreground">Edit</span>
+      <DialogTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="w-full justify-start"
+          onClick={handleOnClickEdit}
+        >
+          <Pencil />
+          Edit
+        </Button>
       </DialogTrigger>
       <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
         <DialogHeader>
@@ -109,13 +113,13 @@ export default function EditIncome({ currentUser, incomeInfo }: Props) {
           <DialogDescription className="flex flex-col gap-4 pt-4">
             <Input
               type="text"
-              defaultValue={incomeInfo.name}
+              defaultValue={incomeData.name}
               onChange={(e) => setIncomeName(e.target.value)}
             />
             <Input
               type="number"
               className="mt-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-              defaultValue={Number(incomeInfo.amount)}
+              defaultValue={Number(incomeData.amount)}
               onChange={(e) => setIncomeAmount(e.target.value)}
             />
             {/* <IncomeDatePicker date={incomeDate} setDate={setIncomeDate} /> */}

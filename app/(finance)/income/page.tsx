@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { getIncomeData } from "@/lib/api/income";
 import IncomeNav from "./_components/nav/IncomeNav";
 import IncomeSummary from "./_components/IncomeSummary";
+import { IncomeTableColumns } from "./_components/table/IncomeTableColumns";
 
 type Props = {
   searchParams: {
@@ -68,7 +69,10 @@ export default function IncomePage({ searchParams }: Props) {
           style="mt-4 xl:mt-8"
         />
       ) : (
-        <IncomeTable incomeData={incomeData?.all || []} />
+        <IncomeTable
+          data={incomeData?.all || []}
+          columns={IncomeTableColumns}
+        />
       )}
     </div>
   );

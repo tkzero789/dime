@@ -26,7 +26,7 @@
     --card-hover: 0 0 8px 0 rgba(175, 178, 206, 0.56),
       0 1px 4px 0 rgba(4, 4, 52, 0.1);
     --popover: 0 0% 100%;
-    --popover-foreground: 0 1% 33%;
+    --popover-foreground: 0 0% 3.9%;
     --chart-outflow-main: 174.7 83.9% 31.6%;
     --chart-outflow-comparative: 174.7 83.9% 42.6%;
     --chart-inflow: 174.7 83.9% 31.6%;

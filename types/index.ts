@@ -76,7 +76,7 @@ export type ExpenseDetailWithCategory = ExpenseData & {
   category: string;
 };
 
-export type IncomeDetail = {
+export type IncomeData = {
   id: string;
   name: string;
   amount: string;

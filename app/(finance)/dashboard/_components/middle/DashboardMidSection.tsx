@@ -1,7 +1,7 @@
 import {
   BudgetData,
   ExpenseDetailWithCategory,
-  IncomeDetail,
+  IncomeData,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types";
@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 
 type Props = {
   allData: (
-    | IncomeDetail
+    | IncomeData
     | ExpenseDetailWithCategory
     | RecurrenceDetail
     | SingleDetail

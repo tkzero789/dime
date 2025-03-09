@@ -24,6 +24,7 @@ import { IncomeState } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addIncome } from "@/lib/api/income";
 import toast from "react-hot-toast";
+import { format, startOfDay } from "date-fns";
 
 const selectOptions = {
   categories: [
@@ -53,7 +54,7 @@ export default function AddIncome() {
     amount: "",
     category: "",
     method: "",
-    date: new Date(),
+    date: startOfDay(new Date()),
   });
 
   const handleFormChange = (field: keyof IncomeState, value: string | Date) => {
@@ -109,7 +110,7 @@ export default function AddIncome() {
       amount: "",
       category: "",
       method: "",
-      date: new Date(),
+      date: startOfDay(new Date()),
     });
   };
 

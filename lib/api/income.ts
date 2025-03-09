@@ -1,4 +1,4 @@
-import { IncomeDetail, IncomeState } from "@/types";
+import { IncomeData, IncomeState } from "@/types";
 
 export async function addIncome(newIncome: IncomeState) {
   try {
@@ -25,7 +25,7 @@ export async function addIncome(newIncome: IncomeState) {
 export async function getIncomeData(searchParams: {
   startDate: string;
   endDate: string;
-}): Promise<IncomeDetail[]> {
+}): Promise<IncomeData[]> {
   const params = new URLSearchParams({
     startDate: searchParams.startDate,
     endDate: searchParams.endDate,

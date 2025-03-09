@@ -8,7 +8,7 @@ import {
 import {
   BudgetDetailGetData,
   ExpenseData,
-  IncomeDetail,
+  IncomeData,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types";
@@ -93,7 +93,7 @@ export async function getUserData(userEmail: string) {
         ),
     ]);
 
-    let incomeResult: IncomeDetail[] = [];
+    let incomeResult: IncomeData[] = [];
     let budgetsResult: BudgetDetailGetData[] = [];
     let budgetExpensesResult: ExpenseData[] = [];
     let singleResult: SingleDetail[] = [];

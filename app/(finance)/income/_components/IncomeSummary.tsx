@@ -1,4 +1,4 @@
-import { IncomeDetail } from "@/types";
+import { IncomeData } from "@/types";
 import React from "react";
 import FormatNumber from "@/utils/formatNumber";
 import { cn } from "@/lib/utils";
@@ -12,7 +12,7 @@ import { Info } from "lucide-react";
 import { format } from "date-fns";
 
 type Props = {
-  incomeData: IncomeDetail[];
+  incomeData: IncomeData[];
 };
 
 export default function IncomeSummary({ incomeData }: Props) {

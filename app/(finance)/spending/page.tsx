@@ -5,7 +5,7 @@ import { SpendingBarChart } from "./_components/chart/SpendingBarChart";
 import { useUser } from "@clerk/nextjs";
 import {
   ExpenseDetailWithCategory,
-  IncomeDetail,
+  IncomeData,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types";
@@ -19,7 +19,7 @@ export default function SpendingPage() {
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [incomeData, setIncomeData] = React.useState<IncomeDetail[]>([]);
+  const [incomeData, setIncomeData] = React.useState<IncomeData[]>([]);
   const [spendingData, setSpendingData] = React.useState<
     (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
   >([]);
@@ -29,7 +29,7 @@ export default function SpendingPage() {
 
   const calculate = React.useCallback(
     (
-      incomeData: IncomeDetail[],
+      incomeData: IncomeData[],
       spendingData: (
         | ExpenseDetailWithCategory
         | RecurrenceDetail

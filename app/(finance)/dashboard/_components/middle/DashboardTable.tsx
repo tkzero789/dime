@@ -9,7 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import {
   ExpenseDetailWithCategory,
-  IncomeDetail,
+  IncomeData,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types";
@@ -21,7 +21,7 @@ import Link from "next/link";
 
 type Props = {
   allData: (
-    | IncomeDetail
+    | IncomeData
     | ExpenseDetailWithCategory
     | RecurrenceDetail
     | SingleDetail

@@ -3,8 +3,6 @@
 import * as React from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -12,9 +10,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import "@/css/calendar.css";
 import { SelectSingleEventHandler } from "react-day-picker";
 import { IncomeState } from "@/types";
+import "@/css/calendar.css";
 
 type Props = {
   date: Date;
@@ -24,8 +22,11 @@ type Props = {
 export function IncomeDatePicker({ date, handleFormChange }: Props) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const currentDate = new Date();
-  const fromMonth = new Date(1900, 0);
-  const toMonth = new Date(currentDate.getFullYear(), currentDate.getMonth());
+  const fromMonth = new Date(2010, 0);
+  const toMonth = new Date(
+    currentDate.getUTCFullYear(),
+    currentDate.getUTCMonth(),
+  );
 
   const handleOnSelect: SelectSingleEventHandler = (date) => {
     if (date) {
@@ -33,18 +34,16 @@ export function IncomeDatePicker({ date, handleFormChange }: Props) {
     }
     setIsOpen(false);
   };
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={cn(
-            "h-12 rounded-lg px-3 text-base font-normal",
-            !date && "text-muted-foreground",
-          )}
+          className="h-12 justify-between rounded-lg px-3 text-base font-normal"
         >
-          {date ? format(date, "PPP") : <span>Date</span>}
-          <CalendarIcon className="ml-auto h-5 w-5" strokeWidth={1.5} />
+          {format(date, "PPP")}
+          <CalendarIcon />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

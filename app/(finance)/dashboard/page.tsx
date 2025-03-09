@@ -14,7 +14,7 @@ import {
   AccountData,
   BudgetData,
   ExpenseDetailWithCategory,
-  IncomeDetail,
+  IncomeData,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types";
@@ -27,14 +27,14 @@ import DashboardNav from "./_components/nav/DashboardNav";
 export default function DashboardPage() {
   const [accountData, setAccountData] = React.useState<AccountData[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [incomeData, setIncomeData] = React.useState<IncomeDetail[]>([]);
+  const [incomeData, setIncomeData] = React.useState<IncomeData[]>([]);
   const [spending, setSpending] = React.useState<
     (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
   >([]);
   const [budget, setBudget] = React.useState<BudgetData[]>([]);
   const [allData, setAllData] = React.useState<
     (
-      | IncomeDetail
+      | IncomeData
       | ExpenseDetailWithCategory
       | RecurrenceDetail
       | SingleDetail

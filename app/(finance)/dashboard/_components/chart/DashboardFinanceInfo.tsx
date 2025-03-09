@@ -8,7 +8,7 @@ import {
 import { CircleDollarSign, DollarSign, Info, Landmark } from "lucide-react";
 import {
   ExpenseData,
-  IncomeDetail,
+  IncomeData,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types";
@@ -16,7 +16,7 @@ import FormatNumber from "@/utils/formatNumber";
 
 type Props = {
   spending: (ExpenseData | RecurrenceDetail | SingleDetail)[];
-  income: IncomeDetail[];
+  income: IncomeData[];
 };
 
 export default function DashboardFinanceInfo({ spending, income }: Props) {

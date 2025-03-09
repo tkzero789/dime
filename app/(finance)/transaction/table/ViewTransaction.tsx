@@ -11,7 +11,7 @@ import Link from "next/link";
 import {
   ExpenseData,
   ExpenseDetailWithCategory,
-  IncomeDetail,
+  IncomeData,
   RecurrenceDetail,
   SingleDetail,
 } from "@/types";
@@ -25,7 +25,7 @@ import MoreActionRecurrence from "../recurrence/MoreActionRecurrence";
 type Props = {
   transactionDetail:
     | ExpenseDetailWithCategory
-    | IncomeDetail
+    | IncomeData
     | RecurrenceDetail
     | SingleDetail;
 };

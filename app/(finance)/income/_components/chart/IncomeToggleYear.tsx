@@ -7,7 +7,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import useWindowSize from "@/hooks/useWindowSize";
 
 type Props = {
   currentYear: number;
@@ -16,6 +17,7 @@ type Props = {
 
 export function IncomeToggleYear({ currentYear, handleYearChange }: Props) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const { width } = useWindowSize();
 
   const yearsList = React.useMemo(() => {
     const baseYear = new Date().getUTCFullYear();
@@ -32,11 +34,11 @@ export function IncomeToggleYear({ currentYear, handleYearChange }: Props) {
       <PopoverTrigger asChild>
         <Button variant="outline">
           {currentYear}
-          <ChevronDown />
+          {isOpen ? <ChevronUp /> : <ChevronDown />}
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        align="end"
+        align={(width ?? 0) > 767 ? "end" : "start"}
         className="grid max-h-[156px] w-auto grid-cols-3 gap-2 overflow-y-auto"
       >
         {yearsList.map((item, index) => (
