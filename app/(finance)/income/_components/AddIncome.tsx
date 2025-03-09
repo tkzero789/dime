@@ -24,7 +24,7 @@ import { IncomeState } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addIncome } from "@/lib/api/income";
 import toast from "react-hot-toast";
-import { format, startOfDay } from "date-fns";
+import { startOfDay } from "date-fns";
 
 const selectOptions = {
   categories: [

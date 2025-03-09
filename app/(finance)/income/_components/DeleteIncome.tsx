@@ -26,7 +26,7 @@ export default function DeleteIncome({ incomeId }: Props) {
   const { user } = useUser();
 
   const deleteIncome = async (incomeId: string) => {
-    const result = await db
+    await db
       .delete(income)
       .where(
         and(
