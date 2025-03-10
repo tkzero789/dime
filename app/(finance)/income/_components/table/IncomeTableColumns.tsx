@@ -64,12 +64,16 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const rowData = row.original;
+      const rowIncomeData = row.original;
 
       return (
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="data-[state=open]:bg-muted"
+            >
               <Ellipsis />
             </Button>
           </PopoverTrigger>
@@ -78,8 +82,8 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
               Actions
             </div>
             <div className="p-1">
-              <EditIncome incomeData={rowData} />
-              <DeleteIncome incomeId={rowData.id} />
+              <EditIncome incomeData={rowIncomeData} />
+              <DeleteIncome incomeId={rowIncomeData.id} />
             </div>
           </PopoverContent>
         </Popover>

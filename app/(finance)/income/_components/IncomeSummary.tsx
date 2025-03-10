@@ -132,9 +132,8 @@ export default function IncomeSummary({ incomeData }: Props) {
         <div
           className={cn(
             "font-semibold",
-            (calculate().incomeGrowthGrate || 0) > 0
-              ? "text-green-700"
-              : "text-red-600",
+            (calculate().incomeGrowthGrate || 0) > 0 && "text-green-700",
+            (calculate().incomeGrowthGrate || 0) < 0 && "text-red-600",
           )}
         >
           <FormatNumber

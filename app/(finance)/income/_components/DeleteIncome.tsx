@@ -10,35 +10,40 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Loader2, Trash2 } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteIncome } from "@/lib/api/income";
+import toast from "react-hot-toast";
 import { PopoverClose } from "@radix-ui/react-popover";
-import { Trash2 } from "lucide-react";
-import { db } from "@/db/dbConfig";
-import { income } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
-import { Button } from "@/components/ui/button";
-import { useUser } from "@clerk/nextjs";
 
 type Props = {
   incomeId: string;
 };
 
 export default function DeleteIncome({ incomeId }: Props) {
-  const { user } = useUser();
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
-  const deleteIncome = async (incomeId: string) => {
-    await db
-      .delete(income)
-      .where(
-        and(
-          eq(income.id, incomeId),
-          eq(income.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
-        ),
-      )
-      .returning();
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: deleteIncome,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["income"] });
+      setIsOpen(false);
+      toast.success("Income deleted");
+    },
+    onError: (error) => {
+      toast.error("Failed to delete income");
+      console.log("Failed to delete income", error);
+    },
+  });
+
+  const handleDelete = () => {
+    mutate(incomeId);
   };
 
   return (
-    <AlertDialog>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
         <Button variant="ghost" size="sm" className="w-full justify-start">
           <Trash2 />
@@ -54,14 +59,16 @@ export default function DeleteIncome({ incomeId }: Props) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel asChild>
-            <Button variant="outline">Cancel</Button>
+          <AlertDialogCancel className={buttonVariants({ variant: "outline" })}>
+            Cancel
           </AlertDialogCancel>
           <PopoverClose asChild>
             <AlertDialogAction
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              onClick={() => deleteIncome(incomeId)}
+              className={buttonVariants({ variant: "destructive" })}
+              disabled={isPending}
+              onClick={handleDelete}
             >
+              {isPending && <Loader2 className="animate-spin" />}
               Delete
             </AlertDialogAction>
           </PopoverClose>
