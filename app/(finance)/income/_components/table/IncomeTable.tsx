@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Download } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import IncomeTableFilters from "./IncomeTableFilters";
@@ -20,6 +20,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
+import IncomeTableFilterReset from "./IncomeTableFilterReset";
 
 interface IncomeTableProps<TData, TValue> {
   data: TData[];
@@ -50,20 +51,25 @@ export default function IncomeTable<TData, TValue>({
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-4">
           <Input
-            placeholder="Search by name..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            onChange={(e) =>
-              table.getColumn("name")?.setFilterValue(e.target.value)
-            }
+            placeholder={`Search by name`}
+            // value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            // onChange={(e) =>
+            //   table.getColumn("name")?.setFilterValue(e.target.value)
+            // }
             className="h-10 max-w-2xl"
           />
-          <Button variant="outline">
-            <Download />
-            Export
-          </Button>
+          <div className="flex items-center gap-4">
+            <IncomeTableFilterReset setColumnFilters={setColumnFilters} />
+            <Button variant="outline" size="icon">
+              <Ellipsis />
+            </Button>
+          </div>
         </div>
         <div className="flex items-center gap-4">
-          <IncomeTableFilters />
+          <IncomeTableFilters
+            columnFilters={columnFilters}
+            setColumnFilters={setColumnFilters}
+          />
         </div>
       </div>
       <Table className="rounded-lg bg-white">
@@ -117,8 +123,21 @@ export default function IncomeTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No data
+              <TableCell
+                colSpan={columns.length}
+                className="p-0 pt-4 text-center"
+              >
+                <div className="flex h-24 flex-col items-center justify-center rounded-lg border border-dashed">
+                  {columnFilters.length === 0 && (
+                    <div>No data for this month</div>
+                  )}
+                  {columnFilters.length !== 0 && (
+                    <>
+                      <div>Can&apos;t find what you&apos;re looking for?</div>
+                      <div>Try using advanced filters</div>
+                    </>
+                  )}
+                </div>
               </TableCell>
             </TableRow>
           )}

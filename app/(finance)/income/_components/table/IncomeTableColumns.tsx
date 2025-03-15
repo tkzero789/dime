@@ -24,7 +24,7 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
       return <div>{formattedDate}</div>;
     },
   },
-  { accessorKey: "name", header: "Name" },
+  { accessorKey: "name", header: "Name", filterFn: "arrIncludesSome" },
   {
     accessorKey: "category",
     header: "Category",

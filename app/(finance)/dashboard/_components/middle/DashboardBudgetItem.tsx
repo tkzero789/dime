@@ -18,14 +18,9 @@ export default function DashboardBudgetItem({ budget }: Props) {
       href={`/budgets/` + budget?.id}
       className="flex cursor-pointer flex-col rounded-xl border bg-white p-4 hover:border-neutral-400"
     >
-      <div className="flex items-center gap-4">
-        <div className="text-3xl">{budget.emoji}</div>
-        <div className="flex flex-col">
-          <span className="font-medium">{budget.category}</span>
-          <span className="font-light text-secondary-foreground">
-            {budget.category}
-          </span>
-        </div>
+      <div className="flex items-baseline gap-2">
+        <div className="text-2xl">{budget.emoji}</div>
+        <div className="font-medium">{budget.category}</div>
         <div className="ml-auto font-semibold">
           $<FormatNumber number={Number(budget.amount)} />
         </div>
@@ -46,7 +41,8 @@ export default function DashboardBudgetItem({ budget }: Props) {
           {budget.total_spend ? (
             <span className={remainingClassName}>
               $
-              <FormatNumber number={remainingAmount} /> {remainingText}
+              <FormatNumber number={remainingAmount} negative={false} />{" "}
+              {remainingText}
             </span>
           ) : (
             <span className="text-sm text-secondary-foreground">
@@ -54,11 +50,7 @@ export default function DashboardBudgetItem({ budget }: Props) {
             </span>
           )}
         </div>
-        <Progress
-          value={progressValue > 100 ? 100 : progressValue}
-          className="h-2 [&>*]:bg-primary"
-          max={100}
-        />
+        <Progress value={progressValue > 100 ? 100 : progressValue} />
       </div>
     </Link>
   );
