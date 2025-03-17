@@ -16,7 +16,7 @@ export const accounts = pgTable("accounts", {
   debt: numeric("debt", { precision: 10, scale: 2 }).notNull(),
   type: varchar("type").notNull(),
   color: varchar("color").notNull(),
-  is_actived: boolean("is_actived").notNull().default(true),
+  is_active: boolean("is_active").notNull().default(true),
   created_by: varchar("created_by").notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
@@ -64,7 +64,7 @@ export const Recurring_rule = pgTable("recurring_rule", {
   set_date: date("set_date").notNull(),
   frequency: varchar("frequency").notNull(),
   due_date: date("due_date").notNull(),
-  is_actived: boolean("is_actived").notNull().default(true),
+  is_active: boolean("is_active").notNull().default(true),
   created_by: varchar("created_by").notNull(),
 });
 

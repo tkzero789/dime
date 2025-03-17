@@ -31,7 +31,7 @@ export type AccountData = {
   amount: string;
   debt: string;
   color: string;
-  is_actived: boolean;
+  is_active: boolean;
   created_by: string;
   created_at: Date;
 };

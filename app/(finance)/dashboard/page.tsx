@@ -33,12 +33,7 @@ export default function DashboardPage() {
   >([]);
   const [budget, setBudget] = React.useState<BudgetData[]>([]);
   const [allData, setAllData] = React.useState<
-    (
-      | IncomeData
-      | ExpenseDetailWithCategory
-      | RecurrenceDetail
-      | SingleDetail
-    )[]
+    (IncomeData | ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
   >([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const { user } = useUser();
@@ -67,7 +62,7 @@ export default function DashboardPage() {
           .where(
             and(
               eq(accounts.created_by, currentUser || ""),
-              eq(accounts.is_actived, true),
+              eq(accounts.is_active, true),
             ),
           );
 
