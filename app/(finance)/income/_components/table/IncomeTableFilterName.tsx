@@ -1,5 +1,6 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { ColumnFiltersState } from "@tanstack/react-table";
 import React, { Dispatch, SetStateAction } from "react";
 
@@ -14,74 +15,93 @@ export default function IncomeTableFilterName({
 }: Props) {
   const [keyword, setKeyword] = React.useState<string>("");
 
-  const keywordList = columnFilters.find((item) => {
-    if (item.id === "name") return item.value;
-  });
+  const keywordObject = columnFilters.find((item) => item.id === "name");
+  const keywordValues =
+    (columnFilters.find((item) => item.id === "name")?.value as string[]) || [];
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const keywordItems = keywordList?.value as string[];
-
-    if (keywordItems && keywordItems.includes(keyword)) {
-      console.log("duplicate");
+    if (keywordValues.includes(keyword) || keyword.trim() === "") {
       setKeyword("");
       return;
-    } else {
-      setColumnFilters(() => [
+    }
+
+    if (!keywordObject) {
+      setColumnFilters((prev) => [
+        ...prev,
         {
           id: "name",
-          value:
-            columnFilters.length === 0
-              ? [keyword]
-              : [...(columnFilters[0]?.value as string[]), keyword],
+          value: [keyword],
         },
       ]);
+    } else {
+      setColumnFilters((prev) => {
+        const updatedColumnFilter = prev.map((item) => {
+          if (item.id === "name")
+            return {
+              ...item,
+              value: [...keywordValues, keyword],
+            };
+          return item;
+        });
+        return updatedColumnFilter;
+      });
     }
 
     setKeyword("");
   };
 
   const handleRemove = (index: number) => {
-    const valueArray = columnFilters[0]?.value as string[];
-    const newValueArray = valueArray.filter(
+    const filteredValues = keywordValues.filter(
       (_, indexToRemove) => indexToRemove !== index,
     );
 
-    if (newValueArray.length !== 0) {
-      setColumnFilters(() => [
-        {
-          id: "name",
-          value: newValueArray,
-        },
-      ]);
-    } else {
+    if (filteredValues.length === 0) {
       setColumnFilters(columnFilters.filter((item) => item.id !== "name"));
     }
-  };
 
-  console.log(columnFilters);
+    setColumnFilters((prev) => {
+      const updatedColumnFilters = prev.map((item) => {
+        if (item.id === "name")
+          return {
+            ...item,
+            value: filteredValues,
+          };
+        return item;
+      });
+      return updatedColumnFilters;
+    });
+  };
 
   return (
     <div className="flex flex-col gap-2">
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <Input
-          placeholder="Keyword"
+          placeholder="Enter name"
           value={keyword}
           onChange={(event) => setKeyword(event.target.value)}
-          className="h-8 text-sm"
+          className="h-10 text-sm"
         />
       </form>
       <div className="flex flex-col gap-2">
-        {(keywordList?.value as string[])?.map((item, index) => (
-          <button
+        {keywordValues?.map((item, index) => (
+          <div
             key={index}
-            className="flex w-fit items-center justify-start gap-2 rounded-lg text-sm hover:cursor-pointer hover:font-medium"
-            onClick={() => handleRemove(index)}
+            className="group flex w-fit items-center gap-2 hover:cursor-pointer"
           >
-            <Checkbox checked={true} />
-            {item}
-          </button>
+            <Checkbox
+              id={index.toString()}
+              checked={true}
+              onCheckedChange={() => handleRemove(index)}
+            />
+            <Label
+              htmlFor={index.toString()}
+              className="text-sm font-normal group-hover:cursor-pointer group-hover:font-medium"
+            >
+              {item}
+            </Label>
+          </div>
         ))}
       </div>
     </div>

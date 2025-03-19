@@ -11,7 +11,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import "@/css/calendar.css";
 import { SelectSingleEventHandler } from "react-day-picker";
 
 type Props = {

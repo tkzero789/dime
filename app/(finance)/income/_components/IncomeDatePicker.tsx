@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/popover";
 import { SelectSingleEventHandler } from "react-day-picker";
 import { IncomeState } from "@/types";
-import "@/css/calendar.css";
 
 type Props = {
   date: Date;

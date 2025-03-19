@@ -3,7 +3,7 @@
 import React from "react";
 import AddIncome from "../AddIncome";
 import { Separator } from "@/components/ui/separator";
-import { IncomeToggleYear } from "../chart/IncomeToggleYear";
+import IncomeToggleYear from "./IncomeToggleYear";
 
 type Props = {
   currentYear: number;

@@ -7,10 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Ellipsis } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import IncomeTableFilters from "./IncomeTableFilters";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -19,8 +15,12 @@ import {
   getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { cn } from "@/lib/utils";
+import IncomeTableFilters from "./IncomeTableFilters";
 import IncomeTableFilterReset from "./IncomeTableFilterReset";
+import IncomeTableSearch from "./IncomeTableSearch";
+import { Ellipsis } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface IncomeTableProps<TData, TValue> {
   data: TData[];
@@ -50,13 +50,9 @@ export default function IncomeTable<TData, TValue>({
     <div className="flex h-fit flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-4">
-          <Input
-            placeholder={`Search by name`}
-            // value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-            // onChange={(e) =>
-            //   table.getColumn("name")?.setFilterValue(e.target.value)
-            // }
-            className="h-10 max-w-2xl"
+          <IncomeTableSearch
+            columnFilters={columnFilters}
+            setColumnFilters={setColumnFilters}
           />
           <div className="flex items-center gap-4">
             <IncomeTableFilterReset setColumnFilters={setColumnFilters} />

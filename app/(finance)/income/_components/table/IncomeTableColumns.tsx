@@ -1,6 +1,6 @@
 import { IncomeData } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, startOfDay } from "date-fns";
 import React from "react";
 import {
   Popover,
@@ -13,6 +13,7 @@ import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
 import EditIncome from "../EditIncome";
 import DeleteIncome from "../DeleteIncome";
+import { DateRange } from "react-day-picker";
 
 export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
   {
@@ -22,6 +23,15 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
       const date = row.getValue("date") as string;
       const formattedDate = format(parseISO(date), "MMM dd");
       return <div>{formattedDate}</div>;
+    },
+    filterFn: (row, columnId, filterValue: DateRange | undefined) => {
+      const cellValue = row.getValue(columnId) as string;
+      const rowDate = startOfDay(parseISO(cellValue));
+
+      return (
+        rowDate >= startOfDay(filterValue?.from as string | number | Date) &&
+        rowDate <= startOfDay(filterValue?.to as string | number | Date)
+      );
     },
   },
   { accessorKey: "name", header: "Name", filterFn: "arrIncludesSome" },
@@ -36,6 +46,7 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
         </div>
       );
     },
+    filterFn: "arrIncludesSome",
   },
   {
     accessorKey: "payment_method",
@@ -48,6 +59,7 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
         </div>
       );
     },
+    filterFn: "arrIncludesSome",
   },
   {
     accessorKey: "amount",
@@ -59,6 +71,24 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
           $<FormatNumber number={amount} />
         </div>
       );
+    },
+    filterFn: (row, columnId, filterValue) => {
+      const cellValue = row.getValue(columnId) as number;
+      const { value, operation } = filterValue as {
+        value: number;
+        operation: string;
+      };
+
+      switch (operation) {
+        case "equal":
+          return Number(cellValue) === value;
+        case "less than or equal":
+          return Number(cellValue) <= value;
+        case "greater than or equal":
+          return Number(cellValue) >= value;
+        default:
+          return true;
+      }
     },
   },
   {

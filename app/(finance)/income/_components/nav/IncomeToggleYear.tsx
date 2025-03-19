@@ -15,7 +15,10 @@ type Props = {
   handleYearChange: (year: number) => void;
 };
 
-export function IncomeToggleYear({ currentYear, handleYearChange }: Props) {
+export default function IncomeToggleYear({
+  currentYear,
+  handleYearChange,
+}: Props) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const { width } = useWindowSize();
 
