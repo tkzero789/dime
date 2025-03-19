@@ -107,7 +107,7 @@ export type RecurringRule = {
   set_date: string;
   frequency: string;
   due_date: string;
-  is_actived: boolean;
+  is_active: boolean;
   created_by: string;
 };
 

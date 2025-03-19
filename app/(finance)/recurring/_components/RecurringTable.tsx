@@ -54,7 +54,7 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
       const activeRules = await db
         .select({ ...getTableColumns(Recurring_rule) })
         .from(Recurring_rule)
-        .where(eq(Recurring_rule.is_actived, true));
+        .where(eq(Recurring_rule.is_active, true));
 
       const paidStatus: Record<string, boolean> = {};
 

@@ -16,7 +16,7 @@ export default async function RecurringPage() {
     .where(
       and(
         eq(Recurring_rule.created_by, userEmail),
-        eq(Recurring_rule.is_actived, true),
+        eq(Recurring_rule.is_active, true),
       ),
     )
     .orderBy(desc(Recurring_rule.due_date));
