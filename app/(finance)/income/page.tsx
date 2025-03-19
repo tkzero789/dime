@@ -1,14 +1,14 @@
 "use client";
 
 import React from "react";
-import { IncomeBarChart } from "./_components/chart/IncomeBarChart";
 import IncomeTable from "./_components/table/IncomeTable";
+import IncomeNav from "./_components/nav/IncomeNav";
+import IncomeSummary from "./_components/IncomeSummary";
+import { IncomeBarChart } from "./_components/chart/IncomeBarChart";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { getIncomeData } from "@/lib/api/income";
-import IncomeNav from "./_components/nav/IncomeNav";
-import IncomeSummary from "./_components/IncomeSummary";
 import { IncomeTableColumns } from "./_components/table/IncomeTableColumns";
 
 type Props = {

@@ -157,8 +157,6 @@ export default function IncomeTableFilters({
     }
   };
 
-  console.log(columnFilters);
-
   return (
     <div className="hidden items-center gap-4 lg:flex">
       <Popover open={isOpen} onOpenChange={setIsOpen}>
