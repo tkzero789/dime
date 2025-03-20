@@ -14,14 +14,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RefObject } from "react";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
+  tableRef: RefObject<HTMLTableSectionElement>;
 }
 
 export function IncomeTablePagination<TData>({
   table,
+  tableRef,
 }: DataTablePaginationProps<TData>) {
+  const scrollToTop = () => {
+    if (tableRef.current) {
+      tableRef.current.scrollTop = 0;
+    }
+  };
+
   return (
     <div className="flex items-center justify-between gap-4 lg:justify-end lg:gap-6">
       <div className="hidden items-center gap-2 lg:flex">
@@ -61,7 +70,10 @@ export function IncomeTablePagination<TData>({
         <Button
           variant="outline"
           className="h-8 w-8 p-0"
-          onClick={() => table.previousPage()}
+          onClick={() => {
+            table.previousPage();
+            scrollToTop();
+          }}
           disabled={!table.getCanPreviousPage()}
         >
           <span className="sr-only">Go to previous page</span>
@@ -70,7 +82,10 @@ export function IncomeTablePagination<TData>({
         <Button
           variant="outline"
           className="h-8 w-8 p-0"
-          onClick={() => table.nextPage()}
+          onClick={() => {
+            table.nextPage();
+            scrollToTop();
+          }}
           disabled={!table.getCanNextPage()}
         >
           <span className="sr-only">Go to next page</span>

@@ -36,12 +36,13 @@ export default function IncomeTableFilterAmount({
   columnFilters,
   setColumnFilter,
 }: Props) {
-  const [selectedOperation, setSelectedOperation] =
-    React.useState<string>("equal");
-
   const amountObject = columnFilters.find((item) => item.id === "amount");
   const amountValue = columnFilters.find((item) => item.id === "amount")
     ?.value as { value: number; operation: string } | undefined;
+
+  const [selectedOperation, setSelectedOperation] = React.useState<string>(
+    amountValue?.operation || "equal",
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formattedValue = Number(e.target.value);

@@ -11,6 +11,7 @@ import {
   ChevronRight,
   Equal,
   Filter,
+  X,
 } from "lucide-react";
 import IncomeTableFilterName from "./IncomeTableFilterName";
 import IncomeTableFilterCategory from "./IncomeTableFilterCategory";
@@ -157,6 +158,10 @@ export default function IncomeTableFilters({
     }
   };
 
+  const handleRemoveFilter = (filterId: string) => {
+    setColumnFilters(columnFilters.filter((item) => item.id !== filterId));
+  };
+
   return (
     <div className="hidden items-center gap-4 lg:flex">
       <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -199,13 +204,21 @@ export default function IncomeTableFilters({
             <Button
               variant="outline"
               size="sm"
-              className="border-primary bg-primary/10 text-primary hover:bg-primary/15"
+              className="group relative border-primary bg-primary/10 text-primary hover:bg-primary/15"
               onClick={() => setFilterOption(item.id)}
             >
               {handleCheckId(
                 item.id,
                 item.value as string | number | DateRange,
               )}
+              <div
+                className="absolute -right-2 -top-2 hidden size-5 items-center justify-center rounded-full border bg-white text-foreground hover:bg-muted group-hover:flex"
+                onClick={() => {
+                  handleRemoveFilter(item.id);
+                }}
+              >
+                <X className="size-4" />
+              </div>
             </Button>
           </PopoverTrigger>
           <PopoverContent
