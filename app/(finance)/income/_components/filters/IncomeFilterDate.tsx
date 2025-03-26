@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { format, startOfDay } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
@@ -12,17 +12,27 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ColumnFiltersState } from "@tanstack/react-table";
+import { ColumnFiltersState, SortingState } from "@tanstack/react-table";
+import useWindowSize from "@/hooks/useWindowSize";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 type Props = {
+  setSortOption: Dispatch<SetStateAction<string>>;
+  sorting: SortingState;
+  setSorting: Dispatch<SetStateAction<SortingState>>;
   columnFilters: ColumnFiltersState;
-  setColumnFilters: React.Dispatch<React.SetStateAction<ColumnFiltersState>>;
+  setColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>;
 };
 
-export function IncomeTableFilterDate({
+export function IncomeFilterDate({
+  setSortOption,
+  sorting,
+  setSorting,
   columnFilters,
   setColumnFilters,
 }: Props) {
+  const { width } = useWindowSize();
   const dateObject = columnFilters.find((item) => item.id === "date");
   const dateValue = columnFilters.find((item) => item.id === "date")
     ?.value as DateRange;
@@ -30,7 +40,7 @@ export function IncomeTableFilterDate({
   const [date, setDate] = React.useState<DateRange | undefined>(
     dateValue || {
       from: startOfDay(new Date()),
-      to: "",
+      to: undefined,
     },
   );
 
@@ -60,15 +70,38 @@ export function IncomeTableFilterDate({
     }
   };
 
+  const handleSort = () => {
+    setSorting(() => [
+      {
+        id: "date",
+        desc: false,
+      },
+    ]);
+
+    if (sorting[0]?.id === "date") {
+      setSorting([]);
+    }
+  };
+
+  const handleResetDate = () => {
+    setDate({
+      from: startOfDay(new Date()),
+      to: undefined,
+    });
+    setSortOption("");
+    setSorting([]);
+    setColumnFilters(columnFilters.filter((item) => item.id !== "date"));
+  };
+
   return (
-    <div className="grid gap-2">
+    <div className="flex flex-col gap-4">
       <Popover>
         <PopoverTrigger asChild>
           <Button
             id="date"
             variant="outline"
             className={cn(
-              "justify-start font-normal",
+              "h-12 justify-start font-normal lg:h-10",
               !date && "text-muted-foreground",
             )}
           >
@@ -95,10 +128,38 @@ export function IncomeTableFilterDate({
             initialFocus
             showOutsideDays={false}
             defaultMonth={date?.from}
-            numberOfMonths={2}
+            numberOfMonths={(width ?? 0) > 767 ? 2 : 1}
           />
         </PopoverContent>
       </Popover>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Switch
+            checked={
+              sorting.length !== 0 &&
+              sorting.some((sortObject) => sortObject.id === "date")
+            }
+            onCheckedChange={() => {
+              setSortOption("");
+              handleSort();
+            }}
+          />
+          <Label className="text-sm">Ascending</Label>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={
+            !(
+              columnFilters.some((item) => item.id === "date") ||
+              sorting.some((item) => item.id === "date")
+            )
+          }
+          onClick={handleResetDate}
+        >
+          Reset
+        </Button>
+      </div>
     </div>
   );
 }

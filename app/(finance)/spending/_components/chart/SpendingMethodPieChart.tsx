@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
 import FormatString from "@/utils/formatString";
-import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
 import SpendingMethodCustomTooltip from "./SpendingMethodCustomTooltip";
 
@@ -55,19 +54,9 @@ export function SpendingMethodPieChart({
             Payment Method
           </CardTitle>
           <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="rounded-full border-none"
-                >
-                  <Info
-                    strokeWidth={2}
-                    color="#555353"
-                    className="h-5 w-5 hover:stroke-gray-700"
-                  />
-                </Button>
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger className="rounded-full hover:bg-muted">
+                <Info className="h-5 w-5 stroke-[1.5] text-muted-foreground" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>

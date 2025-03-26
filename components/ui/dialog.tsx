@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { ChevronLeft, X } from "lucide-react";
+import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
@@ -51,25 +51,34 @@ const DialogContent = React.forwardRef<
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
+interface DialogHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+  showDialogClose?: boolean;
+}
+
 const DialogHeader = ({
   className,
   children,
+  showDialogClose = true,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: DialogHeaderProps) => (
   <div
     className={cn("flex items-center justify-between border-b p-6", className)}
     {...props}
   >
     <DialogPrimitive.Close asChild>
-      <Button variant="subtle" size="icon" className="lg:hidden">
-        <ChevronLeft className="h-6 w-6" strokeWidth={1.5} />
+      <Button
+        variant="subtle"
+        size="icon"
+        className={cn("lg:hidden", !showDialogClose && "hidden")}
+      >
+        <X className="h-6 w-6" />
         <span className="sr-only">Close</span>
       </Button>
     </DialogPrimitive.Close>
     {children}
     <DialogPrimitive.Close asChild>
       <Button variant="subtle" size="icon" className="hidden lg:flex">
-        <X className="h-6 w-6" strokeWidth={1.5} />
+        <X className="h-6 w-6" />
         <span className="sr-only">Close</span>
       </Button>
     </DialogPrimitive.Close>

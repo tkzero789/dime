@@ -61,7 +61,10 @@ export function IncomeTablePagination<TData>({
         <Button
           variant="outline"
           className="hidden h-8 w-8 p-0 lg:flex"
-          onClick={() => table.setPageIndex(0)}
+          onClick={() => {
+            table.setPageIndex(0);
+            scrollToTop();
+          }}
           disabled={!table.getCanPreviousPage()}
         >
           <span className="sr-only">Go to first page</span>
@@ -94,7 +97,10 @@ export function IncomeTablePagination<TData>({
         <Button
           variant="outline"
           className="hidden h-8 w-8 p-0 lg:flex"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+          onClick={() => {
+            table.setPageIndex(table.getPageCount() - 1);
+            scrollToTop();
+          }}
           disabled={!table.getCanNextPage()}
         >
           <span className="sr-only">Go to last page</span>

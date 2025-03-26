@@ -210,12 +210,8 @@ export function SpendingPieChart({ spendingData }: Props) {
             <CardTitle className="text-xl font-bold tracking-normal">
               Expenses
             </CardTitle>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsSwitch(!isSwitch)}
-            >
-              {isSwitch ? "Show last month" : "Show current month"}
+            <Button variant="outline" onClick={() => setIsSwitch(!isSwitch)}>
+              {isSwitch ? "Last month" : "Current month"}
             </Button>
           </div>
           {spendingByMonth > 0 && (

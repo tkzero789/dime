@@ -82,10 +82,7 @@ export default function IncomeSummary({ incomeData }: Props) {
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger className="rounded-full hover:bg-muted">
-                <Info
-                  className="h-5 w-5 text-muted-foreground"
-                  strokeWidth={1.5}
-                />
+                <Info className="h-5 w-5 stroke-[1.5] text-muted-foreground" />
               </TooltipTrigger>
               <TooltipContent className="max-w-64">
                 <p>
@@ -116,10 +113,7 @@ export default function IncomeSummary({ incomeData }: Props) {
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger className="rounded-full hover:bg-muted">
-                <Info
-                  className="h-5 w-5 text-muted-foreground"
-                  strokeWidth={1.5}
-                />
+                <Info className="h-5 w-5 stroke-[1.5] text-muted-foreground" />
               </TooltipTrigger>
               <TooltipContent className="max-w-64">
                 <p>

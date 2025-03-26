@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
+import { DateRange } from "react-day-picker";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
 import EditIncome from "../EditIncome";
 import DeleteIncome from "../DeleteIncome";
-import { DateRange } from "react-day-picker";
 
 export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
   {
@@ -34,7 +34,25 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
       );
     },
   },
-  { accessorKey: "name", header: "Name", filterFn: "arrIncludesSome" },
+  {
+    accessorKey: "name",
+    header: "Name",
+    filterFn: (row, columnId, filterValue) => {
+      if (Array.isArray(filterValue)) {
+        const cellValue = String(row.getValue(columnId)).toLowerCase();
+
+        return filterValue.some((filter) =>
+          cellValue.includes(filter.toLowerCase()),
+        );
+      }
+
+      const cellValue = String(row.getValue(columnId))
+        .toLowerCase()
+        .replace(/\s+/g, "");
+      const searchValue = String(filterValue).toLowerCase().replace(/\s+/g, "");
+      return cellValue.includes(searchValue);
+    },
+  },
   {
     accessorKey: "category",
     header: "Category",
@@ -95,7 +113,6 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
     id: "actions",
     cell: ({ row }) => {
       const rowIncomeData = row.original;
-
       return (
         <Popover>
           <PopoverTrigger asChild>

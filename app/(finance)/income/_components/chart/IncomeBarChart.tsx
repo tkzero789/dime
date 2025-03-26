@@ -72,7 +72,6 @@ export function IncomeBarChart({ incomeData }: Props) {
         <CardTitle>Monthly earnings</CardTitle>
         <Button
           variant="outline"
-          size="sm"
           className="block w-full md:hidden"
           onClick={() => setIsFirstHalf(!isFirstHalf)}
         >

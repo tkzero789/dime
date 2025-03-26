@@ -102,10 +102,9 @@ export function SpendingExpense() {
             </CardTitle>
             <Button
               variant="outline"
-              size="sm"
-              className="h-[26px] px-1 text-[8px] xl:h-[36px] xl:px-3 xl:text-sm"
+              className="h-[26px] px-2 text-[10px] xl:h-[36px] xl:px-3 xl:text-sm"
             >
-              Show last month
+              Last month
             </Button>
           </div>
           <p className="text-center text-xs font-medium text-secondary-foreground xl:text-sm">

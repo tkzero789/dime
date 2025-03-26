@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { ColumnFiltersState } from "@tanstack/react-table";
@@ -5,7 +6,7 @@ import React, { Dispatch, SetStateAction } from "react";
 
 type Props = {
   columnFilters: ColumnFiltersState;
-  setColumnFilter: Dispatch<SetStateAction<ColumnFiltersState>>;
+  setColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>;
 };
 
 const categoryOptions = [
@@ -14,14 +15,14 @@ const categoryOptions = [
   { value: "direct deposit", label: "Direct Deposit" },
   {
     value: "mobile payment",
-    label: "Mobile Payment (Paypal, CashApp, Zelle, etc.)",
+    label: "Mobile Payment",
   },
   { value: "payroll card", label: "Payroll Card" },
 ];
 
-export default function IncomeTableFilterPaymentMethod({
+export default function IncomeFilterPayment({
   columnFilters,
-  setColumnFilter,
+  setColumnFilters,
 }: Props) {
   const paymentMethodObject = columnFilters.find(
     (item) => item.id === "payment_method",
@@ -32,7 +33,7 @@ export default function IncomeTableFilterPaymentMethod({
 
   const handleChange = (method: string) => {
     if (!paymentMethodObject) {
-      setColumnFilter((prev) => [
+      setColumnFilters((prev) => [
         ...prev,
         {
           id: "payment_method",
@@ -40,7 +41,7 @@ export default function IncomeTableFilterPaymentMethod({
         },
       ]);
     } else {
-      setColumnFilter((prev) => {
+      setColumnFilters((prev) => {
         const updatedColumnFilter = prev.map((item) => {
           if (item.id === "payment_method")
             return {
@@ -59,12 +60,12 @@ export default function IncomeTableFilterPaymentMethod({
       );
 
       if (filteredValues.length === 0) {
-        setColumnFilter(
+        setColumnFilters(
           columnFilters.filter((item) => item.id !== "payment_method"),
         );
       }
 
-      setColumnFilter((prev) => {
+      setColumnFilters((prev) => {
         const updatedFilters = prev.map((item) => {
           if (item.id === "payment_method")
             return {
@@ -79,25 +80,41 @@ export default function IncomeTableFilterPaymentMethod({
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      {categoryOptions.map((item) => (
-        <div
-          key={item.value}
-          className="group flex w-fit items-center gap-2 hover:cursor-pointer"
-        >
-          <Checkbox
-            id={item.value}
-            checked={paymentMethodValues?.includes(item.value)}
-            onCheckedChange={() => handleChange(item.value)}
-          />
-          <Label
-            htmlFor={item.value}
-            className="text-sm font-normal group-hover:cursor-pointer group-hover:font-medium"
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 lg:gap-2">
+        {categoryOptions.map((item) => (
+          <div
+            key={item.value}
+            className="group flex h-12 w-full items-center gap-2 rounded-lg border px-4 hover:cursor-pointer lg:h-auto lg:w-fit lg:rounded-none lg:border-0 lg:px-0"
           >
-            {item.label}
-          </Label>
-        </div>
-      ))}
+            <Checkbox
+              id={item.value}
+              checked={paymentMethodValues?.includes(item.value)}
+              onCheckedChange={() => handleChange(item.value)}
+              className="size-5 lg:size-4"
+            />
+            <Label
+              htmlFor={item.value}
+              className="w-full text-base font-normal group-hover:cursor-pointer lg:text-sm lg:group-hover:font-medium"
+            >
+              {item.label}
+            </Label>
+          </div>
+        ))}
+      </div>
+      <Button
+        variant="outline"
+        size="sm"
+        disabled={!columnFilters.some((item) => item.id === "payment_method")}
+        className="ml-auto w-fit"
+        onClick={() =>
+          setColumnFilters(
+            columnFilters.filter((item) => item.id !== "payment_method"),
+          )
+        }
+      >
+        Reset
+      </Button>
     </div>
   );
 }

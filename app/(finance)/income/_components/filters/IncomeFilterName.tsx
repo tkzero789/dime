@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,7 +10,7 @@ type Props = {
   setColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>;
 };
 
-export default function IncomeTableFilterName({
+export default function IncomeFilterName({
   columnFilters,
   setColumnFilters,
 }: Props) {
@@ -75,35 +76,56 @@ export default function IncomeTableFilterName({
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-        <Input
-          placeholder="Enter name"
-          value={keyword}
-          onChange={(event) => setKeyword(event.target.value)}
-          className="h-10 text-sm"
-        />
-      </form>
-      <div className="flex flex-col gap-2">
-        {keywordValues?.map((item, index) => (
-          <div
-            key={index}
-            className="group flex w-fit items-center gap-2 hover:cursor-pointer"
-          >
-            <Checkbox
-              id={index.toString()}
-              checked={true}
-              onCheckedChange={() => handleRemove(index)}
-            />
-            <Label
-              htmlFor={index.toString()}
-              className="text-sm font-normal group-hover:cursor-pointer group-hover:font-medium"
-            >
-              {item}
-            </Label>
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+          <Input
+            placeholder="Enter name"
+            value={keyword}
+            onChange={(event) => setKeyword(event.target.value)}
+            className="h-12 text-sm lg:h-10"
+          />
+        </form>
+        {keywordValues.length !== 0 && (
+          <div className="flex flex-col gap-4 lg:gap-2">
+            <div className="text-base lg:text-sm">
+              Anything matching (case insensitive):
+            </div>
+            <div className="flex flex-col gap-4 lg:gap-2">
+              {keywordValues?.map((item, index) => (
+                <div
+                  key={index}
+                  className="group flex w-fit items-center gap-2 hover:cursor-pointer"
+                >
+                  <Checkbox
+                    id={index.toString()}
+                    checked={true}
+                    onCheckedChange={() => handleRemove(index)}
+                    className="size-5 lg:size-4"
+                  />
+                  <Label
+                    htmlFor={index.toString()}
+                    className="text-base font-normal group-hover:cursor-pointer group-hover:font-medium lg:text-sm"
+                  >
+                    {item}
+                  </Label>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
+        )}
       </div>
+      <Button
+        variant="outline"
+        size="sm"
+        disabled={!columnFilters.some((item) => item.id === "name")}
+        className="ml-auto w-fit"
+        onClick={() =>
+          setColumnFilters(columnFilters.filter((item) => item.id !== "name"))
+        }
+      >
+        Reset
+      </Button>
     </div>
   );
 }
