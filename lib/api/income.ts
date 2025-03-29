@@ -1,4 +1,4 @@
-import { IncomeData, IncomeState, IncomeUpdateState } from "@/types";
+import { IncomeData, IncomeState } from "@/types";
 
 export async function getIncomeData(searchParams: {
   startDate: string;
@@ -11,6 +11,10 @@ export async function getIncomeData(searchParams: {
   const response = await fetch(`/api/income?${params.toString()}`);
   return response.json();
 }
+
+type IncomeUpdateState = IncomeData & {
+  id: string;
+};
 
 export async function addIncome(newIncome: IncomeState) {
   try {
