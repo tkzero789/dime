@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { SelectSingleEventHandler } from "react-day-picker";
 import { IncomeState } from "@/types";
+import { format } from "date-fns";
 
 type Props = {
   date: Date;
@@ -20,6 +20,8 @@ type Props = {
 
 export function IncomeDatePicker({ date, handleFormChange }: Props) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+
+  const defaultMonth = date || new Date();
   const currentDate = new Date();
   const fromMonth = new Date(2010, 0);
   const toMonth = new Date(
@@ -27,9 +29,9 @@ export function IncomeDatePicker({ date, handleFormChange }: Props) {
     currentDate.getUTCMonth(),
   );
 
-  const handleOnSelect: SelectSingleEventHandler = (date) => {
-    if (date) {
-      handleFormChange("date", date);
+  const handleOnSelect: SelectSingleEventHandler = (selectedDate) => {
+    if (selectedDate) {
+      handleFormChange("date", selectedDate);
     }
     setIsOpen(false);
   };
@@ -50,6 +52,7 @@ export function IncomeDatePicker({ date, handleFormChange }: Props) {
           mode="single"
           selected={date}
           onSelect={handleOnSelect}
+          defaultMonth={defaultMonth}
           initialFocus
           disableNavigation={false}
           showOutsideDays={false}

@@ -1,4 +1,4 @@
-import { IncomeData, IncomeState } from "@/types";
+import { IncomeData, IncomeState, IncomeUpdateState } from "@/types";
 
 export async function getIncomeData(searchParams: {
   startDate: string;
@@ -30,6 +30,28 @@ export async function addIncome(newIncome: IncomeState) {
     return await response.json();
   } catch (error) {
     console.error("API error adding income", error);
+    throw error;
+  }
+}
+
+export async function updateIncome(incomeToUpdate: IncomeUpdateState) {
+  try {
+    const response = await fetch(`/api/income/${incomeToUpdate.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(incomeToUpdate),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error || "API error updating income");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("API error updating income", error);
     throw error;
   }
 }

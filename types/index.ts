@@ -19,7 +19,7 @@ export type IncomeState = {
   name: string;
   amount: string;
   category: string;
-  method: string;
+  payment_method: string;
   date: Date;
 };
 

@@ -1,9 +1,8 @@
 import React from "react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -15,167 +14,204 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Pencil } from "lucide-react";
+import { Check, LoaderCircle, Pencil } from "lucide-react";
 import { Input } from "@/components/ui/input";
 // import { IncomeDatePicker } from "./IncomeDatePicker";
-import { PopoverClose } from "@radix-ui/react-popover";
 import { Button } from "@/components/ui/button";
-import { db } from "@/db/dbConfig";
-import { income } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
-import { IncomeData } from "@/types";
-import { useUser } from "@clerk/nextjs";
+import { IncomeData, IncomeState } from "@/types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateIncome } from "@/lib/api/income";
+import toast from "react-hot-toast";
+import { IncomeDatePicker } from "./IncomeDatePicker";
+import { convertToLocalDate } from "@/utils/convertToLocalDate";
 
 type Props = {
   incomeData: IncomeData;
 };
 
+const selectOptions = {
+  categories: [
+    { value: "salary", label: "Salary" },
+    { value: "business", label: "Business" },
+    { value: "investments", label: "Investments" },
+    { value: "rental income", label: "Rental Income" },
+    { value: "pensions", label: "Pensions" },
+  ],
+  paymentMethods: [
+    { value: "cash", label: "Cash" },
+    { value: "check", label: "Check" },
+    { value: "direct deposit", label: "Direct Deposit" },
+    {
+      value: "mobile payment",
+      label: "Mobile Payment (Paypal, CashApp, Zelle, etc.)",
+    },
+    { value: "payroll card", label: "Payroll Card" },
+  ],
+};
+
 export default function EditIncome({ incomeData }: Props) {
-  const { user } = useUser();
+  const [open, setOpen] = React.useState<boolean>(false);
 
-  // Correct date displays for datepicker in edit income
-  const convertToLocalDate = (dateString: string): Date => {
-    const [year, month, day] = dateString.split("-").map(Number);
-    return new Date(year, month - 1, day);
+  const [incomeToEdit, setIncomeToEdit] = React.useState<IncomeState>({
+    name: incomeData.name,
+    amount: incomeData.amount,
+    date: convertToLocalDate(incomeData.date),
+    category: incomeData.category,
+    payment_method: incomeData.payment_method,
+  });
+
+  const handleFormChange = (field: keyof IncomeState, value: string | Date) => {
+    setIncomeToEdit((prev) => ({ ...prev, [field]: value }));
   };
 
-  const [incomeName, setIncomeName] = React.useState<string>("");
-  const [incomeAmount, setIncomeAmount] = React.useState<string>("");
-  const [incomeDate, setIncomeDate] = React.useState<Date>(
-    convertToLocalDate(incomeData.date),
-  );
-  const [initialIncomeDate] = React.useState<Date>(
-    convertToLocalDate(incomeData.date),
-  );
-  const [incomeCategory, setIncomeCategory] = React.useState<string>(
-    incomeData.category,
-  );
-  const [initialIncomeCategory] = React.useState<string>(incomeData.category);
-  const [incomeMethod, setIncomeMethod] = React.useState<string>(
-    incomeData.payment_method,
-  );
-  const [initialIncomeMethod] = React.useState<string>(
-    incomeData.payment_method,
-  );
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: updateIncome,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["income"] });
+      setOpen(false);
+      toast.success("Income updated");
+    },
+    onError: (error) => {
+      toast.error("Failed to update income");
+      console.log("Failed to update income", error);
+    },
+  });
 
-  // Update income
-  const onUpdateIncome = async () => {
-    const updateName = incomeName || incomeData.name;
-    const updatedAmount = incomeAmount || incomeData.amount;
-    const updateDate = incomeDate || incomeData.date;
-    const updateCategory = incomeCategory || incomeData.category;
-    const updateMethod = incomeMethod || incomeData.payment_method;
-    const result = await db
-      .update(income)
-      .set({
-        name: updateName,
-        amount: updatedAmount,
-        category: updateCategory,
-        payment_method: updateMethod,
-        date: updateDate.toISOString(),
-      })
-      .where(
-        and(
-          eq(income.id, incomeData.id),
-          eq(income.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
-        ),
-      )
-      .returning();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    console.log(result);
-  };
+    if (
+      incomeToEdit.name.trim() == "" ||
+      !incomeToEdit.amount ||
+      !incomeToEdit.date ||
+      !incomeToEdit.category ||
+      !incomeToEdit.payment_method
+    ) {
+      toast.error("Missing required information");
+      return;
+    }
 
-  // On click edit (reset to original)
-  const handleOnClickEdit = () => {
-    setIncomeName("");
-    setIncomeAmount("");
-    setIncomeCategory(incomeData.category);
-    setIncomeMethod(incomeData.payment_method);
-    setIncomeDate(convertToLocalDate(incomeData.date));
+    mutate({
+      id: incomeData.id,
+      name: incomeToEdit.name,
+      amount: incomeToEdit.amount,
+      date: incomeToEdit.date,
+      category: incomeToEdit.category,
+      payment_method: incomeToEdit.payment_method,
+    });
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="w-full justify-start"
-          onClick={handleOnClickEdit}
-        >
-          <Pencil />
+        <Button variant="ghost" size="sm" className="w-full justify-start">
+          <Pencil className="h-6 w-6" strokeWidth={1.5} />
           Edit
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-center">Edit Income</DialogTitle>
-          <DialogDescription className="flex flex-col gap-4 pt-4">
+          <DialogTitle>Edit income</DialogTitle>
+          <DialogClose asChild className="lg:hidden">
+            <Button
+              size="icon"
+              type="submit"
+              form="addIncomeForm"
+              disabled={
+                incomeToEdit.name.trim() == "" ||
+                !incomeToEdit.amount ||
+                !incomeToEdit.date ||
+                !incomeToEdit.category ||
+                !incomeToEdit.payment_method ||
+                isPending
+              }
+            >
+              <Check className="h-6 w-6" strokeWidth={1.5} />
+            </Button>
+          </DialogClose>
+        </DialogHeader>
+        <form
+          id="editIncomeForm"
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-6"
+        >
+          <div className="flex flex-col gap-4 px-6">
             <Input
               type="text"
-              defaultValue={incomeData.name}
-              onChange={(e) => setIncomeName(e.target.value)}
+              placeholder="Income name"
+              value={incomeToEdit.name}
+              onChange={(e) => handleFormChange("name", e.target.value)}
             />
+            {/* Income Amount */}
             <Input
               type="number"
-              className="mt-1 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-              defaultValue={Number(incomeData.amount)}
-              onChange={(e) => setIncomeAmount(e.target.value)}
+              placeholder="Amount"
+              value={incomeToEdit.amount}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^\d*\.?\d{0,2}$/.test(value)) {
+                  handleFormChange("amount", value);
+                }
+              }}
             />
-            {/* <IncomeDatePicker date={incomeDate} setDate={setIncomeDate} /> */}
+            {/* DatePicker */}
+            <IncomeDatePicker
+              date={incomeToEdit.date}
+              handleFormChange={handleFormChange}
+            />
+            {/* Category */}
             <Select
-              value={incomeCategory}
-              onValueChange={(value) => setIncomeCategory(value)}
+              value={incomeToEdit.category}
+              onValueChange={(value) => handleFormChange("category", value)}
             >
               <SelectTrigger className="w-full">
-                <SelectValue />
+                <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="salary">Salary</SelectItem>
-                <SelectItem value="business">Business</SelectItem>
-                <SelectItem value="investments">Investments</SelectItem>
-                <SelectItem value="rental income">Rental Income</SelectItem>
-                <SelectItem value="pensions">Pensions</SelectItem>
+                {selectOptions.categories.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
+            {/* Payment Method */}
             <Select
-              value={incomeMethod}
-              onValueChange={(value) => setIncomeMethod(value)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="cash">Cash</SelectItem>
-                <SelectItem value="check">Check</SelectItem>
-                <SelectItem value="direct deposit">Direct Deposit</SelectItem>
-                <SelectItem value="mobile payment">
-                  Mobile Payment (Paypal, CashApp, Zelle, etc.)
-                </SelectItem>
-                <SelectItem value="payroll card">Payroll Card</SelectItem>
-              </SelectContent>
-            </Select>
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter className="flex-col sm:justify-start">
-          <PopoverClose asChild>
-            <Button
-              className="w-full"
-              disabled={
-                !(
-                  incomeName ||
-                  incomeAmount ||
-                  incomeCategory !== initialIncomeCategory ||
-                  incomeMethod !== initialIncomeMethod ||
-                  incomeDate?.getTime() !== initialIncomeDate?.getTime()
-                )
+              value={incomeToEdit.payment_method}
+              onValueChange={(value) =>
+                handleFormChange("payment_method", value)
               }
-              onClick={() => onUpdateIncome()}
             >
-              Save
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Payment method" />
+              </SelectTrigger>
+              <SelectContent>
+                {selectOptions.paymentMethods.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="hidden items-center justify-end border-t p-6 lg:flex">
+            <Button
+              type="submit"
+              disabled={
+                incomeToEdit.name.trim() == "" ||
+                !incomeToEdit.amount ||
+                !incomeToEdit.date ||
+                !incomeToEdit.category ||
+                !incomeToEdit.payment_method ||
+                isPending
+              }
+            >
+              {isPending && <LoaderCircle className="animate-spin" />}Edit
+              income
             </Button>
-          </PopoverClose>
-        </DialogFooter>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

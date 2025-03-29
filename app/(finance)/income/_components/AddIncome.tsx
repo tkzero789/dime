@@ -53,7 +53,7 @@ export default function AddIncome() {
     name: "",
     amount: "",
     category: "",
-    method: "",
+    payment_method: "",
     date: startOfDay(new Date()),
   });
 
@@ -85,11 +85,11 @@ export default function AddIncome() {
     e.preventDefault();
 
     if (
-      !newIncome.name ||
+      newIncome.name.trim() == "" ||
       !newIncome.amount ||
       !newIncome.date ||
       !newIncome.category ||
-      !newIncome.method
+      !newIncome.payment_method
     ) {
       toast.error("Missing required information");
       return;
@@ -100,7 +100,7 @@ export default function AddIncome() {
       amount: newIncome.amount,
       date: newIncome.date,
       category: newIncome.category,
-      method: newIncome.method,
+      payment_method: newIncome.payment_method,
     });
   };
 
@@ -109,7 +109,7 @@ export default function AddIncome() {
       name: "",
       amount: "",
       category: "",
-      method: "",
+      payment_method: "",
       date: startOfDay(new Date()),
     });
   };
@@ -131,13 +131,12 @@ export default function AddIncome() {
               type="submit"
               form="addIncomeForm"
               disabled={
-                !(
-                  newIncome.name &&
-                  newIncome.amount &&
-                  newIncome.date &&
-                  newIncome.category &&
-                  newIncome.method
-                ) || isPending
+                newIncome.name.trim() == "" ||
+                !newIncome.amount ||
+                !newIncome.date ||
+                !newIncome.category ||
+                !newIncome.payment_method ||
+                isPending
               }
             >
               <Plus className="h-6 w-6" strokeWidth={1.5} />
@@ -163,7 +162,7 @@ export default function AddIncome() {
               value={newIncome.amount}
               onChange={(e) => {
                 const value = e.target.value;
-                if (parseFloat(value) > 0 || value === "") {
+                if (/^\d*\.?\d{0,2}$/.test(value)) {
                   handleFormChange("amount", value);
                 }
               }}
@@ -191,8 +190,10 @@ export default function AddIncome() {
             </Select>
             {/* Payment Method */}
             <Select
-              value={newIncome.method}
-              onValueChange={(value) => handleFormChange("method", value)}
+              value={newIncome.payment_method}
+              onValueChange={(value) =>
+                handleFormChange("payment_method", value)
+              }
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Payment method" />
@@ -210,13 +211,12 @@ export default function AddIncome() {
             <Button
               type="submit"
               disabled={
-                !(
-                  newIncome.name &&
-                  newIncome.amount &&
-                  newIncome.date &&
-                  newIncome.category &&
-                  newIncome.method
-                ) || isPending
+                newIncome.name.trim() == "" ||
+                !newIncome.amount ||
+                !newIncome.date ||
+                !newIncome.category ||
+                !newIncome.payment_method ||
+                isPending
               }
             >
               {isPending && <LoaderCircle className="animate-spin" />}Add income

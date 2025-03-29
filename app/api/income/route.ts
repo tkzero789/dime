@@ -60,7 +60,7 @@ export async function POST(request: Request) {
       amount: body.amount,
       date: body.date,
       category: body.category,
-      payment_method: body.method,
+      payment_method: body.payment_method,
       created_by: user?.primaryEmailAddress?.emailAddress || "",
     });
 

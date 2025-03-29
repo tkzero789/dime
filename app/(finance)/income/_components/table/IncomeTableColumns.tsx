@@ -114,7 +114,7 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
     cell: ({ row }) => {
       const rowIncomeData = row.original;
       return (
-        <Popover>
+        <Popover modal={true}>
           <PopoverTrigger asChild>
             <Button
               variant="ghost"
