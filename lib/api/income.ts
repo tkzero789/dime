@@ -12,7 +12,7 @@ export async function getIncomeData(searchParams: {
   return response.json();
 }
 
-type IncomeUpdateState = IncomeData & {
+type IncomeUpdateState = IncomeState & {
   id: string;
 };
 
