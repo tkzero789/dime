@@ -201,7 +201,7 @@ export default function DashboardPage() {
   ]);
 
   return (
-    <div className="grid gap-6">
+    <div className="flex flex-col gap-6">
       <DashboardNav />
       <DashboardTopSection
         accountData={accountData}
