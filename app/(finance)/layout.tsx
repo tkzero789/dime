@@ -10,12 +10,14 @@ export default function FinanceLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="flex bg-[#fbfbfb]">
-      <SideNav />
-      <div className="finance-layout relative flex-1">
-        <QueryProvider>{children}</QueryProvider>
+    <main className="bg-[#fbfbfb]">
+      <div className="mx-auto flex w-full max-w-[96rem]">
+        <SideNav />
+        <div className="finance-layout relative flex-1">
+          <QueryProvider>{children}</QueryProvider>
+        </div>
+        <MobileNav />
       </div>
-      <MobileNav />
     </main>
   );
 }
