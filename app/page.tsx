@@ -6,15 +6,12 @@ import BenefitSection from "./_components/BenefitSection/BenefitSection";
 import QASection from "./_components/QASection/QASection";
 import CallToActionSection from "./_components/CallToActionSection/CallToActionSection";
 import FooterSection from "./_components/FooterSection/FooterSection";
-import "@/css/app.css";
 import MobileLandingNav from "./_components/Nav/MobileLandingNav";
-import MobileCarousel from "./_components/FeatureSection/MobileCarousel";
-import { EmblaOptionsType } from "embla-carousel";
+import MobileFeatureCarousel from "./_components/FeatureSection/MobileFeatureCarousel";
+import "@/css/app.css";
 import "@/css/embla.css";
 
 export default function Home() {
-  const OPTIONS: EmblaOptionsType = { containScroll: false };
-
   return (
     <main className="h-screen">
       <LandingBackground />
@@ -22,7 +19,7 @@ export default function Home() {
       <MobileLandingNav />
       <HeroSection />
       <DashboardTabs />
-      <MobileCarousel options={OPTIONS} />
+      <MobileFeatureCarousel />
       <BenefitSection />
       <QASection />
       <CallToActionSection />

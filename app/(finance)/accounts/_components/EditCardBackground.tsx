@@ -7,6 +7,7 @@ import {
 import { Edit } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { Button } from "@/components/ui/button";
 
 const CardBG = [
   { name: "Red", value: "from-red-600 to-red-800" },
@@ -39,14 +40,15 @@ type Props = {
   handleFormChange: (field: keyof AddAccountState, value: string) => void;
 };
 
-export default function PickCardBg({ handleFormChange }: Props) {
+export default function EditCardBackground({ handleFormChange }: Props) {
   return (
     <Popover>
-      <PopoverTrigger className="flex items-center gap-2 rounded-full bg-white/20 px-2 py-1 text-xs hover:bg-white/30">
-        <Edit className="h-4 w-4" strokeWidth={2} />
-        Card background
+      <PopoverTrigger asChild>
+        <Button variant="translucent" size="icon-sm">
+          <Edit />
+        </Button>
       </PopoverTrigger>
-      <PopoverContent className="grid w-fit grid-cols-4 gap-4">
+      <PopoverContent align="start" className="grid w-fit grid-cols-4 gap-4">
         {CardBG.map((item) => (
           <PopoverClose asChild key={item.name}>
             <button

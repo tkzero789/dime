@@ -9,7 +9,7 @@ export async function getIncomeData(searchParams: {
     endDate: searchParams.endDate,
   });
   const response = await fetch(`/api/income?${params.toString()}`);
-  return response.json();
+  return await response.json();
 }
 
 type IncomeUpdateState = IncomeState & {
@@ -60,9 +60,9 @@ export async function updateIncome(incomeToUpdate: IncomeUpdateState) {
   }
 }
 
-export async function deleteIncome(id: string) {
+export async function deleteIncome(incomeId: string) {
   try {
-    const response = await fetch(`/api/income/${id}`, {
+    const response = await fetch(`/api/income/${incomeId}`, {
       method: "DELETE",
     });
 
@@ -71,7 +71,7 @@ export async function deleteIncome(id: string) {
       throw new Error(error || "API error deleting income");
     }
 
-    return response.json();
+    return await response.json();
   } catch (error) {
     console.error("API error deleting income", error);
     throw error;

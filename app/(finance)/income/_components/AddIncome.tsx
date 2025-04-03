@@ -118,7 +118,7 @@ export default function AddIncome() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button onClick={handleClearInput}>
-          <Plus className="h-6 w-6" strokeWidth={1.5} />
+          <Plus />
           Add income
         </Button>
       </DialogTrigger>
@@ -139,7 +139,7 @@ export default function AddIncome() {
                 isPending
               }
             >
-              <Plus className="h-6 w-6" strokeWidth={1.5} />
+              <Plus />
             </Button>
           </DialogClose>
         </DialogHeader>
@@ -148,14 +148,16 @@ export default function AddIncome() {
           onSubmit={handleSubmit}
           className="flex flex-col gap-6"
         >
-          <div className="flex flex-col gap-4 px-6">
+          {/* Form content */}
+          <div className="flex flex-col gap-4 px-6 pb-6">
+            {/* Name */}
             <Input
               type="text"
               placeholder="Income name"
               value={newIncome.name}
               onChange={(e) => handleFormChange("name", e.target.value)}
             />
-            {/* Income Amount */}
+            {/* Amount */}
             <Input
               type="number"
               placeholder="Amount"
@@ -188,7 +190,7 @@ export default function AddIncome() {
                 ))}
               </SelectContent>
             </Select>
-            {/* Payment Method */}
+            {/* Payment method */}
             <Select
               value={newIncome.payment_method}
               onValueChange={(value) =>
@@ -207,6 +209,7 @@ export default function AddIncome() {
               </SelectContent>
             </Select>
           </div>
+          {/* Button */}
           <div className="hidden items-center justify-end border-t p-6 lg:flex">
             <Button
               type="submit"

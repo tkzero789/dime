@@ -2,7 +2,7 @@ import React from "react";
 import { columns, Transaction } from "./table/columns";
 import { db } from "@/db/dbConfig";
 import { eq, getTableColumns } from "drizzle-orm";
-import { BudgetExpenses, income, Recurrence, Single } from "@/db/schema";
+import { budget_expense, income, Recurrence, Single } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { TransactionTable } from "./table/TransactionTable";
 
@@ -15,9 +15,9 @@ async function getData(): Promise<Transaction[]> {
       .from(income)
       .where(eq(income.created_by, onlineUser)),
     db
-      .select({ ...getTableColumns(BudgetExpenses) })
-      .from(BudgetExpenses)
-      .where(eq(BudgetExpenses.created_by, onlineUser)),
+      .select({ ...getTableColumns(budget_expense) })
+      .from(budget_expense)
+      .where(eq(budget_expense.created_by, onlineUser)),
     db
       .select({ ...getTableColumns(Recurrence) })
       .from(Recurrence)

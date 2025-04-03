@@ -4,7 +4,7 @@ import React from "react";
 import BudgetList from "./_components/budget/BudgetList";
 import { db } from "@/db/dbConfig";
 import { and, desc, eq, getTableColumns, sql } from "drizzle-orm";
-import { Budgets, BudgetExpenses } from "@/db/schema";
+import { budget_expense, Budgets } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { BudgetRadialChart } from "./_components/chart/BudgetRadialChart";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
@@ -31,15 +31,15 @@ export default function BudgetsPage() {
       const result = await db
         .select({
           ...getTableColumns(Budgets),
-          total_spend: sql`sum(${BudgetExpenses.amount})`.mapWith(Number),
-          total_item: sql`count(${BudgetExpenses.id})`.mapWith(Number),
+          total_spend: sql`sum(${budget_expense.amount})`.mapWith(Number),
+          total_item: sql`count(${budget_expense.id})`.mapWith(Number),
           remaining:
-            sql`${Budgets.amount} - sum(${BudgetExpenses.amount})`.mapWith(
+            sql`${Budgets.amount} - sum(${budget_expense.amount})`.mapWith(
               Number,
             ),
         })
         .from(Budgets)
-        .leftJoin(BudgetExpenses, eq(Budgets.id, BudgetExpenses.budget_id))
+        .leftJoin(budget_expense, eq(Budgets.id, budget_expense.budget_id))
         .where(
           and(
             eq(Budgets.created_by, currentUser),

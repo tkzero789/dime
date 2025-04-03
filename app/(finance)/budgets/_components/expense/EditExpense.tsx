@@ -16,7 +16,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BudgetExpenses } from "@/db/schema";
 import { db } from "@/db/dbConfig";
 import { and, eq } from "drizzle-orm";
 import { Input } from "@/components/ui/input";
@@ -25,6 +24,7 @@ import { ExpenseDatePicker } from "./ExpenseDatePicker";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Pencil } from "lucide-react";
 import { ExpenseData } from "@/types";
+import { budget_expense } from "@/db/schema";
 
 type Props = {
   refreshData: () => void;
@@ -65,7 +65,7 @@ export default function EditExpense({
     const updatedExpenseDate = expenseDate || expenseInfo.date;
     const updatePaymentMethod = paymentMethod || expenseInfo.payment_method;
     const result = await db
-      .update(BudgetExpenses)
+      .update(budget_expense)
       .set({
         name: updateExpenseName,
         amount: updateExpenseAmount,
@@ -74,8 +74,8 @@ export default function EditExpense({
       })
       .where(
         and(
-          eq(BudgetExpenses.id, expenseInfo.id),
-          eq(BudgetExpenses.created_by, currentUser ?? ""),
+          eq(budget_expense.id, expenseInfo.id),
+          eq(budget_expense.created_by, currentUser ?? ""),
         ),
       )
       .returning();

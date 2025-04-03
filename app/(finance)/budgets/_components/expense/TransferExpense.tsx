@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
 import { and, desc, eq } from "drizzle-orm";
-import { Budgets, BudgetExpenses } from "@/db/schema";
+import { budget_expense, Budgets } from "@/db/schema";
 import {
   Dialog,
   DialogContent,
@@ -88,12 +88,12 @@ export default function TransferExpense({
   const handleTransferExpense = async (budget_id: string) => {
     try {
       const result = await db
-        .update(BudgetExpenses)
+        .update(budget_expense)
         .set({ budget_id })
         .where(
           and(
-            eq(BudgetExpenses.id, expenseId),
-            eq(BudgetExpenses.created_by, currentUser ?? ""),
+            eq(budget_expense.id, expenseId),
+            eq(budget_expense.created_by, currentUser ?? ""),
           ),
         );
 

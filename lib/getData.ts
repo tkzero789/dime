@@ -1,5 +1,5 @@
 import {
-  BudgetExpenses,
+  budget_expense,
   Budgets,
   income,
   Recurrence,
@@ -62,13 +62,13 @@ export async function getUserData(userEmail: string) {
           and(eq(Budgets.created_by, userEmail), eq(Budgets.year, currentYear)),
         ),
       db
-        .select({ ...getTableColumns(BudgetExpenses) })
-        .from(BudgetExpenses)
+        .select({ ...getTableColumns(budget_expense) })
+        .from(budget_expense)
         .where(
           and(
-            eq(BudgetExpenses.created_by, userEmail),
-            gte(BudgetExpenses.date, firstDayOfPrevMonth),
-            lte(BudgetExpenses.date, lastDayOfMonth),
+            eq(budget_expense.created_by, userEmail),
+            gte(budget_expense.date, firstDayOfPrevMonth),
+            lte(budget_expense.date, lastDayOfMonth),
           ),
         ),
       db

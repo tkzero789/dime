@@ -1,8 +1,9 @@
 import React from "react";
 import SideNav from "./_components/SideNav";
 import MobileNav from "../_components/Nav/MobileNav";
-import "@/css/app.css";
 import QueryProvider from "./_components/QueryProvider";
+import "@/css/app.css";
+import "@/css/embla.css";
 
 export default function FinanceLayout({
   children,

@@ -4,10 +4,10 @@ import React from "react";
 import { db } from "@/db/dbConfig";
 import {
   Budgets,
-  BudgetExpenses,
   Recurrence,
   Single,
-  accounts,
+  account,
+  budget_expense,
   income,
 } from "@/db/schema";
 import {
@@ -56,13 +56,13 @@ export default function DashboardPage() {
         // Accounts
         const accountDataReponse = await db
           .select({
-            ...getTableColumns(accounts),
+            ...getTableColumns(account),
           })
-          .from(accounts)
+          .from(account)
           .where(
             and(
-              eq(accounts.created_by, currentUser || ""),
-              eq(accounts.is_active, true),
+              eq(account.created_by, currentUser || ""),
+              eq(account.is_active, true),
             ),
           );
 
@@ -84,14 +84,14 @@ export default function DashboardPage() {
             ),
           db
             .select({
-              ...getTableColumns(BudgetExpenses),
+              ...getTableColumns(budget_expense),
             })
-            .from(BudgetExpenses)
+            .from(budget_expense)
             .where(
               and(
-                eq(BudgetExpenses.created_by, currentUser ?? ""),
-                gte(BudgetExpenses.date, firstDayOfPrevMonth),
-                lte(BudgetExpenses.date, lastDayOfMonth),
+                eq(budget_expense.created_by, currentUser ?? ""),
+                gte(budget_expense.date, firstDayOfPrevMonth),
+                lte(budget_expense.date, lastDayOfMonth),
               ),
             ),
           db
@@ -117,15 +117,15 @@ export default function DashboardPage() {
           db
             .select({
               ...getTableColumns(Budgets),
-              total_spend: sql`sum(${BudgetExpenses.amount})`.mapWith(Number),
-              total_item: sql`count(${BudgetExpenses.id})`.mapWith(Number),
+              total_spend: sql`sum(${budget_expense.amount})`.mapWith(Number),
+              total_item: sql`count(${budget_expense.id})`.mapWith(Number),
               remaining:
-                sql`${Budgets.amount} - sum(${BudgetExpenses.amount})`.mapWith(
+                sql`${Budgets.amount} - sum(${budget_expense.amount})`.mapWith(
                   Number,
                 ),
             })
             .from(Budgets)
-            .leftJoin(BudgetExpenses, eq(Budgets.id, BudgetExpenses.budget_id))
+            .leftJoin(budget_expense, eq(Budgets.id, budget_expense.budget_id))
             .where(
               and(
                 eq(

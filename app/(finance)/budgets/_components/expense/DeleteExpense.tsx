@@ -10,13 +10,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { BudgetExpenses } from "@/db/schema";
+
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/dbConfig";
 import toast from "react-hot-toast";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { budget_expense } from "@/db/schema";
 
 type Props = {
   refreshData: () => void;
@@ -32,11 +33,11 @@ export default function DeleteExpense({
   // Delete expense
   const deleteExpense = async (expenseId: string) => {
     const result = await db
-      .delete(BudgetExpenses)
+      .delete(budget_expense)
       .where(
         and(
-          eq(BudgetExpenses.id, expenseId),
-          eq(BudgetExpenses.created_by, currentUser ?? ""),
+          eq(budget_expense.id, expenseId),
+          eq(budget_expense.created_by, currentUser ?? ""),
         ),
       )
       .returning();

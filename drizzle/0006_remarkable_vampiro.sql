@@ -1,1 +1,0 @@
-ALTER TABLE "accounts" RENAME COLUMN "is_actived" TO "is_active";

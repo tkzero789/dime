@@ -9,7 +9,7 @@ import {
   integer,
 } from "drizzle-orm/pg-core";
 
-export const accounts = pgTable("accounts", {
+export const account = pgTable("account", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: varchar("name").notNull(),
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
@@ -32,10 +32,10 @@ export const Budgets = pgTable("budgets", {
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const BudgetExpenses = pgTable("budget_expenses", {
+export const budget_expense = pgTable("budget_expense", {
   id: uuid("id").primaryKey().defaultRandom(),
   budget_id: uuid("budget_id").references(() => Budgets.id),
-  account_id: uuid("account_id").references(() => accounts.id),
+  account_id: uuid("account_id").references(() => account.id),
   name: varchar("name").notNull(),
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
   payment_method: varchar("payment_method").notNull(),

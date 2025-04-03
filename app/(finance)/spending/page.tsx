@@ -11,7 +11,7 @@ import {
 } from "@/types";
 import { db } from "@/db/dbConfig";
 import { eq, getTableColumns } from "drizzle-orm";
-import { BudgetExpenses, income, Recurrence, Single } from "@/db/schema";
+import { budget_expense, income, Recurrence, Single } from "@/db/schema";
 import { SpendingPieChart } from "./_components/chart/SpendingPieChart";
 
 export default function SpendingPage() {
@@ -68,10 +68,10 @@ export default function SpendingPage() {
           .where(eq(income.created_by, currentUser ?? "")),
         db
           .select({
-            ...getTableColumns(BudgetExpenses),
+            ...getTableColumns(budget_expense),
           })
-          .from(BudgetExpenses)
-          .where(eq(BudgetExpenses.created_by, currentUser ?? "")),
+          .from(budget_expense)
+          .where(eq(budget_expense.created_by, currentUser ?? "")),
         db
           .select({ ...getTableColumns(Recurrence) })
           .from(Recurrence)

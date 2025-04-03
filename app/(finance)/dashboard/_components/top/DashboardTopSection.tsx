@@ -5,9 +5,9 @@ import {
   SingleDetail,
 } from "@/types";
 import React from "react";
+import DashboardAccounts from "./DashboardAccounts";
 import { DashboardLineChart } from "../chart/DashboardLineChart";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
-import DashboardAccount from "./DashboardAccount";
 
 type Props = {
   accountData: AccountData[];
@@ -43,7 +43,7 @@ export default function DashboardTopSection({
             height={18}
           />
         ) : (
-          <DashboardAccount accountData={accountData} />
+          <DashboardAccounts accountData={accountData} />
         )}
       </div>
     </div>

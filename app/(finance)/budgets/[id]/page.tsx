@@ -2,7 +2,7 @@
 
 import React from "react";
 import { db } from "@/db/dbConfig";
-import { Budgets, BudgetExpenses } from "@/db/schema";
+import { budget_expense, Budgets } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { and, desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -54,14 +54,14 @@ export default function BudgetByIdPage({ params }: Props) {
     try {
       const result = await db
         .select()
-        .from(BudgetExpenses)
+        .from(budget_expense)
         .where(
           and(
-            eq(BudgetExpenses.created_by, currentUser ?? ""),
-            eq(BudgetExpenses.budget_id, params.id),
+            eq(budget_expense.created_by, currentUser ?? ""),
+            eq(budget_expense.budget_id, params.id),
           ),
         )
-        .orderBy(desc(BudgetExpenses.date));
+        .orderBy(desc(budget_expense.date));
 
       setExpenseDetail(result);
     } catch (error) {
@@ -75,15 +75,15 @@ export default function BudgetByIdPage({ params }: Props) {
     const result = await db
       .select({
         ...getTableColumns(Budgets),
-        total_spend: sql`sum(${BudgetExpenses.amount})`.mapWith(Number),
-        total_item: sql`count(${BudgetExpenses.id})`.mapWith(Number),
+        total_spend: sql`sum(${budget_expense.amount})`.mapWith(Number),
+        total_item: sql`count(${budget_expense.id})`.mapWith(Number),
         remaining:
-          sql`${Budgets.amount} - sum(${BudgetExpenses.amount})`.mapWith(
+          sql`${Budgets.amount} - sum(${budget_expense.amount})`.mapWith(
             Number,
           ),
       })
       .from(Budgets)
-      .leftJoin(BudgetExpenses, eq(Budgets.id, BudgetExpenses.budget_id))
+      .leftJoin(budget_expense, eq(Budgets.id, budget_expense.budget_id))
       .where(
         and(
           eq(Budgets.created_by, currentUser ?? ""),

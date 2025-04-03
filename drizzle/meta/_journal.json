@@ -5,57 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1728593685065,
-      "tag": "0000_chunky_madame_web",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1739467094358,
-      "tag": "0001_third_jigsaw",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1739824440643,
-      "tag": "0002_careful_charles_xavier",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1739826611601,
-      "tag": "0003_bored_the_phantom",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1740239692634,
-      "tag": "0004_mushy_night_nurse",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1740242401246,
-      "tag": "0005_silent_nekra",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1742221978955,
-      "tag": "0006_remarkable_vampiro",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "7",
-      "when": 1742228878174,
-      "tag": "0007_adorable_medusa",
+      "when": 1743539057672,
+      "tag": "0000_woozy_deadpool",
       "breakpoints": true
     }
   ]

@@ -134,7 +134,7 @@ export function DashboardLineChart({ spending }: Props) {
       <CardContent className="xl:h-[calc(100%-102px)]">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[250px] w-full xl:h-[250px]"
+          className="aspect-auto h-[240px] w-full"
         >
           <LineChart
             accessibilityLayer

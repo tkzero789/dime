@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { db } from "@/db/dbConfig";
-import { Budgets, BudgetExpenses } from "@/db/schema";
+import { budget_expense, Budgets } from "@/db/schema";
 import {
   Select,
   SelectContent,
@@ -42,7 +42,7 @@ export default function AddExpense({
     const formattedDate = format(date, "yyyy-MM-dd");
 
     const result = await db
-      .insert(BudgetExpenses)
+      .insert(budget_expense)
       .values({
         name: name,
         amount: amount,
