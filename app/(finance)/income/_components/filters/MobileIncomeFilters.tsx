@@ -18,6 +18,8 @@ import { ColumnFiltersState, SortingState } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
 
 type Props = {
+  sortOption: string;
+  setSortOption: Dispatch<SetStateAction<string>>;
   sorting: SortingState;
   setSorting: Dispatch<SetStateAction<SortingState>>;
   columnFilters: ColumnFiltersState;
@@ -33,12 +35,13 @@ const options = [
 ];
 
 export default function MobileIncomeFilters({
+  sortOption,
+  setSortOption,
   sorting,
   setSorting,
   columnFilters,
   setColumnFilters,
 }: Props) {
-  const [sortOption, setSortOption] = React.useState<string>("");
   const [filterOption, setFilterOption] = React.useState<{
     id: string;
     title: string;
@@ -97,6 +100,7 @@ export default function MobileIncomeFilters({
   };
 
   const handleResetFilters = () => {
+    setSortOption("");
     setSorting([]);
     setColumnFilters([]);
   };

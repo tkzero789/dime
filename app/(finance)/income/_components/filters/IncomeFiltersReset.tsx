@@ -10,15 +10,18 @@ import { RotateCw } from "lucide-react";
 import { ColumnFiltersState, SortingState } from "@tanstack/react-table";
 
 type Props = {
+  setSortOption: Dispatch<SetStateAction<string>>;
   setSorting: Dispatch<SetStateAction<SortingState>>;
   setColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>;
 };
 
 export default function IncomeFiltersReset({
+  setSortOption,
   setSorting,
   setColumnFilters,
 }: Props) {
   const handleResetFilters = () => {
+    setSortOption("");
     setSorting([]);
     setColumnFilters([]);
   };

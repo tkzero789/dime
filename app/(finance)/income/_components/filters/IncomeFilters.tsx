@@ -15,6 +15,8 @@ import IncomeFilterPayment from "./IncomeFilterPayment";
 import IncomeFilterAmount from "./IncomeFilterAmount";
 
 type Props = {
+  sortOption: string;
+  setSortOption: Dispatch<SetStateAction<string>>;
   sorting: SortingState;
   setSorting: Dispatch<SetStateAction<SortingState>>;
   columnFilters: ColumnFiltersState;
@@ -30,13 +32,14 @@ const options = [
 ];
 
 export default function IncomeFilters({
+  sortOption,
+  setSortOption,
   sorting,
   setSorting,
   columnFilters,
   setColumnFilters,
 }: Props) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
-  const [sortOption, setSortOption] = React.useState<string>("");
   const [filterOption, setFilterOption] = React.useState<string>("date");
 
   const displayFilterOption = (optionId: string) => {

@@ -129,8 +129,6 @@ export default function IncomeFilterAmount({
     setColumnFilters(columnFilters.filter((item) => item.id !== "amount"));
   };
 
-  console.log(sortOption);
-
   return (
     <div className="flex flex-col gap-4">
       <Accordion

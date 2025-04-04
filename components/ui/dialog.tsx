@@ -53,12 +53,14 @@ DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 interface DialogHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   showDialogClose?: boolean;
+  forceHeaderCenter?: boolean;
 }
 
 const DialogHeader = ({
   className,
   children,
   showDialogClose = true,
+  forceHeaderCenter = false,
   ...props
 }: DialogHeaderProps) => (
   <div
@@ -76,6 +78,7 @@ const DialogHeader = ({
       </Button>
     </DialogPrimitive.Close>
     {children}
+    {forceHeaderCenter && <div className="invisible size-10 select-none"></div>}
     <DialogPrimitive.Close asChild>
       <Button variant="subtle" size="icon" className="hidden lg:flex">
         <X className="h-6 w-6" />

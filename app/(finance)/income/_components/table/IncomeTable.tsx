@@ -34,6 +34,7 @@ export default function IncomeTable<TData, TValue>({
   columns,
 }: IncomeTableProps<TData, TValue>) {
   const tableRef = React.useRef<HTMLTableSectionElement>(null);
+  const [sortOption, setSortOption] = React.useState<string>("");
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -61,6 +62,8 @@ export default function IncomeTable<TData, TValue>({
         <div className="flex items-center justify-between gap-4">
           <h2 className="text-xl font-bold">Transactions</h2>
           <MobileIncomeFilters
+            sortOption={sortOption}
+            setSortOption={setSortOption}
             sorting={sorting}
             setSorting={setSorting}
             columnFilters={columnFilters}
@@ -68,12 +71,15 @@ export default function IncomeTable<TData, TValue>({
           />
           <div className="hidden items-center gap-4 lg:flex">
             <IncomeFilters
+              sortOption={sortOption}
+              setSortOption={setSortOption}
               sorting={sorting}
               setSorting={setSorting}
               columnFilters={columnFilters}
               setColumnFilters={setColumnFilters}
             />
             <IncomeFiltersReset
+              setSortOption={setSortOption}
               setSorting={setSorting}
               setColumnFilters={setColumnFilters}
             />

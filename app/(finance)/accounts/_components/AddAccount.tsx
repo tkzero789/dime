@@ -116,9 +116,12 @@ export default function AddAccount() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" onClick={handleClearInput}>
+        <Button
+          onClick={handleClearInput}
+          className="size-10 lg:h-10 lg:w-full lg:border lg:bg-background lg:px-4 lg:py-2 lg:text-foreground lg:hover:bg-muted"
+        >
           <Plus />
-          Add
+          <div className="hidden lg:block">Add</div>
         </Button>
       </DialogTrigger>
       <DialogContent>

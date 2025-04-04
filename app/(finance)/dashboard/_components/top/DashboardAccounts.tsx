@@ -7,7 +7,7 @@ import Link from "next/link";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
 import useEmblaCarousel from "embla-carousel-react";
-import ManageAccounts from "@/app/(finance)/accounts/_components/ManageAccounts";
+import ManageAccounts from "@/app/(finance)/accounts/_components/manage/ManageAccounts";
 
 type Props = {
   accountData: AccountData[];
