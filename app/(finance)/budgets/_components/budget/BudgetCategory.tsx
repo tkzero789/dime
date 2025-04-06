@@ -17,7 +17,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -101,12 +100,11 @@ export default function BudgetCategory({ category, handleFormChange }: Props) {
           {category || "Budget category"}
         </Button>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
+      <DialogContent className="gap-0">
+        <DialogHeader forceHeaderCenter={true}>
           <DialogTitle>What is this budget for?</DialogTitle>
-          <DialogDescription />
         </DialogHeader>
-        <div className="item flex max-h-96 flex-col overflow-y-auto">
+        <div className="item flex flex-col overflow-y-auto px-6 md:max-h-96">
           {budgetCategory.map((item, index) => (
             <div key={index} className="flex items-center py-4 pr-4">
               <item.icon

@@ -24,8 +24,10 @@ import {
 } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { BudgetData } from "@/types";
-import FormatNumber from "@/utils/formatNumber";
 import { Button } from "@/components/ui/button";
+import FormatNumber from "@/utils/formatNumber";
+import { format } from "date-fns";
+import { convertToLocalDate } from "@/utils/convertToLocalDate";
 
 const chartData = [{ spending: 1, fill: "var(--color-spent)" }];
 const chartConfig = {
@@ -36,47 +38,41 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 type Props = {
-  budgetList: BudgetData[];
+  date: string;
+  budgetData: BudgetData[];
   handlePreviousMonth: () => void;
   handleNextMonth: () => void;
-  month: number;
-  year: number;
 };
 
 export function BudgetRadialChart({
-  budgetList,
+  date,
+  budgetData,
   handlePreviousMonth,
   handleNextMonth,
-  month,
-  year,
 }: Props) {
   const [totalBudget, setTotalBudget] = React.useState<number>(0);
   const [totalSpend, setTotalSpend] = React.useState<number>(0);
   const [remaining, setRemaining] = React.useState<number>(0);
   const [chartPercent, setChartPercent] = React.useState<number>(0);
 
-  const currentDate = new Date();
-  const currentMonth = currentDate.getUTCMonth();
-  const currentYear = currentDate.getUTCFullYear();
-
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  // const months = [
+  //   "January",
+  //   "February",
+  //   "March",
+  //   "April",
+  //   "May",
+  //   "June",
+  //   "July",
+  //   "August",
+  //   "September",
+  //   "October",
+  //   "November",
+  //   "December",
+  // ];
 
   React.useEffect(() => {
     const calculation = () => {
-      const { totalAmount, totalSpend, remainingAmount } = budgetList?.reduce(
+      const { totalAmount, totalSpend, remainingAmount } = budgetData?.reduce(
         (acc, budget) => {
           acc.totalAmount += Number(budget.amount);
           acc.totalSpend += budget.total_spend;
@@ -105,7 +101,7 @@ export function BudgetRadialChart({
     };
 
     calculation();
-  }, [budgetList]);
+  }, [budgetData]);
 
   return (
     <Card className="col-span-3 flex flex-col xl:col-span-1">
@@ -118,14 +114,14 @@ export function BudgetRadialChart({
             Budgets Tracker
           </CardTitle>
           <CardDescription className="text-center">
-            {months[month]} - {year}
+            {format(convertToLocalDate(date), "MMMM yyyy")}
           </CardDescription>
         </div>
         <Button
           variant="outline"
           size="icon"
           onClick={handleNextMonth}
-          disabled={month === currentMonth && year === currentYear}
+          // disabled={month === currentMonth && year === currentYear}
         >
           <ChevronRight />
         </Button>

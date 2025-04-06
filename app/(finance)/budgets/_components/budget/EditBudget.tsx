@@ -7,7 +7,6 @@ import { PenBox } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { BudgetData } from "@/types";
 import { db } from "@/db/dbConfig";
-import { Budgets } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import {
   Dialog,
@@ -35,6 +34,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { budget } from "@/db/schema";
 
 type Props = {
   budgetInfo: BudgetData[];
@@ -122,7 +122,7 @@ export default function EditBudget({
   const onUpdateBudget = async () => {
     const updatedAmount = amount || budgetInfo[0]?.amount;
     const result = await db
-      .update(Budgets)
+      .update(budget)
       .set({
         amount: updatedAmount,
         emoji: emoji,
@@ -130,8 +130,8 @@ export default function EditBudget({
       })
       .where(
         and(
-          eq(Budgets.id, budgetInfo[0].id),
-          eq(Budgets.created_by, currentUser ?? ""),
+          eq(budget.id, budgetInfo[0].id),
+          eq(budget.created_by, currentUser ?? ""),
         ),
       )
       .returning();

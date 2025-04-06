@@ -36,20 +36,20 @@ type Props = {
 };
 
 export function BudgetByIdRadialChart({ budget }: Props) {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  // const months = [
+  //   "January",
+  //   "February",
+  //   "March",
+  //   "April",
+  //   "May",
+  //   "June",
+  //   "July",
+  //   "August",
+  //   "September",
+  //   "October",
+  //   "November",
+  //   "December",
+  // ];
 
   return (
     <Card className="hidden h-full flex-col rounded-xl shadow-md lg:flex">
@@ -57,7 +57,7 @@ export function BudgetByIdRadialChart({ budget }: Props) {
         <CardTitle className="text-xl font-bold tracking-normal">
           Budget Tracker
         </CardTitle>
-        <CardDescription>{months[budget[0]?.month]}</CardDescription>
+        <CardDescription>Month</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
         <ChartContainer

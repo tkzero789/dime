@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import { budget_expense, Budgets } from "@/db/schema";
+import { budget, budget_expense } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/db/dbConfig";
 import { useRouter } from "next/navigation";
@@ -37,20 +37,20 @@ export default function DeleteBudget({ paramsId, currentUser }: Props) {
       )
       .returning();
 
-    // If deleted expenses successfully
+    // If deleted expenses
     if (deleteRelatedExpenses) {
       const result = await db
-        .delete(Budgets)
+        .delete(budget)
         .where(
           and(
-            eq(Budgets.id, paramsId),
-            eq(Budgets.created_by, currentUser ?? ""),
+            eq(budget.id, paramsId),
+            eq(budget.created_by, currentUser ?? ""),
           ),
         )
         .returning();
 
       if (result) {
-        toast.success("Budget deleted successfully!");
+        toast.success("Budget deleted!");
         router.replace("/budgets");
       }
     }

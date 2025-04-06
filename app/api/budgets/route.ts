@@ -1,8 +1,7 @@
 import { db } from "@/db/dbConfig";
-import { income } from "@/db/schema";
+import { budget, budget_expense } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
-import { getTableColumns } from "drizzle-orm";
-import { and, desc, eq, gte, lte } from "drizzle-orm";
+import { and, desc, eq, getTableColumns, gte, lte, sql } from "drizzle-orm";
 
 export async function GET(request: Request) {
   const user = await currentUser();
@@ -24,22 +23,30 @@ export async function GET(request: Request) {
 
   try {
     const data = await db
-      .select({ ...getTableColumns(income) })
-      .from(income)
+      .select({
+        ...getTableColumns(budget),
+        total_spend: sql`sum(${budget_expense.amount})`.mapWith(Number),
+        total_item: sql`count(${budget_expense.id})`.mapWith(Number),
+        remaining:
+          sql`${budget.amount} - sum(${budget_expense.amount})`.mapWith(Number),
+      })
+      .from(budget)
+      .leftJoin(budget_expense, eq(budget.id, budget_expense.budget_id))
       .where(
         and(
-          eq(income.created_by, user?.primaryEmailAddress?.emailAddress || ""),
-          gte(income.date, startDate),
-          lte(income.date, endDate),
+          eq(budget.created_by, user?.primaryEmailAddress?.emailAddress || ""),
+          gte(budget.date, startDate),
+          lte(budget.date, endDate),
         ),
       )
-      .orderBy(desc(income.date));
+      .groupBy(budget.id)
+      .orderBy(desc(budget.created_at));
 
     return Response.json(data);
   } catch (error) {
     console.error(error);
     return Response.json(
-      { error: "Server error fetching income data" },
+      { error: "Server error fetching budget data" },
       { status: 500 },
     );
   }
@@ -55,12 +62,11 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const data = await db.insert(income).values({
-      name: body.name,
+    const data = await db.insert(budget).values({
       amount: body.amount,
-      date: body.date,
       category: body.category,
-      payment_method: body.payment_method,
+      emoji: body.emoji,
+      date: body.date,
       created_by: user?.primaryEmailAddress?.emailAddress || "",
     });
 
@@ -68,7 +74,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error(error);
     return Response.json(
-      { error: "Server error adding income" },
+      { error: "Server error adding budget" },
       { status: 500 },
     );
   }

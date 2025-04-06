@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { db } from "@/db/dbConfig";
-import { budget_expense, Budgets } from "@/db/schema";
+import { budget, budget_expense } from "@/db/schema";
 import {
   Select,
   SelectContent,
@@ -51,7 +51,7 @@ export default function AddExpense({
         budget_id: paramId,
         created_by: currentUser,
       })
-      .returning({ insertedId: Budgets.id });
+      .returning({ insertedId: budget.id });
 
     if (result) {
       refreshData();

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { db } from "@/db/dbConfig";
-import { budget_expense, Budgets } from "@/db/schema";
+import { budget, budget_expense } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { and, desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -74,23 +74,18 @@ export default function BudgetByIdPage({ params }: Props) {
   const getBudgetInfo = React.useCallback(async () => {
     const result = await db
       .select({
-        ...getTableColumns(Budgets),
+        ...getTableColumns(budget),
         total_spend: sql`sum(${budget_expense.amount})`.mapWith(Number),
         total_item: sql`count(${budget_expense.id})`.mapWith(Number),
         remaining:
-          sql`${Budgets.amount} - sum(${budget_expense.amount})`.mapWith(
-            Number,
-          ),
+          sql`${budget.amount} - sum(${budget_expense.amount})`.mapWith(Number),
       })
-      .from(Budgets)
-      .leftJoin(budget_expense, eq(Budgets.id, budget_expense.budget_id))
+      .from(budget)
+      .leftJoin(budget_expense, eq(budget.id, budget_expense.budget_id))
       .where(
-        and(
-          eq(Budgets.created_by, currentUser ?? ""),
-          eq(Budgets.id, params.id),
-        ),
+        and(eq(budget.created_by, currentUser ?? ""), eq(budget.id, params.id)),
       )
-      .groupBy(Budgets.id);
+      .groupBy(budget.id);
 
     if (result) {
       setBudgetInfo(result);

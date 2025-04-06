@@ -19,13 +19,13 @@ type Props = {
     | RecurrenceDetail
     | SingleDetail
   )[];
-  budget: BudgetData[];
+  budgetData: BudgetData[];
   isLoading: boolean;
 };
 
 export default function DashboardMidSection({
   allData,
-  budget,
+  budgetData,
   isLoading,
 }: Props) {
   return (
@@ -59,7 +59,7 @@ export default function DashboardMidSection({
           style="col-span-3 xl:col-span-1"
         />
       ) : (
-        <DashboardBudget budget={budget} />
+        <DashboardBudget budgetData={budgetData} />
       )}
     </div>
   );

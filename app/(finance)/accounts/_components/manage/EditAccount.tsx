@@ -5,14 +5,18 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { EllipsisVertical } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 
 export default function EditAccount() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon-sm">
-          <EllipsisVertical />
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="data-[state=open]:bg-muted"
+        >
+          <Ellipsis />
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end">Edit account</PopoverContent>

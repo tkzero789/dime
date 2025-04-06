@@ -6,7 +6,6 @@ import {
   uuid,
   varchar,
   boolean,
-  integer,
 } from "drizzle-orm/pg-core";
 
 export const account = pgTable("account", {
@@ -21,20 +20,19 @@ export const account = pgTable("account", {
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const Budgets = pgTable("budgets", {
+export const budget = pgTable("budget", {
   id: uuid("id").primaryKey().defaultRandom(),
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
   category: varchar("category").notNull(),
   emoji: varchar("emoji"),
-  month: integer("month").notNull(),
-  year: integer("year").notNull(),
+  date: date("date").notNull(),
   created_by: varchar("created_by").notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const budget_expense = pgTable("budget_expense", {
   id: uuid("id").primaryKey().defaultRandom(),
-  budget_id: uuid("budget_id").references(() => Budgets.id),
+  budget_id: uuid("budget_id").references(() => budget.id),
   account_id: uuid("account_id").references(() => account.id),
   name: varchar("name").notNull(),
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),

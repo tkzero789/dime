@@ -6,16 +6,14 @@ import { BudgetData } from "@/types";
 import { Banknote } from "lucide-react";
 
 type Props = {
-  budgetList: BudgetData[];
+  budgetData: BudgetData[];
 };
 
-export default function BudgetList({ budgetList }: Props) {
+export default function BudgetList({ budgetData }: Props) {
   return (
     <div className="order-last col-span-3 grid h-fit grid-cols-1 gap-y-2 xl:order-first xl:col-span-2 xl:grid-cols-2 xl:gap-6">
-      {budgetList?.length > 0 ? (
-        budgetList.map((budget) => (
-          <BudgetItem key={budget.id} budget={budget} />
-        ))
+      {budgetData?.length > 0 ? (
+        budgetData.map((item) => <BudgetItem key={item.id} budget={item} />)
       ) : (
         <div className="col-span-3 flex w-full flex-col items-center justify-center px-6 pb-6 pt-0 text-center lg:pb-6 lg:pt-6">
           <div className="relative h-40 w-40">

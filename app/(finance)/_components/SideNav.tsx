@@ -50,6 +50,14 @@ export default function SideNav() {
   const path = usePathname();
   const router = useRouter();
 
+  // const replaceRoute = (route: string) => {
+  //   switch (route) {
+  //     case "/income": {
+  //       router.replace("/income?startDate=2025-01-01&endDate=2025-12-31");
+  //     }
+  //   }
+  // };
+
   return (
     <aside className="sticky left-0 top-0 hidden h-dvh flex-col items-center gap-y-4 py-6 pl-6 lg:flex 2xl:py-[74px]">
       <div className="flex h-full w-60 flex-col rounded-xl bg-white shadow-card-shadow">

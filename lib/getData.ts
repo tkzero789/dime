@@ -1,6 +1,6 @@
 import {
+  budget,
   budget_expense,
-  Budgets,
   income,
   Recurrence,
   Single,
@@ -56,11 +56,9 @@ export async function getUserData(userEmail: string) {
           ),
         ),
       db
-        .select({ ...getTableColumns(Budgets) })
-        .from(Budgets)
-        .where(
-          and(eq(Budgets.created_by, userEmail), eq(Budgets.year, currentYear)),
-        ),
+        .select({ ...getTableColumns(budget) })
+        .from(budget)
+        .where(and(eq(budget.created_by, userEmail))),
       db
         .select({ ...getTableColumns(budget_expense) })
         .from(budget_expense)

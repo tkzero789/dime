@@ -3,10 +3,10 @@
 import React from "react";
 import { db } from "@/db/dbConfig";
 import {
-  Budgets,
   Recurrence,
   Single,
   account,
+  budget,
   budget_expense,
   income,
 } from "@/db/schema";
@@ -31,7 +31,7 @@ export default function DashboardPage() {
   const [spending, setSpending] = React.useState<
     (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
   >([]);
-  const [budget, setBudget] = React.useState<BudgetData[]>([]);
+  const [budgetData, setBudgetData] = React.useState<BudgetData[]>([]);
   const [allData, setAllData] = React.useState<
     (IncomeData | ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
   >([]);
@@ -116,28 +116,28 @@ export default function DashboardPage() {
             ),
           db
             .select({
-              ...getTableColumns(Budgets),
+              ...getTableColumns(budget),
               total_spend: sql`sum(${budget_expense.amount})`.mapWith(Number),
               total_item: sql`count(${budget_expense.id})`.mapWith(Number),
               remaining:
-                sql`${Budgets.amount} - sum(${budget_expense.amount})`.mapWith(
+                sql`${budget.amount} - sum(${budget_expense.amount})`.mapWith(
                   Number,
                 ),
             })
-            .from(Budgets)
-            .leftJoin(budget_expense, eq(Budgets.id, budget_expense.budget_id))
+            .from(budget)
+            .leftJoin(budget_expense, eq(budget.id, budget_expense.budget_id))
             .where(
               and(
                 eq(
-                  Budgets.created_by,
+                  budget.created_by,
                   user?.primaryEmailAddress?.emailAddress ?? "",
                 ),
-                gte(Budgets.created_at, new Date(firstDayOfMonth)),
-                lte(Budgets.created_at, new Date(lastDayOfMonth)),
+                gte(budget.created_at, new Date(firstDayOfMonth)),
+                lte(budget.created_at, new Date(lastDayOfMonth)),
               ),
             )
-            .groupBy(Budgets.id)
-            .orderBy(desc(Budgets.created_at)),
+            .groupBy(budget.id)
+            .orderBy(desc(budget.created_at)),
         ]);
         if (batchResponse) {
           let [
@@ -176,7 +176,7 @@ export default function DashboardPage() {
 
           setSpending(combineSpending);
 
-          setBudget(budgetResult);
+          setBudgetData(budgetResult);
 
           const combinedData = [...incomeResult, ...combineSpending];
           setAllData(combinedData);
@@ -210,7 +210,7 @@ export default function DashboardPage() {
       />
       <DashboardMidSection
         allData={allData}
-        budget={budget}
+        budgetData={budgetData}
         isLoading={isLoading}
       />
     </div>

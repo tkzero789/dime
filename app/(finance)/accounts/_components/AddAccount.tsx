@@ -57,7 +57,7 @@ export default function AddAccount() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: "accounts" });
       setOpen(false);
-      toast.success("Account added successfully");
+      toast.success("Account added");
     },
     onError: (error) => {
       toast.error("Failed to add account");
@@ -127,12 +127,13 @@ export default function AddAccount() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add account</DialogTitle>
-          <DialogClose asChild className="lg:hidden">
+          <DialogClose asChild>
             <Button
               size="icon"
               type="submit"
               form="addAccountForm"
               disabled={checkEmptyValue()}
+              className="lg:hidden"
             >
               <Plus />
             </Button>
@@ -144,7 +145,7 @@ export default function AddAccount() {
           className="flex flex-col gap-6"
         >
           {/* Form content */}
-          <div className="flex flex-col gap-4 px-6 pb-6">
+          <div className="flex flex-col gap-4 px-6 md:pb-6 lg:pb-0">
             {/* Name */}
             <Input
               type="text"

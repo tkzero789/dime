@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db/dbConfig";
 import { and, desc, eq } from "drizzle-orm";
-import { budget_expense, Budgets } from "@/db/schema";
+import { budget, budget_expense } from "@/db/schema";
 import {
   Dialog,
   DialogContent,
@@ -48,27 +48,18 @@ export default function TransferExpense({
   const params = useParams();
   const [budgetList, setBudgetList] = React.useState<BudgetList[]>([]);
 
-  const currentMonth = new Date().getUTCMonth();
-  const currentYear = new Date().getUTCFullYear();
-
   //  Get all current active budgets from user
   const getActiveBudget = React.useCallback(async () => {
     try {
       const result = await db
         .select({
-          id: Budgets.id,
-          category: Budgets.category,
-          emoji: Budgets.emoji,
+          id: budget.id,
+          category: budget.category,
+          emoji: budget.emoji,
         })
-        .from(Budgets)
-        .where(
-          and(
-            eq(Budgets.created_by, currentUser ?? ""),
-            eq(Budgets.month, currentMonth),
-            eq(Budgets.year, currentYear),
-          ),
-        )
-        .orderBy(desc(Budgets.created_at));
+        .from(budget)
+        .where(and(eq(budget.created_by, currentUser ?? "")))
+        .orderBy(desc(budget.created_at));
 
       if (result) {
         setBudgetList(result);
@@ -76,7 +67,7 @@ export default function TransferExpense({
     } catch (error) {
       console.log(error);
     }
-  }, [currentUser, currentMonth, currentYear]);
+  }, [currentUser]);
 
   React.useEffect(() => {
     if (currentUser) {

@@ -47,7 +47,7 @@ const selectOptions = {
 };
 
 export default function AddIncome() {
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const [newIncome, setNewIncome] = React.useState<IncomeState>({
     name: "",
@@ -69,8 +69,8 @@ export default function AddIncome() {
     mutationFn: addIncome,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["income"] });
-      setOpen(false);
-      toast.success("Income added successfully");
+      setIsOpen(false);
+      toast.success("Income added");
     },
     onError: (error) => {
       toast.error("Failed to add income");
@@ -114,8 +114,20 @@ export default function AddIncome() {
     });
   };
 
+  const checkEmptyValue = () => {
+    if (
+      newIncome.name.trim() === "" ||
+      !newIncome.amount ||
+      !newIncome.date ||
+      !newIncome.category ||
+      !newIncome.payment_method ||
+      isPending
+    )
+      return true;
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button onClick={handleClearInput}>
           <Plus />
@@ -125,19 +137,13 @@ export default function AddIncome() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add income</DialogTitle>
-          <DialogClose asChild className="lg:hidden">
+          <DialogClose asChild>
             <Button
               size="icon"
               type="submit"
               form="addIncomeForm"
-              disabled={
-                newIncome.name.trim() == "" ||
-                !newIncome.amount ||
-                !newIncome.date ||
-                !newIncome.category ||
-                !newIncome.payment_method ||
-                isPending
-              }
+              disabled={checkEmptyValue()}
+              className="lg:hidden"
             >
               <Plus />
             </Button>
@@ -149,7 +155,7 @@ export default function AddIncome() {
           className="flex flex-col gap-6"
         >
           {/* Form content */}
-          <div className="flex flex-col gap-4 px-6 pb-6">
+          <div className="flex flex-col gap-4 px-6 md:pb-6 lg:pb-0">
             {/* Name */}
             <Input
               type="text"
@@ -211,17 +217,7 @@ export default function AddIncome() {
           </div>
           {/* Button */}
           <div className="hidden items-center justify-end border-t p-6 lg:flex">
-            <Button
-              type="submit"
-              disabled={
-                newIncome.name.trim() == "" ||
-                !newIncome.amount ||
-                !newIncome.date ||
-                !newIncome.category ||
-                !newIncome.payment_method ||
-                isPending
-              }
-            >
+            <Button type="submit" disabled={checkEmptyValue()}>
               {isPending && <LoaderCircle className="animate-spin" />}Add income
             </Button>
           </div>

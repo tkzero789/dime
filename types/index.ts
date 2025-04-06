@@ -11,8 +11,7 @@ export type BudgetState = {
   amount: string;
   category: string;
   emoji: string | null;
-  month: number;
-  year: number;
+  date: Date;
 };
 
 export type IncomeState = {
@@ -41,8 +40,7 @@ export type BudgetData = {
   amount: string;
   category: string;
   emoji: string | null;
-  month: number;
-  year: number;
+  date: string;
   total_item: number;
   total_spend: number;
   remaining: number;
@@ -55,8 +53,6 @@ export type BudgetDetailGetData = {
   amount: string;
   category: string;
   emoji: string | null;
-  month: number;
-  year: number;
   created_by: string;
   created_at: Date;
 };

@@ -8,8 +8,13 @@ export async function getIncomeData(searchParams: {
     startDate: searchParams.startDate,
     endDate: searchParams.endDate,
   });
-  const response = await fetch(`/api/income?${params.toString()}`);
-  return await response.json();
+  try {
+    const response = await fetch(`/api/income?${params.toString()}`);
+    return await response.json();
+  } catch (error) {
+    console.error("API error getting income data", error);
+    throw error;
+  }
 }
 
 type IncomeUpdateState = IncomeState & {

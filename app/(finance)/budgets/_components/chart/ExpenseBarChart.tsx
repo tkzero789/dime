@@ -47,9 +47,11 @@ export function ExpenseBarChart({ budgetInfo, expenseDetail }: Props) {
   const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
   const { width } = useWindowSize();
 
+  console.log(budgetInfo);
+
   // Extract the month and year from budgetInfo
-  const budgetMonth = budgetInfo[0]?.month ?? new Date().getMonth();
-  const budgetYear = budgetInfo[0]?.year ?? new Date().getFullYear();
+  const budgetMonth = new Date().getMonth();
+  const budgetYear = new Date().getFullYear();
 
   const allDaysInMonth = getAllDaysInMonth(budgetYear, budgetMonth);
 
@@ -84,27 +86,28 @@ export function ExpenseBarChart({ budgetInfo, expenseDetail }: Props) {
   const filteredData = isFirstHalf
     ? sortedExpenseDetail.slice(0, 15)
     : sortedExpenseDetail.slice(15, sortedExpenseDetail.length);
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+
+  // const months = [
+  //   "January",
+  //   "February",
+  //   "March",
+  //   "April",
+  //   "May",
+  //   "June",
+  //   "July",
+  //   "August",
+  //   "September",
+  //   "October",
+  //   "November",
+  //   "December",
+  // ];
 
   return (
     <Card className="shadow-md xl:h-full">
       <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:block">
         <div>
           <CardTitle className="text-xl font-bold tracking-normal">
-            {months[budgetInfo[0]?.month]}
+            Month Bar
           </CardTitle>
           <CardDescription>Your spending in this month</CardDescription>
         </div>
