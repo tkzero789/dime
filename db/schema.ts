@@ -8,6 +8,12 @@ import {
   boolean,
 } from "drizzle-orm/pg-core";
 
+export const user_list = pgTable("user_list", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  email: varchar("email").notNull(),
+  created_at: timestamp("creatd_at").defaultNow().notNull(),
+});
+
 export const account = pgTable("account", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: varchar("name").notNull(),

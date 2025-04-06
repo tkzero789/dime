@@ -118,7 +118,6 @@ export default function DashboardPage() {
             .select({
               ...getTableColumns(budget),
               total_spend: sql`sum(${budget_expense.amount})`.mapWith(Number),
-              total_item: sql`count(${budget_expense.id})`.mapWith(Number),
               remaining:
                 sql`${budget.amount} - sum(${budget_expense.amount})`.mapWith(
                   Number,
@@ -132,8 +131,8 @@ export default function DashboardPage() {
                   budget.created_by,
                   user?.primaryEmailAddress?.emailAddress ?? "",
                 ),
-                gte(budget.created_at, new Date(firstDayOfMonth)),
-                lte(budget.created_at, new Date(lastDayOfMonth)),
+                gte(budget.date, firstDayOfMonth),
+                lte(budget.date, lastDayOfMonth),
               ),
             )
             .groupBy(budget.id)

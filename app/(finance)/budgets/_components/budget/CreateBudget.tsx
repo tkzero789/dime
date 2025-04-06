@@ -145,6 +145,7 @@ export default function CreateBudget() {
                   e.preventDefault();
                   setIsOpenEmoji(!isOpenEmoji);
                 }}
+                className="h-12"
               >
                 {newBudget.emoji ? newBudget.emoji : "Emoji"}
               </Button>

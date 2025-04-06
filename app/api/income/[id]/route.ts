@@ -3,38 +3,6 @@ import { income } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { and, eq } from "drizzle-orm";
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
-  const user = await currentUser();
-
-  if (!user) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  try {
-    const incomeId = (await params).id;
-
-    const data = await db
-      .delete(income)
-      .where(
-        and(
-          eq(income.id, incomeId),
-          eq(income.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
-        ),
-      );
-
-    return Response.json(data);
-  } catch (error) {
-    console.error(error);
-    return Response.json(
-      { error: "Server error deleting income" },
-      { status: 500 },
-    );
-  }
-}
-
 export async function PUT(request: Request) {
   const user = await currentUser();
 
@@ -67,6 +35,38 @@ export async function PUT(request: Request) {
     console.error(error);
     return Response.json(
       { error: "Server error updating income" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const user = await currentUser();
+
+  if (!user) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const incomeId = (await params).id;
+
+    await db
+      .delete(income)
+      .where(
+        and(
+          eq(income.id, incomeId),
+          eq(income.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
+        ),
+      );
+
+    return new Response(null, { status: 204 });
+  } catch (error) {
+    console.error(error);
+    return Response.json(
+      { error: "Server error deleting income" },
       { status: 500 },
     );
   }

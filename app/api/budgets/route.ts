@@ -26,7 +26,6 @@ export async function GET(request: Request) {
       .select({
         ...getTableColumns(budget),
         total_spend: sql`sum(${budget_expense.amount})`.mapWith(Number),
-        total_item: sql`count(${budget_expense.id})`.mapWith(Number),
         remaining:
           sql`${budget.amount} - sum(${budget_expense.amount})`.mapWith(Number),
       })

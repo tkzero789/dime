@@ -41,7 +41,6 @@ export type BudgetData = {
   category: string;
   emoji: string | null;
   date: string;
-  total_item: number;
   total_spend: number;
   remaining: number;
   created_by: string;

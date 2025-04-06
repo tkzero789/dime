@@ -96,7 +96,7 @@ export default function BudgetCategory({ category, handleFormChange }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="flex-1 border">
+        <Button variant="outline" className="h-12 flex-1">
           {category || "Budget category"}
         </Button>
       </DialogTrigger>
