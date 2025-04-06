@@ -10,79 +10,66 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
-import { budget, budget_expense } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
-import { db } from "@/db/dbConfig";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { LoaderCircle, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteBudget } from "@/lib/api/budgets";
 import toast from "react-hot-toast";
 
 type Props = {
   paramsId: string;
-  currentUser: string | undefined;
 };
 
-export default function DeleteBudget({ paramsId, currentUser }: Props) {
+export default function DeleteBudget({ paramsId }: Props) {
   const router = useRouter();
-  // Delete budget
-  const deleteBudget = async () => {
-    const deleteRelatedExpenses = await db
-      .delete(budget_expense)
-      .where(
-        and(
-          eq(budget_expense.budget_id, paramsId),
-          eq(budget_expense.created_by, currentUser ?? ""),
-        ),
-      )
-      .returning();
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
-    // If deleted expenses
-    if (deleteRelatedExpenses) {
-      const result = await db
-        .delete(budget)
-        .where(
-          and(
-            eq(budget.id, paramsId),
-            eq(budget.created_by, currentUser ?? ""),
-          ),
-        )
-        .returning();
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: deleteBudget,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["budgets"] });
+      setIsOpen(false);
+      router.replace("/budgets");
+      toast.success("Budget deleted");
+    },
+    onError: (error) => {
+      toast.error("Failed to delete budget");
+      console.log("Failed to delete budget", error);
+    },
+  });
 
-      if (result) {
-        toast.success("Budget deleted!");
-        router.replace("/budgets");
-      }
-    }
+  const handleDelete = () => {
+    mutate(paramsId);
   };
+
   return (
-    <AlertDialog>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
-        <Button className="flex h-fit w-full items-center justify-start gap-2 bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-neutral-200">
-          <span className="pl-4">
-            <Trash2 strokeWidth={2} className="h-4 w-4" color="#555353" />
-          </span>
-          <span className="font-semibold text-secondary-foreground">
-            Delete Budget
-          </span>
+        <Button variant="ghost" size="sm" className="w-full justify-start">
+          <Trash2 />
+          Delete
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Budget?</AlertDialogTitle>
+          <AlertDialogTitle>Delete budget?</AlertDialogTitle>
           <AlertDialogDescription>
             This action is irreversible and will permanently remove your budget
             and all related expenses within this budget.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel asChild>
-            <Button variant="outline">Cancel</Button>
+          <AlertDialogCancel className={buttonVariants({ variant: "outline" })}>
+            Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            onClick={() => deleteBudget()}
+            className={buttonVariants({ variant: "destructive" })}
+            disabled={isPending}
+            onClick={handleDelete}
           >
+            {isPending && <LoaderCircle className="animate-spin" />}
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>

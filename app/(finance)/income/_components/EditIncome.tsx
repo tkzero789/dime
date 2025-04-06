@@ -106,7 +106,7 @@ export default function EditIncome({ incomeData }: Props) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="sm" className="w-full justify-start">
-          <Pencil className="h-6 w-6" strokeWidth={1.5} />
+          <Pencil />
           Edit
         </Button>
       </DialogTrigger>

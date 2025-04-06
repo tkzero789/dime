@@ -3,7 +3,6 @@
 import React from "react";
 import BudgetList from "./_components/budget/BudgetList";
 import { BudgetRadialChart } from "./_components/chart/BudgetRadialChart";
-import BudgetNav from "./_components/nav/BudgetNav";
 import {
   addMonths,
   endOfMonth,
@@ -17,6 +16,7 @@ import { getBudgetData } from "@/lib/api/budgets";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { convertToLocalDate } from "@/utils/convertToLocalDate";
+import BudgetsNav from "./_components/nav/BudgetsNav";
 
 type Props = {
   searchParams: {
@@ -77,7 +77,7 @@ export default function BudgetsPage({ searchParams }: Props) {
 
   return (
     <div className="grid gap-6">
-      <BudgetNav />
+      <BudgetsNav />
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {isLoading ? (
           <div className="order-last col-span-3 flex items-center justify-center p-6 xl:order-first xl:col-span-2 xl:grid-cols-2">

@@ -154,15 +154,13 @@ export default function EditBudget({
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className="flex h-fit w-full items-center justify-start gap-2 bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-neutral-200"
+          variant="ghost"
+          size="sm"
           onClick={handleOnClickEdit}
+          className="w-full justify-start"
         >
-          <span className="pl-4">
-            <PenBox strokeWidth={2} className="h-4 w-4" color="#555353" />
-          </span>
-          <span className="font-semibold text-secondary-foreground">
-            Edit Budget
-          </span>
+          <PenBox />
+          Edit
         </Button>
       </DialogTrigger>
       <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">

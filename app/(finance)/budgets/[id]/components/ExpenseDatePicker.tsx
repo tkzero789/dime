@@ -35,7 +35,7 @@ export function ExpenseDatePicker({ date, setDate }: Props) {
         <Button
           variant="outline"
           className={cn(
-            "w-full justify-start text-left font-normal",
+            "h-12 w-full justify-start text-left font-normal",
             !date && "text-muted-foreground",
           )}
         >
@@ -43,12 +43,12 @@ export function ExpenseDatePicker({ date, setDate }: Props) {
           <CalendarIcon className="ml-auto h-4 w-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent align="start" className="w-auto p-0">
         <Calendar
+          initialFocus
           mode="single"
           selected={date}
           onSelect={handleOnSelect}
-          initialFocus
           disableNavigation={false}
           showOutsideDays={false}
         />

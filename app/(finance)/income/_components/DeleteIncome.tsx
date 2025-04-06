@@ -10,12 +10,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Loader2, Trash2 } from "lucide-react";
+import { LoaderCircle, Trash2 } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteIncome } from "@/lib/api/income";
-import toast from "react-hot-toast";
 import { PopoverClose } from "@radix-ui/react-popover";
+import toast from "react-hot-toast";
 
 type Props = {
   incomeId: string;
@@ -68,7 +68,7 @@ export default function DeleteIncome({ incomeId }: Props) {
               disabled={isPending}
               onClick={handleDelete}
             >
-              {isPending && <Loader2 className="animate-spin" />}
+              {isPending && <LoaderCircle className="animate-spin" />}
               Delete
             </AlertDialogAction>
           </PopoverClose>

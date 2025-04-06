@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -127,17 +126,15 @@ export default function AddAccount() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add account</DialogTitle>
-          <DialogClose asChild>
-            <Button
-              size="icon"
-              type="submit"
-              form="addAccountForm"
-              disabled={checkEmptyValue()}
-              className="lg:hidden"
-            >
-              <Plus />
-            </Button>
-          </DialogClose>
+          <Button
+            size="icon"
+            type="submit"
+            form="addAccountForm"
+            disabled={checkEmptyValue()}
+            className="lg:hidden"
+          >
+            {isPending ? <LoaderCircle className="animate-spin" /> : <Plus />}
+          </Button>
         </DialogHeader>
         <form
           id="addAccountForm"

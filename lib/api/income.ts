@@ -17,10 +17,6 @@ export async function getIncomeData(searchParams: {
   }
 }
 
-type IncomeUpdateState = IncomeState & {
-  id: string;
-};
-
 export async function addIncome(newIncome: IncomeState) {
   try {
     const response = await fetch("/api/income", {
@@ -42,6 +38,10 @@ export async function addIncome(newIncome: IncomeState) {
     throw error;
   }
 }
+
+type IncomeUpdateState = IncomeState & {
+  id: string;
+};
 
 export async function updateIncome(incomeToUpdate: IncomeUpdateState) {
   try {

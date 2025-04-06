@@ -7,11 +7,7 @@ import { useUser } from "@clerk/nextjs";
 import { and, desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BudgetData, ExpenseData } from "@/types";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import {
   Dialog,
   DialogContent,
@@ -20,17 +16,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import EditBudget from "@/app/(finance)/budgets/_components/budget/EditBudget";
 import BudgetItem from "@/app/(finance)/budgets/_components/budget/BudgetItem";
-import AddExpense from "@/app/(finance)/budgets/_components/expense/AddExpense";
+
 import { ExpenseBarChart } from "@/app/(finance)/budgets/_components/chart/ExpenseBarChart";
 import { BudgetByIdRadialChart } from "@/app/(finance)/budgets/_components/chart/BudgetByIdRadialChart";
-import DeleteBudget from "../_components/budget/DeleteBudget";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, CircleEllipsis, CirclePlus } from "lucide-react";
-import Link from "next/link";
-import ExpenseTable from "../_components/expense/ExpenseTable";
+import { CirclePlus } from "lucide-react";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
+import ExpenseTable from "./components/ExpenseTable";
+import BudgetNav from "./components/BudgetNav";
 
 type Props = {
   params: {
@@ -101,57 +95,12 @@ export default function BudgetByIdPage({ params }: Props) {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <div className="hidden items-center gap-4 lg:flex">
-          <Button
-            size="icon"
-            className="flex items-center justify-center rounded-md bg-gray-200 text-foreground hover:bg-gray-300"
-          >
-            <Link href="/budgets">
-              <ChevronLeft strokeWidth={1.5} className="h-6 w-6" />
-            </Link>
-          </Button>
-          <div className="flex items-center gap-4">
-            <span className="text-4xl">{budgetInfo[0]?.emoji}</span>
-            <div>
-              <h2 className="text-2xl font-bold">{budgetInfo[0]?.category}</h2>
-              <span className="font-light text-secondary-foreground">
-                {budgetInfo[0]?.category}
-              </span>
-            </div>
-          </div>
-        </div>
-        <h2 className="text-2xl font-bold lg:hidden">Budget detail</h2>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="subtle"
-              className="group flex items-center justify-center gap-2"
-            >
-              <CircleEllipsis
-                strokeWidth={1.75}
-                className="rounded-full group-hover:bg-teal-700 group-hover:stroke-white"
-              />
-              <span className="font-bold group-hover:text-teal-700">
-                Manage budget
-              </span>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="flex w-44 flex-col px-0 py-0">
-            <div className="p-1">
-              <EditBudget
-                budgetInfo={budgetInfo}
-                currentUser={currentUser || "default"}
-                refreshData={getBudgetInfo}
-              />
-              <DeleteBudget
-                currentUser={currentUser || "default"}
-                paramsId={params.id}
-              />
-            </div>
-          </PopoverContent>
-        </Popover>
-      </div>
+      <BudgetNav
+        paramsId={params.id}
+        budgetInfo={budgetInfo}
+        currentUser={currentUser || "default"}
+        refreshData={getBudgetInfo}
+      />
       <div className="mt-8 grid grid-cols-3 gap-4">
         <div className="order-last col-span-3 xl:order-first xl:col-span-2 xl:h-full">
           <ExpenseBarChart
@@ -200,14 +149,7 @@ export default function BudgetByIdPage({ params }: Props) {
                     <DialogTitle className="text-center">
                       Add New Expense
                     </DialogTitle>
-                    <DialogDescription className="flex flex-col gap-4 pt-4">
-                      <AddExpense
-                        paramId={params.id}
-                        currentUser={currentUser || "default"}
-                        refreshData={() => getBudgetInfo()}
-                        setOpen={setOpen}
-                      />
-                    </DialogDescription>
+                    <DialogDescription className="flex flex-col gap-4 pt-4"></DialogDescription>
                   </DialogHeader>
                 </DialogContent>
               </Dialog>
@@ -219,14 +161,6 @@ export default function BudgetByIdPage({ params }: Props) {
             />
           </div>
         )}
-        <div className="hidden xl:flex xl:flex-col xl:gap-4 xl:rounded-lg xl:border xl:bg-white xl:p-6 xl:shadow-md">
-          <AddExpense
-            paramId={params.id}
-            currentUser={currentUser || "default"}
-            refreshData={() => getBudgetInfo()}
-            setOpen={setOpen}
-          />
-        </div>
       </div>
     </div>
   );

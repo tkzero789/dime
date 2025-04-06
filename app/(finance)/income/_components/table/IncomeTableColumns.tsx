@@ -124,7 +124,7 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
               <Ellipsis />
             </Button>
           </PopoverTrigger>
-          <PopoverContent align="end" className="flex w-40 flex-col px-0 py-0">
+          <PopoverContent align="end" className="flex w-40 flex-col p-0">
             <div className="flex items-center justify-center border-b px-3 py-2 text-sm font-semibold">
               Actions
             </div>

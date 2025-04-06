@@ -3,7 +3,6 @@
 import React from "react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -137,17 +136,15 @@ export default function AddIncome() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add income</DialogTitle>
-          <DialogClose asChild>
-            <Button
-              size="icon"
-              type="submit"
-              form="addIncomeForm"
-              disabled={checkEmptyValue()}
-              className="lg:hidden"
-            >
-              <Plus />
-            </Button>
-          </DialogClose>
+          <Button
+            size="icon"
+            type="submit"
+            form="addIncomeForm"
+            disabled={checkEmptyValue()}
+            className="lg:hidden"
+          >
+            {isPending ? <LoaderCircle className="animate-spin" /> : <Plus />}
+          </Button>
         </DialogHeader>
         <form
           id="addIncomeForm"

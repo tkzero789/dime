@@ -38,3 +38,23 @@ export async function addBudget(newBudget: BudgetState) {
     throw error;
   }
 }
+
+export async function deleteBudget(budgetId: string) {
+  try {
+    const response = await fetch(`/api/budgets/${budgetId}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error || "API error deleting budget");
+    }
+
+    if (response.status === 204) return null;
+
+    return await response.json();
+  } catch (error) {
+    console.error("API error deleting budget", error);
+    throw error;
+  }
+}
