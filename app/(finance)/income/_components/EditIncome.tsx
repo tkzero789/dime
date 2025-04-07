@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -102,10 +101,37 @@ export default function EditIncome({ incomeData }: Props) {
     });
   };
 
+  const handleResetValue = () => {
+    setIncomeToEdit({
+      name: incomeData.name,
+      amount: incomeData.amount,
+      date: convertToLocalDate(incomeData.date),
+      category: incomeData.category,
+      payment_method: incomeData.payment_method,
+    });
+  };
+
+  const checkEmptyValue = () => {
+    if (
+      incomeToEdit.name.trim() === "" ||
+      !incomeToEdit.amount ||
+      !incomeToEdit.date ||
+      !incomeToEdit.category ||
+      !incomeToEdit.payment_method ||
+      isPending
+    )
+      return true;
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="w-full justify-start">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleResetValue}
+          className="w-full justify-start"
+        >
           <Pencil />
           Edit
         </Button>
@@ -113,23 +139,15 @@ export default function EditIncome({ incomeData }: Props) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit income</DialogTitle>
-          <DialogClose asChild className="lg:hidden">
-            <Button
-              size="icon"
-              type="submit"
-              form="addIncomeForm"
-              disabled={
-                incomeToEdit.name.trim() == "" ||
-                !incomeToEdit.amount ||
-                !incomeToEdit.date ||
-                !incomeToEdit.category ||
-                !incomeToEdit.payment_method ||
-                isPending
-              }
-            >
-              <Check className="h-6 w-6" strokeWidth={1.5} />
-            </Button>
-          </DialogClose>
+          <Button
+            size="icon"
+            type="submit"
+            form="editIncomeForm"
+            disabled={checkEmptyValue()}
+            className="lg:hidden"
+          >
+            <Check />
+          </Button>
         </DialogHeader>
         <form
           id="editIncomeForm"
@@ -196,17 +214,7 @@ export default function EditIncome({ incomeData }: Props) {
             </Select>
           </div>
           <div className="hidden items-center justify-end border-t p-6 lg:flex">
-            <Button
-              type="submit"
-              disabled={
-                incomeToEdit.name.trim() == "" ||
-                !incomeToEdit.amount ||
-                !incomeToEdit.date ||
-                !incomeToEdit.category ||
-                !incomeToEdit.payment_method ||
-                isPending
-              }
-            >
+            <Button type="submit" disabled={checkEmptyValue()}>
               {isPending && <LoaderCircle className="animate-spin" />}Edit
               income
             </Button>

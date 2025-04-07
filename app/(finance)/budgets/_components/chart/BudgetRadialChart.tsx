@@ -1,12 +1,6 @@
 "use client";
 import React from "react";
-import {
-  ChevronLeft,
-  ChevronRight,
-  CircleEqual,
-  CirclePlus,
-  MinusCircle,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Label,
   PolarGrid,
@@ -17,7 +11,6 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -111,11 +104,8 @@ export function BudgetRadialChart({
         </Button>
         <div>
           <CardTitle className="text-xl font-bold tracking-normal">
-            Budgets Tracker
-          </CardTitle>
-          <CardDescription className="text-center">
             {format(convertToLocalDate(date), "MMMM yyyy")}
-          </CardDescription>
+          </CardTitle>
         </div>
         <Button
           variant="outline"
@@ -180,26 +170,23 @@ export function BudgetRadialChart({
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col px-6 pb-6 text-sm lg:px-10">
-        <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">
-          <CirclePlus className="h-5 w-5 text-primary" />
-          <span className="text-base font-medium">Spending Budget</span>
-          <span className="ml-auto text-base font-bold">
+      <CardFooter className="flex-col px-6 pb-6">
+        <div className="flex w-full items-center gap-4 py-4 leading-none">
+          <span className="font-medium">Total budget</span>
+          <span className="ml-auto font-bold">
             $<FormatNumber number={totalBudget} />
           </span>
         </div>
-        <div className="flex w-full items-center gap-4 border-b border-t py-3 font-medium leading-none">
-          <MinusCircle className="h-5 w-5 text-primary" />
-          <span className="text-base font-medium">Current Spending</span>
-          <span className="ml-auto text-base font-bold">
+        <div className="flex w-full items-center gap-4 border-b border-t py-4 leading-none">
+          <span className="font-medium">Current spending</span>
+          <span className="ml-auto font-bold">
             -$
             <FormatNumber number={totalSpend} />
           </span>
         </div>
-        <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">
-          <CircleEqual className="h-5 w-5 text-primary" />
-          <span className="text-base font-medium">Remaining</span>
-          <span className="ml-auto text-base font-bold text-green-700">
+        <div className="flex w-full items-center gap-4 py-4 leading-none">
+          <span className="font-medium">Remaining</span>
+          <span className="ml-auto font-bold text-green-700">
             $<FormatNumber number={remaining} />
           </span>
         </div>
