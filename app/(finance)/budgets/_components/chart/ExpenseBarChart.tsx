@@ -17,7 +17,7 @@ import {
 import { BudgetData, ExpenseData } from "@/types";
 import ExpenseCustomTooltip from "./ExpenseCustomTooltip";
 import { Button } from "@/components/ui/button";
-import useWindowSize from "@/hooks/useWindowSize";
+import { useMediaQuery } from "usehooks-ts";
 
 const chartConfig = {
   spent: {
@@ -45,7 +45,7 @@ type Props = {
 
 export function ExpenseBarChart({ budgetInfo, expenseDetail }: Props) {
   const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
-  const { width } = useWindowSize();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   console.log(budgetInfo);
 
@@ -126,7 +126,7 @@ export function ExpenseBarChart({ budgetInfo, expenseDetail }: Props) {
         >
           <BarChart
             accessibilityLayer
-            data={(width ?? 0) > 767 ? sortedExpenseDetail : filteredData}
+            data={isDesktop ? sortedExpenseDetail : filteredData}
           >
             <CartesianGrid vertical={false} />
             <XAxis

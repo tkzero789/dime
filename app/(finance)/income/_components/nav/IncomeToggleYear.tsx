@@ -8,7 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import useWindowSize from "@/hooks/useWindowSize";
+import { useMediaQuery } from "usehooks-ts";
 
 type Props = {
   currentYear: number;
@@ -20,7 +20,7 @@ export default function IncomeToggleYear({
   handleYearChange,
 }: Props) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
-  const { width } = useWindowSize();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const yearsList = React.useMemo(() => {
     const baseYear = new Date().getUTCFullYear();
@@ -41,7 +41,7 @@ export default function IncomeToggleYear({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        align={(width ?? 0) > 767 ? "end" : "start"}
+        align={isDesktop ? "end" : "start"}
         className="grid max-h-[156px] w-auto grid-cols-3 gap-2 overflow-y-auto"
       >
         {yearsList.map((item, index) => (

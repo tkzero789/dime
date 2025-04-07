@@ -12,8 +12,8 @@ import { Settings2 } from "lucide-react";
 import { BudgetData } from "@/types";
 import DeleteBudget from "../../_components/budget/DeleteBudget";
 import { Separator } from "@/components/ui/separator";
-import useWindowSize from "@/hooks/useWindowSize";
 import AddExpense from "./AddExpense";
+import { useMediaQuery } from "usehooks-ts";
 
 type Props = {
   paramsId: string;
@@ -28,7 +28,7 @@ export default function BudgetNav({
   currentUser,
   refreshData,
 }: Props) {
-  const { width } = useWindowSize();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
     <div className="rounded-xl bg-white p-4 shadow-card-shadow">
       <div className="flex items-center justify-between">
@@ -45,7 +45,7 @@ export default function BudgetNav({
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              align={(width ?? 0) > 767 ? "end" : "start"}
+              align={isDesktop ? "end" : "start"}
               className="w-40 p-1"
             >
               <EditBudget

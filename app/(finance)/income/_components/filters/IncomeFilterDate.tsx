@@ -13,9 +13,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ColumnFiltersState, SortingState } from "@tanstack/react-table";
-import useWindowSize from "@/hooks/useWindowSize";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { useMediaQuery } from "usehooks-ts";
 
 type Props = {
   setSortOption: Dispatch<SetStateAction<string>>;
@@ -32,7 +32,8 @@ export function IncomeFilterDate({
   columnFilters,
   setColumnFilters,
 }: Props) {
-  const { width } = useWindowSize();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
   const dateObject = columnFilters.find((item) => item.id === "date");
   const dateValue = columnFilters.find((item) => item.id === "date")
     ?.value as DateRange;
@@ -128,7 +129,7 @@ export function IncomeFilterDate({
             initialFocus
             showOutsideDays={false}
             defaultMonth={date?.from}
-            numberOfMonths={(width ?? 0) > 767 ? 2 : 1}
+            numberOfMonths={isDesktop ? 2 : 1}
           />
         </PopoverContent>
       </Popover>

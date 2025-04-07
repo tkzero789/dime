@@ -18,7 +18,7 @@ import {
 import { ExpenseData, RecurrenceDetail, SingleDetail } from "@/types";
 import GetCurrentMonth from "@/utils/getCurrentMonth";
 import LineCustomTooltip from "./LineCustomTooltip";
-import useWindowSize from "@/hooks/useWindowSize";
+import { useMediaQuery } from "usehooks-ts";
 
 export const description = "A multiple line chart";
 
@@ -38,7 +38,7 @@ type Props = {
 };
 
 export function DashboardLineChart({ spending }: Props) {
-  const { width } = useWindowSize();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   const currentMonth = new Date().getUTCMonth();
   const prevMonth = new Date();
   prevMonth.setUTCMonth(currentMonth - 1);
@@ -146,7 +146,7 @@ export function DashboardLineChart({ spending }: Props) {
             }}
           >
             <CartesianGrid vertical={false} />
-            {(width ?? 0) > 767 && (
+            {isDesktop && (
               <XAxis
                 dataKey="date"
                 tickLine={false}

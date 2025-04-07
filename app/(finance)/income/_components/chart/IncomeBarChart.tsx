@@ -11,9 +11,9 @@ import {
   ChartTooltip,
 } from "@/components/ui/chart";
 import { IncomeData } from "@/types";
-import useWindowSize from "@/hooks/useWindowSize";
 import IncomeCustomTooltip from "./IncomeCustomTooltip";
 import { Button } from "@/components/ui/button";
+import { useMediaQuery } from "usehooks-ts";
 
 const chartConfig = {
   income: {
@@ -52,7 +52,9 @@ type Props = {
 
 export function IncomeBarChart({ incomeData }: Props) {
   const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
-  const { width } = useWindowSize();
+
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
   const aggregatedData = aggregateIncomeByMonth(incomeData);
 
   React.useEffect(() => {
@@ -85,7 +87,7 @@ export function IncomeBarChart({ incomeData }: Props) {
         >
           <BarChart
             accessibilityLayer
-            data={(width ?? 0) > 767 ? aggregatedData : filteredData}
+            data={isDesktop ? aggregatedData : filteredData}
           >
             <CartesianGrid vertical={false} />
             <XAxis
