@@ -7,24 +7,12 @@ import { useUser } from "@clerk/nextjs";
 import { and, desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BudgetData, ExpenseData } from "@/types";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import BudgetItem from "@/app/(finance)/budgets/_components/budget/BudgetItem";
-
-import { ExpenseBarChart } from "@/app/(finance)/budgets/_components/chart/ExpenseBarChart";
-import { BudgetByIdRadialChart } from "@/app/(finance)/budgets/_components/chart/BudgetByIdRadialChart";
-import { Button } from "@/components/ui/button";
-import { CirclePlus } from "lucide-react";
+import BudgetItem from "@/app/(finance)/budgets/_components/mutations/BudgetItem";
+import { ExpenseBarChart } from "@/app/(finance)/budgets/[id]/_components/chart/ExpenseBarChart";
+import { BudgetByIdRadialChart } from "@/app/(finance)/budgets/[id]/_components/chart/BudgetByIdRadialChart";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
-import ExpenseTable from "./components/ExpenseTable";
-import BudgetItemNav from "./components/BudgetItemNav";
+import ExpenseTable from "./_components/table/ExpenseTable";
+import BudgetItemNav from "./_components/nav/BudgetItemNav";
 
 type Props = {
   params: {
@@ -39,7 +27,6 @@ export default function BudgetByIdPage({ params }: Props) {
   const [budgetData, setBudgetData] = React.useState<BudgetData[]>([]);
   const [expenseDetail, setExpenseDetail] = React.useState<ExpenseData[]>([]);
 
-  const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   // All expenses in the budget
@@ -94,14 +81,14 @@ export default function BudgetByIdPage({ params }: Props) {
   }, [user, getBudgetInfo]);
 
   return (
-    <div>
+    <div className="flex flex-col gap-6">
       <BudgetItemNav
         paramsId={params.id}
         budgetData={budgetData}
         currentUser={currentUser || "default"}
         refreshData={getBudgetInfo}
       />
-      <div className="mt-8 grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-6">
         <div className="order-last col-span-3 xl:order-first xl:col-span-2 xl:h-full">
           <ExpenseBarChart
             budgetInfo={budgetData}
@@ -120,48 +107,19 @@ export default function BudgetByIdPage({ params }: Props) {
           )}
         </div>
       </div>
-
-      <div className="mt-4 grid grid-cols-3 gap-4 xl:mt-8">
-        {isLoading ? (
-          <CardSkeleton
-            rectangle={1}
-            height={10}
-            style="col-span-3 lg:col-span-3 xl:col-span-2 h-fit"
-          />
-        ) : (
-          <div className="col-span-3 h-fit rounded-lg border bg-white p-6 shadow-md lg:col-span-3 xl:col-span-2">
-            <div className="flex items-center justify-between pb-4 xl:hidden">
-              <h2 className="text-xl font-bold">Expense list</h2>
-              <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="flex items-center justify-center gap-2"
-                  >
-                    <CirclePlus strokeWidth={1.75} color="#555353" />
-                    <span className="font-semibold text-secondary-foreground">
-                      Add expense
-                    </span>
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
-                  <DialogHeader>
-                    <DialogTitle className="text-center">
-                      Add New Expense
-                    </DialogTitle>
-                    <DialogDescription className="flex flex-col gap-4 pt-4"></DialogDescription>
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
-            </div>
-            <ExpenseTable
-              expenseDetail={expenseDetail}
-              currentUser={currentUser || "default"}
-              refreshData={() => getBudgetInfo()}
-            />
-          </div>
-        )}
-      </div>
+      {isLoading ? (
+        <CardSkeleton
+          rectangle={1}
+          height={10}
+          style="col-span-3 lg:col-span-3 xl:col-span-2 h-fit"
+        />
+      ) : (
+        <ExpenseTable
+          expenseDetail={expenseDetail}
+          currentUser={currentUser || "default"}
+          refreshData={() => getBudgetInfo()}
+        />
+      )}
     </div>
   );
 }

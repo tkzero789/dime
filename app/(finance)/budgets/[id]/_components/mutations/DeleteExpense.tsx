@@ -16,7 +16,7 @@ import { db } from "@/db/dbConfig";
 import toast from "react-hot-toast";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { budget_expense } from "@/db/schema";
 
 type Props = {
@@ -57,19 +57,19 @@ export default function DeleteExpense({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Expense</AlertDialogTitle>
+          <AlertDialogTitle>Delete expense</AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to delete this expense? This action cannot be
             undone. Click &apos;Delete&apos; to confirm this action.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel asChild>
-            <Button variant="outline">Cancel</Button>
+          <AlertDialogCancel className={buttonVariants({ variant: "outline" })}>
+            Cancel
           </AlertDialogCancel>
           <PopoverClose asChild>
             <AlertDialogAction
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              className={buttonVariants({ variant: "destructive" })}
               onClick={() => deleteExpense(expenseId)}
             >
               Delete

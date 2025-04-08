@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import BudgetList from "./_components/budget/BudgetList";
+import BudgetList from "./_components/BudgetList";
 import { BudgetRadialChart } from "./_components/chart/BudgetRadialChart";
 import { endOfMonth, startOfMonth } from "date-fns";
 import { LoaderCircle } from "lucide-react";
@@ -43,7 +43,7 @@ export default function BudgetsPage({ searchParams }: Props) {
   });
 
   return (
-    <div className="grid gap-6">
+    <div className="flex flex-col gap-6">
       <BudgetsNav date={date} setDate={setDate} />
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {isLoading ? (

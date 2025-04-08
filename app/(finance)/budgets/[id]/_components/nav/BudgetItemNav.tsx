@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import EditBudget from "../../_components/budget/EditBudget";
+import EditBudget from "../../../_components/mutations/EditBudget";
 import {
   Popover,
   PopoverContent,
@@ -10,9 +10,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Settings2 } from "lucide-react";
 import { BudgetData } from "@/types";
-import DeleteBudget from "../../_components/budget/DeleteBudget";
+import DeleteBudget from "../../../_components/mutations/DeleteBudget";
 import { Separator } from "@/components/ui/separator";
-import AddExpense from "./AddExpense";
+import AddExpense from "../mutations/AddExpense";
 import { useMediaQuery } from "usehooks-ts";
 
 type Props = {
@@ -36,7 +36,7 @@ export default function BudgetItemNav({
           <div className="text-xl">{budgetData[0]?.emoji}</div>
           <h1 className="text-xl font-semibold">{budgetData[0]?.category}</h1>
         </div>
-        <div className="flex w-full items-center justify-between gap-4 md:w-auto md:justify-normal">
+        <div className="flex w-full items-center justify-between gap-4 lg:w-auto">
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline">
@@ -52,7 +52,7 @@ export default function BudgetItemNav({
               <DeleteBudget paramsId={paramsId} />
             </PopoverContent>
           </Popover>
-          <Separator orientation="vertical" className="hidden h-5 md:block" />
+          <Separator orientation="vertical" className="hidden h-5 lg:block" />
           <AddExpense
             paramsId={paramsId}
             currentUser={currentUser}

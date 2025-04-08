@@ -7,10 +7,8 @@ import {
 } from "@/types";
 import React from "react";
 import { DashboardTable } from "./DashboardTable";
-import Link from "next/link";
 import DashboardBudget from "./DashboardBudget";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
-import { Button } from "@/components/ui/button";
 
 type Props = {
   allData: (
@@ -39,15 +37,7 @@ export default function DashboardMidSection({
           style="col-span-3 xl:col-span-2 h-fit"
         />
       ) : (
-        <div className="col-span-3 flex h-fit flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow xl:col-span-2">
-          <h2 className="text-xl font-bold">Transactions</h2>
-
-          <DashboardTable allData={allData} />
-
-          <Button asChild variant="outline" className="w-full">
-            <Link href="/transaction">View all transactions</Link>
-          </Button>
-        </div>
+        <DashboardTable allData={allData} />
       )}
 
       {isLoading ? (

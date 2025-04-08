@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Dispatch, SetStateAction } from "react";
-import CreateBudget from "../budget/CreateBudget";
+import CreateBudget from "../mutations/CreateBudget";
 import { Separator } from "@/components/ui/separator";
 import BudgetsMonthToggle from "./BudgetsMonthToggle";
 
@@ -16,7 +16,7 @@ export default function BudgetsNav({ date, setDate }: Props) {
       <h1 className="text-xl font-semibold">Budgets</h1>
       <div className="flex w-full items-center justify-end gap-4 md:w-auto">
         <BudgetsMonthToggle date={date} setDate={setDate} />
-        <Separator orientation="vertical" className="hidden h-5 md:block" />
+        <Separator orientation="vertical" className="hidden h-5 lg:block" />
         <CreateBudget />
       </div>
     </div>

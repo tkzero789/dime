@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import AddIncome from "../AddIncome";
+import AddIncome from "../mutations/AddIncome";
 import { Separator } from "@/components/ui/separator";
 import IncomeYearToggle from "./IncomeYearToggle";
 
@@ -19,7 +19,7 @@ export default function IncomeNav({ currentYear, handleChangeYear }: Props) {
           currentYear={currentYear}
           handleChangeYear={handleChangeYear}
         />
-        <Separator orientation="vertical" className="hidden h-5 md:block" />
+        <Separator orientation="vertical" className="hidden h-5 lg:block" />
         <AddIncome />
       </div>
     </div>

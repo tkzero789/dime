@@ -92,7 +92,7 @@ export default function BudgetsMonthToggle({ date, setDate }: Props) {
           >
             <ChevronLeft />
           </Button>
-          <div>{currentYear}</div>
+          <div className="text-sm font-medium">{currentYear}</div>
           <Button
             variant="outline"
             size="icon"

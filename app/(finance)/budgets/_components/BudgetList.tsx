@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import BudgetItem from "./BudgetItem";
+import BudgetItem from "./mutations/BudgetItem";
 import { BudgetData } from "@/types";
 import { Banknote } from "lucide-react";
 
@@ -11,7 +11,7 @@ type Props = {
 
 export default function BudgetList({ budgetData }: Props) {
   return (
-    <div className="order-last col-span-3 grid h-fit grid-cols-1 gap-y-2 xl:order-first xl:col-span-2 xl:grid-cols-2 xl:gap-6">
+    <div className="order-last col-span-3 grid h-fit grid-cols-1 gap-2 md:gap-4 xl:order-first xl:col-span-2 xl:grid-cols-2 xl:gap-6">
       {budgetData?.length > 0 ? (
         budgetData.map((item) => <BudgetItem key={item.id} budget={item} />)
       ) : (

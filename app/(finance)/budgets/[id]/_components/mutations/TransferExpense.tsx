@@ -99,16 +99,11 @@ export default function TransferExpense({
 
   return (
     <Dialog>
-      <DialogTrigger
-        className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-neutral-200"
-        onClick={getActiveBudget}
-      >
-        <span className="pl-4">
-          <RefreshCcw strokeWidth={2} className="h-4 w-4" color="#555353" />
-        </span>
-        <span className="font-semibold text-secondary-foreground">
+      <DialogTrigger asChild onClick={getActiveBudget}>
+        <Button variant="ghost" size="sm" className="w-full justify-start">
+          <RefreshCcw />
           Transfer
-        </span>
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

@@ -75,9 +75,7 @@ export function BudgetRadialChart({ date, budgetData }: Props) {
   return (
     <Card className="col-span-3 flex flex-col xl:col-span-1">
       <CardHeader className="flex flex-row items-center justify-center pb-0">
-        <CardTitle className="text-xl font-bold tracking-normal">
-          {format(convertToLocalDate(date), "MMMM yyyy")}
-        </CardTitle>
+        <CardTitle>{format(convertToLocalDate(date), "MMMM yyyy")}</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

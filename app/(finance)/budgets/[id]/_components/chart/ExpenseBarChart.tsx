@@ -2,13 +2,7 @@
 
 import React from "react";
 import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
@@ -87,30 +81,10 @@ export function ExpenseBarChart({ budgetInfo, expenseDetail }: Props) {
     ? sortedExpenseDetail.slice(0, 15)
     : sortedExpenseDetail.slice(15, sortedExpenseDetail.length);
 
-  // const months = [
-  //   "January",
-  //   "February",
-  //   "March",
-  //   "April",
-  //   "May",
-  //   "June",
-  //   "July",
-  //   "August",
-  //   "September",
-  //   "October",
-  //   "November",
-  //   "December",
-  // ];
-
   return (
-    <Card className="shadow-md xl:h-full">
+    <Card className="xl:h-full">
       <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:block">
-        <div>
-          <CardTitle className="text-xl font-bold tracking-normal">
-            Month Bar
-          </CardTitle>
-          <CardDescription>Your spending in this month</CardDescription>
-        </div>
+        <CardTitle>Budget spending</CardTitle>
         <Button
           variant="outline"
           className="block w-full px-8 md:hidden lg:w-auto"

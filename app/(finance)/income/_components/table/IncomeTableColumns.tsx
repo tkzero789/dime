@@ -12,8 +12,8 @@ import { Ellipsis } from "lucide-react";
 import { DateRange } from "react-day-picker";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
-import EditIncome from "../EditIncome";
-import DeleteIncome from "../DeleteIncome";
+import EditIncome from "../mutations/EditIncome";
+import DeleteIncome from "../mutations/DeleteIncome";
 
 export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
   {

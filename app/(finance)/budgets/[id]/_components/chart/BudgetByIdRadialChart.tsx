@@ -1,12 +1,10 @@
 "use client";
 
 import React from "react";
-import { CircleEqual, CirclePlus, MinusCircle } from "lucide-react";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -36,28 +34,10 @@ type Props = {
 };
 
 export function BudgetByIdRadialChart({ budget }: Props) {
-  // const months = [
-  //   "January",
-  //   "February",
-  //   "March",
-  //   "April",
-  //   "May",
-  //   "June",
-  //   "July",
-  //   "August",
-  //   "September",
-  //   "October",
-  //   "November",
-  //   "December",
-  // ];
-
   return (
-    <Card className="hidden h-full flex-col rounded-xl shadow-md lg:flex">
+    <Card className="hidden h-full flex-col lg:flex">
       <CardHeader className="items-center pb-0">
-        <CardTitle className="text-xl font-bold tracking-normal">
-          Budget Tracker
-        </CardTitle>
-        <CardDescription>Month</CardDescription>
+        <CardTitle>Budget tracker</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
         <ChartContainer
@@ -119,26 +99,23 @@ export function BudgetByIdRadialChart({ budget }: Props) {
           </RadialBarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col px-6 pb-6 text-sm lg:px-10">
-        <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">
-          <CirclePlus className="h-5 w-5 text-primary" />
-          <span className="text-base font-medium">Spending Budget</span>
-          <span className="ml-auto text-base font-bold">
+      <CardFooter className="flex-col px-6 pb-6">
+        <div className="flex w-full items-center gap-4 py-4 leading-none">
+          <span className="font-medium">Spending budget</span>
+          <span className="ml-auto font-bold">
             $<FormatNumber number={Number(budget[0]?.amount)} />
           </span>
         </div>
-        <div className="flex w-full items-center gap-4 border-b border-t py-3 font-medium leading-none">
-          <MinusCircle className="h-5 w-5 text-primary" />
-          <span className="text-base font-medium">Current Spending</span>
-          <span className="ml-auto text-base font-bold">
+        <div className="flex w-full items-center gap-4 border-b border-t py-4 leading-none">
+          <span className="font-medium">Current spending</span>
+          <span className="ml-auto font-bold">
             -$
             <FormatNumber number={budget[0]?.total_spend} />
           </span>
         </div>
-        <div className="flex w-full items-center gap-4 py-3 font-medium leading-none">
-          <CircleEqual className="h-5 w-5 text-primary" />
-          <span className="text-base font-medium">Remaining</span>
-          <span className="ml-auto text-base font-bold text-green-700">
+        <div className="flex w-full items-center gap-4 py-4 leading-none">
+          <span className="font-medium">Remaining</span>
+          <span className="ml-auto font-bold text-green-700">
             $
             {budget[0]?.remaining > 0 ? (
               <FormatNumber number={budget[0]?.remaining} />
