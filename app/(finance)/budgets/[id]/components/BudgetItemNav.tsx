@@ -17,24 +17,24 @@ import { useMediaQuery } from "usehooks-ts";
 
 type Props = {
   paramsId: string;
-  budgetInfo: BudgetData[];
+  budgetData: BudgetData[];
   currentUser: string | undefined;
   refreshData: () => void;
 };
 
-export default function BudgetNav({
+export default function BudgetItemNav({
   paramsId,
-  budgetInfo,
+  budgetData,
   currentUser,
   refreshData,
 }: Props) {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   return (
     <div className="rounded-xl bg-white p-4 shadow-card-shadow">
       <div className="flex items-center justify-between">
         <div className="hidden items-center gap-2 lg:flex">
-          <div className="text-xl">{budgetInfo[0]?.emoji}</div>
-          <h1 className="text-xl font-semibold">{budgetInfo[0]?.category}</h1>
+          <div className="text-xl">{budgetData[0]?.emoji}</div>
+          <h1 className="text-xl font-semibold">{budgetData[0]?.category}</h1>
         </div>
         <div className="flex w-full items-center justify-between gap-4 md:w-auto md:justify-normal">
           <Popover>
@@ -48,11 +48,7 @@ export default function BudgetNav({
               align={isDesktop ? "end" : "start"}
               className="w-40 p-1"
             >
-              <EditBudget
-                budgetInfo={budgetInfo}
-                currentUser={currentUser || "default"}
-                refreshData={refreshData}
-              />
+              <EditBudget budgetData={budgetData} />
               <DeleteBudget paramsId={paramsId} />
             </PopoverContent>
           </Popover>

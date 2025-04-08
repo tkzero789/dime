@@ -21,6 +21,7 @@ import toast from "react-hot-toast";
 import { ExpenseDatePicker } from "./ExpenseDatePicker";
 import { format } from "date-fns";
 import { Plus } from "lucide-react";
+import { useMediaQuery } from "usehooks-ts";
 
 type Props = {
   paramsId: string;
@@ -33,6 +34,8 @@ export default function AddExpense({
   currentUser,
   refreshData,
 }: Props) {
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+
   const [name, setName] = React.useState<string>("");
   const [amount, setAmount] = React.useState<string>("");
   const [paymentMethod, setPaymentMethod] = React.useState<string>("");
@@ -73,9 +76,9 @@ export default function AddExpense({
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button>
+          <Button size={isDesktop ? "default" : "icon"}>
             <Plus />
-            Add expense
+            <span className="hidden lg:block">Add expense</span>
           </Button>
         </DialogTrigger>
         <DialogContent>

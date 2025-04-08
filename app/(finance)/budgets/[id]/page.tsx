@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { CirclePlus } from "lucide-react";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import ExpenseTable from "./components/ExpenseTable";
-import BudgetNav from "./components/BudgetNav";
+import BudgetItemNav from "./components/BudgetItemNav";
 
 type Props = {
   params: {
@@ -36,7 +36,7 @@ export default function BudgetByIdPage({ params }: Props) {
   const { user } = useUser();
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
-  const [budgetInfo, setBudgetInfo] = React.useState<BudgetData[]>([]);
+  const [budgetData, setBudgetData] = React.useState<BudgetData[]>([]);
   const [expenseDetail, setExpenseDetail] = React.useState<ExpenseData[]>([]);
 
   const [open, setOpen] = React.useState(false);
@@ -82,7 +82,7 @@ export default function BudgetByIdPage({ params }: Props) {
       .groupBy(budget.id);
 
     if (result) {
-      setBudgetInfo(result);
+      setBudgetData(result);
       getExpenseDetail();
     }
   }, [currentUser, getExpenseDetail, params.id]);
@@ -95,25 +95,25 @@ export default function BudgetByIdPage({ params }: Props) {
 
   return (
     <div>
-      <BudgetNav
+      <BudgetItemNav
         paramsId={params.id}
-        budgetInfo={budgetInfo}
+        budgetData={budgetData}
         currentUser={currentUser || "default"}
         refreshData={getBudgetInfo}
       />
       <div className="mt-8 grid grid-cols-3 gap-4">
         <div className="order-last col-span-3 xl:order-first xl:col-span-2 xl:h-full">
           <ExpenseBarChart
-            budgetInfo={budgetInfo}
+            budgetInfo={budgetData}
             expenseDetail={expenseDetail}
           />
         </div>
         <div className="col-span-3 xl:col-span-1">
-          <BudgetByIdRadialChart budget={budgetInfo} />
+          <BudgetByIdRadialChart budget={budgetData} />
 
-          {budgetInfo.length > 0 ? (
+          {budgetData.length > 0 ? (
             <div className="lg:hidden">
-              <BudgetItem budget={budgetInfo[0]} />
+              <BudgetItem budget={budgetData[0]} />
             </div>
           ) : (
             <Skeleton className="h-28 bg-gray-200 lg:hidden" />

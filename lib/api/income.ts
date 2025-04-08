@@ -58,6 +58,8 @@ export async function updateIncome(incomeToUpdate: IncomeUpdateState) {
       throw new Error(error || "API error updating income");
     }
 
+    if (response.status === 204) return null;
+
     return await response.json();
   } catch (error) {
     console.error("API error updating income", error);

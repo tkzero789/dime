@@ -3,21 +3,21 @@
 import React from "react";
 import AddIncome from "../AddIncome";
 import { Separator } from "@/components/ui/separator";
-import IncomeToggleYear from "./IncomeToggleYear";
+import IncomeYearToggle from "./IncomeYearToggle";
 
 type Props = {
   currentYear: number;
-  handleYearChange: (year: number) => void;
+  handleChangeYear: (year: number) => void;
 };
 
-export default function IncomeNav({ currentYear, handleYearChange }: Props) {
+export default function IncomeNav({ currentYear, handleChangeYear }: Props) {
   return (
-    <div className="flex items-center justify-between gap-6 rounded-xl bg-white px-6 py-4 shadow-card-shadow">
-      <h1 className="hidden text-xl font-semibold md:block">Income</h1>
-      <div className="flex w-full items-center justify-between gap-4 md:w-auto md:justify-normal">
-        <IncomeToggleYear
+    <div className="flex items-center justify-between rounded-xl bg-white px-6 py-4 shadow-card-shadow">
+      <h1 className="text-xl font-semibold">Income</h1>
+      <div className="flex w-full items-center justify-end gap-4 md:w-auto">
+        <IncomeYearToggle
           currentYear={currentYear}
-          handleYearChange={handleYearChange}
+          handleChangeYear={handleChangeYear}
         />
         <Separator orientation="vertical" className="hidden h-5 md:block" />
         <AddIncome />

@@ -24,6 +24,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addIncome } from "@/lib/api/income";
 import toast from "react-hot-toast";
 import { startOfDay } from "date-fns";
+import { useMediaQuery } from "usehooks-ts";
 
 const selectOptions = {
   categories: [
@@ -46,6 +47,7 @@ const selectOptions = {
 };
 
 export default function AddIncome() {
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const [newIncome, setNewIncome] = React.useState<IncomeState>({
@@ -128,9 +130,12 @@ export default function AddIncome() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button onClick={handleClearInput}>
+        <Button
+          size={isDesktop ? "default" : "icon"}
+          onClick={handleClearInput}
+        >
           <Plus />
-          Add income
+          <span className="hidden lg:block">Add income</span>
         </Button>
       </DialogTrigger>
       <DialogContent>

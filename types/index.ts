@@ -37,8 +37,8 @@ export type AccountData = {
 
 export type BudgetData = {
   id: string;
-  amount: string;
   category: string;
+  amount: string;
   emoji: string | null;
   date: string;
   total_spend: number;

@@ -117,7 +117,6 @@ export default function IncomeFilters({
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  "group relative",
                   item.id === filterOption && "bg-muted",
                   sorting.map(
                     (sortObject) =>
@@ -134,13 +133,13 @@ export default function IncomeFilters({
                     sorting.some(
                       (sortObject) => sortObject.id === filterOption,
                     ) &&
-                    "bg-primary/10 hover:bg-primary/20",
+                    "bg-primary/10",
                   columnFilters.length !== 0 &&
                     item.id === filterOption &&
                     columnFilters.some(
                       (filterObject) => filterObject.id === filterOption,
                     ) &&
-                    "bg-primary/10 hover:bg-primary/20",
+                    "bg-primary/10",
                 )}
                 onClick={() => setFilterOption(item.id)}
               >

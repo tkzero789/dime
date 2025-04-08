@@ -39,6 +39,34 @@ export async function addBudget(newBudget: BudgetState) {
   }
 }
 
+type BudgetUpdateState = BudgetState & {
+  id: string;
+};
+
+export async function updateBudget(budgetToUpdate: BudgetUpdateState) {
+  try {
+    const response = await fetch(`/api/budgets/${budgetToUpdate.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(budgetToUpdate),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error || "API error updating budget");
+    }
+
+    if (response.status === 204) return null;
+
+    return await response.json();
+  } catch (error) {
+    console.error("API error updating budget", error);
+    throw error;
+  }
+}
+
 export async function deleteBudget(budgetId: string) {
   try {
     const response = await fetch(`/api/budgets/${budgetId}`, {

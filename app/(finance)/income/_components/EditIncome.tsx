@@ -49,9 +49,9 @@ const selectOptions = {
 };
 
 export default function EditIncome({ incomeData }: Props) {
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
-  const [incomeToEdit, setIncomeToEdit] = React.useState<IncomeState>({
+  const [incomeToUpdate, setIncomeToUpdate] = React.useState<IncomeState>({
     name: incomeData.name,
     amount: incomeData.amount,
     date: convertToLocalDate(incomeData.date),
@@ -60,7 +60,7 @@ export default function EditIncome({ incomeData }: Props) {
   });
 
   const handleFormChange = (field: keyof IncomeState, value: string | Date) => {
-    setIncomeToEdit((prev) => ({ ...prev, [field]: value }));
+    setIncomeToUpdate((prev) => ({ ...prev, [field]: value }));
   };
 
   const queryClient = useQueryClient();
@@ -68,7 +68,7 @@ export default function EditIncome({ incomeData }: Props) {
     mutationFn: updateIncome,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["income"] });
-      setOpen(false);
+      setIsOpen(false);
       toast.success("Income updated");
     },
     onError: (error) => {
@@ -81,11 +81,11 @@ export default function EditIncome({ incomeData }: Props) {
     e.preventDefault();
 
     if (
-      incomeToEdit.name.trim() == "" ||
-      !incomeToEdit.amount ||
-      !incomeToEdit.date ||
-      !incomeToEdit.category ||
-      !incomeToEdit.payment_method
+      incomeToUpdate.name.trim() == "" ||
+      !incomeToUpdate.amount ||
+      !incomeToUpdate.date ||
+      !incomeToUpdate.category ||
+      !incomeToUpdate.payment_method
     ) {
       toast.error("Missing required information");
       return;
@@ -93,16 +93,16 @@ export default function EditIncome({ incomeData }: Props) {
 
     mutate({
       id: incomeData.id,
-      name: incomeToEdit.name,
-      amount: incomeToEdit.amount,
-      date: incomeToEdit.date,
-      category: incomeToEdit.category,
-      payment_method: incomeToEdit.payment_method,
+      name: incomeToUpdate.name,
+      amount: incomeToUpdate.amount,
+      date: incomeToUpdate.date,
+      category: incomeToUpdate.category,
+      payment_method: incomeToUpdate.payment_method,
     });
   };
 
   const handleResetValue = () => {
-    setIncomeToEdit({
+    setIncomeToUpdate({
       name: incomeData.name,
       amount: incomeData.amount,
       date: convertToLocalDate(incomeData.date),
@@ -113,18 +113,18 @@ export default function EditIncome({ incomeData }: Props) {
 
   const checkEmptyValue = () => {
     if (
-      incomeToEdit.name.trim() === "" ||
-      !incomeToEdit.amount ||
-      !incomeToEdit.date ||
-      !incomeToEdit.category ||
-      !incomeToEdit.payment_method ||
+      incomeToUpdate.name.trim() === "" ||
+      !incomeToUpdate.amount ||
+      !incomeToUpdate.date ||
+      !incomeToUpdate.category ||
+      !incomeToUpdate.payment_method ||
       isPending
     )
       return true;
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
           variant="ghost"
@@ -158,14 +158,14 @@ export default function EditIncome({ incomeData }: Props) {
             <Input
               type="text"
               placeholder="Income name"
-              value={incomeToEdit.name}
+              value={incomeToUpdate.name}
               onChange={(e) => handleFormChange("name", e.target.value)}
             />
             {/* Income Amount */}
             <Input
               type="number"
               placeholder="Amount"
-              value={incomeToEdit.amount}
+              value={incomeToUpdate.amount}
               onChange={(e) => {
                 const value = e.target.value;
                 if (/^\d*\.?\d{0,2}$/.test(value)) {
@@ -175,12 +175,12 @@ export default function EditIncome({ incomeData }: Props) {
             />
             {/* DatePicker */}
             <IncomeDatePicker
-              date={incomeToEdit.date}
+              date={incomeToUpdate.date}
               handleFormChange={handleFormChange}
             />
             {/* Category */}
             <Select
-              value={incomeToEdit.category}
+              value={incomeToUpdate.category}
               onValueChange={(value) => handleFormChange("category", value)}
             >
               <SelectTrigger className="w-full">
@@ -196,7 +196,7 @@ export default function EditIncome({ incomeData }: Props) {
             </Select>
             {/* Payment Method */}
             <Select
-              value={incomeToEdit.payment_method}
+              value={incomeToUpdate.payment_method}
               onValueChange={(value) =>
                 handleFormChange("payment_method", value)
               }
@@ -215,8 +215,8 @@ export default function EditIncome({ incomeData }: Props) {
           </div>
           <div className="hidden items-center justify-end border-t p-6 lg:flex">
             <Button type="submit" disabled={checkEmptyValue()}>
-              {isPending && <LoaderCircle className="animate-spin" />}Edit
-              income
+              {isPending && <LoaderCircle className="animate-spin" />} Save
+              changes
             </Button>
           </div>
         </form>

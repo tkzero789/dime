@@ -69,7 +69,7 @@ export async function POST(request: Request) {
       created_by: user?.primaryEmailAddress?.emailAddress || "",
     });
 
-    return Response.json(data);
+    return Response.json(data, { status: 201 });
   } catch (error) {
     console.error(error);
     return Response.json(

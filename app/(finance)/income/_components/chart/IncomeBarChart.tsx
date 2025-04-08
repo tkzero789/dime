@@ -53,7 +53,7 @@ type Props = {
 export function IncomeBarChart({ incomeData }: Props) {
   const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
 
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   const aggregatedData = aggregateIncomeByMonth(incomeData);
 

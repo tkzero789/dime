@@ -45,7 +45,7 @@ type Props = {
 
 export function ExpenseBarChart({ budgetInfo, expenseDetail }: Props) {
   const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   console.log(budgetInfo);
 

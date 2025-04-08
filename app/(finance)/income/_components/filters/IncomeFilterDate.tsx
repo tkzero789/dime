@@ -32,7 +32,7 @@ export function IncomeFilterDate({
   columnFilters,
   setColumnFilters,
 }: Props) {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   const dateObject = columnFilters.find((item) => item.id === "date");
   const dateValue = columnFilters.find((item) => item.id === "date")

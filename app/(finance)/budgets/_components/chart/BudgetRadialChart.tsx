@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Label,
   PolarGrid,
@@ -17,7 +16,6 @@ import {
 } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { BudgetData } from "@/types";
-import { Button } from "@/components/ui/button";
 import FormatNumber from "@/utils/formatNumber";
 import { format } from "date-fns";
 import { convertToLocalDate } from "@/utils/convertToLocalDate";
@@ -33,35 +31,13 @@ const chartConfig = {
 type Props = {
   date: string;
   budgetData: BudgetData[];
-  handlePreviousMonth: () => void;
-  handleNextMonth: () => void;
 };
 
-export function BudgetRadialChart({
-  date,
-  budgetData,
-  handlePreviousMonth,
-  handleNextMonth,
-}: Props) {
+export function BudgetRadialChart({ date, budgetData }: Props) {
   const [totalBudget, setTotalBudget] = React.useState<number>(0);
   const [totalSpend, setTotalSpend] = React.useState<number>(0);
   const [remaining, setRemaining] = React.useState<number>(0);
   const [chartPercent, setChartPercent] = React.useState<number>(0);
-
-  // const months = [
-  //   "January",
-  //   "February",
-  //   "March",
-  //   "April",
-  //   "May",
-  //   "June",
-  //   "July",
-  //   "August",
-  //   "September",
-  //   "October",
-  //   "November",
-  //   "December",
-  // ];
 
   React.useEffect(() => {
     const calculation = () => {
@@ -98,23 +74,10 @@ export function BudgetRadialChart({
 
   return (
     <Card className="col-span-3 flex flex-col xl:col-span-1">
-      <CardHeader className="flex flex-row items-center justify-between pb-0">
-        <Button variant="outline" size="icon" onClick={handlePreviousMonth}>
-          <ChevronLeft />
-        </Button>
-        <div>
-          <CardTitle className="text-xl font-bold tracking-normal">
-            {format(convertToLocalDate(date), "MMMM yyyy")}
-          </CardTitle>
-        </div>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={handleNextMonth}
-          // disabled={month === currentMonth && year === currentYear}
-        >
-          <ChevronRight />
-        </Button>
+      <CardHeader className="flex flex-row items-center justify-center pb-0">
+        <CardTitle className="text-xl font-bold tracking-normal">
+          {format(convertToLocalDate(date), "MMMM yyyy")}
+        </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

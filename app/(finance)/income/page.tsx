@@ -39,7 +39,7 @@ export default function IncomePage({ searchParams }: Props) {
     }),
   });
 
-  const handleYearChange = (year: number) => {
+  const handleChangeYear = (year: number) => {
     const newParams = {
       startDate: `${year}-01-01`,
       endDate: `${year}-12-31`,
@@ -54,7 +54,7 @@ export default function IncomePage({ searchParams }: Props) {
     <div className="flex flex-col gap-6">
       <IncomeNav
         currentYear={currentYear}
-        handleYearChange={handleYearChange}
+        handleChangeYear={handleChangeYear}
       />
       <div className="grid grid-cols-3 gap-6">
         <IncomeBarChart incomeData={incomeData?.all || []} />

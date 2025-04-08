@@ -13,7 +13,7 @@ export async function PUT(request: Request) {
   try {
     const body = await request.json();
 
-    const data = await db
+    await db
       .update(income)
       .set({
         name: body.name,
@@ -27,10 +27,9 @@ export async function PUT(request: Request) {
           eq(income.id, body.id),
           eq(income.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
         ),
-      )
-      .returning();
+      );
 
-    return Response.json(data);
+    return new Response(null, { status: 204 });
   } catch (error) {
     console.error(error);
     return Response.json(

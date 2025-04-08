@@ -14,6 +14,7 @@ import {
   RefreshCcwDot,
   ArrowLeftRight,
   BotMessageSquare,
+  Landmark,
 } from "lucide-react";
 import {
   Drawer,
@@ -51,7 +52,7 @@ export default function MobileNav() {
     { option: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
     { option: "Budgets", icon: Banknote, href: "/budgets" },
     { option: "Spending", icon: CircleDollarSign, href: "/spending" },
-    { option: "Income", icon: Banknote, href: "/income" },
+    { option: "Income", icon: Landmark, href: "/income" },
   ];
 
   return (

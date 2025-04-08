@@ -20,14 +20,17 @@ import { addBudget } from "@/lib/api/budgets";
 import toast from "react-hot-toast";
 import { BudgetDatePicker } from "./BudgetDatePicket";
 import { startOfDay } from "date-fns";
+import { useMediaQuery } from "usehooks-ts";
 
 export default function CreateBudget() {
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
+
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isOpenEmoji, setIsOpenEmoji] = React.useState<boolean>(false);
 
   const [newBudget, setNewBudget] = React.useState<BudgetState>({
-    amount: "",
     category: "",
+    amount: "",
     emoji: "",
     date: startOfDay(new Date()),
   });
@@ -63,9 +66,9 @@ export default function CreateBudget() {
     e.preventDefault();
 
     if (
-      !newBudget.amount ||
-      !newBudget.category ||
       !newBudget.emoji ||
+      !newBudget.category ||
+      !newBudget.amount ||
       !newBudget.date
     ) {
       {
@@ -75,27 +78,27 @@ export default function CreateBudget() {
     }
 
     mutate({
-      amount: newBudget.amount,
-      category: newBudget.category,
       emoji: newBudget.emoji,
+      category: newBudget.category,
+      amount: newBudget.amount,
       date: newBudget.date,
     });
   };
 
   const handleClearInput = () => {
     setNewBudget({
-      amount: "",
-      category: "",
       emoji: "",
+      category: "",
+      amount: "",
       date: startOfDay(new Date()),
     });
   };
 
   const checkEmptyValue = () => {
     if (
-      !newBudget.amount ||
-      !newBudget.category ||
       !newBudget.emoji ||
+      !newBudget.category ||
+      !newBudget.amount ||
       !newBudget.date ||
       isPending
     )
@@ -105,9 +108,12 @@ export default function CreateBudget() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button onClick={handleClearInput}>
+        <Button
+          size={isDesktop ? "default" : "icon"}
+          onClick={handleClearInput}
+        >
           <Plus />
-          New budget
+          <span className="hidden lg:block">New budget</span>
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -132,11 +138,6 @@ export default function CreateBudget() {
         >
           {/* Form content */}
           <div className="flex flex-col gap-4 px-6 md:pb-6 lg:pb-0">
-            {/* Month */}
-            <BudgetDatePicker
-              date={newBudget.date}
-              handleFormChange={handleFormChange}
-            />
             {/* Emoji selection & Budget category */}
             <div className="flex items-center gap-2">
               <Button
@@ -169,12 +170,18 @@ export default function CreateBudget() {
             <Input
               type="number"
               placeholder="Amount"
+              value={newBudget.amount}
               onChange={(e) => {
                 const value = e.target.value;
                 if (/^\d*\.?\d{0,2}$/.test(value)) {
                   handleFormChange("amount", value);
                 }
               }}
+            />
+            {/* Month */}
+            <BudgetDatePicker
+              date={newBudget.date}
+              handleFormChange={handleFormChange}
             />
           </div>
           {/* Button */}

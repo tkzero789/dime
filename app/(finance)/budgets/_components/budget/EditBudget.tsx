@@ -3,256 +3,179 @@
 import React from "react";
 import EmojiPicker, { EmojiStyle } from "emoji-picker-react";
 import { Button } from "@/components/ui/button";
-import { PenBox } from "lucide-react";
+import { Check, LoaderCircle, PenBox } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { BudgetData } from "@/types";
-import { db } from "@/db/dbConfig";
-import { and, eq } from "drizzle-orm";
+import { BudgetData, BudgetState } from "@/types";
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  BadgeDollarSign,
-  BriefcaseMedical,
-  Building2,
-  Car,
-  Drama,
-  HeartHandshake,
-  Martini,
-  PawPrint,
-  Plane,
-  School,
-  ShoppingBag,
-  ShoppingCart,
-} from "lucide-react";
 import toast from "react-hot-toast";
-import { PopoverClose } from "@radix-ui/react-popover";
-import { budget } from "@/db/schema";
+import BudgetCategory from "./BudgetCategory";
+import { BudgetDatePicker } from "./BudgetDatePicket";
+import { convertToLocalDate } from "@/utils/convertToLocalDate";
+import { updateBudget } from "@/lib/api/budgets";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Props = {
-  budgetInfo: BudgetData[];
-  currentUser: string | undefined;
-  refreshData: () => void;
+  budgetData: BudgetData[];
 };
 
-export default function EditBudget({
-  budgetInfo,
-  currentUser,
-  refreshData,
-}: Props) {
-  // Budget types list
-  const budgetCategory = [
-    {
-      icon: Car,
-      color: "#000000",
-      name: "Auto & Transport",
-    },
-    {
-      icon: Building2,
-      color: "#000000",
-      name: "Business",
-    },
-    {
-      icon: Martini,
-      color: "#000000",
-      name: "Dining & Drinks",
-    },
-    {
-      icon: School,
-      color: "#000000",
-      name: "Education",
-    },
-    {
-      icon: Drama,
-      color: "#000000",
-      name: "Entertainment",
-    },
-    {
-      icon: HeartHandshake,
-      color: "#000000",
-      name: "Gifts & Donations",
-    },
-    {
-      icon: ShoppingCart,
-      color: "#000000",
-      name: "Groceries",
-    },
-    {
-      icon: BriefcaseMedical,
-      color: "#000000",
-      name: "Medical",
-    },
-    {
-      icon: PawPrint,
-      color: "#000000",
-      name: "Pets",
-    },
-    {
-      icon: ShoppingBag,
-      color: "#000000",
-      name: "Shopping",
-    },
-    {
-      icon: Plane,
-      color: "#000000",
-      name: "Travel & Vacation",
-    },
-    {
-      icon: BadgeDollarSign,
-      color: "#000000",
-      name: "Others",
-    },
-  ];
+export default function EditBudget({ budgetData }: Props) {
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const [isOpenEmoji, setIsOpenEmoji] = React.useState<boolean>(false);
 
-  const [emoji, setEmoji] = React.useState<string>("");
-  const [initialEmoji, setInitialEmoji] = React.useState<string>("");
-  const [openEmoji, setOpenEmoji] = React.useState(false);
-  const [category, setCategory] = React.useState<string>("");
-  const [initialCategory, setInitalCategory] = React.useState<string>("");
-  const [amount, setAmount] = React.useState<string>("");
+  const [budgetToUpdate, setBudgetToUpdate] = React.useState<BudgetState>({
+    emoji: budgetData[0]?.emoji,
+    category: budgetData[0]?.category,
+    amount: budgetData[0]?.amount,
+    date: convertToLocalDate(budgetData[0]?.date),
+  });
 
-  // Edit budget
-  const onUpdateBudget = async () => {
-    const updatedAmount = amount || budgetInfo[0]?.amount;
-    const result = await db
-      .update(budget)
-      .set({
-        amount: updatedAmount,
-        emoji: emoji,
-        category: category,
-      })
-      .where(
-        and(
-          eq(budget.id, budgetInfo[0].id),
-          eq(budget.created_by, currentUser ?? ""),
-        ),
-      )
-      .returning();
+  const handleFormChange = (
+    field: keyof BudgetState,
+    value: string | number | Date,
+  ) => {
+    setBudgetToUpdate((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
-    if (result) {
-      refreshData();
-      toast.success("Your budget is updated!");
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: updateBudget,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["budgetItem"] });
+      setIsOpen(false);
+      toast.success("Budget updated");
+    },
+    onError: (error) => {
+      toast.error("Failed to update budget");
+      console.log("Failed to update budget", error);
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (
+      !budgetToUpdate.emoji ||
+      !budgetToUpdate.category ||
+      !budgetToUpdate.amount ||
+      !budgetToUpdate.date
+    ) {
+      toast.error("Missing required information");
+      return;
     }
+
+    mutate({
+      id: budgetData[0].id,
+      emoji: budgetToUpdate.emoji,
+      category: budgetToUpdate.category,
+      amount: budgetToUpdate.amount,
+      date: budgetToUpdate.date,
+    });
   };
 
-  // On click edit (reset to original)
-  const handleOnClickEdit = () => {
-    setInitialEmoji(budgetInfo[0]?.emoji || "");
-    setEmoji(budgetInfo[0]?.emoji || "");
-    setInitalCategory(budgetInfo[0]?.category);
-    setCategory(budgetInfo[0]?.category);
+  const checkEmptyValue = () => {
+    if (
+      !budgetToUpdate.emoji ||
+      !budgetToUpdate.category ||
+      !budgetToUpdate.amount ||
+      !budgetToUpdate.date ||
+      isPending
+    )
+      return true;
   };
-
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleOnClickEdit}
-          className="w-full justify-start"
-        >
+        <Button variant="ghost" size="sm" className="w-full justify-start">
           <PenBox />
           Edit
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-center">Edit Budget</DialogTitle>
-          <DialogDescription className="flex flex-col gap-4 pt-4">
+          <DialogTitle>Edit budget</DialogTitle>
+          <DialogClose asChild>
+            <Button
+              size="icon"
+              type="submit"
+              form="editBudgetForm"
+              disabled={checkEmptyValue()}
+              className="lg:hidden"
+            >
+              <Check />
+            </Button>
+          </DialogClose>
+        </DialogHeader>
+        <form
+          id="editBudgetForm"
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-6"
+        >
+          {/* Form content */}
+          <div className="flex flex-col gap-4 px-6 md:pb-6 lg:pb-0">
+            {/* Emoji selection & Budget category */}
             <div className="flex items-center gap-2">
-              {/* Emoji selection */}
               <Button
                 variant="outline"
-                onClick={() => setOpenEmoji(!openEmoji)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsOpenEmoji(!isOpenEmoji);
+                }}
+                className="h-12"
               >
-                {emoji}
+                {budgetToUpdate.emoji ? budgetToUpdate.emoji : "Emoji"}
               </Button>
-              {/* Budget category */}
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className="flex-1 border">
-                    {category || budgetInfo[0]?.category}
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>What is this budget for?</DialogTitle>
-                    <DialogDescription>
-                      <div className="item flex max-h-96 flex-col overflow-y-auto">
-                        {budgetCategory.map((item, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center py-4 pr-4"
-                          >
-                            <item.icon
-                              color={item.color}
-                              strokeWidth={1.5}
-                              className="h-[30px] w-[30px]"
-                            />
-                            <span className="pl-6 text-base font-semibold text-foreground">
-                              {item.name}
-                            </span>
-                            <DialogClose asChild>
-                              <Button
-                                className="ml-auto"
-                                onClick={() => setCategory(item.name)}
-                              >
-                                Select
-                              </Button>
-                            </DialogClose>
-                          </div>
-                        ))}
-                      </div>
-                    </DialogDescription>
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
+              <BudgetCategory
+                category={budgetToUpdate.category}
+                handleFormChange={handleFormChange}
+              />
             </div>
             {/* Emoji pop-up */}
             <div className="absolute z-10">
               <EmojiPicker
-                open={openEmoji}
+                open={isOpenEmoji}
                 emojiStyle={EmojiStyle.TWITTER}
                 onEmojiClick={(e) => {
-                  setEmoji(e.emoji);
-                  setOpenEmoji(false);
+                  handleFormChange("emoji", e.emoji);
+                  setIsOpenEmoji(false);
                 }}
               />
             </div>
             {/* Amount */}
             <Input
-              className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               type="number"
-              defaultValue={Number(budgetInfo[0]?.amount)}
-              onChange={(e) => setAmount(e.target.value)}
+              placeholder="Amount"
+              value={budgetToUpdate.amount}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (/^\d*\.?\d{0,2}$/.test(value)) {
+                  handleFormChange("amount", value);
+                }
+              }}
             />
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter className="flex-col sm:justify-start">
-          <PopoverClose asChild>
-            <Button
-              className="w-full"
-              disabled={
-                !(
-                  amount ||
-                  emoji !== initialEmoji ||
-                  category !== initialCategory
-                )
-              }
-              onClick={() => onUpdateBudget()}
-            >
-              Update Budget
+            {/* Month */}
+            <BudgetDatePicker
+              date={budgetToUpdate.date}
+              handleFormChange={handleFormChange}
+            />
+          </div>
+          {/* Button */}
+          <div className="hidden items-center justify-end border-t p-6 lg:flex">
+            <Button type="submit" disabled={checkEmptyValue()}>
+              {isPending && <LoaderCircle className="animate-spin" />}
+              Save changes
             </Button>
-          </PopoverClose>
-        </DialogFooter>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

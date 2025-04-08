@@ -1,6 +1,6 @@
 import React from "react";
 import SideNav from "./_components/SideNav";
-import MobileNav from "../_components/Nav/MobileNav";
+import MobileNav from "./_components/MobileNav";
 import QueryProvider from "./_components/QueryProvider";
 import "@/css/app.css";
 import "@/css/embla.css";

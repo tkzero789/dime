@@ -38,7 +38,7 @@ type Props = {
 };
 
 export function DashboardLineChart({ spending }: Props) {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const currentMonth = new Date().getUTCMonth();
   const prevMonth = new Date();
   prevMonth.setUTCMonth(currentMonth - 1);
