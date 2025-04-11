@@ -12,6 +12,7 @@ export async function PUT(request: Request) {
 
   try {
     const body = await request.json();
+    const incomeId = body.id;
 
     await db
       .update(income)
@@ -24,7 +25,7 @@ export async function PUT(request: Request) {
       })
       .where(
         and(
-          eq(income.id, body.id),
+          eq(income.id, incomeId),
           eq(income.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
         ),
       );

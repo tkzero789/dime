@@ -154,7 +154,7 @@ export default function EditIncome({ incomeData }: Props) {
           onSubmit={handleSubmit}
           className="flex flex-col gap-6"
         >
-          <div className="flex flex-col gap-4 px-6">
+          <div className="flex flex-col gap-4 px-6 pb-6">
             <Input
               type="text"
               placeholder="Income name"
