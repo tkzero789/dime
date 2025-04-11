@@ -1,25 +1,15 @@
-import {
-  AccountData,
-  ExpenseData,
-  RecurrenceDetail,
-  SingleDetail,
-} from "@/types";
+import { ExpenseData, RecurrenceDetail, SingleDetail } from "@/types";
 import React from "react";
 import DashboardAccounts from "./DashboardAccounts";
 import { DashboardLineChart } from "../chart/DashboardLineChart";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 
 type Props = {
-  accountData: AccountData[];
   spending: (ExpenseData | RecurrenceDetail | SingleDetail)[];
   isLoading: boolean;
 };
 
-export default function DashboardTopSection({
-  accountData,
-  spending,
-  isLoading,
-}: Props) {
+export default function DashboardTopSection({ spending, isLoading }: Props) {
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
       <div className="col-span-3 xl:col-span-2">
@@ -35,16 +25,7 @@ export default function DashboardTopSection({
         )}
       </div>
       <div className="col-span-3 xl:col-span-1">
-        {isLoading ? (
-          <CardSkeleton
-            title={true}
-            titleWidth={40}
-            rectangle={1}
-            height={18}
-          />
-        ) : (
-          <DashboardAccounts accountData={accountData} />
-        )}
+        <DashboardAccounts />
       </div>
     </div>
   );

@@ -10,9 +10,15 @@ export async function getBudgetData(searchParams: {
   });
   try {
     const response = await fetch(`/api/budgets?${params.toString()}`);
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error || "API error fetching budget data");
+    }
+
     return await response.json();
   } catch (error) {
-    console.error("API error getting budget data");
+    console.error("API error fetching budget data");
     throw error;
   }
 }

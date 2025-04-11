@@ -1,5 +1,4 @@
 import {
-  BudgetData,
   ExpenseDetailWithCategory,
   IncomeData,
   RecurrenceDetail,
@@ -17,15 +16,10 @@ type Props = {
     | RecurrenceDetail
     | SingleDetail
   )[];
-  budgetData: BudgetData[];
   isLoading: boolean;
 };
 
-export default function DashboardMidSection({
-  allData,
-  budgetData,
-  isLoading,
-}: Props) {
+export default function DashboardMidSection({ allData, isLoading }: Props) {
   return (
     <div className="grid grid-cols-3 gap-6">
       {isLoading ? (
@@ -39,18 +33,7 @@ export default function DashboardMidSection({
       ) : (
         <DashboardTable allData={allData} />
       )}
-
-      {isLoading ? (
-        <CardSkeleton
-          title={true}
-          titleWidth={50}
-          rectangle={1}
-          height={10}
-          style="col-span-3 xl:col-span-1"
-        />
-      ) : (
-        <DashboardBudget budgetData={budgetData} />
-      )}
+      <DashboardBudget />
     </div>
   );
 }

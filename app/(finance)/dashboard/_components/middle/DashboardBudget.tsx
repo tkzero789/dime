@@ -1,37 +1,46 @@
-import { BudgetData } from "@/types";
 import React from "react";
 import DashboardBudgetItem from "./DashboardBudgetItem";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { getBudgetData } from "@/lib/api/budgets";
+import { endOfMonth, format, startOfMonth } from "date-fns";
+import { CardSkeleton } from "@/components/ui/card-skeleton";
 
-type Props = {
-  budgetData: BudgetData[];
-};
+export default function DashboardBudget() {
+  const date = {
+    from: format(startOfMonth(new Date()), "yyyy-MM-dd"),
+    to: format(endOfMonth(new Date()), "yyyy-MM-dd"),
+  };
 
-export default function DashboardBudget({ budgetData }: Props) {
+  const { data: budgetData, isLoading } = useQuery({
+    queryKey: ["budgets"],
+    queryFn: () =>
+      getBudgetData({
+        startDate: date.from,
+        endDate: date.to,
+      }),
+  });
+
+  if (isLoading) {
+    return (
+      <CardSkeleton
+        title={true}
+        titleWidth={50}
+        rectangle={1}
+        height={10}
+        style="col-span-3 xl:col-span-1"
+      />
+    );
+  }
+
   return (
     <div className="col-span-3 flex flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow xl:col-span-1">
       <h2 className="text-xl font-bold">Budgets</h2>
       <div className="flex h-auto max-h-[489px] flex-1 flex-col gap-2 overflow-y-auto">
-        {budgetData?.length > 0 ? (
-          budgetData.map((item) => (
-            <DashboardBudgetItem key={item.id} budget={item} />
-          ))
-        ) : (
-          <div className="flex h-full flex-col items-center justify-center text-center">
-            <div>No budgets have been added yet.</div>
-            <div>
-              Click{" "}
-              <Link
-                href="/budgets"
-                className="font-medium text-blue-600 underline hover:text-blue-800"
-              >
-                Here
-              </Link>{" "}
-              to create your first budget
-            </div>
-          </div>
-        )}
+        {budgetData?.map((item) => (
+          <DashboardBudgetItem key={item.id} budget={item} />
+        ))}
       </div>
       <Button asChild variant="outline">
         <Link href="/budgets">View all budgets</Link>

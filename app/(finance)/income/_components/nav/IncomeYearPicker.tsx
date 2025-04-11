@@ -14,7 +14,7 @@ type Props = {
   handleChangeYear: (year: number) => void;
 };
 
-export default function IncomeYearToggle({
+export default function IncomeYearPicker({
   currentYear,
   handleChangeYear,
 }: Props) {
@@ -45,9 +45,8 @@ export default function IncomeYearToggle({
         {yearsList.map((item, index) => (
           <Button
             key={index}
-            variant="ghost"
+            variant={item === currentYear ? "default" : "ghost"}
             size="sm"
-            className={`${item === currentYear && "bg-muted"}`}
             onClick={() => handleSelect(item)}
           >
             {item}

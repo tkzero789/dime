@@ -3,7 +3,7 @@
 import React from "react";
 import AddIncome from "../mutations/AddIncome";
 import { Separator } from "@/components/ui/separator";
-import IncomeYearToggle from "./IncomeYearToggle";
+import IncomeYearPicker from "./IncomeYearPicker";
 
 type Props = {
   currentYear: number;
@@ -15,7 +15,7 @@ export default function IncomeNav({ currentYear, handleChangeYear }: Props) {
     <div className="flex items-center justify-between rounded-xl bg-white px-6 py-4 shadow-card-shadow">
       <h1 className="text-xl font-semibold">Income</h1>
       <div className="flex w-full items-center justify-end gap-4 md:w-auto">
-        <IncomeYearToggle
+        <IncomeYearPicker
           currentYear={currentYear}
           handleChangeYear={handleChangeYear}
         />

@@ -20,7 +20,7 @@ type Props = {
   setDate: Dispatch<SetStateAction<{ from: string; to: string }>>;
 };
 
-export default function BudgetsMonthToggle({ date, setDate }: Props) {
+export default function BudgetsDatePicker({ date, setDate }: Props) {
   const router = useRouter();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
@@ -49,6 +49,9 @@ export default function BudgetsMonthToggle({ date, setDate }: Props) {
       from: format(startOfMonth(dateObject), "yyyy-MM-dd"),
       to: format(endOfMonth(dateObject), "yyyy-MM-dd"),
     });
+    router.replace(
+      `/budgets?startDate=${format(startOfMonth(dateObject), "yyyy-MM-dd")}&endDate=${format(endOfMonth(dateObject), "yyyy-MM-dd")}`,
+    );
     setIsOpen(false);
   };
 
@@ -106,10 +109,13 @@ export default function BudgetsMonthToggle({ date, setDate }: Props) {
           {months.map((month, index) => (
             <Button
               key={month}
-              variant="ghost"
+              variant={
+                convertToLocalDate(date.from).getMonth() === index
+                  ? "default"
+                  : "ghost"
+              }
               size="sm"
               onClick={() => handleSelectMonth(index)}
-              className={`${convertToLocalDate(date.from).getMonth() === index && "bg-muted"}`}
             >
               {month.substring(0, 3)}
             </Button>

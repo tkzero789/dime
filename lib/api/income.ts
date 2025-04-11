@@ -10,9 +10,15 @@ export async function getIncomeData(searchParams: {
   });
   try {
     const response = await fetch(`/api/income?${params.toString()}`);
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error || "API error fetching income data");
+    }
+
     return await response.json();
   } catch (error) {
-    console.error("API error getting income data", error);
+    console.error("API error fetching income data", error);
     throw error;
   }
 }

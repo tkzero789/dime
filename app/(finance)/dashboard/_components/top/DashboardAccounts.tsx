@@ -1,6 +1,5 @@
 import React from "react";
 import { CalendarDays, EllipsisVertical, PiggyBank } from "lucide-react";
-import { AccountData } from "@/types";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -8,24 +7,34 @@ import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
 import useEmblaCarousel from "embla-carousel-react";
 import ManageAccounts from "@/app/(finance)/accounts/_components/manage/ManageAccounts";
+import { useQuery } from "@tanstack/react-query";
+import { getAccountData } from "@/lib/api/accounts";
+import { CardSkeleton } from "@/components/ui/card-skeleton";
 
-type Props = {
-  accountData: AccountData[];
-};
-
-export default function DashboardAccounts({ accountData }: Props) {
+export default function DashboardAccounts() {
   const [emblaRef] = useEmblaCarousel({ containScroll: false });
+
+  const { data: accountData, isLoading } = useQuery({
+    queryKey: ["accounts"],
+    queryFn: getAccountData,
+  });
+
+  if (isLoading) {
+    return (
+      <CardSkeleton title={true} titleWidth={40} rectangle={1} height={18} />
+    );
+  }
 
   return (
     <div className="flex h-full flex-col gap-4 rounded-xl bg-white shadow-card-shadow">
       <div className="flex items-center justify-between px-6 pt-6">
         <h2 className="text-xl font-bold">Accounts</h2>
-        <ManageAccounts accountData={accountData} />
+        <ManageAccounts accountData={accountData || []} />
       </div>
       {/* Account cards */}
       <div className="select-none overflow-hidden px-6" ref={emblaRef}>
         <div className="carousel__container">
-          {accountData.map((item) => (
+          {accountData?.map((item) => (
             <div
               key={item.id}
               className="h-full min-w-0 flex-none basis-full pl-4"

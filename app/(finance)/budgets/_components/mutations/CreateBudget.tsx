@@ -20,11 +20,8 @@ import { addBudget } from "@/lib/api/budgets";
 import toast from "react-hot-toast";
 import { BudgetDatePicker } from "./BudgetDatePicket";
 import { startOfDay } from "date-fns";
-import { useMediaQuery } from "usehooks-ts";
 
 export default function CreateBudget() {
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
-
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isOpenEmoji, setIsOpenEmoji] = React.useState<boolean>(false);
 
@@ -109,8 +106,9 @@ export default function CreateBudget() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
-          size={isDesktop ? "default" : "icon"}
+          size="icon"
           onClick={handleClearInput}
+          className="lg:w-auto lg:px-4 lg:py-2"
         >
           <Plus />
           <span className="hidden lg:block">New budget</span>

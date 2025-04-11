@@ -87,7 +87,7 @@ export function ExpenseBarChart({ budgetInfo, expenseDetail }: Props) {
         <CardTitle>Budget spending</CardTitle>
         <Button
           variant="outline"
-          className="block w-full px-8 md:hidden lg:w-auto"
+          className="block w-full px-8 lg:hidden lg:w-auto"
           onClick={() => setIsFirstHalf(!isFirstHalf)}
         >
           {isFirstHalf ? "Show Last Half" : "Show First Half"}
