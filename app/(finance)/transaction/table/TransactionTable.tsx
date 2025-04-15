@@ -69,97 +69,100 @@ export function TransactionTable<TData, TValue>({
   };
 
   return (
-    <div>
-      <div className="mt-8 flex items-center">
-        <Input
-          placeholder="Search transaction..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(e) =>
-            table.getColumn("name")?.setFilterValue(e.target.value)
-          }
-        />
-      </div>
-      <div className="mt-8 rounded-lg border bg-white p-6 shadow-md">
-        <div className="flex flex-col justify-between gap-2 pb-4 md:flex-row md:items-center md:gap-0">
-          <h2 className="text-xl font-bold">Latest transactions</h2>
+    <div className="flex flex-col gap-6">
+      <Input
+        placeholder="Search transaction..."
+        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+        onChange={(e) =>
+          table.getColumn("name")?.setFilterValue(e.target.value)
+        }
+      />
+      {/* Table */}
+      <div className="flex flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-bold">Transactions</h2>
           <AddTransaction />
         </div>
-        <Table className="rounded-lg bg-white">
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow
-                key={headerGroup.id}
-                className="border-none bg-neutral-200 hover:bg-neutral-200"
-              >
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      key={header.id}
-                      className={`truncate text-sm font-semibold text-secondary-foreground ${header.id === "amount" && "text-right"} ${header.id === "date" && "rounded-l-lg"} ${header.id === "actions" && "rounded-r-lg"} $`}
+        <div className="flex flex-col gap-4">
+          <div className="w-full overflow-auto">
+            <Table className="rounded-lg bg-white">
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow
+                    key={headerGroup.id}
+                    className="border-none bg-muted"
+                  >
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead
+                          key={header.id}
+                          className={`truncate text-sm font-semibold text-secondary-foreground ${header.id === "amount" && "text-right"} ${header.id === "date" && "rounded-l-lg"} ${header.id === "actions" && "rounded-r-lg"} $`}
+                        >
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                        </TableHead>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                      className="text-xs font-medium lg:text-sm"
                     >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell
+                          key={cell.id}
+                          className={`truncate px-4 py-2 ${cell.column.id === "actions" && "flex items-center justify-center"}`}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
                           )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className="text-xs font-medium lg:text-sm"
-                >
-                  {row.getVisibleCells().map((cell) => (
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
                     <TableCell
-                      key={cell.id}
-                      className={`truncate px-4 py-2 ${cell.column.id === "actions" && "flex items-center justify-center"}`}
+                      colSpan={columns.length}
+                      className="h-24 text-center"
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                      No data
                     </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No data
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-center gap-2 py-4">
-        <Button
-          variant="outline"
-          onClick={() => handlePageChange("previous")}
-          disabled={!table.getCanPreviousPage()}
-          className="w-28"
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => handlePageChange("next")}
-          disabled={!table.getCanNextPage()}
-          className="w-28"
-        >
-          Next
-        </Button>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <Button
+              variant="outline"
+              onClick={() => handlePageChange("previous")}
+              disabled={!table.getCanPreviousPage()}
+              className="w-28"
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => handlePageChange("next")}
+              disabled={!table.getCanNextPage()}
+              className="w-28"
+            >
+              Next
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );

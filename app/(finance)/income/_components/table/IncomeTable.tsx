@@ -58,10 +58,18 @@ export default function IncomeTable<TData, TValue>({
   return (
     <div className="flex flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow">
       {/* Search & filters */}
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between gap-4">
-          <h2 className="text-xl font-bold">Transactions</h2>
-          <MobileIncomeFilters
+      <div className="flex items-center justify-between gap-4">
+        <h2 className="text-xl font-bold">Transactions</h2>
+        <MobileIncomeFilters
+          sortOption={sortOption}
+          setSortOption={setSortOption}
+          sorting={sorting}
+          setSorting={setSorting}
+          columnFilters={columnFilters}
+          setColumnFilters={setColumnFilters}
+        />
+        <div className="hidden items-center gap-4 lg:flex">
+          <IncomeFilters
             sortOption={sortOption}
             setSortOption={setSortOption}
             sorting={sorting}
@@ -69,21 +77,11 @@ export default function IncomeTable<TData, TValue>({
             columnFilters={columnFilters}
             setColumnFilters={setColumnFilters}
           />
-          <div className="hidden items-center gap-4 lg:flex">
-            <IncomeFilters
-              sortOption={sortOption}
-              setSortOption={setSortOption}
-              sorting={sorting}
-              setSorting={setSorting}
-              columnFilters={columnFilters}
-              setColumnFilters={setColumnFilters}
-            />
-            <IncomeFiltersReset
-              setSortOption={setSortOption}
-              setSorting={setSorting}
-              setColumnFilters={setColumnFilters}
-            />
-          </div>
+          <IncomeFiltersReset
+            setSortOption={setSortOption}
+            setSorting={setSorting}
+            setColumnFilters={setColumnFilters}
+          />
         </div>
       </div>
       {/* Table */}

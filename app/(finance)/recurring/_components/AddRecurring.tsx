@@ -3,10 +3,7 @@
 import React from "react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -93,26 +90,26 @@ export default function AddRecurring() {
       <DialogTrigger asChild>
         <Button variant="outline" onClick={handleClearInput}>
           <Plus />
-          Add New Payment
+          Add
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-center">
-            Add Reccuring Payment
-          </DialogTitle>
-          <DialogDescription className="flex flex-col gap-4 pt-4">
+          <DialogTitle>Add reccuring payment</DialogTitle>
+        </DialogHeader>
+        <form className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4 px-6 md:pb-6 lg:pb-0">
             {/* Payment Name */}
             <Input
-              placeholder="Payment name"
               type="text"
+              placeholder="Payment name"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             {/* Payment Amount */}
             <Input
-              placeholder="Amount"
               type="number"
+              placeholder="Amount"
               className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               value={amount}
               onChange={(e) => {
@@ -192,19 +189,17 @@ export default function AddRecurring() {
                 </SelectItem>
               </SelectContent>
             </Select>
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter className="flex-col sm:justify-start">
-          <DialogClose asChild>
+          </div>
+          <div className="hidden items-center justify-end border-t p-6 lg:flex">
             <Button
-              className="w-full"
+              type="submit"
               disabled={!(name && amount && category && method)}
               onClick={() => addNewRecurrence()}
             >
               Add payment
             </Button>
-          </DialogClose>
-        </DialogFooter>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

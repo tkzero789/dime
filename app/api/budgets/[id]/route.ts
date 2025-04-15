@@ -3,7 +3,10 @@ import { budget } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { and, eq } from "drizzle-orm";
 
-export async function PUT(request: Request) {
+export async function PUT(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   const user = await currentUser();
 
   if (!user) {
@@ -12,6 +15,7 @@ export async function PUT(request: Request) {
 
   try {
     const body = await request.json();
+    const budgetId = (await params).id;
 
     await db
       .update(budget)
@@ -23,7 +27,7 @@ export async function PUT(request: Request) {
       })
       .where(
         and(
-          eq(budget.id, body.id),
+          eq(budget.id, budgetId),
           eq(budget.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
         ),
       );

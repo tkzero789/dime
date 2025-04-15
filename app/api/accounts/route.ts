@@ -1,7 +1,7 @@
 import { db } from "@/db/dbConfig";
 import { account } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
-import { and, eq, getTableColumns } from "drizzle-orm";
+import { and, asc, eq, getTableColumns } from "drizzle-orm";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: Request) {
@@ -20,7 +20,8 @@ export async function GET(request: Request) {
           eq(account.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
           eq(account.is_active, true),
         ),
-      );
+      )
+      .orderBy(asc(account.created_at));
 
     return Response.json(data);
   } catch (error) {

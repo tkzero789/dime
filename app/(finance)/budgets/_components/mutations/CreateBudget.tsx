@@ -116,7 +116,7 @@ export default function CreateBudget() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create New Budget</DialogTitle>
+          <DialogTitle>Create budget</DialogTitle>
           <DialogClose asChild>
             <Button
               size="icon"

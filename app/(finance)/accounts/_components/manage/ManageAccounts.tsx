@@ -33,6 +33,7 @@ type Props = {
 };
 
 export default function ManageAccounts({ accountData }: Props) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [accounts, setAccounts] = React.useState<AccountData[]>(accountData);
 
   const sensors = useSensors(
@@ -76,20 +77,17 @@ export default function ManageAccounts({ accountData }: Props) {
             onDragEnd={handleDragEnd}
             modifiers={[restrictToVerticalAxis]}
           >
+            {/* For DnD: changes accountData to accounts to make it work */}
             <SortableContext
-              items={accounts}
+              items={accountData}
               strategy={verticalListSortingStrategy}
             >
               <ul className="flex flex-col gap-4">
-                {accounts.map((item) => (
+                {accountData.map((item) => (
                   <SortableAccountItem
                     key={item.id}
                     accountId={item.id}
-                    name={item.name}
-                    type={item.type}
-                    amount={item.amount}
-                    debt={item.debt}
-                    color={item.color}
+                    accountData={item}
                   />
                 ))}
                 <div className="hidden lg:flex">

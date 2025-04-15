@@ -75,14 +75,13 @@ export default function AddSingle() {
 
   return (
     <Dialog>
-      <DialogTrigger
-        className="flex w-full items-center justify-center rounded-md border border-gray-400 p-4 hover:bg-gray-200"
-        onClick={handleClearInput}
-      >
-        <span className="flex w-2/5 justify-end pr-2">
-          <HandCoins />
-        </span>
-        <span className="flex-1 text-start">Single Payment</span>
+      <DialogTrigger asChild onClick={handleClearInput}>
+        <Button variant="outline" className="w-full">
+          <span className="flex w-2/5 justify-end pr-2">
+            <HandCoins />
+          </span>
+          <span className="flex-1 text-start">Single payment</span>
+        </Button>
       </DialogTrigger>
       <DialogContent className="flex h-dvh flex-col gap-8 sm:h-auto">
         <DialogHeader>

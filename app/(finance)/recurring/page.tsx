@@ -22,10 +22,10 @@ export default async function RecurringPage() {
     .orderBy(desc(Recurring_rule.due_date));
 
   return (
-    <div>
+    <div className="flex flex-col gap-6">
       <h2 className="text-2xl font-bold">Recurring</h2>
-      <div className="mt-4 h-fit rounded-lg border bg-white p-6 shadow-md xl:mt-8">
-        <div className="flex items-center justify-between pb-4">
+      <div className="flex h-fit flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow xl:mt-8">
+        <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold">Payments list</h2>
           <div>
             <AddRecurring />

@@ -3,7 +3,10 @@ import { income } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { and, eq } from "drizzle-orm";
 
-export async function PUT(request: Request) {
+export async function PUT(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   const user = await currentUser();
 
   if (!user) {
@@ -12,7 +15,7 @@ export async function PUT(request: Request) {
 
   try {
     const body = await request.json();
-    const incomeId = body.id;
+    const incomeId = (await params).id;
 
     await db
       .update(income)

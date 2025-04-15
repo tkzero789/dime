@@ -37,3 +37,61 @@ export async function addAccount(newAccount: AccountState) {
     throw error;
   }
 }
+
+type AccountUpdateState = AccountState & {
+  id: string;
+};
+
+export async function updateAccount(accountToUpdate: AccountUpdateState) {
+  try {
+    const response = await fetch(
+      `/api/accounts/${accountToUpdate.id}?updateMode=update`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(accountToUpdate),
+      },
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error || "API error updating account");
+    }
+
+    if (response.status === 204) return null;
+
+    return await response.json();
+  } catch (error) {
+    console.error("API error updating account", error);
+    throw error;
+  }
+}
+
+export async function deactivateAccount(accountToUpdate: AccountUpdateState) {
+  try {
+    const response = await fetch(
+      `/api/accounts/${accountToUpdate.id}?updateMode=deactivate`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(accountToUpdate),
+      },
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error || "API error updating account");
+    }
+
+    if (response.status === 204) return null;
+
+    return await response.json();
+  } catch (error) {
+    console.error("API error updating account", error);
+    throw error;
+  }
+}

@@ -26,7 +26,7 @@ import { addAccount } from "@/lib/api/accounts";
 import EditCardBackground from "./EditCardBackground";
 
 export default function AddAccount() {
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const [newAccount, setNewAccount] = React.useState<AccountState>({
     name: "",
@@ -54,8 +54,8 @@ export default function AddAccount() {
   const { mutate, isPending } = useMutation({
     mutationFn: addAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: "accounts" });
-      setOpen(false);
+      queryClient.invalidateQueries({ queryKey: ["accounts"] });
+      setIsOpen(false);
       toast.success("Account added");
     },
     onError: (error) => {
@@ -113,7 +113,7 @@ export default function AddAccount() {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
           onClick={handleClearInput}

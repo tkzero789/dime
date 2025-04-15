@@ -2,7 +2,6 @@ import React from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -15,37 +14,41 @@ import AddSingle from "../single/AddSingle";
 export default function AddTransaction() {
   return (
     <Dialog>
-      <DialogTrigger asChild className="w-full md:w-auto">
+      <DialogTrigger asChild>
         <Button variant="outline">
           <Plus />
-          Add New Transaction
+          Add
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle className="text-center">Add New Transaction</DialogTitle>
-          <DialogDescription className="flex w-full flex-col items-center justify-center gap-4 pt-4">
-            <AddSingle />
+        <DialogHeader forceHeaderCenter={true}>
+          <DialogTitle>Add transaction</DialogTitle>
+        </DialogHeader>
+        <div className="flex w-full flex-col items-center justify-center gap-4 px-6 pb-6">
+          <AddSingle />
+          <Button asChild variant="outline">
             <Link
               href="/recurring"
-              className="flex w-full items-center justify-center rounded-md border border-gray-400 p-4 hover:bg-gray-200"
+              className="flex w-full items-center justify-center rounded-md border"
             >
               <span className="flex w-2/5 justify-end pr-2">
                 <RefreshCcwDot />
               </span>
-              <span className="flex-1 text-start">Recurring Payment</span>
+              <span className="flex-1 text-start">Recurring payment</span>
             </Link>
+          </Button>
+          <Button asChild variant="outline">
             <Link
               href="/budgets"
-              className="flex w-full items-center justify-center rounded-md border border-gray-400 p-4 hover:bg-gray-200"
+              className="flex w-full items-center justify-center rounded-md border"
             >
-              <span className="flex w-2/5 justify-end pr-2">
+              <span className="flex w-2/5 justify-end p-4 pr-2">
                 <Banknote />
               </span>
-              <span className="flex-1 text-start">Budget Expense</span>
+              <span className="flex-1 text-start">Budget expense</span>
             </Link>
-          </DialogDescription>
-        </DialogHeader>
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );
