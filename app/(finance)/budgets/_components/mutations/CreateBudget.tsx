@@ -20,6 +20,7 @@ import { addBudget } from "@/lib/api/budgets";
 import toast from "react-hot-toast";
 import { BudgetDatePicker } from "./BudgetDatePicker";
 import { startOfDay } from "date-fns";
+import { queryKeys } from "@/lib/queryKeys";
 
 export default function CreateBudget() {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -46,7 +47,7 @@ export default function CreateBudget() {
   const { mutate, isPending } = useMutation({
     mutationFn: addBudget,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["budget"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.budgets.all() });
       setIsOpen(false);
       toast.success("Budget created");
     },

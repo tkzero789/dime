@@ -30,10 +30,10 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 type Props = {
-  budget: BudgetData[];
+  budgetData: BudgetData | undefined;
 };
 
-export function BudgetByIdRadialChart({ budget }: Props) {
+export function BudgetByIdRadialChart({ budgetData }: Props) {
   return (
     <Card className="hidden h-full flex-col lg:flex">
       <CardHeader className="items-center pb-0">
@@ -45,7 +45,7 @@ export function BudgetByIdRadialChart({ budget }: Props) {
           className="mx-auto aspect-square w-full max-w-[250px]"
         >
           <RadialBarChart
-            data={budget}
+            data={Array.isArray(budgetData) ? budgetData : [budgetData]}
             endAngle={180}
             innerRadius={80}
             outerRadius={130}
@@ -57,8 +57,13 @@ export function BudgetByIdRadialChart({ budget }: Props) {
             <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
               <Label
                 content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    const remaining = budget[0]?.remaining;
+                  if (
+                    viewBox &&
+                    "cx" in viewBox &&
+                    "cy" in viewBox &&
+                    budgetData
+                  ) {
+                    const remaining = budgetData.remaining;
                     const isOverspent = remaining < 0;
                     return (
                       <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle">
@@ -103,24 +108,24 @@ export function BudgetByIdRadialChart({ budget }: Props) {
         <div className="flex w-full items-center gap-4 py-4 leading-none">
           <span className="font-medium">Spending budget</span>
           <span className="ml-auto font-bold">
-            $<FormatNumber number={Number(budget[0]?.amount)} />
+            $<FormatNumber number={Number(budgetData?.amount)} />
           </span>
         </div>
         <div className="flex w-full items-center gap-4 border-b border-t py-4 leading-none">
           <span className="font-medium">Current spending</span>
           <span className="ml-auto font-bold">
             -$
-            <FormatNumber number={budget[0]?.total_spend} />
+            <FormatNumber number={budgetData?.total_spend ?? 0} />
           </span>
         </div>
         <div className="flex w-full items-center gap-4 py-4 leading-none">
           <span className="font-medium">Remaining</span>
           <span className="ml-auto font-bold text-green-700">
             $
-            {budget[0]?.remaining > 0 ? (
-              <FormatNumber number={budget[0]?.remaining} />
+            {budgetData && budgetData?.remaining > 0 ? (
+              <FormatNumber number={budgetData?.remaining} />
             ) : (
-              <FormatNumber number={Number(budget[0]?.amount)} />
+              <FormatNumber number={Number(budgetData?.amount)} />
             )}
           </span>
         </div>

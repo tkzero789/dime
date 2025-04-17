@@ -15,7 +15,8 @@ import { PopoverClose } from "@radix-ui/react-popover";
 import { LoaderCircle, Trash2 } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteBudgetExpense } from "@/lib/api/budget/expense";
+import { deleteBudgetExpense } from "@/lib/api/budgets/expenses";
+import { queryKeys } from "@/lib/queryKeys";
 
 type Props = {
   budgetId: string;
@@ -29,7 +30,12 @@ export default function DeleteBudgetExpense({ budgetId, expenseId }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: deleteBudgetExpense,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["budgetExpense"] });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.budgetExpenses.byBudgetId(budgetId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.budgets.byId(budgetId),
+      });
       setIsOpen(false);
       toast.success("Expense deleted");
     },

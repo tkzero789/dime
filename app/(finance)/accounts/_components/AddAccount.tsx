@@ -24,6 +24,7 @@ import { AccountState } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addAccount } from "@/lib/api/accounts";
 import EditCardBackground from "./EditCardBackground";
+import { queryKeys } from "@/lib/queryKeys";
 
 export default function AddAccount() {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -54,7 +55,7 @@ export default function AddAccount() {
   const { mutate, isPending } = useMutation({
     mutationFn: addAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["account"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.accounts.all() });
       setIsOpen(false);
       toast.success("Account added");
     },

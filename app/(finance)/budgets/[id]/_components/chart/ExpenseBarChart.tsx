@@ -33,10 +33,10 @@ function getAllDaysInMonth(year: number, month: number) {
 }
 
 type Props = {
-  expenseDetail: BudgetExpenseData[];
+  budgetExpenseData: BudgetExpenseData[];
 };
 
-export function ExpenseBarChart({ expenseDetail }: Props) {
+export function ExpenseBarChart({ budgetExpenseData }: Props) {
   const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
@@ -55,7 +55,7 @@ export function ExpenseBarChart({ expenseDetail }: Props) {
 
   // Aggregate expenses by date
   const expenseMap = new Map<string, number>();
-  expenseDetail.forEach((exp) => {
+  budgetExpenseData.forEach((exp) => {
     const date = new Date(exp.date).toISOString().split("T")[0];
     const amount = parseInt(exp.amount, 10);
     if (expenseMap.has(date)) {

@@ -7,24 +7,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
-import {
-  BudgetExpenseData,
-  IncomeData,
-  RecurrenceDetail,
-  SingleDetail,
-} from "@/types";
+import { BudgetExpenseData, IncomeData } from "@/types";
 import FormatDate from "@/utils/formatDate";
 import FormatNumber from "@/utils/formatNumber";
-import FormatString from "@/utils/formatString";
-import getTransactionCategory from "@/utils/getTransactionCategory";
 import Link from "next/link";
 
 type Props = {
-  allData: (IncomeData | BudgetExpenseData | RecurrenceDetail | SingleDetail)[];
+  allData: (IncomeData | BudgetExpenseData)[];
 };
 
 export function DashboardTable({ allData }: Props) {
+  console.log(allData);
+
   return (
     <div className="col-span-3 flex h-fit flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow xl:col-span-2">
       <h2 className="text-xl font-bold">Transactions</h2>
@@ -70,14 +64,11 @@ export function DashboardTable({ allData }: Props) {
                       {item.name}
                     </TableCell>
                     <TableCell className="px-4 py-2">
-                      <div
-                        className={cn(
-                          "flex w-fit items-center justify-center truncate rounded-full bg-opacity-50 px-2 py-1 text-[13px]",
-                          getTransactionCategory(item.category),
-                        )}
-                      >
-                        <FormatString text={item.category} />
-                      </div>
+                      {/* <div className="flex items-center gap-2">
+                        <div>{item.budget_emoji}</div>
+                        <div>{item.budget_category}</div>
+                      </div> */}
+                      {item.category}
                     </TableCell>
                     <TableCell className="px-4 py-2">
                       {/* <FormatString text={item.payment_source} /> */}

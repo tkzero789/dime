@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getBudgetData } from "@/lib/api/budgets";
 import { endOfMonth, format, startOfMonth } from "date-fns";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
+import { queryKeys } from "@/lib/queryKeys";
 
 export default function DashboardBudget() {
   const date = {
@@ -14,7 +15,7 @@ export default function DashboardBudget() {
   };
 
   const { data: budgetData, isLoading } = useQuery({
-    queryKey: ["budgets"],
+    queryKey: queryKeys.budgets.byDateRange(date.from, date.to),
     queryFn: () =>
       getBudgetData({
         startDate: date.from,

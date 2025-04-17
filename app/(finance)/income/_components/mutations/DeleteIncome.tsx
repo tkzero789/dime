@@ -16,6 +16,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteIncome } from "@/lib/api/income";
 import { PopoverClose } from "@radix-ui/react-popover";
 import toast from "react-hot-toast";
+import { queryKeys } from "@/lib/queryKeys";
 
 type Props = {
   incomeId: string;
@@ -28,7 +29,7 @@ export default function DeleteIncome({ incomeId }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: deleteIncome,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["income"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.income.all() });
       setIsOpen(false);
       toast.success("Income deleted");
     },

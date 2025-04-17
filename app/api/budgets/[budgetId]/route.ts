@@ -1,11 +1,53 @@
 import { db } from "@/db/dbConfig";
-import { budget } from "@/db/schema";
+import { budget, budget_expense } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
-import { and, eq } from "drizzle-orm";
+import { and, eq, getTableColumns, sql } from "drizzle-orm";
+
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ budgetId: string }> },
+) {
+  const user = await currentUser();
+
+  if (!user) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const budgetId = (await params).budgetId;
+
+    const data = await db
+      .select({
+        ...getTableColumns(budget),
+        total_spend: sql`sum(${budget_expense.amount})`.mapWith(Number),
+        remaining:
+          sql`${budget.amount} - sum(${budget_expense.amount})`.mapWith(Number),
+      })
+      .from(budget)
+      .leftJoin(budget_expense, eq(budget_expense.budget_id, budget.id))
+      .where(
+        and(
+          eq(budget.id, budgetId),
+          eq(budget.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
+        ),
+      )
+      .groupBy(budget.id);
+
+    const budgetItem = data.length > 0 ? data[0] : null;
+
+    return Response.json(budgetItem);
+  } catch (error) {
+    console.error(error);
+    return Response.json(
+      { error: "Server error fetching budget item data" },
+      { status: 500 },
+    );
+  }
+}
 
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ budgetId: string }> },
 ) {
   const user = await currentUser();
 
@@ -15,7 +57,7 @@ export async function PUT(
 
   try {
     const body = await request.json();
-    const budgetId = (await params).id;
+    const budgetId = (await params).budgetId;
 
     await db
       .update(budget)

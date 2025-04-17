@@ -71,8 +71,6 @@ export default function BudgetsDatePicker({ date, setDate }: Props) {
     );
   };
 
-  console.log(date);
-
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>

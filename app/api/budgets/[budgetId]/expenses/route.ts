@@ -1,9 +1,12 @@
 import { db } from "@/db/dbConfig";
-import { budget_expense } from "@/db/schema";
+import { budget, budget_expense } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
-import { and, eq, sql } from "drizzle-orm";
+import { and, eq, getTableColumns, sql } from "drizzle-orm";
 
-export async function GET(request: Request) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ budgetId: string }> },
+) {
   const user = await currentUser();
 
   if (!user) {
@@ -11,19 +14,16 @@ export async function GET(request: Request) {
   }
 
   try {
-    const url = new URL(request.url);
-    const budgetId = url.searchParams.get("budgetId");
-
-    if (!budgetId) {
-      return Response.json(
-        { error: "Missing required parameters" },
-        { status: 400 },
-      );
-    }
+    const budgetId = (await params).budgetId;
 
     const data = await db
-      .select()
+      .select({
+        ...getTableColumns(budget_expense),
+        budget_category: budget.category,
+        budget_emoji: budget.emoji,
+      })
       .from(budget_expense)
+      .leftJoin(budget, eq(budget.id, budget_expense.budget_id))
       .where(
         and(
           eq(budget_expense.budget_id, budgetId),
@@ -44,7 +44,10 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ budgetId: string }> },
+) {
   const user = await currentUser();
 
   if (!user) {
@@ -52,14 +55,16 @@ export async function POST(request: Request) {
   }
 
   try {
+    const budgetId = (await params).budgetId;
+
     const body = await request.json();
 
     const data = await db.execute(sql`
         SELECT add_budget_expense(
-        ${body.budget_id}, 
+        ${budgetId}, 
         ${body.account_id}, 
         ${body.name}, 
-        ${body.amount}::numeric, 
+        ${body.amount}::numeric,
         ${body.category}, 
         ${body.payment_source}, 
         ${body.date}::timestamp, 

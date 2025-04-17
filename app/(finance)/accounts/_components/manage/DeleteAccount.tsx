@@ -17,6 +17,7 @@ import { PopoverClose } from "@radix-ui/react-popover";
 import { deactivateAccount } from "@/lib/api/accounts";
 import { AccountData } from "@/types";
 import toast from "react-hot-toast";
+import { queryKeys } from "@/lib/queryKeys";
 
 type Props = {
   accountData: AccountData;
@@ -29,7 +30,7 @@ export default function DeleteAccount({ accountData }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: deactivateAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["account"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.accounts.all() });
       setIsOpen(false);
       toast.success("Accounts deleted");
     },

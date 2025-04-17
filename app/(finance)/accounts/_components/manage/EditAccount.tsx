@@ -24,6 +24,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateAccount } from "@/lib/api/accounts";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
+import { queryKeys } from "@/lib/queryKeys";
 
 type Props = {
   accountData: AccountData;
@@ -51,7 +52,7 @@ export default function EditAccount({ accountData }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: updateAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["account"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.accounts.all() });
       setIsOpen(false);
       toast.success("Account updated");
     },

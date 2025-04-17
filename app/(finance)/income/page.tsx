@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { getIncomeData } from "@/lib/api/income";
 import { IncomeTableColumns } from "./_components/table/IncomeTableColumns";
+import { queryKeys } from "@/lib/queryKeys";
 
 type Props = {
   searchParams: {
@@ -28,7 +29,7 @@ export default function IncomePage({ searchParams }: Props) {
   });
 
   const { data: incomeData, isLoading } = useQuery({
-    queryKey: ["income", currentYear],
+    queryKey: queryKeys.income.byYear(currentYear),
     queryFn: () =>
       getIncomeData({
         startDate: `${currentYear}-01-01`,

@@ -23,6 +23,7 @@ import { updateIncome } from "@/lib/api/income";
 import toast from "react-hot-toast";
 import { IncomeDatePicker } from "./IncomeDatePicker";
 import { convertToLocalDate } from "@/utils/convertToLocalDate";
+import { queryKeys } from "@/lib/queryKeys";
 
 type Props = {
   incomeData: IncomeData;
@@ -67,7 +68,7 @@ export default function EditIncome({ incomeData }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: updateIncome,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["income"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.income.all() });
       setIsOpen(false);
       toast.success("Income updated");
     },

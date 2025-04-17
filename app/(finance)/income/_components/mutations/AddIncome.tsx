@@ -24,6 +24,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addIncome } from "@/lib/api/income";
 import toast from "react-hot-toast";
 import { startOfDay } from "date-fns";
+import { queryKeys } from "@/lib/queryKeys";
 
 const selectOptions = {
   categories: [
@@ -67,7 +68,7 @@ export default function AddIncome() {
   const { mutate, isPending } = useMutation({
     mutationFn: addIncome,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["income"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.income.all() });
       setIsOpen(false);
       toast.success("Income added");
     },

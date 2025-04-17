@@ -2,13 +2,8 @@
 
 import React from "react";
 import { db } from "@/db/dbConfig";
-import { Recurrence, Single, budget_expense, income } from "@/db/schema";
-import {
-  BudgetExpenseData,
-  IncomeData,
-  RecurrenceDetail,
-  SingleDetail,
-} from "@/types";
+import { budget, budget_expense, income } from "@/db/schema";
+import { BudgetExpenseData, IncomeData } from "@/types";
 import { useUser } from "@clerk/nextjs";
 import { and, eq, getTableColumns, gte, lte } from "drizzle-orm";
 import DashboardTopSection from "./_components/top/DashboardTopSection";
@@ -18,11 +13,9 @@ import DashboardNav from "./_components/nav/DashboardNav";
 export default function DashboardPage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [incomeData, setIncomeData] = React.useState<IncomeData[]>([]);
-  const [spending, setSpending] = React.useState<
-    (BudgetExpenseData | RecurrenceDetail | SingleDetail)[]
-  >([]);
+  const [spending, setSpending] = React.useState<BudgetExpenseData[]>([]);
   const [allData, setAllData] = React.useState<
-    (IncomeData | BudgetExpenseData | RecurrenceDetail | SingleDetail)[]
+    (IncomeData | BudgetExpenseData)[]
   >([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const { user } = useUser();
@@ -59,8 +52,11 @@ export default function DashboardPage() {
           db
             .select({
               ...getTableColumns(budget_expense),
+              budget_category: budget.category,
+              budget_emoji: budget.emoji,
             })
             .from(budget_expense)
+            .leftJoin(budget, eq(budget.id, budget_expense.budget_id))
             .where(
               and(
                 eq(budget_expense.created_by, currentUser ?? ""),
@@ -68,43 +64,24 @@ export default function DashboardPage() {
                 lte(budget_expense.date, lastDayOfMonth),
               ),
             ),
-          db
-            .select({ ...getTableColumns(Recurrence) })
-            .from(Recurrence)
-            .where(
-              and(
-                eq(Recurrence.created_by, currentUser ?? ""),
-                gte(Recurrence.date, firstDayOfPrevMonth),
-                lte(Recurrence.date, lastDayOfMonth),
-              ),
-            ),
-          db
-            .select({ ...getTableColumns(Single) })
-            .from(Single)
-            .where(
-              and(
-                eq(Single.created_by, currentUser ?? ""),
-                gte(Single.date, firstDayOfPrevMonth),
-                lte(Single.date, lastDayOfMonth),
-              ),
-            ),
         ]);
         if (batchResponse) {
-          const [incomeResult, expenseResult, recurringResult, singleResult] =
-            batchResponse;
-          setIncomeData(incomeResult);
+          const [incomeData, budgetExpenseData] = batchResponse;
+          setIncomeData(incomeData);
 
-          const combineSpending = [
-            ...expenseResult,
-            ...recurringResult,
-            ...singleResult,
-          ].sort(
+          const allSpending = budgetExpenseData.sort(
             (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
           );
 
-          setSpending(combineSpending);
+          const processedSpending = allSpending.map((item) => ({
+            ...item,
+            budget_category: item.budget_category ?? undefined,
+            budget_emoji: item.budget_emoji ?? undefined,
+          }));
 
-          const combinedData = [...incomeResult, ...combineSpending];
+          setSpending(processedSpending);
+
+          const combinedData = [...incomeData, ...processedSpending];
           setAllData(combinedData);
         }
       } catch (error) {

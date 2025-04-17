@@ -10,12 +10,13 @@ import ManageAccounts from "@/app/(finance)/accounts/_components/manage/ManageAc
 import { useQuery } from "@tanstack/react-query";
 import { getAccountData } from "@/lib/api/accounts";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
+import { queryKeys } from "@/lib/queryKeys";
 
 export default function DashboardAccounts() {
   const [emblaRef] = useEmblaCarousel({ containScroll: false });
 
   const { data: accountData, isLoading } = useQuery({
-    queryKey: ["accounts"],
+    queryKey: queryKeys.accounts.all(),
     queryFn: getAccountData,
   });
 

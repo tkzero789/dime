@@ -16,9 +16,10 @@ import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteBudget } from "@/lib/api/budgets";
 import toast from "react-hot-toast";
+import { queryKeys } from "@/lib/queryKeys";
 
 type Props = {
-  budgetId: string;
+  budgetId: string | undefined;
 };
 
 export default function DeleteBudget({ budgetId }: Props) {
@@ -29,7 +30,7 @@ export default function DeleteBudget({ budgetId }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: deleteBudget,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["budget"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.budgets.all() });
       setIsOpen(false);
       router.replace("/budgets");
       toast.success("Budget deleted");
@@ -41,7 +42,7 @@ export default function DeleteBudget({ budgetId }: Props) {
   });
 
   const handleDelete = () => {
-    mutate(budgetId);
+    if (budgetId) mutate(budgetId);
   };
 
   return (

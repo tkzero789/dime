@@ -75,6 +75,8 @@ export type BudgetExpenseData = {
   category: string;
   payment_source: string;
   date: string;
+  budget_category?: string;
+  budget_emoji?: string;
   created_by: string;
   created_at: Date;
 };

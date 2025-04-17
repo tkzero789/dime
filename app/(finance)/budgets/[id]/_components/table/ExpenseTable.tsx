@@ -16,21 +16,17 @@ import {
 import { AccountData, BudgetExpenseData } from "@/types";
 import FormatDate from "@/utils/formatDate";
 import FormatNumber from "@/utils/formatNumber";
-import EditExpense from "../mutations/EditExpense";
-import TransferExpense from "../mutations/TransferExpense";
+// import EditExpense from "../mutations/EditExpense";
+// import TransferExpense from "../mutations/TransferExpense";
 import DeleteBudgetExpense from "../mutations/DeleteBudgetExpense";
 
 type Props = {
-  expenseDetail: BudgetExpenseData[];
-  currentUser: string | undefined;
-  refreshData: () => void;
+  budgetExpenseData: BudgetExpenseData[];
   accountData: AccountData[];
 };
 
 export default function ExpenseTable({
-  expenseDetail,
-  currentUser,
-  refreshData,
+  budgetExpenseData,
   accountData,
 }: Props) {
   const matchAccount = (accountId: string, paymentSource: string) => {
@@ -69,43 +65,46 @@ export default function ExpenseTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {expenseDetail.length > 0 ? (
-              expenseDetail.map((expense) => (
+            {budgetExpenseData.length > 0 ? (
+              budgetExpenseData.map((item) => (
                 <TableRow
-                  key={expense.id}
+                  key={item.id}
                   className="text-xs font-medium lg:text-sm"
                 >
                   <TableCell className="px-4 py-2 font-medium">
-                    <FormatDate numMonthNumDateUTC={new Date(expense.date)} />
+                    <FormatDate numMonthNumDateUTC={new Date(item.date)} />
                   </TableCell>
                   <TableCell className="truncate px-4 py-2">
-                    {expense.name}
+                    {item.name}
                   </TableCell>
                   <TableCell className="truncate px-4 py-2">
-                    {expense.category}
+                    <div className="flex items-center gap-2">
+                      <div>{item.budget_emoji}</div>
+                      <div>{item.budget_category}</div>
+                    </div>
                   </TableCell>
                   <TableCell className="truncate px-4 py-2">
                     <div className="flex items-center gap-2">
                       <div
                         className={`size-2 rounded-full bg-gradient-to-br ${
                           matchAccount(
-                            expense.account_id ?? "",
-                            expense.payment_source ?? "",
+                            item.account_id ?? "",
+                            item.payment_source ?? "",
                           )?.color
                         }`}
                       ></div>
                       <div>
                         {
                           matchAccount(
-                            expense.account_id ?? "",
-                            expense.payment_source ?? "",
+                            item.account_id ?? "",
+                            item.payment_source ?? "",
                           )?.name
                         }
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className="px-4 py-2 text-right font-semibold">
-                    $<FormatNumber number={Number(expense.amount)} />
+                    $<FormatNumber number={Number(item.amount)} />
                   </TableCell>
                   <TableCell className="text-center">
                     <Popover>
@@ -119,19 +118,11 @@ export default function ExpenseTable({
                           Action
                         </div>
                         <div className="p-1">
-                          <EditExpense
-                            refreshData={refreshData}
-                            currentUser={currentUser || "default"}
-                            expenseInfo={expense}
-                          />
-                          <TransferExpense
-                            refreshData={refreshData}
-                            currentUser={currentUser || "default"}
-                            expenseId={expense.id}
-                          />
+                          {/* <EditExpense expenseInfo={expense} /> */}
+                          {/* <TransferExpense expenseId={expense.id} /> */}
                           <DeleteBudgetExpense
-                            budgetId={expense.budget_id ?? ""}
-                            expenseId={expense.id}
+                            budgetId={item.budget_id ?? ""}
+                            expenseId={item.id}
                           />
                         </div>
                       </PopoverContent>

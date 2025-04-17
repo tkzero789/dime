@@ -21,11 +21,12 @@ import { ChevronDown, ChevronUp, LoaderCircle, Plus } from "lucide-react";
 import { AccountData, BudgetExpenseState } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
-import { addBudgetExpense } from "@/lib/api/budget/expense";
+import { addBudgetExpense } from "@/lib/api/budgets/expenses";
+import { queryKeys } from "@/lib/queryKeys";
 
 type Props = {
-  budgetId: string;
-  budgetCategory: string;
+  budgetId: string | undefined;
+  budgetCategory: string | undefined;
   accountData: AccountData[];
 };
 
@@ -62,7 +63,12 @@ export default function AddBudgetExpense({
   const { mutate, isPending } = useMutation({
     mutationFn: addBudgetExpense,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["budgetExpense"] });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.budgetExpenses.byBudgetId(budgetId ?? ""),
+      });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.budgets.byId(budgetId ?? ""),
+      });
       setIsOpen(false);
       toast.success("Expense added");
     },
@@ -103,15 +109,17 @@ export default function AddBudgetExpense({
   };
 
   const handleClearInput = () => {
-    setNewBudgetExpense({
-      budget_id: budgetId,
-      account_id: "",
-      name: "",
-      amount: "",
-      category: budgetCategory,
-      payment_source: "",
-      date: startOfDay(new Date()),
-    });
+    if (budgetId && budgetCategory) {
+      setNewBudgetExpense({
+        budget_id: budgetId,
+        account_id: "",
+        name: "",
+        amount: "",
+        category: budgetCategory,
+        payment_source: "",
+        date: startOfDay(new Date()),
+      });
+    }
   };
 
   const checkEmptyValue = () => {

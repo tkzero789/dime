@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import AddBudgetExpense from "../mutations/AddBudgetExpense";
 
 type Props = {
-  budgetData: BudgetData[];
+  budgetData: BudgetData | undefined;
   accountData: AccountData[];
 };
 
@@ -24,8 +24,8 @@ export default function BudgetItemNav({ budgetData, accountData }: Props) {
     <div className="rounded-xl bg-white p-4 shadow-card-shadow">
       <div className="flex items-center justify-between">
         <div className="hidden items-center gap-2 lg:flex">
-          <div className="text-xl">{budgetData[0]?.emoji}</div>
-          <h1 className="text-xl font-semibold">{budgetData[0]?.category}</h1>
+          <div className="text-xl">{budgetData?.emoji}</div>
+          <h1 className="text-xl font-semibold">{budgetData?.category}</h1>
         </div>
         <div className="flex w-full items-center justify-between gap-4 lg:w-auto">
           <Popover>
@@ -37,13 +37,13 @@ export default function BudgetItemNav({ budgetData, accountData }: Props) {
             </PopoverTrigger>
             <PopoverContent className="w-[--radix-popover-trigger-width] p-1">
               <EditBudget budgetData={budgetData} />
-              <DeleteBudget budgetId={budgetData[0]?.id} />
+              <DeleteBudget budgetId={budgetData?.id} />
             </PopoverContent>
           </Popover>
           <Separator orientation="vertical" className="hidden h-5 lg:block" />
           <AddBudgetExpense
-            budgetId={budgetData[0]?.id}
-            budgetCategory={budgetData[0]?.category}
+            budgetId={budgetData?.id}
+            budgetCategory={budgetData?.category}
             accountData={accountData}
           />
         </div>

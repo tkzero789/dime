@@ -23,6 +23,22 @@ export async function getBudgetData(searchParams: {
   }
 }
 
+export async function getBudgetItemData(budgetId: string): Promise<BudgetData> {
+  try {
+    const response = await fetch(`/api/budgets/${budgetId}`);
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error || "API error fetching budget data");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("API error fetching budget item data");
+    throw error;
+  }
+}
+
 export async function addBudget(newBudget: BudgetState) {
   try {
     const response = await fetch("/api/budgets", {

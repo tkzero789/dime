@@ -20,9 +20,10 @@ import { BudgetDatePicker } from "./BudgetDatePicker";
 import { convertToLocalDate } from "@/utils/convertToLocalDate";
 import { updateBudget } from "@/lib/api/budgets";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "@/lib/queryKeys";
 
 type Props = {
-  budgetData: BudgetData[];
+  budgetData: BudgetData | undefined;
 };
 
 export default function EditBudget({ budgetData }: Props) {
@@ -30,10 +31,10 @@ export default function EditBudget({ budgetData }: Props) {
   const [isOpenEmoji, setIsOpenEmoji] = React.useState<boolean>(false);
 
   const [budgetToUpdate, setBudgetToUpdate] = React.useState<BudgetState>({
-    emoji: budgetData[0]?.emoji,
-    category: budgetData[0]?.category,
-    amount: budgetData[0]?.amount,
-    date: convertToLocalDate(budgetData[0]?.date),
+    emoji: budgetData?.emoji ?? null,
+    category: budgetData?.category ?? "",
+    amount: budgetData?.amount ?? "",
+    date: convertToLocalDate(budgetData?.date ?? ""),
   });
 
   const handleFormChange = (
@@ -50,7 +51,9 @@ export default function EditBudget({ budgetData }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: updateBudget,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["budgetItem"] });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.budgets.byId(budgetData?.id ?? ""),
+      });
       setIsOpen(false);
       toast.success("Budget updated");
     },
@@ -74,7 +77,7 @@ export default function EditBudget({ budgetData }: Props) {
     }
 
     mutate({
-      id: budgetData[0].id,
+      id: budgetData?.id ?? "",
       emoji: budgetToUpdate.emoji,
       category: budgetToUpdate.category,
       amount: budgetToUpdate.amount,
@@ -92,6 +95,8 @@ export default function EditBudget({ budgetData }: Props) {
     )
       return true;
   };
+
+  console.log(budgetToUpdate);
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>

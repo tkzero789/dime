@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getBudgetData } from "@/lib/api/budgets";
 import { format } from "date-fns";
 import BudgetsNav from "./_components/nav/BudgetsNav";
+import { queryKeys } from "@/lib/queryKeys";
 
 type Props = {
   searchParams: {
@@ -34,7 +35,7 @@ export default function BudgetsPage({ searchParams }: Props) {
   });
 
   const { data: budgetData, isLoading } = useQuery({
-    queryKey: ["budgets", date.from, date.to],
+    queryKey: queryKeys.budgets.byDateRange(date.from, date.to),
     queryFn: () =>
       getBudgetData({
         startDate: date.from,

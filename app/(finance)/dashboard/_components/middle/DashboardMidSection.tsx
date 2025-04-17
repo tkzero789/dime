@@ -1,16 +1,11 @@
-import {
-  BudgetExpenseData,
-  IncomeData,
-  RecurrenceDetail,
-  SingleDetail,
-} from "@/types";
+import { BudgetExpenseData, IncomeData } from "@/types";
 import React from "react";
 import { DashboardTable } from "./DashboardTable";
 import DashboardBudget from "./DashboardBudget";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 
 type Props = {
-  allData: (IncomeData | BudgetExpenseData | RecurrenceDetail | SingleDetail)[];
+  allData: (IncomeData | BudgetExpenseData)[];
   isLoading: boolean;
 };
 
