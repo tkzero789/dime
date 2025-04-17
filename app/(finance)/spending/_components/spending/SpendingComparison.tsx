@@ -1,13 +1,9 @@
-import {
-  ExpenseDetailWithCategory,
-  RecurrenceDetail,
-  SingleDetail,
-} from "@/types";
+import { BudgetExpenseData, RecurrenceDetail, SingleDetail } from "@/types";
 import FormatNumber from "@/utils/formatNumber";
 import React from "react";
 
 type Props = {
-  spendingData: (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[];
+  spendingData: (BudgetExpenseData | RecurrenceDetail | SingleDetail)[];
 };
 
 export default function SpendingComparison({ spendingData }: Props) {
@@ -15,7 +11,7 @@ export default function SpendingComparison({ spendingData }: Props) {
   const [previousSpend, setPreviousSpend] = React.useState<number>(0);
   const [difference, setDifference] = React.useState<number>(0);
   const [previousMonthData, setPreviousMonthData] = React.useState<
-    (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
+    (BudgetExpenseData | RecurrenceDetail | SingleDetail)[]
   >([]);
 
   const currentDate = new Date();

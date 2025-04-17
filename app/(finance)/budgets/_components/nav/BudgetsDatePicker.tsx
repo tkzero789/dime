@@ -85,7 +85,7 @@ export default function BudgetsDatePicker({ date, setDate }: Props) {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="end" className="flex flex-col gap-4">
+      <PopoverContent align="end" className="flex w-auto flex-col gap-4">
         <div className="flex items-center justify-between">
           <Button
             variant="outline"

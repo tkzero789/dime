@@ -18,7 +18,7 @@ import { LoaderCircle, Plus } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addBudget } from "@/lib/api/budgets";
 import toast from "react-hot-toast";
-import { BudgetDatePicker } from "./BudgetDatePicket";
+import { BudgetDatePicker } from "./BudgetDatePicker";
 import { startOfDay } from "date-fns";
 
 export default function CreateBudget() {
@@ -46,7 +46,7 @@ export default function CreateBudget() {
   const { mutate, isPending } = useMutation({
     mutationFn: addBudget,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["budgets"] });
+      queryClient.invalidateQueries({ queryKey: ["budget"] });
       setIsOpen(false);
       toast.success("Budget created");
     },

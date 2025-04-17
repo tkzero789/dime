@@ -15,7 +15,7 @@ import {
   ChartContainer,
   ChartTooltip,
 } from "@/components/ui/chart";
-import { ExpenseData, RecurrenceDetail, SingleDetail } from "@/types";
+import { BudgetExpenseData, RecurrenceDetail, SingleDetail } from "@/types";
 import GetCurrentMonth from "@/utils/getCurrentMonth";
 import LineCustomTooltip from "./LineCustomTooltip";
 import { useMediaQuery } from "usehooks-ts";
@@ -34,7 +34,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 type Props = {
-  spending: (ExpenseData | RecurrenceDetail | SingleDetail)[];
+  spending: (BudgetExpenseData | RecurrenceDetail | SingleDetail)[];
 };
 
 export function DashboardLineChart({ spending }: Props) {
@@ -67,10 +67,13 @@ export function DashboardLineChart({ spending }: Props) {
   const addedItemsSet = new Set<string>();
 
   const mergedSpendingList = allDates.map((date) => {
-    const currentItems: (ExpenseData | RecurrenceDetail | SingleDetail)[] =
-      currentSpendingList.filter((item) => item.date === date);
+    const currentItems: (
+      | BudgetExpenseData
+      | RecurrenceDetail
+      | SingleDetail
+    )[] = currentSpendingList.filter((item) => item.date === date);
 
-    const prevItems: (ExpenseData | RecurrenceDetail | SingleDetail)[] =
+    const prevItems: (BudgetExpenseData | RecurrenceDetail | SingleDetail)[] =
       prevSpendingList.filter((item) => {
         const itemDate = new Date(item.date);
         const isSameDate =

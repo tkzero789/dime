@@ -62,14 +62,14 @@ export default function DashboardAccounts() {
                 </div>
                 {/* Amount */}
                 <div className="flex justify-between">
-                  {/* Checking - Debit */}
-                  {item.type === "checking" && (
+                  {/* Debit */}
+                  {item.type === "debit" && (
                     <div className="flex flex-col gap-1">
                       <div className="text-2xl tracking-wide text-white">
                         ${<FormatNumber number={Number(item?.amount)} />}
                       </div>
                       <div className="text-xs tracking-wide text-white/50">
-                        Current balance
+                        Available balance
                       </div>
                     </div>
                   )}
@@ -78,18 +78,18 @@ export default function DashboardAccounts() {
                     <>
                       <div className="flex flex-col gap-1">
                         <div className="text-2xl tracking-wide text-white">
-                          ${<FormatNumber number={Number(item?.debt)} />}
-                        </div>
-                        <div className="text-xs tracking-wide text-white/50">
-                          Current balance
-                        </div>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <div className="text-2xl tracking-wide text-white">
                           ${<FormatNumber number={Number(item?.amount)} />}
                         </div>
                         <div className="text-xs tracking-wide text-white/50">
                           Available credit
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <div className="text-2xl tracking-wide text-white">
+                          ${<FormatNumber number={Number(item?.debt)} />}
+                        </div>
+                        <div className="text-xs tracking-wide text-white/50">
+                          Current balance
                         </div>
                       </div>
                     </>

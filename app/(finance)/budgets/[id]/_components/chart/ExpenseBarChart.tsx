@@ -8,10 +8,10 @@ import {
   ChartContainer,
   ChartTooltip,
 } from "@/components/ui/chart";
-import { BudgetData, ExpenseData } from "@/types";
 import ExpenseCustomTooltip from "./ExpenseCustomTooltip";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "usehooks-ts";
+import { BudgetExpenseData } from "@/types";
 
 const chartConfig = {
   spent: {
@@ -33,15 +33,12 @@ function getAllDaysInMonth(year: number, month: number) {
 }
 
 type Props = {
-  budgetInfo: BudgetData[];
-  expenseDetail: ExpenseData[];
+  expenseDetail: BudgetExpenseData[];
 };
 
-export function ExpenseBarChart({ budgetInfo, expenseDetail }: Props) {
+export function ExpenseBarChart({ expenseDetail }: Props) {
   const [isFirstHalf, setIsFirstHalf] = React.useState<boolean>(true);
   const isDesktop = useMediaQuery("(min-width: 1024px)");
-
-  console.log(budgetInfo);
 
   // Extract the month and year from budgetInfo
   const budgetMonth = new Date().getMonth();

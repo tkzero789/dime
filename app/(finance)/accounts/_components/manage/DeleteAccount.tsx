@@ -29,7 +29,7 @@ export default function DeleteAccount({ accountData }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: deactivateAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["accounts"] });
+      queryClient.invalidateQueries({ queryKey: ["account"] });
       setIsOpen(false);
       toast.success("Accounts deleted");
     },

@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import toast from "react-hot-toast";
 import BudgetCategory from "./BudgetCategory";
-import { BudgetDatePicker } from "./BudgetDatePicket";
+import { BudgetDatePicker } from "./BudgetDatePicker";
 import { convertToLocalDate } from "@/utils/convertToLocalDate";
 import { updateBudget } from "@/lib/api/budgets";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

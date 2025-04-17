@@ -51,7 +51,7 @@ export default function EditAccount({ accountData }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: updateAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["accounts"] });
+      queryClient.invalidateQueries({ queryKey: ["account"] });
       setIsOpen(false);
       toast.success("Account updated");
     },

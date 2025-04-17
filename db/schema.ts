@@ -30,7 +30,7 @@ export const budget = pgTable("budget", {
   id: uuid("id").primaryKey().defaultRandom(),
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
   category: varchar("category").notNull(),
-  emoji: varchar("emoji"),
+  emoji: varchar("emoji").notNull(),
   date: date("date").notNull(),
   created_by: varchar("created_by").notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),
@@ -38,11 +38,16 @@ export const budget = pgTable("budget", {
 
 export const budget_expense = pgTable("budget_expense", {
   id: uuid("id").primaryKey().defaultRandom(),
-  budget_id: uuid("budget_id").references(() => budget.id),
-  account_id: uuid("account_id").references(() => account.id),
+  budget_id: uuid("budget_id")
+    .references(() => budget.id)
+    .notNull(),
+  account_id: uuid("account_id")
+    .references(() => account.id)
+    .notNull(),
   name: varchar("name").notNull(),
   amount: numeric("amount", { precision: 10, scale: 2 }).notNull(),
-  payment_method: varchar("payment_method").notNull(),
+  category: varchar("category").notNull(),
+  payment_source: varchar("payment_source").notNull(),
   date: date("date").notNull(),
   created_by: varchar("created_by").notNull(),
   created_at: timestamp("created_at").defaultNow().notNull(),

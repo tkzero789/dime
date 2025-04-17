@@ -204,7 +204,7 @@ export default function AddIncome() {
                 handleFormChange("payment_method", value)
               }
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger>
                 <SelectValue placeholder="Payment method" />
               </SelectTrigger>
               <SelectContent>

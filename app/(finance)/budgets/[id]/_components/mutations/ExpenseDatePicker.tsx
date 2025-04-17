@@ -3,8 +3,6 @@
 import * as React from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -13,18 +11,24 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { SelectSingleEventHandler } from "react-day-picker";
+import { BudgetExpenseState } from "@/types";
 
 type Props = {
   date: Date;
-  setDate: (date: Date) => void;
+  handleFormChange: (
+    field: keyof BudgetExpenseState,
+    value: string | Date,
+  ) => void;
 };
 
-export function ExpenseDatePicker({ date, setDate }: Props) {
+export function ExpenseDatePicker({ date, handleFormChange }: Props) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
-  const handleOnSelect: SelectSingleEventHandler = (date) => {
-    if (date) {
-      setDate(date);
+  const defaultMonth = date || new Date();
+
+  const handleOnSelect: SelectSingleEventHandler = (selectedDate) => {
+    if (selectedDate) {
+      handleFormChange("date", selectedDate);
     }
     setIsOpen(false);
   };
@@ -34,12 +38,9 @@ export function ExpenseDatePicker({ date, setDate }: Props) {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={cn(
-            "h-12 w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground",
-          )}
+          className="h-12 justify-between rounded-lg px-3 text-base font-normal"
         >
-          {date ? format(date, "PPP") : <span>Date</span>}
+          {format(date, "PPP")}
           <CalendarIcon className="ml-auto h-4 w-4" />
         </Button>
       </PopoverTrigger>
@@ -49,7 +50,7 @@ export function ExpenseDatePicker({ date, setDate }: Props) {
           mode="single"
           selected={date}
           onSelect={handleOnSelect}
-          disableNavigation={false}
+          defaultMonth={defaultMonth}
           showOutsideDays={false}
         />
       </PopoverContent>

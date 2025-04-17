@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import {
-  ExpenseDetailWithCategory,
+  BudgetExpenseData,
   IncomeData,
   RecurrenceDetail,
   SingleDetail,
@@ -21,12 +21,7 @@ import getTransactionCategory from "@/utils/getTransactionCategory";
 import Link from "next/link";
 
 type Props = {
-  allData: (
-    | IncomeData
-    | ExpenseDetailWithCategory
-    | RecurrenceDetail
-    | SingleDetail
-  )[];
+  allData: (IncomeData | BudgetExpenseData | RecurrenceDetail | SingleDetail)[];
 };
 
 export function DashboardTable({ allData }: Props) {
@@ -85,7 +80,8 @@ export function DashboardTable({ allData }: Props) {
                       </div>
                     </TableCell>
                     <TableCell className="px-4 py-2">
-                      <FormatString text={item.payment_method} />
+                      {/* <FormatString text={item.payment_source} /> */}
+                      Fix
                     </TableCell>
                     <TableCell className="px-4 py-2 text-right font-semibold">
                       $<FormatNumber number={Number(item.amount)} />

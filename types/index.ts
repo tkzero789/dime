@@ -14,6 +14,16 @@ export type BudgetState = {
   date: Date;
 };
 
+export type BudgetExpenseState = {
+  budget_id: string;
+  account_id: string;
+  name: string;
+  amount: string;
+  category: string;
+  payment_source: string;
+  date: Date;
+};
+
 export type IncomeState = {
   name: string;
   amount: string;
@@ -56,19 +66,17 @@ export type BudgetDetailGetData = {
   created_at: Date;
 };
 
-export type ExpenseData = {
+export type BudgetExpenseData = {
   id: string;
   budget_id: string | null;
+  account_id: string | null;
   name: string;
   amount: string;
-  payment_method: string;
+  category: string;
+  payment_source: string;
   date: string;
   created_by: string;
   created_at: Date;
-};
-
-export type ExpenseDetailWithCategory = ExpenseData & {
-  category: string;
 };
 
 export type IncomeData = {

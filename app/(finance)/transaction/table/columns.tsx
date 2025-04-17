@@ -8,7 +8,7 @@ import FormatDate from "@/utils/formatDate";
 import FormatString from "@/utils/formatString";
 import ViewTransaction from "./ViewTransaction";
 import {
-  ExpenseDetailWithCategory,
+  BudgetExpenseData,
   IncomeData,
   RecurrenceDetail,
   SingleDetail,
@@ -16,7 +16,7 @@ import {
 import getTransactionCategory from "@/utils/getTransactionCategory";
 
 export type Transaction =
-  | ExpenseDetailWithCategory
+  | BudgetExpenseData
   | IncomeData
   | RecurrenceDetail
   | SingleDetail;

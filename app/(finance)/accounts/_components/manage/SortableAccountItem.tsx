@@ -76,29 +76,24 @@ export default function SortableAccountItem({ accountId, accountData }: Props) {
             </PopoverContent>
           </Popover>
         </div>
-        <div className="grid grid-cols-2">
+        {/* Available */}
+        <div>
+          <span className="text-sm text-muted-foreground">Available:</span>{" "}
+          <span className="font-medium">
+            $
+            <FormatNumber number={Number(accountData.amount)} />
+          </span>
+        </div>
+        {/* Balance */}
+        {accountData.type === "credit" && (
           <div>
             <span className="text-sm text-muted-foreground">Balance:</span>{" "}
             <span className="font-medium">
-              $
-              <FormatNumber
-                number={
-                  accountData.type === "checking"
-                    ? Number(accountData.amount)
-                    : Number(accountData.debt)
-                }
-              />
+              $<FormatNumber number={Number(accountData.debt)} />
             </span>
           </div>
-          {accountData.type === "credit" && (
-            <div>
-              <span className="text-sm text-muted-foreground">Credit:</span>{" "}
-              <span className="font-medium">
-                $<FormatNumber number={Number(accountData.amount)} />
-              </span>
-            </div>
-          )}
-        </div>
+        )}
+        {/* Type */}
         <div
           className={cn(
             "absolute bottom-0 right-0 flex h-8 w-16 items-center justify-center rounded-br-lg rounded-tl-lg bg-gradient-to-br",

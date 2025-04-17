@@ -109,7 +109,7 @@ export default function IncomeFilters({
             Filters
           </Button>
         </PopoverTrigger>
-        <PopoverContent align="end" className="flex w-auto flex-col p-0">
+        <PopoverContent align="end" className="flex flex-col p-0">
           <div className="flex gap-1 border-b p-4">
             {options.map((item) => (
               <Button

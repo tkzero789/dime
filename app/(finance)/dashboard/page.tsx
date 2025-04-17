@@ -4,7 +4,7 @@ import React from "react";
 import { db } from "@/db/dbConfig";
 import { Recurrence, Single, budget_expense, income } from "@/db/schema";
 import {
-  ExpenseDetailWithCategory,
+  BudgetExpenseData,
   IncomeData,
   RecurrenceDetail,
   SingleDetail,
@@ -19,10 +19,10 @@ export default function DashboardPage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [incomeData, setIncomeData] = React.useState<IncomeData[]>([]);
   const [spending, setSpending] = React.useState<
-    (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
+    (BudgetExpenseData | RecurrenceDetail | SingleDetail)[]
   >([]);
   const [allData, setAllData] = React.useState<
-    (IncomeData | ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
+    (IncomeData | BudgetExpenseData | RecurrenceDetail | SingleDetail)[]
   >([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const { user } = useUser();
@@ -90,32 +90,12 @@ export default function DashboardPage() {
             ),
         ]);
         if (batchResponse) {
-          let [
-            // eslint-disable-next-line prefer-const
-            incomeResult,
-            expenseResult,
-            // eslint-disable-next-line prefer-const
-            recurringResult,
-            // eslint-disable-next-line prefer-const
-            singleResult,
-          ] = batchResponse;
+          const [incomeResult, expenseResult, recurringResult, singleResult] =
+            batchResponse;
           setIncomeData(incomeResult);
 
-          // Add category property to each object in expenseResult
-          expenseResult = expenseResult.map((row) => ({
-            ...row,
-            category: "Budget Expense",
-          }));
-
-          const combineSpending: (
-            | ExpenseDetailWithCategory
-            | RecurrenceDetail
-            | SingleDetail
-          )[] = [
-            ...expenseResult.map((expense) => ({
-              ...expense,
-              category: "Budget Expense",
-            })),
+          const combineSpending = [
+            ...expenseResult,
             ...recurringResult,
             ...singleResult,
           ].sort(

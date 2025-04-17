@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/tooltip";
 import { CircleDollarSign, DollarSign, Info, Landmark } from "lucide-react";
 import {
-  ExpenseData,
+  BudgetExpenseData,
   IncomeData,
   RecurrenceDetail,
   SingleDetail,
@@ -15,7 +15,7 @@ import {
 import FormatNumber from "@/utils/formatNumber";
 
 type Props = {
-  spending: (ExpenseData | RecurrenceDetail | SingleDetail)[];
+  spending: (BudgetExpenseData | RecurrenceDetail | SingleDetail)[];
   income: IncomeData[];
 };
 

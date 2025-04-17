@@ -13,27 +13,37 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ExpenseData } from "@/types";
+import { AccountData, BudgetExpenseData } from "@/types";
 import FormatDate from "@/utils/formatDate";
-import FormatString from "@/utils/formatString";
 import FormatNumber from "@/utils/formatNumber";
 import EditExpense from "../mutations/EditExpense";
 import TransferExpense from "../mutations/TransferExpense";
-import DeleteExpense from "../mutations/DeleteExpense";
+import DeleteBudgetExpense from "../mutations/DeleteBudgetExpense";
 
 type Props = {
-  expenseDetail: ExpenseData[];
+  expenseDetail: BudgetExpenseData[];
   currentUser: string | undefined;
   refreshData: () => void;
+  accountData: AccountData[];
 };
 
 export default function ExpenseTable({
   expenseDetail,
   currentUser,
   refreshData,
+  accountData,
 }: Props) {
+  const matchAccount = (accountId: string, paymentSource: string) => {
+    const account = accountData.find((item) => {
+      if (item.id === accountId && item.id === paymentSource) {
+        return item;
+      }
+    });
+    return account;
+  };
+
   return (
-    <div className="flex h-fit flex-col gap-4 rounded-lg border bg-white p-6">
+    <div className="flex h-fit flex-col gap-4 rounded-lg bg-white p-6 shadow-card-shadow">
       <h2 className="text-xl font-bold">Transactions</h2>
       {/* Table */}
       <div className="overflow-auto">
@@ -46,8 +56,11 @@ export default function ExpenseTable({
               <TableHead className="text-sm font-semibold text-secondary-foreground">
                 Name
               </TableHead>
+              <TableHead className="text-sm font-semibold text-secondary-foreground">
+                Category
+              </TableHead>
               <TableHead className="truncate text-sm font-semibold text-secondary-foreground">
-                Payment Method
+                Account
               </TableHead>
               <TableHead className="text-right text-sm font-semibold text-secondary-foreground">
                 Amount
@@ -68,8 +81,28 @@ export default function ExpenseTable({
                   <TableCell className="truncate px-4 py-2">
                     {expense.name}
                   </TableCell>
-                  <TableCell className="px-4 py-2">
-                    <FormatString text={expense.payment_method} />
+                  <TableCell className="truncate px-4 py-2">
+                    {expense.category}
+                  </TableCell>
+                  <TableCell className="truncate px-4 py-2">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`size-2 rounded-full bg-gradient-to-br ${
+                          matchAccount(
+                            expense.account_id ?? "",
+                            expense.payment_source ?? "",
+                          )?.color
+                        }`}
+                      ></div>
+                      <div>
+                        {
+                          matchAccount(
+                            expense.account_id ?? "",
+                            expense.payment_source ?? "",
+                          )?.name
+                        }
+                      </div>
+                    </div>
                   </TableCell>
                   <TableCell className="px-4 py-2 text-right font-semibold">
                     $<FormatNumber number={Number(expense.amount)} />
@@ -81,7 +114,7 @@ export default function ExpenseTable({
                           <Ellipsis className="rounded-md transition hover:bg-neutral-200" />
                         </PopoverTrigger>
                       </div>
-                      <PopoverContent className="flex w-40 flex-col px-0 py-0">
+                      <PopoverContent className="flex w-40 flex-col p-0">
                         <div className="flex items-center justify-center border-b px-3 py-2 text-sm font-semibold">
                           Action
                         </div>
@@ -96,9 +129,8 @@ export default function ExpenseTable({
                             currentUser={currentUser || "default"}
                             expenseId={expense.id}
                           />
-                          <DeleteExpense
-                            refreshData={refreshData}
-                            currentUser={currentUser || "default"}
+                          <DeleteBudgetExpense
+                            budgetId={expense.budget_id ?? ""}
                             expenseId={expense.id}
                           />
                         </div>

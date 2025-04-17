@@ -1,11 +1,11 @@
-import { ExpenseData, RecurrenceDetail, SingleDetail } from "@/types";
+import { BudgetExpenseData, RecurrenceDetail, SingleDetail } from "@/types";
 import React from "react";
 import DashboardAccounts from "./DashboardAccounts";
 import { DashboardLineChart } from "../chart/DashboardLineChart";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 
 type Props = {
-  spending: (ExpenseData | RecurrenceDetail | SingleDetail)[];
+  spending: (BudgetExpenseData | RecurrenceDetail | SingleDetail)[];
   isLoading: boolean;
 };
 

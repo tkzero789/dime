@@ -40,7 +40,7 @@ export default function AddAccount() {
     if (field === "type") {
       setNewAccount((prev) => ({
         ...prev,
-        debt: value === "checking" ? "0" : "",
+        debt: value === "debit" ? "0" : "",
       }));
     }
 
@@ -54,7 +54,7 @@ export default function AddAccount() {
   const { mutate, isPending } = useMutation({
     mutationFn: addAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["accounts"] });
+      queryClient.invalidateQueries({ queryKey: ["account"] });
       setIsOpen(false);
       toast.success("Account added");
     },
@@ -112,6 +112,8 @@ export default function AddAccount() {
       return true;
   };
 
+  console.log(newAccount);
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -159,14 +161,14 @@ export default function AddAccount() {
                 <SelectValue placeholder="Account type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="checking">Checking</SelectItem>
+                <SelectItem value="debit">Debit</SelectItem>
                 <SelectItem value="credit">Credit</SelectItem>
               </SelectContent>
             </Select>
             {/* Amount */}
             <Input
               type="number"
-              placeholder={`${newAccount.type === "credit" ? "Available credit" : "Current balance"}`}
+              placeholder={`${newAccount.type === "credit" ? "Available credit" : "Available balance"}`}
               disabled={!newAccount.type}
               value={newAccount.amount}
               onChange={(e) => {
@@ -205,21 +207,20 @@ export default function AddAccount() {
                 <div className="flex justify-between">
                   <div className="flex flex-col gap-1">
                     <div className="text-3xl tracking-wide">
-                      $
-                      {newAccount.type === "credit" ? (
-                        <FormatNumber number={Number(newAccount.debt)} />
-                      ) : (
-                        <FormatNumber number={Number(newAccount.amount)} />
-                      )}
+                      ${<FormatNumber number={Number(newAccount.amount)} />}
                     </div>
-                    <div className="text-sm text-white">Current Balance</div>
+                    <div className="text-sm text-white">
+                      {newAccount.type === "credit"
+                        ? "Available credit"
+                        : "Available balance"}
+                    </div>
                   </div>
                   {newAccount.type === "credit" && (
                     <div className="flex flex-col gap-1">
                       <div className="text-3xl tracking-wide">
-                        ${<FormatNumber number={Number(newAccount.amount)} />}
+                        $<FormatNumber number={Number(newAccount.debt)} />
                       </div>
-                      <div className="text-sm text-white">Available Credit</div>
+                      <div className="text-sm text-white">Current balance</div>
                     </div>
                   )}
                 </div>
@@ -227,11 +228,7 @@ export default function AddAccount() {
               <div className="flex items-center justify-between">
                 <EditCardBackground handleFormChange={handleFormChange} />
                 <div className="self-end">
-                  <FormatString
-                    text={
-                      newAccount.type === "checking" ? "Debit" : newAccount.type
-                    }
-                  />
+                  <FormatString text={newAccount.type} />
                 </div>
               </div>
             </div>

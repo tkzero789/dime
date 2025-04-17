@@ -187,7 +187,7 @@ export default function RecurringTable({ ruleList, currentUser }: Props) {
                       </PopoverTrigger>
                     </div>
 
-                    <PopoverContent className="flex w-40 flex-col px-0 py-0">
+                    <PopoverContent className="flex flex-col px-0 py-0">
                       <div className="flex items-center justify-center border-b px-3 py-2 text-sm font-semibold">
                         Action
                       </div>

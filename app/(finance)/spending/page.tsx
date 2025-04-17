@@ -4,7 +4,7 @@ import React from "react";
 import { SpendingBarChart } from "./_components/chart/SpendingBarChart";
 import { useUser } from "@clerk/nextjs";
 import {
-  ExpenseDetailWithCategory,
+  BudgetExpenseData,
   IncomeData,
   RecurrenceDetail,
   SingleDetail,
@@ -12,7 +12,7 @@ import {
 import { db } from "@/db/dbConfig";
 import { eq, getTableColumns } from "drizzle-orm";
 import { budget_expense, income, Recurrence, Single } from "@/db/schema";
-import { SpendingPieChart } from "./_components/chart/SpendingPieChart";
+// import { SpendingPieChart } from "./_components/chart/SpendingPieChart";
 
 export default function SpendingPage() {
   const { user } = useUser();
@@ -20,8 +20,9 @@ export default function SpendingPage() {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [incomeData, setIncomeData] = React.useState<IncomeData[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [spendingData, setSpendingData] = React.useState<
-    (ExpenseDetailWithCategory | RecurrenceDetail | SingleDetail)[]
+    (BudgetExpenseData | RecurrenceDetail | SingleDetail)[]
   >([]);
   const [finalData, setFinalData] = React.useState<
     { month: string; income: number; spending: number }[]
@@ -30,11 +31,7 @@ export default function SpendingPage() {
   const calculate = React.useCallback(
     (
       incomeData: IncomeData[],
-      spendingData: (
-        | ExpenseDetailWithCategory
-        | RecurrenceDetail
-        | SingleDetail
-      )[],
+      spendingData: (BudgetExpenseData | RecurrenceDetail | SingleDetail)[],
     ) => {
       const incomeByMonth = groupByMonth(incomeData);
       const spendingByMonth = groupByMonth(spendingData);
@@ -96,7 +93,7 @@ export default function SpendingPage() {
         }));
 
         const totalSpending: (
-          | ExpenseDetailWithCategory
+          | BudgetExpenseData
           | RecurrenceDetail
           | SingleDetail
         )[] = [
@@ -148,7 +145,7 @@ export default function SpendingPage() {
     <div>
       <h2 className="text-2xl font-bold">Spending</h2>
       <SpendingBarChart finalData={finalData} />
-      <SpendingPieChart spendingData={spendingData} />
+      {/* <SpendingPieChart spendingData={spendingData} /> */}
     </div>
   );
 }

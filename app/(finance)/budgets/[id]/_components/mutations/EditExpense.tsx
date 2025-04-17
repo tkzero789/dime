@@ -20,16 +20,16 @@ import { db } from "@/db/dbConfig";
 import { and, eq } from "drizzle-orm";
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
-import { ExpenseDatePicker } from "./ExpenseDatePicker";
+// import { ExpenseDatePicker } from "./ExpenseDatePicker";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Pencil } from "lucide-react";
-import { ExpenseData } from "@/types";
 import { budget_expense } from "@/db/schema";
+import { BudgetExpenseData } from "@/types";
 
 type Props = {
   refreshData: () => void;
   currentUser: string | undefined;
-  expenseInfo: ExpenseData;
+  expenseInfo: BudgetExpenseData;
 };
 
 export default function EditExpense({
@@ -52,10 +52,10 @@ export default function EditExpense({
     convertToLocalDate(expenseInfo.date),
   );
   const [paymentMethod, setPaymentMethod] = React.useState<string>(
-    expenseInfo.payment_method,
+    expenseInfo.payment_source,
   );
   const [initialPaymentMethod] = React.useState<string>(
-    expenseInfo.payment_method,
+    expenseInfo.payment_source,
   );
 
   // Update expense
@@ -63,14 +63,14 @@ export default function EditExpense({
     const updateExpenseName = expenseName || expenseInfo.name;
     const updateExpenseAmount = expenseAmount || expenseInfo.amount;
     const updatedExpenseDate = expenseDate || expenseInfo.date;
-    const updatePaymentMethod = paymentMethod || expenseInfo.payment_method;
+    const updatePaymentMethod = paymentMethod || expenseInfo.payment_source;
     const result = await db
       .update(budget_expense)
       .set({
         name: updateExpenseName,
         amount: updateExpenseAmount,
         date: updatedExpenseDate.toISOString(),
-        payment_method: updatePaymentMethod,
+        payment_source: updatePaymentMethod,
       })
       .where(
         and(
@@ -90,7 +90,7 @@ export default function EditExpense({
   const handleOnClickEdit = () => {
     setExpenseName("");
     setExpenseAmount("");
-    setPaymentMethod(expenseInfo.payment_method);
+    setPaymentMethod(expenseInfo.payment_source);
     setExpenseDate(convertToLocalDate(expenseInfo.date));
   };
 
@@ -119,7 +119,7 @@ export default function EditExpense({
               onChange={(e) => setExpenseAmount(e.target.value)}
             />
             {/* Datepicker */}
-            <ExpenseDatePicker date={expenseDate} setDate={setExpenseDate} />
+            {/* <ExpenseDatePicker date={expenseDate} /> */}
             {/* Payment method */}
             <Select
               value={paymentMethod}

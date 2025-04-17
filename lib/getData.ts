@@ -7,7 +7,7 @@ import {
 } from "@/db/schema";
 import {
   BudgetDetailGetData,
-  ExpenseData,
+  BudgetExpenseData,
   IncomeData,
   RecurrenceDetail,
   SingleDetail,
@@ -93,7 +93,7 @@ export async function getUserData(userEmail: string) {
 
     let incomeResult: IncomeData[] = [];
     let budgetsResult: BudgetDetailGetData[] = [];
-    let budgetExpensesResult: ExpenseData[] = [];
+    let budgetExpensesResult: BudgetExpenseData[] = [];
     let singleResult: SingleDetail[] = [];
     let recurringResult: RecurrenceDetail[] = [];
 

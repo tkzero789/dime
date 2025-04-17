@@ -10,50 +10,46 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
-import { and, eq } from "drizzle-orm";
-import { db } from "@/db/dbConfig";
 import toast from "react-hot-toast";
 import { PopoverClose } from "@radix-ui/react-popover";
-import { Trash2 } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
-import { budget_expense } from "@/db/schema";
+import { LoaderCircle, Trash2 } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteBudgetExpense } from "@/lib/api/budget/expense";
 
 type Props = {
-  refreshData: () => void;
-  currentUser: string | undefined;
+  budgetId: string;
   expenseId: string;
 };
 
-export default function DeleteExpense({
-  refreshData,
-  currentUser,
-  expenseId,
-}: Props) {
-  // Delete expense
-  const deleteExpense = async (expenseId: string) => {
-    const result = await db
-      .delete(budget_expense)
-      .where(
-        and(
-          eq(budget_expense.id, expenseId),
-          eq(budget_expense.created_by, currentUser ?? ""),
-        ),
-      )
-      .returning();
+export default function DeleteBudgetExpense({ budgetId, expenseId }: Props) {
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
-    if (result) {
-      refreshData();
-      toast.success("Expense Deleted!");
-    }
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: deleteBudgetExpense,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["budgetExpense"] });
+      setIsOpen(false);
+      toast.success("Expense deleted");
+    },
+    onError: (error) => {
+      toast.error("Failed to delete expense");
+      console.log("Failed to delete expense", error);
+    },
+  });
+
+  const handleDelete = () => {
+    mutate({ budgetId, expenseId });
   };
+
   return (
-    <AlertDialog>
-      <AlertDialogTrigger className="flex h-fit w-full items-center justify-start gap-2 rounded-md bg-transparent px-0 py-2 text-sm font-normal text-foreground hover:bg-neutral-200">
-        <span className="pl-4">
-          <Trash2 strokeWidth={2} className="h-4 w-4" color="#555353" />
-        </span>
-        <span className="font-semibold text-secondary-foreground">Delete</span>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+      <AlertDialogTrigger asChild>
+        <Button variant="ghost" size="sm" className="w-full justify-start">
+          <Trash2 />
+          Delete
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -70,8 +66,10 @@ export default function DeleteExpense({
           <PopoverClose asChild>
             <AlertDialogAction
               className={buttonVariants({ variant: "destructive" })}
-              onClick={() => deleteExpense(expenseId)}
+              disabled={isPending}
+              onClick={handleDelete}
             >
+              {isPending && <LoaderCircle className="animate-spin" />}
               Delete
             </AlertDialogAction>
           </PopoverClose>

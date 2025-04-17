@@ -18,10 +18,10 @@ import { deleteBudget } from "@/lib/api/budgets";
 import toast from "react-hot-toast";
 
 type Props = {
-  paramsId: string;
+  budgetId: string;
 };
 
-export default function DeleteBudget({ paramsId }: Props) {
+export default function DeleteBudget({ budgetId }: Props) {
   const router = useRouter();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
@@ -29,7 +29,7 @@ export default function DeleteBudget({ paramsId }: Props) {
   const { mutate, isPending } = useMutation({
     mutationFn: deleteBudget,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["budgets"] });
+      queryClient.invalidateQueries({ queryKey: ["budget"] });
       setIsOpen(false);
       router.replace("/budgets");
       toast.success("Budget deleted");
@@ -41,7 +41,7 @@ export default function DeleteBudget({ paramsId }: Props) {
   });
 
   const handleDelete = () => {
-    mutate(paramsId);
+    mutate(budgetId);
   };
 
   return (

@@ -61,7 +61,7 @@ export async function POST(request: Request) {
       date: body.date,
       category: body.category,
       payment_method: body.payment_method,
-      created_by: user?.primaryEmailAddress?.emailAddress || "",
+      created_by: user?.primaryEmailAddress?.emailAddress ?? "",
     });
 
     return Response.json(data, { status: 201 });

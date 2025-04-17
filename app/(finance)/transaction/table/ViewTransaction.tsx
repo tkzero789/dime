@@ -7,10 +7,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { CircleChevronRight } from "lucide-react";
-import Link from "next/link";
+// import Link from "next/link";
 import {
-  ExpenseData,
-  ExpenseDetailWithCategory,
+  BudgetExpenseData,
   IncomeData,
   RecurrenceDetail,
   SingleDetail,
@@ -19,54 +18,54 @@ import FormatString from "@/utils/formatString";
 import FormatNumber from "@/utils/formatNumber";
 import FormatDate from "@/utils/formatDate";
 import { Button } from "@/components/ui/button";
-import MoreAction from "../single/MoreAction";
-import MoreActionRecurrence from "../recurrence/MoreActionRecurrence";
+// import MoreAction from "../single/MoreAction";
+// import MoreActionRecurrence from "../recurrence/MoreActionRecurrence";
 
 type Props = {
   transactionDetail:
-    | ExpenseDetailWithCategory
+    | BudgetExpenseData
     | IncomeData
     | RecurrenceDetail
     | SingleDetail;
 };
 
 export default function ViewTransaction({ transactionDetail }: Props) {
-  const isExpenseDetail = (
-    detail: Props["transactionDetail"],
-  ): detail is ExpenseDetailWithCategory => {
-    return (detail as ExpenseData).budget_id !== undefined;
-  };
+  // const isExpenseDetail = (
+  //   detail: Props["transactionDetail"],
+  // ): detail is BudgetExpenseData => {
+  //   return (detail as BudgetExpenseData).budget_id !== undefined;
+  // };
 
-  const getCategory = (category: string) => {
-    if (isExpenseDetail(transactionDetail)) {
-      return `/budgets/${transactionDetail.budget_id}`;
-    } else if (
-      [
-        "mortgage",
-        "rent",
-        "bill and utilities",
-        "car payment",
-        "loan",
-        "credit card payment",
-        "insurance",
-        "monthly subscription",
-      ].includes(category)
-    ) {
-      return "/recurring";
-    } else if (
-      [
-        "salary",
-        "business",
-        "investments",
-        "rental income",
-        "pensions",
-      ].includes(category)
-    ) {
-      return "/income";
-    } else {
-      return "/dashboard";
-    }
-  };
+  // const getCategory = (category: string) => {
+  //   if (isExpenseDetail(transactionDetail)) {
+  //     return `/budgets/${transactionDetail.budget_id}`;
+  //   } else if (
+  //     [
+  //       "mortgage",
+  //       "rent",
+  //       "bill and utilities",
+  //       "car payment",
+  //       "loan",
+  //       "credit card payment",
+  //       "insurance",
+  //       "monthly subscription",
+  //     ].includes(category)
+  //   ) {
+  //     return "/recurring";
+  //   } else if (
+  //     [
+  //       "salary",
+  //       "business",
+  //       "investments",
+  //       "rental income",
+  //       "pensions",
+  //     ].includes(category)
+  //   ) {
+  //     return "/income";
+  //   } else {
+  //     return "/dashboard";
+  //   }
+  // };
 
   return (
     <Dialog>
@@ -108,7 +107,8 @@ export default function ViewTransaction({ transactionDetail }: Props) {
             <div className="text-left">
               <span className="inline-block w-24 font-semibold">Method:</span>
               <span className="font-medium text-secondary-foreground">
-                <FormatString text={transactionDetail.payment_method} />
+                {/* <FormatString text={transactionDetail.payment_source} /> */}{" "}
+                Fix
               </span>
             </div>
             <div className="text-left">
@@ -118,7 +118,7 @@ export default function ViewTransaction({ transactionDetail }: Props) {
               </span>
             </div>
             <div className="flex items-center justify-center gap-8">
-              {transactionDetail.category === "single payment" ? (
+              {/* {transactionDetail.category === "single payment" ? (
                 <MoreAction
                   singleId={transactionDetail.id}
                   singleInfo={transactionDetail}
@@ -140,7 +140,8 @@ export default function ViewTransaction({ transactionDetail }: Props) {
                     View details
                   </Link>
                 </Button>
-              )}
+              )} */}
+              Fix
             </div>
           </div>
         </DialogHeader>

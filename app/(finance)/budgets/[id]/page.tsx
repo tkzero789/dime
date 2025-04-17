@@ -6,13 +6,15 @@ import { budget, budget_expense } from "@/db/schema";
 import { useUser } from "@clerk/nextjs";
 import { and, desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { Skeleton } from "@/components/ui/skeleton";
-import { BudgetData, ExpenseData } from "@/types";
+import { BudgetData, BudgetExpenseData } from "@/types";
 import BudgetItem from "@/app/(finance)/budgets/_components/mutations/BudgetItem";
 import { ExpenseBarChart } from "@/app/(finance)/budgets/[id]/_components/chart/ExpenseBarChart";
 import { BudgetByIdRadialChart } from "@/app/(finance)/budgets/[id]/_components/chart/BudgetByIdRadialChart";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 import ExpenseTable from "./_components/table/ExpenseTable";
 import BudgetItemNav from "./_components/nav/BudgetItemNav";
+import { useQuery } from "@tanstack/react-query";
+import { getAccountData } from "@/lib/api/accounts";
 
 type Props = {
   params: {
@@ -25,7 +27,9 @@ export default function BudgetByIdPage({ params }: Props) {
   const currentUser = user?.primaryEmailAddress?.emailAddress;
 
   const [budgetData, setBudgetData] = React.useState<BudgetData[]>([]);
-  const [expenseDetail, setExpenseDetail] = React.useState<ExpenseData[]>([]);
+  const [expenseDetail, setExpenseDetail] = React.useState<BudgetExpenseData[]>(
+    [],
+  );
 
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
@@ -80,24 +84,20 @@ export default function BudgetByIdPage({ params }: Props) {
     }
   }, [user, getBudgetInfo]);
 
+  const { data: accountData } = useQuery({
+    queryKey: ["accounts"],
+    queryFn: getAccountData,
+  });
+
   return (
     <div className="flex flex-col gap-6">
-      <BudgetItemNav
-        paramsId={params.id}
-        budgetData={budgetData}
-        currentUser={currentUser || "default"}
-        refreshData={getBudgetInfo}
-      />
+      <BudgetItemNav budgetData={budgetData} accountData={accountData || []} />
       <div className="grid grid-cols-3 gap-6">
         <div className="order-last col-span-3 xl:order-first xl:col-span-2 xl:h-full">
-          <ExpenseBarChart
-            budgetInfo={budgetData}
-            expenseDetail={expenseDetail}
-          />
+          <ExpenseBarChart expenseDetail={expenseDetail} />
         </div>
         <div className="col-span-3 xl:col-span-1">
           <BudgetByIdRadialChart budget={budgetData} />
-
           {budgetData.length > 0 ? (
             <div className="lg:hidden">
               <BudgetItem budget={budgetData[0]} />
@@ -118,6 +118,7 @@ export default function BudgetByIdPage({ params }: Props) {
           expenseDetail={expenseDetail}
           currentUser={currentUser || "default"}
           refreshData={() => getBudgetInfo()}
+          accountData={accountData || []}
         />
       )}
     </div>

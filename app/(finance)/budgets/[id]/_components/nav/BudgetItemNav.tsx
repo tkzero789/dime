@@ -9,26 +9,17 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Settings2 } from "lucide-react";
-import { BudgetData } from "@/types";
+import { AccountData, BudgetData } from "@/types";
 import DeleteBudget from "../../../_components/mutations/DeleteBudget";
 import { Separator } from "@/components/ui/separator";
-import AddExpense from "../mutations/AddExpense";
-import { useMediaQuery } from "usehooks-ts";
+import AddBudgetExpense from "../mutations/AddBudgetExpense";
 
 type Props = {
-  paramsId: string;
   budgetData: BudgetData[];
-  currentUser: string | undefined;
-  refreshData: () => void;
+  accountData: AccountData[];
 };
 
-export default function BudgetItemNav({
-  paramsId,
-  budgetData,
-  currentUser,
-  refreshData,
-}: Props) {
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
+export default function BudgetItemNav({ budgetData, accountData }: Props) {
   return (
     <div className="rounded-xl bg-white p-4 shadow-card-shadow">
       <div className="flex items-center justify-between">
@@ -44,19 +35,16 @@ export default function BudgetItemNav({
                 Manage budget
               </Button>
             </PopoverTrigger>
-            <PopoverContent
-              align={isDesktop ? "end" : "start"}
-              className="w-40 p-1"
-            >
+            <PopoverContent className="w-[--radix-popover-trigger-width] p-1">
               <EditBudget budgetData={budgetData} />
-              <DeleteBudget paramsId={paramsId} />
+              <DeleteBudget budgetId={budgetData[0]?.id} />
             </PopoverContent>
           </Popover>
           <Separator orientation="vertical" className="hidden h-5 lg:block" />
-          <AddExpense
-            paramsId={paramsId}
-            currentUser={currentUser}
-            refreshData={refreshData}
+          <AddBudgetExpense
+            budgetId={budgetData[0]?.id}
+            budgetCategory={budgetData[0]?.category}
+            accountData={accountData}
           />
         </div>
       </div>

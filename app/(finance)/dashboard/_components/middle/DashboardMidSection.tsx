@@ -1,5 +1,5 @@
 import {
-  ExpenseDetailWithCategory,
+  BudgetExpenseData,
   IncomeData,
   RecurrenceDetail,
   SingleDetail,
@@ -10,12 +10,7 @@ import DashboardBudget from "./DashboardBudget";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 
 type Props = {
-  allData: (
-    | IncomeData
-    | ExpenseDetailWithCategory
-    | RecurrenceDetail
-    | SingleDetail
-  )[];
+  allData: (IncomeData | BudgetExpenseData | RecurrenceDetail | SingleDetail)[];
   isLoading: boolean;
 };
 
