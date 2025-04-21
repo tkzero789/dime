@@ -16,28 +16,20 @@ import {
 import { AccountData, BudgetExpenseData } from "@/types";
 import FormatDate from "@/utils/formatDate";
 import FormatNumber from "@/utils/formatNumber";
-// import EditExpense from "../mutations/EditExpense";
-// import TransferExpense from "../mutations/TransferExpense";
 import DeleteBudgetExpense from "../mutations/DeleteBudgetExpense";
+import { Button } from "@/components/ui/button";
+import EditExpense from "../mutations/EditExpense";
+import { cn } from "@/lib/utils";
 
 type Props = {
   budgetExpenseData: BudgetExpenseData[];
   accountData: AccountData[];
 };
 
-export default function ExpenseTable({
+export default function BudgetExpenseTable({
   budgetExpenseData,
   accountData,
 }: Props) {
-  const matchAccount = (accountId: string, paymentSource: string) => {
-    const account = accountData.find((item) => {
-      if (item.id === accountId && item.id === paymentSource) {
-        return item;
-      }
-    });
-    return account;
-  };
-
   return (
     <div className="flex h-fit flex-col gap-4 rounded-lg bg-white p-6 shadow-card-shadow">
       <h2 className="text-xl font-bold">Transactions</h2>
@@ -86,21 +78,12 @@ export default function ExpenseTable({
                   <TableCell className="truncate px-4 py-2">
                     <div className="flex items-center gap-2">
                       <div
-                        className={`size-2 rounded-full bg-gradient-to-br ${
-                          matchAccount(
-                            item.account_id ?? "",
-                            item.payment_source ?? "",
-                          )?.color
-                        }`}
+                        className={cn(
+                          "size-2 rounded-full bg-gradient-to-br",
+                          item.account_color,
+                        )}
                       ></div>
-                      <div>
-                        {
-                          matchAccount(
-                            item.account_id ?? "",
-                            item.payment_source ?? "",
-                          )?.name
-                        }
-                      </div>
+                      <div>{item.account_name}</div>
                     </div>
                   </TableCell>
                   <TableCell className="px-4 py-2 text-right font-semibold">
@@ -109,16 +92,28 @@ export default function ExpenseTable({
                   <TableCell className="text-center">
                     <Popover>
                       <div>
-                        <PopoverTrigger className="flex w-full items-center justify-center">
-                          <Ellipsis className="rounded-md transition hover:bg-neutral-200" />
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="data-[state=open]:bg-muted"
+                          >
+                            <Ellipsis />
+                          </Button>
                         </PopoverTrigger>
                       </div>
-                      <PopoverContent className="flex w-40 flex-col p-0">
+                      <PopoverContent
+                        align="end"
+                        className="flex w-40 flex-col p-0"
+                      >
                         <div className="flex items-center justify-center border-b px-3 py-2 text-sm font-semibold">
                           Action
                         </div>
                         <div className="p-1">
-                          {/* <EditExpense expenseInfo={expense} /> */}
+                          <EditExpense
+                            budgetExpenseData={item}
+                            accountData={accountData}
+                          />
                           {/* <TransferExpense expenseId={expense.id} /> */}
                           <DeleteBudgetExpense
                             budgetId={item.budget_id ?? ""}

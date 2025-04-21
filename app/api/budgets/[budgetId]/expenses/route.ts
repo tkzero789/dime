@@ -1,5 +1,5 @@
 import { db } from "@/db/dbConfig";
-import { budget, budget_expense } from "@/db/schema";
+import { account, budget, budget_expense } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { and, eq, getTableColumns, sql } from "drizzle-orm";
 
@@ -19,11 +19,14 @@ export async function GET(
     const data = await db
       .select({
         ...getTableColumns(budget_expense),
+        account_name: account.name,
+        account_color: account.color,
         budget_category: budget.category,
         budget_emoji: budget.emoji,
       })
       .from(budget_expense)
       .leftJoin(budget, eq(budget.id, budget_expense.budget_id))
+      .leftJoin(account, eq(account.id, budget_expense.account_id))
       .where(
         and(
           eq(budget_expense.budget_id, budgetId),

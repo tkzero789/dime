@@ -37,6 +37,7 @@ export default function AddBudgetExpense({
 }: Props) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isAccountOpen, setIsAccountOpen] = React.useState<boolean>(false);
+  const [accountName, setAccountName] = React.useState<string>("");
 
   const [newBudgetExpense, setNewBudgetExpense] =
     React.useState<BudgetExpenseState>({
@@ -89,9 +90,9 @@ export default function AddBudgetExpense({
       !newBudgetExpense.budget_id ||
       !newBudgetExpense.account_id ||
       !newBudgetExpense.amount ||
-      !newBudgetExpense.date ||
       !newBudgetExpense.category ||
-      !newBudgetExpense.payment_source
+      !newBudgetExpense.payment_source ||
+      !newBudgetExpense.date
     ) {
       toast.error("Missing required information");
       return;
@@ -128,9 +129,9 @@ export default function AddBudgetExpense({
       !newBudgetExpense.budget_id ||
       !newBudgetExpense.account_id ||
       !newBudgetExpense.amount ||
-      !newBudgetExpense.date ||
       !newBudgetExpense.category ||
       !newBudgetExpense.payment_source ||
+      !newBudgetExpense.date ||
       isPending
     )
       return true;
@@ -170,15 +171,15 @@ export default function AddBudgetExpense({
             <div className="flex flex-col gap-4 px-6 md:pb-6 lg:pb-0">
               {/* Name */}
               <Input
+                type="text"
                 placeholder="Expense name"
                 value={newBudgetExpense.name}
                 onChange={(e) => handleFormChange("name", e.target.value)}
               />
               {/* Amount */}
               <Input
-                placeholder="Amount"
                 type="number"
-                className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                placeholder="Amount"
                 value={newBudgetExpense.amount}
                 onChange={(e) => {
                   const value = e.target.value;
@@ -192,11 +193,12 @@ export default function AddBudgetExpense({
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="h-12 justify-between text-base font-normal text-muted-foreground"
+                    className={cn(
+                      "h-12 justify-between text-base font-normal text-muted-foreground",
+                      accountName && "text-foreground",
+                    )}
                   >
-                    {newBudgetExpense?.payment_source
-                      ? newBudgetExpense.payment_source
-                      : "From"}
+                    {newBudgetExpense?.payment_source ? accountName : "From"}
                     {isAccountOpen ? <ChevronUp /> : <ChevronDown />}
                   </Button>
                 </PopoverTrigger>
@@ -208,6 +210,7 @@ export default function AddBudgetExpense({
                       onClick={() => {
                         handleFormChange("account_id", item.id);
                         handleFormChange("payment_source", item.id);
+                        setAccountName(item.name);
                         setIsAccountOpen(false);
                       }}
                       className="relative h-auto justify-between"

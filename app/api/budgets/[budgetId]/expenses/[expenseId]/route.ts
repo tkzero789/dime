@@ -4,9 +4,7 @@ import { sql } from "drizzle-orm";
 
 export async function PUT(
   request: Request,
-  {
-    params,
-  }: { params: Promise<{ budgetId: string; budgetExpenseId: string }> },
+  { params }: { params: Promise<{ budgetId: string; expenseId: string }> },
 ) {
   const user = await currentUser();
 
@@ -16,7 +14,7 @@ export async function PUT(
 
   try {
     const budgetId = (await params).budgetId;
-    const budgetExpenseId = (await params).budgetExpenseId;
+    const budgetExpenseId = (await params).expenseId;
 
     const body = await request.json();
 

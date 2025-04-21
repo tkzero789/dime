@@ -52,13 +52,13 @@ export async function updateBudgetExpense(
 ) {
   try {
     const response = await fetch(
-      `/api/budgets/${budgetExpenseToUpdate.budget_id}/expense/${budgetExpenseToUpdate.id}`,
+      `/api/budgets/${budgetExpenseToUpdate.budget_id}/expenses/${budgetExpenseToUpdate.id}`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          body: JSON.stringify(budgetExpenseToUpdate),
         },
+        body: JSON.stringify(budgetExpenseToUpdate),
       },
     );
 

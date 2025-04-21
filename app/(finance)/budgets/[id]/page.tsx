@@ -6,13 +6,13 @@ import BudgetItem from "@/app/(finance)/budgets/_components/mutations/BudgetItem
 import { ExpenseBarChart } from "@/app/(finance)/budgets/[id]/_components/chart/ExpenseBarChart";
 import { BudgetByIdRadialChart } from "@/app/(finance)/budgets/[id]/_components/chart/BudgetByIdRadialChart";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
-import ExpenseTable from "./_components/table/ExpenseTable";
-import BudgetItemNav from "./_components/nav/BudgetItemNav";
 import { useQuery } from "@tanstack/react-query";
 import { getAccountData } from "@/lib/api/accounts";
 import { getBudgetExpenseData } from "@/lib/api/budgets/expenses";
 import { getBudgetItemData } from "@/lib/api/budgets";
 import { queryKeys } from "@/lib/queryKeys";
+import BudgetItemNav from "./_components/nav/BudgetItemNav";
+import BudgetExpenseTable from "./_components/table/BudgetExpenseTable";
 
 type Props = {
   params: {
@@ -65,7 +65,7 @@ export default function BudgetByIdPage({ params }: Props) {
           style="col-span-3 lg:col-span-3 xl:col-span-2 h-fit"
         />
       ) : (
-        <ExpenseTable
+        <BudgetExpenseTable
           budgetExpenseData={
             Array.isArray(budgetExpenseData) ? budgetExpenseData : []
           }
