@@ -86,7 +86,7 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ budgetId: string }> },
 ) {
   const user = await currentUser();
 
@@ -95,7 +95,7 @@ export async function DELETE(
   }
 
   try {
-    const budgetId = (await params).id;
+    const budgetId = (await params).budgetId;
 
     await db
       .delete(budget)
