@@ -40,7 +40,7 @@ export default function HeroSection() {
           asChild
           className="init-fade mt-12 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 px-6 py-6 text-base hover:to-emerald-600"
         >
-          <Link href="/sign-up">Start for free</Link>
+          <Link href="/maintenance">Start for free</Link>
         </Button>
         <div className="init-fade mt-10 flex justify-center">
           <div className="item-start flex flex-col justify-center gap-3 md:flex-row lg:items-center">

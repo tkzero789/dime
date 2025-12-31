@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import Logo from "@/public/svg/coin.svg";
 import { Button } from "@/components/ui/button";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { FeaturesDropDown } from "./FeaturesDropdown";
 import Link from "next/link";
 
@@ -31,23 +30,25 @@ export default function LandingNav() {
           </Button>
         </div>
         <Button asChild variant="ghost" className="mr-4 rounded-full text-base">
-          <SignInButton
+          {/* <SignInButton
             forceRedirectUrl="/dashboard"
             signUpForceRedirectUrl="/dashboard"
           >
             Sign in
-          </SignInButton>
+          </SignInButton> */}
+          <Link href="/maintenance">Sign in</Link>
         </Button>
         <Button
           asChild
           className="rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 px-6 text-base hover:to-emerald-600"
         >
-          <SignUpButton
+          {/* <SignUpButton
             forceRedirectUrl="/dashboard"
             signInForceRedirectUrl="/dashboard"
           >
             Get started
-          </SignUpButton>
+          </SignUpButton> */}
+          <Link href="/maintenance">Get started</Link>
         </Button>
       </div>
     </nav>
