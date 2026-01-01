@@ -4,10 +4,9 @@
 
 @layer base {
   :root {
-    --medium: 0 1% 33%;
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
-    --primary: 174.7 83.9% 31.6%;
+    --primary: 26 89% 44%;
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 83%;
     --secondary-foreground: 0 1% 33%;
@@ -15,9 +14,11 @@
     --muted-foreground: 0 0% 45.1%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
+
+    /* Elements */
     --border: 0 0% 84%;
     --input: 0 0% 45.1%;
-    --ring: 174.7 83.9% 31.6%;
+    --ring: 26 89% 44%;
     --radius: 0.5rem;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -27,8 +28,10 @@
       0 1px 4px 0 rgba(4, 4, 52, 0.1);
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --chart-outflow-main: 174.7 83.9% 31.6%;
-    --chart-outflow-comparative: 174.7 83.9% 42.6%;
+
+    /* Charts */
+    --chart-outflow-main: 26 89% 44%;
+    --chart-outflow-comparative: 174.7 83.9% 31.6%;
     --chart-inflow: 174.7 83.9% 31.6%;
   }
 
@@ -43,6 +46,8 @@
     --muted-foreground: 0 0% 63.9%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
+
+    /* Elements */
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
@@ -50,6 +55,8 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
+
+    /* Charts */
     --chart-outflow: 160 60% 45%;
     --chart-inflow: 340 75% 55%;
   }
@@ -61,5 +68,14 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  h1 {
+    @apply text-2xl font-semibold leading-none tracking-tight;
+  }
+  h2 {
+    @apply text-lg font-semibold leading-none tracking-tight;
+  }
+  svg {
+    stroke-width: 1.5;
   }
 }

@@ -156,7 +156,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
+            className="flex h-[420px] w-full rounded-lg bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
             <div className="relative z-10 w-1/2">
               {[Dashboard1, Dashboard2].map((item, index) => (
@@ -169,12 +169,12 @@ export default function DashboardTabs() {
                     once: true,
                   }}
                   custom={index}
-                  className={`rounded-xl ${index === 0 ? "h-[160px] w-[380px] xl:h-[240px] xl:w-[540px]" : "absolute bottom-[120px] right-[40px] z-10 h-[120px] w-[240px] xl:bottom-[80px] xl:right-0 xl:h-[180px] xl:w-[380px]"}`}
+                  className={`rounded-lg ${index === 0 ? "h-[160px] w-[380px] xl:h-[240px] xl:w-[540px]" : "absolute bottom-[120px] right-[40px] z-10 h-[120px] w-[240px] xl:bottom-[80px] xl:right-0 xl:h-[180px] xl:w-[380px]"}`}
                 >
                   <Image
                     src={item}
                     alt={`${index === 0 ? "Dashboard Chart" : "Financial Overview"}`}
-                    className="h-full w-full rounded-xl"
+                    className="h-full w-full rounded-lg"
                   />
                 </motion.div>
               ))}
@@ -212,7 +212,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
+            className="flex h-[420px] w-full rounded-lg bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
             <div className="relative z-10 w-1/2">
               {[Budget1, Budget2].map((item, index) => (
@@ -225,12 +225,12 @@ export default function DashboardTabs() {
                     once: true,
                   }}
                   custom={index}
-                  className={`rounded-xl ${index === 0 ? "h-[160px] w-[380px] xl:h-[220px] xl:w-[500px]" : "absolute bottom-[80px] right-[30px] z-10 h-[200px] w-[200px] xl:bottom-[40px] xl:right-0 xl:h-[320px] xl:w-[300px]"}`}
+                  className={`rounded-lg ${index === 0 ? "h-[160px] w-[380px] xl:h-[220px] xl:w-[500px]" : "absolute bottom-[80px] right-[30px] z-10 h-[200px] w-[200px] xl:bottom-[40px] xl:right-0 xl:h-[320px] xl:w-[300px]"}`}
                 >
                   <Image
                     src={item}
                     alt={`${index === 0 ? "Budget Chart" : "Budget Tracker"}`}
-                    className="h-full w-full rounded-xl"
+                    className="h-full w-full rounded-lg"
                   />
                 </motion.div>
               ))}
@@ -268,7 +268,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
+            className="flex h-[420px] w-full rounded-lg bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
             <div className="relative z-10 w-1/2">
               {[Transaction1, Transaction2].map((item, index) => (
@@ -281,12 +281,12 @@ export default function DashboardTabs() {
                     once: true,
                   }}
                   custom={index}
-                  className={`rounded-xl ${index === 0 ? "h-[160px] w-[340px] xl:h-[260px] xl:w-[500px]" : "absolute bottom-[100px] right-0 z-10 h-[150px] w-[250px] xl:bottom-[40px] xl:h-[200px] xl:w-[300px]"}`}
+                  className={`rounded-lg ${index === 0 ? "h-[160px] w-[340px] xl:h-[260px] xl:w-[500px]" : "absolute bottom-[100px] right-0 z-10 h-[150px] w-[250px] xl:bottom-[40px] xl:h-[200px] xl:w-[300px]"}`}
                 >
                   <Image
                     src={item}
                     alt={`${index === 0 ? "Transaction Table" : "Transaction Detail"}`}
-                    className="h-full w-full rounded-xl"
+                    className="h-full w-full rounded-lg"
                   />
                 </motion.div>
               ))}
@@ -324,7 +324,7 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
+            className="flex h-[420px] w-full rounded-lg bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
             <div className="relative z-10 w-1/2">
               <SpendingExpense />
@@ -363,10 +363,10 @@ export default function DashboardTabs() {
             viewport={{
               once: true,
             }}
-            className="flex h-[420px] w-full rounded-xl bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
+            className="flex h-[420px] w-full rounded-lg bg-teal-500 bg-opacity-20 bg-feature bg-[right_bottom_4rem] bg-no-repeat p-12 xl:h-[480px]"
           >
             <div className="z-10 w-1/2">
-              <div className="flex select-none flex-col gap-2 rounded-xl bg-white p-4 xl:gap-6">
+              <div className="flex select-none flex-col gap-2 rounded-lg bg-white p-4 xl:gap-6">
                 <motion.div
                   variants={slideLeftAnimationVariants}
                   initial="initial"
@@ -374,12 +374,12 @@ export default function DashboardTabs() {
                   viewport={{
                     once: true,
                   }}
-                  className="flex gap-2 rounded-xl"
+                  className="flex gap-2 rounded-lg"
                 >
                   <div className="mt-2">
                     <BotMessageSquare className="h-5 w-5 xl:h-6 xl:w-6" />
                   </div>
-                  <div className="w-fit rounded-xl bg-gray-200 bg-opacity-80 px-4 py-2">
+                  <div className="w-fit rounded-lg bg-gray-200 bg-opacity-80 px-4 py-2">
                     <p className="text-sm xl:text-base">
                       Hi! How can I assist you today with your financial data or
                       any finance-related questions?
@@ -393,7 +393,7 @@ export default function DashboardTabs() {
                   viewport={{
                     once: true,
                   }}
-                  className="ml-auto rounded-xl bg-teal-600 bg-opacity-90 px-4 py-2 text-sm text-white xl:text-base"
+                  className="ml-auto rounded-lg bg-teal-600 bg-opacity-90 px-4 py-2 text-sm text-white xl:text-base"
                 >
                   What are my potential savings for this month?
                 </motion.div>
@@ -404,12 +404,12 @@ export default function DashboardTabs() {
                   viewport={{
                     once: true,
                   }}
-                  className="flex gap-2 rounded-xl"
+                  className="flex gap-2 rounded-lg"
                 >
                   <div className="mt-2">
                     <BotMessageSquare className="h-5 w-5 xl:h-6 xl:w-6" />
                   </div>
-                  <div className="w-fit rounded-xl bg-gray-200 bg-opacity-80 px-4 py-2">
+                  <div className="w-fit rounded-lg bg-gray-200 bg-opacity-80 px-4 py-2">
                     <p className="text-sm xl:text-base">
                       To calculate your potential savings for October 2024, we
                       start with your total income and subtract your expenses,

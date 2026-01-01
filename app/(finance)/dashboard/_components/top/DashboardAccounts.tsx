@@ -27,13 +27,13 @@ export default function DashboardAccounts() {
   }
 
   return (
-    <div className="flex h-full flex-col gap-4 rounded-xl bg-white shadow-card-shadow">
-      <div className="flex items-center justify-between px-6 pt-6">
-        <h2 className="text-xl font-bold">Accounts</h2>
+    <div className="flex h-full flex-col gap-4 rounded-lg bg-background">
+      <div className="flex items-center justify-between px-4 pt-4">
+        <h2>Accounts</h2>
         <ManageAccounts accountData={accountData || []} />
       </div>
       {/* Account cards */}
-      <div className="select-none overflow-hidden px-6" ref={emblaRef}>
+      <div className="select-none overflow-hidden px-4" ref={emblaRef}>
         <div className="carousel__container">
           {accountData?.map((item) => (
             <div
@@ -42,7 +42,7 @@ export default function DashboardAccounts() {
             >
               <div
                 className={cn(
-                  "flex h-full flex-col gap-6 rounded-xl bg-gradient-to-bl p-6",
+                  "flex h-full flex-col gap-6 rounded-lg bg-gradient-to-bl p-6",
                   item.color,
                 )}
               >
@@ -112,7 +112,7 @@ export default function DashboardAccounts() {
         </div>
       </div>
       {/* Buttons */}
-      <div className="grid grid-cols-2 gap-4 px-6 pb-6">
+      <div className="grid grid-cols-2 gap-4 px-4 pb-4">
         <Button asChild variant="outline">
           <Link href="/recurring">
             <CalendarDays />

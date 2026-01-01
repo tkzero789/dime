@@ -20,11 +20,11 @@ export function DashboardTable({ allData }: Props) {
   console.log(allData);
 
   return (
-    <div className="col-span-3 flex h-fit flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow xl:col-span-2">
-      <h2 className="text-xl font-bold">Transactions</h2>
+    <div className="col-span-3 flex h-fit flex-col gap-4 rounded-lg bg-background p-4 xl:col-span-2">
+      <h2>Transactions</h2>
       {/* Table */}
       <div className="overflow-auto">
-        <Table className="rounded-lg bg-white">
+        <Table className="rounded-lg bg-background">
           <TableHeader>
             <TableRow className="pointer-events-none border-none bg-muted">
               <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-secondary-foreground">

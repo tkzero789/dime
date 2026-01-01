@@ -25,7 +25,7 @@ export default function QASection() {
             <Accordion
               type="single"
               collapsible
-              className="rounded-xl bg-transparent md:w-[40rem] lg:w-[52rem]"
+              className="rounded-lg bg-transparent md:w-[40rem] lg:w-[52rem]"
             >
               <AccordionItem value="item-1" className="border-b-0">
                 <AccordionTrigger className="text-start">

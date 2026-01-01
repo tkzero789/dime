@@ -55,7 +55,7 @@ export default function DashboardFinanceInfo({ spending, income }: Props) {
   return (
     <div className="grid grid-cols-3 gap-4">
       {/* Income Card */}
-      <div className="flex flex-col gap-3 rounded-xl border bg-white px-6 py-4 shadow-sm">
+      <div className="flex flex-col gap-3 rounded-lg border bg-white px-6 py-4 shadow-sm">
         <div className="flex items-center gap-2">
           <Landmark className="h-5 w-5 stroke-teal-700" strokeWidth={2} />
           <span className="text-sm font-medium">Income</span>
@@ -68,7 +68,7 @@ export default function DashboardFinanceInfo({ spending, income }: Props) {
       </div>
 
       {/* Spending Card */}
-      <div className="flex flex-col gap-3 rounded-xl border bg-white px-6 py-4 shadow-sm">
+      <div className="flex flex-col gap-3 rounded-lg border bg-white px-6 py-4 shadow-sm">
         <div className="flex items-center gap-2">
           <CircleDollarSign
             className="h-5 w-5 stroke-teal-700"
@@ -101,7 +101,7 @@ export default function DashboardFinanceInfo({ spending, income }: Props) {
       </div>
 
       {/* Remaining Card */}
-      <div className="flex flex-col gap-3 rounded-xl border bg-white px-6 py-4 shadow-sm">
+      <div className="flex flex-col gap-3 rounded-lg border bg-white px-6 py-4 shadow-sm">
         <div className="flex items-center gap-2">
           <DollarSign className="h-5 w-5 stroke-teal-700" strokeWidth={2} />
           <span className="text-sm font-medium">Remaining</span>

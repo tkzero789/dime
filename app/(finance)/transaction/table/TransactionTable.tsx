@@ -78,7 +78,7 @@ export function TransactionTable<TData, TValue>({
         }
       />
       {/* Table */}
-      <div className="flex flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow">
+      <div className="flex flex-col gap-4 rounded-lg bg-white p-6">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold">Transactions</h2>
           <AddTransaction />

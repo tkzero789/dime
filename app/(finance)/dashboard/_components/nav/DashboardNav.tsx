@@ -1,18 +1,18 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import GetGreeting from "@/utils/getGreeting";
+import { LayoutGrid } from "lucide-react";
 import React from "react";
 
 export default function DashboardNav() {
   return (
-    <div className="rounded-xl bg-white p-4 shadow-card-shadow">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">
-          <GetGreeting />
-        </h1>
-        <Button>Action</Button>
+    <div className="flex items-center gap-2">
+      <div className="flex size-8 items-center justify-center rounded-lg bg-primary">
+        <LayoutGrid className="size-4 text-primary-foreground" />
       </div>
+      <h1>
+        <GetGreeting />
+      </h1>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import Logo from "@/public/svg/coin.svg";
 import { Button } from "@/components/ui/button";
 import { FeaturesDropDown } from "./FeaturesDropdown";
 import Link from "next/link";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
 
 export default function LandingNav() {
   return (
@@ -30,25 +31,23 @@ export default function LandingNav() {
           </Button>
         </div>
         <Button asChild variant="ghost" className="mr-4 rounded-full text-base">
-          {/* <SignInButton
+          <SignInButton
             forceRedirectUrl="/dashboard"
             signUpForceRedirectUrl="/dashboard"
           >
             Sign in
-          </SignInButton> */}
-          <Link href="/maintenance">Sign in</Link>
+          </SignInButton>
         </Button>
         <Button
           asChild
           className="rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 px-6 text-base hover:to-emerald-600"
         >
-          {/* <SignUpButton
+          <SignUpButton
             forceRedirectUrl="/dashboard"
             signInForceRedirectUrl="/dashboard"
           >
             Get started
-          </SignUpButton> */}
-          <Link href="/maintenance">Get started</Link>
+          </SignUpButton>
         </Button>
       </div>
     </nav>

@@ -118,10 +118,7 @@ export default function AddAccount() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button
-          onClick={handleClearInput}
-          className="size-10 lg:h-10 lg:w-full lg:border lg:bg-background lg:px-4 lg:py-2 lg:text-foreground lg:hover:bg-muted"
-        >
+        <Button onClick={handleClearInput} variant="outline" className="w-full">
           <Plus />
           <div className="hidden lg:block">Add</div>
         </Button>
@@ -142,10 +139,10 @@ export default function AddAccount() {
         <form
           id="addAccountForm"
           onSubmit={handleSubmit}
-          className="flex flex-col gap-6"
+          className="flex flex-col gap-4"
         >
           {/* Form content */}
-          <div className="flex flex-col gap-4 px-6 md:pb-6 lg:pb-0">
+          <div className="flex flex-col gap-4 px-4 md:pb-4 lg:pb-0">
             {/* Name */}
             <Input
               type="text"
@@ -235,7 +232,7 @@ export default function AddAccount() {
             </div>
           </div>
           {/* Button */}
-          <div className="hidden items-center justify-end border-t p-6 lg:flex">
+          <div className="hidden items-center justify-end border-t p-4 lg:flex">
             <Button type="submit" disabled={checkEmptyValue()}>
               {isPending && <LoaderCircle className="animate-spin" />} Add
               account

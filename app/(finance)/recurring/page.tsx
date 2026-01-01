@@ -23,8 +23,8 @@ export default async function RecurringPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-2xl font-bold">Recurring</h2>
-      <div className="flex h-fit flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow xl:mt-8">
+      <h2>Recurring</h2>
+      <div className="flex h-fit flex-col gap-4 rounded-lg bg-background p-6 xl:mt-8">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold">Payments list</h2>
           <div>

@@ -70,7 +70,7 @@ export default function ManageAccounts({ accountData }: Props) {
             <AddAccount />
           </div>
         </DialogHeader>
-        <div className="px-6 pb-6">
+        <div className="px-4 pb-4">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}

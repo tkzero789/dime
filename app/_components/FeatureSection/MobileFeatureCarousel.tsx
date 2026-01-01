@@ -20,7 +20,7 @@ const features = [
       "View your budgets, income, expenses to stay on track with your goals",
     image: Dashboard2,
     imageAlt: "Dashboard Chart",
-    imageClassName: "h-[120px] w-[250px] rounded-xl md:h-[140px] md:w-[270px]",
+    imageClassName: "h-[120px] w-[250px]  rounded-lg md:h-[140px] md:w-[270px]",
   },
   {
     title: "Budgets",
@@ -28,7 +28,7 @@ const features = [
       "Create and manage multiple budgets tailored to your unique financial needs",
     image: Budget1,
     imageAlt: "Budget Chart",
-    imageClassName: "h-[120px] w-[250px] rounded-xl md:h-[140px] md:w-[270px]",
+    imageClassName: "h-[120px] w-[250px]  rounded-lg md:h-[140px] md:w-[270px]",
   },
   {
     title: "Transactions",
@@ -36,7 +36,7 @@ const features = [
       "Take full control of financial activities with powerful transaction management system",
     image: Transaction2,
     imageAlt: "Transaction Detail",
-    imageClassName: "h-[140px] w-[220px] rounded-xl",
+    imageClassName: "h-[140px] w-[220px]  rounded-lg",
   },
   {
     title: "Spending",
@@ -44,7 +44,7 @@ const features = [
       "Gain valuable insights into your financial habits with spending analysis tools",
     image: Spending1,
     imageAlt: "Spending Chart",
-    imageClassName: "h-[140px] w-[140px] rounded-xl",
+    imageClassName: "h-[140px] w-[140px]  rounded-lg",
   },
 ];
 
@@ -92,19 +92,19 @@ export default function MobileFeatureCarousel() {
                 </p>
               </div>
               <div className="z-10 px-8 pb-8 md:px-40">
-                <div className="flex flex-col gap-2 rounded-xl bg-white p-2">
+                <div className="flex flex-col gap-2 rounded-lg bg-white p-2">
                   <div className="flex gap-2">
                     <div className="mt-2">
                       <BotMessageSquare className="h-4 w-4" />
                     </div>
-                    <div className="w-fit rounded-xl bg-gray-200 bg-opacity-80 p-2">
+                    <div className="w-fit rounded-lg bg-gray-200 bg-opacity-80 p-2">
                       <p className="text-xs font-normal">
                         Hi! How can I assist you today with your financial data
                         or any finance-related questions?
                       </p>
                     </div>
                   </div>
-                  <div className="ml-auto rounded-xl bg-teal-600 bg-opacity-90 p-2 text-xs font-normal text-white">
+                  <div className="ml-auto rounded-lg bg-teal-600 bg-opacity-90 p-2 text-xs font-normal text-white">
                     What are my potential savings for this month?
                   </div>
                 </div>

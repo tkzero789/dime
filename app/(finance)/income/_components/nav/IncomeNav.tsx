@@ -4,6 +4,7 @@ import React from "react";
 import AddIncome from "../mutations/AddIncome";
 import { Separator } from "@/components/ui/separator";
 import IncomeYearPicker from "./IncomeYearPicker";
+import { Landmark } from "lucide-react";
 
 type Props = {
   currentYear: number;
@@ -12,8 +13,13 @@ type Props = {
 
 export default function IncomeNav({ currentYear, handleChangeYear }: Props) {
   return (
-    <div className="flex items-center justify-between rounded-xl bg-white px-6 py-4 shadow-card-shadow">
-      <h1 className="text-xl font-semibold">Income</h1>
+    <div className="sticky top-0 z-50 flex items-center justify-between bg-muted py-4">
+      <div className="flex items-center gap-2">
+        <div className="flex size-8 items-center justify-center rounded-lg bg-primary">
+          <Landmark className="size-4 text-primary-foreground" />
+        </div>
+        <h1>Income</h1>
+      </div>
       <div className="flex w-full items-center justify-end gap-4 md:w-auto">
         <IncomeYearPicker
           currentYear={currentYear}

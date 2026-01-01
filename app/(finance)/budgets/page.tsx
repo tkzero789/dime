@@ -44,9 +44,9 @@ export default function BudgetsPage({ searchParams }: Props) {
   });
 
   return (
-    <div className="flex flex-col gap-6">
+    <>
       <BudgetsNav date={date} setDate={setDate} />
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {isLoading ? (
           <div className="order-last col-span-3 flex items-center justify-center p-6 xl:order-first xl:col-span-2 xl:grid-cols-2">
             <LoaderCircle className="animate-spin text-primary" />
@@ -56,6 +56,6 @@ export default function BudgetsPage({ searchParams }: Props) {
         )}
         <BudgetRadialChart date={date.from} budgetData={budgetData || []} />
       </div>
-    </div>
+    </>
   );
 }

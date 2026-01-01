@@ -52,29 +52,31 @@ export default function IncomePage({ searchParams }: Props) {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <>
       <IncomeNav
         currentYear={currentYear}
         handleChangeYear={handleChangeYear}
       />
-      <div className="grid grid-cols-3 gap-6">
-        <IncomeBarChart incomeData={incomeData?.all || []} />
-        <IncomeSummary incomeData={incomeData?.all || []} />
+      <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-3 gap-4">
+          <IncomeBarChart incomeData={incomeData?.all || []} />
+          <IncomeSummary incomeData={incomeData?.all || []} />
+        </div>
+        {isLoading ? (
+          <CardSkeleton
+            title={true}
+            titleWidth={20}
+            rectangle={1}
+            height={10}
+            style="mt-4 xl:mt-8"
+          />
+        ) : (
+          <IncomeTable
+            data={incomeData?.all || []}
+            columns={IncomeTableColumns}
+          />
+        )}
       </div>
-      {isLoading ? (
-        <CardSkeleton
-          title={true}
-          titleWidth={20}
-          rectangle={1}
-          height={10}
-          style="mt-4 xl:mt-8"
-        />
-      ) : (
-        <IncomeTable
-          data={incomeData?.all || []}
-          columns={IncomeTableColumns}
-        />
-      )}
-    </div>
+    </>
   );
 }

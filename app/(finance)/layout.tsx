@@ -1,9 +1,10 @@
 import React from "react";
-import SideNav from "./_components/SideNav";
+
 import MobileNav from "./_components/MobileNav";
 import QueryProvider from "./_components/QueryProvider";
 import "@/css/app.css";
 import "@/css/embla.css";
+import TopNav from "./_components/TopNav";
 
 export default function FinanceLayout({
   children,
@@ -11,12 +12,10 @@ export default function FinanceLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="bg-[#fbfbfb]">
-      <div className="mx-auto flex w-full max-w-[96rem]">
-        <SideNav />
-        <div className="finance-layout relative flex-1">
-          <QueryProvider>{children}</QueryProvider>
-        </div>
+    <main className="bg-muted">
+      <div className="mx-auto min-h-dvh w-full max-w-7xl px-4 pb-20">
+        <TopNav />
+        <QueryProvider>{children}</QueryProvider>
         <MobileNav />
       </div>
     </main>

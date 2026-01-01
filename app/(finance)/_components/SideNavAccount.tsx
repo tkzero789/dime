@@ -6,7 +6,7 @@ export default function SideNavAccount() {
   const { user } = useUser();
   return (
     <div className="px-6 py-4">
-      <div className="flex items-center gap-4 rounded-xl border p-4">
+      <div className="flex items-center gap-4 rounded-lg border p-4">
         <div className="flex items-center gap-2">
           <Image
             src={user?.imageUrl || ""}

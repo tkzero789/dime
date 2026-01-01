@@ -50,24 +50,16 @@ export default function SideNav() {
   const path = usePathname();
   const router = useRouter();
 
-  // const replaceRoute = (route: string) => {
-  //   switch (route) {
-  //     case "/income": {
-  //       router.replace("/income?startDate=2025-01-01&endDate=2025-12-31");
-  //     }
-  //   }
-  // };
-
   return (
-    <aside className="sticky left-0 top-0 hidden h-dvh flex-col items-center gap-y-4 py-6 pl-6 lg:flex 2xl:py-[74px]">
-      <div className="flex h-full w-60 flex-col rounded-xl bg-white shadow-card-shadow">
-        <div className="flex h-[74px] items-center gap-2 border-b px-6 py-4">
-          <Image src={Logo} alt="logo" width={40} height={40} />
-          <div className="font-serif text-2xl font-bold text-teal-600">
+    <aside className="sticky left-0 top-0 hidden h-dvh items-center py-6 pl-6 lg:block 2xl:py-[74px]">
+      <div className="flex h-full w-60 flex-col rounded-lg bg-background">
+        <div className="flex items-center gap-2 border-b px-6 py-4">
+          <Image src={Logo} alt="logo" width={20} height={20} />
+          <div className="font-serif text-xl font-semibold text-primary">
             Dime
           </div>
         </div>
-        <ul className="flex flex-1 flex-col gap-y-4 p-4">
+        <ul className="flex flex-1 flex-col gap-2 p-4">
           {menu.map((item, index) => (
             <li key={index}>
               <Button
@@ -94,7 +86,7 @@ export default function SideNav() {
                     className={`${path.startsWith(item.href) && "stroke-primary"}`}
                   />
                   <div
-                    className={`${path.startsWith(item.href) && "font-semibold"}`}
+                    className={`${path.startsWith(item.href) && "font-semibold text-primary"}`}
                   >
                     {item.option}
                   </div>
@@ -103,7 +95,7 @@ export default function SideNav() {
             </li>
           ))}
         </ul>
-        <div className="mt-auto flex flex-col gap-4 border-t p-4">
+        <div className="mt-auto flex flex-col gap-2 border-t p-4">
           <Button variant="ghost" className="justify-start">
             <Settings />
             Settings

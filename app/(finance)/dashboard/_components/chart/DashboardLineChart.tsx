@@ -124,10 +124,10 @@ export function DashboardLineChart({ spending }: Props) {
     <Card className="xl:h-full">
       <CardHeader className="flex flex-row justify-between gap-16 space-y-0">
         <div className="flex flex-col gap-2">
-          <CardTitle className="text-xl font-bold tracking-normal">
+          <CardTitle>
             <GetCurrentMonth monthYear={new Date()} />
           </CardTitle>
-          <CardDescription className="text-secondary-foreground">
+          <CardDescription>
             Spending trends for{" "}
             <span>{prevMonth.toLocaleString("en-US", { month: "long" })}</span>{" "}
             vs. <GetCurrentMonth month={new Date()} />

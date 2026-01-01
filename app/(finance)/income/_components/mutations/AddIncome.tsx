@@ -25,6 +25,7 @@ import { addIncome } from "@/lib/api/income";
 import toast from "react-hot-toast";
 import { startOfDay } from "date-fns";
 import { queryKeys } from "@/lib/queryKeys";
+import { useMediaQuery } from "usehooks-ts";
 
 const selectOptions = {
   categories: [
@@ -48,6 +49,9 @@ const selectOptions = {
 
 export default function AddIncome() {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const isDesktop = useMediaQuery("(min-width: 1024px)", {
+    initializeWithValue: false,
+  });
 
   const [newIncome, setNewIncome] = React.useState<IncomeState>({
     name: "",
@@ -126,105 +130,95 @@ export default function AddIncome() {
       return true;
   };
 
-  return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button
-          size="icon"
-          onClick={handleClearInput}
-          className="lg:w-auto lg:px-4 lg:py-2"
-        >
-          <Plus />
-          <span className="hidden lg:block">Add income</span>
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Add income</DialogTitle>
+  if (isDesktop) {
+    return (
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
           <Button
             size="icon"
-            type="submit"
-            form="addIncomeForm"
-            disabled={checkEmptyValue()}
-            className="lg:hidden"
+            onClick={handleClearInput}
+            className="w-auto px-4 py-2"
           >
-            {isPending ? <LoaderCircle className="animate-spin" /> : <Plus />}
+            <Plus />
+            <span className="hidden lg:block">Add income</span>
           </Button>
-        </DialogHeader>
-        <form
-          id="addIncomeForm"
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-6"
-        >
-          {/* Form content */}
-          <div className="flex flex-col gap-4 px-6 md:pb-6 lg:pb-0">
-            {/* Name */}
-            <Input
-              type="text"
-              placeholder="Income name"
-              value={newIncome.name}
-              onChange={(e) => handleFormChange("name", e.target.value)}
-            />
-            {/* Amount */}
-            <Input
-              type="number"
-              placeholder="Amount"
-              value={newIncome.amount}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (/^\d*\.?\d{0,2}$/.test(value)) {
-                  handleFormChange("amount", value);
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add income</DialogTitle>
+          </DialogHeader>
+          <form id="addIncomeForm" onSubmit={handleSubmit}>
+            {/* Form content */}
+            <div className="flex flex-col gap-4 p-4">
+              {/* Name */}
+              <Input
+                type="text"
+                placeholder="Income name"
+                value={newIncome.name}
+                onChange={(e) => handleFormChange("name", e.target.value)}
+              />
+              {/* Amount */}
+              <Input
+                type="number"
+                placeholder="Amount"
+                value={newIncome.amount}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d*\.?\d{0,2}$/.test(value)) {
+                    handleFormChange("amount", value);
+                  }
+                }}
+              />
+              {/* DatePicker */}
+              <IncomeDatePicker
+                date={newIncome.date}
+                handleFormChange={handleFormChange}
+              />
+              {/* Category */}
+              <Select
+                value={newIncome.category}
+                onValueChange={(value) => handleFormChange("category", value)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {selectOptions.categories.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {/* Payment method */}
+              <Select
+                value={newIncome.payment_method}
+                onValueChange={(value) =>
+                  handleFormChange("payment_method", value)
                 }
-              }}
-            />
-            {/* DatePicker */}
-            <IncomeDatePicker
-              date={newIncome.date}
-              handleFormChange={handleFormChange}
-            />
-            {/* Category */}
-            <Select
-              value={newIncome.category}
-              onValueChange={(value) => handleFormChange("category", value)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Category" />
-              </SelectTrigger>
-              <SelectContent>
-                {selectOptions.categories.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {/* Payment method */}
-            <Select
-              value={newIncome.payment_method}
-              onValueChange={(value) =>
-                handleFormChange("payment_method", value)
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Payment method" />
-              </SelectTrigger>
-              <SelectContent>
-                {selectOptions.paymentMethods.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          {/* Button */}
-          <div className="hidden items-center justify-end border-t p-6 lg:flex">
-            <Button type="submit" disabled={checkEmptyValue()}>
-              {isPending && <LoaderCircle className="animate-spin" />}Add income
-            </Button>
-          </div>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Payment method" />
+                </SelectTrigger>
+                <SelectContent>
+                  {selectOptions.paymentMethods.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            {/* Button */}
+            <div className="flex items-center justify-end border-t p-4">
+              <Button type="submit" disabled={checkEmptyValue()}>
+                {isPending && <LoaderCircle className="animate-spin" />}Add
+                income
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 }

@@ -36,8 +36,8 @@ export default function DashboardBudget() {
   }
 
   return (
-    <div className="col-span-3 flex flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow xl:col-span-1">
-      <h2 className="text-xl font-bold">Budgets</h2>
+    <div className="col-span-3 flex flex-col gap-4 rounded-lg bg-background p-4 xl:col-span-1">
+      <h2>Budgets</h2>
       <div className="flex h-auto max-h-[489px] flex-1 flex-col gap-2 overflow-y-auto">
         {budgetData?.map((item) => (
           <DashboardBudgetItem key={item.id} budget={item} />

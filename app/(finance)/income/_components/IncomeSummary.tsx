@@ -60,8 +60,8 @@ export default function IncomeSummary({ incomeData }: Props) {
   };
 
   return (
-    <div className="order-first col-span-3 rounded-xl bg-white p-6 shadow-card-shadow xl:order-last xl:col-span-1">
-      <h2 className="inline items-center text-xl font-semibold">Summary</h2>
+    <div className="order-first col-span-3 rounded-lg bg-background p-4 xl:order-last xl:col-span-1">
+      <h2 className="inline items-center">Summary</h2>
       <span className="ml-2 inline-block text-secondary-foreground">
         (
         {format(

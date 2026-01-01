@@ -17,7 +17,7 @@ export default function BudgetItem({ budget }: Props) {
   return (
     <Link
       href={`/budgets/` + budget?.id}
-      className="flex flex-1 cursor-pointer flex-col rounded-xl bg-white p-4 shadow-card-shadow transition-all hover:shadow-card-hover"
+      className="flex flex-1 cursor-pointer flex-col rounded-lg bg-white p-4 transition-all hover:shadow-card-hover"
     >
       <div className="flex items-baseline gap-2">
         <div className="text-2xl">{budget.emoji}</div>

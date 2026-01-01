@@ -45,9 +45,8 @@ export default function CallToActionSection() {
             <Button
               asChild
               className="mx-auto w-fit rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 text-base hover:to-emerald-600 md:mx-0"
-              size="lg"
             >
-              <Link href="/maintenance">Get Started</Link>
+              <Link href="/sign-up">Get Started</Link>
             </Button>
           </div>
           <div className="flex w-full justify-center md:w-1/2">
@@ -56,19 +55,19 @@ export default function CallToActionSection() {
                 <Image
                   src={BudgetImg}
                   alt="budget chart"
-                  className="z-10 h-[140px] w-[140px] skew-y-6 rounded-xl lg:h-[160px] lg:w-[160px] xl:h-[200px] xl:w-[200px]"
+                  className="z-10 h-[140px] w-[140px] skew-y-6 rounded-lg lg:h-[160px] lg:w-[160px] xl:h-[200px] xl:w-[200px]"
                 />
 
                 <Image
                   src={SpendingImg1}
                   alt="expense chart"
-                  className="absolute bottom-[20px] left-[10px] z-20 h-[140px] w-[140px] skew-y-6 rounded-xl md:left-[20px] lg:bottom-[40px] lg:left-[60px] lg:h-[160px] lg:w-[160px] xl:bottom-[60px] xl:left-[20px] xl:h-[200px] xl:w-[200px]"
+                  className="absolute bottom-[20px] left-[10px] z-20 h-[140px] w-[140px] skew-y-6 rounded-lg md:left-[20px] lg:bottom-[40px] lg:left-[60px] lg:h-[160px] lg:w-[160px] xl:bottom-[60px] xl:left-[20px] xl:h-[200px] xl:w-[200px]"
                 />
 
                 <Image
                   src={SpendingImg2}
                   alt="payment method chart"
-                  className="absolute right-[10px] top-[20px] z-0 h-[140px] w-[140px] skew-y-6 rounded-xl md:right-[20px] lg:right-[60px] lg:top-[40px] lg:h-[160px] lg:w-[160px] xl:right-[20px] xl:top-[60px] xl:h-[200px] xl:w-[200px]"
+                  className="absolute right-[10px] top-[20px] z-0 h-[140px] w-[140px] skew-y-6 rounded-lg md:right-[20px] lg:right-[60px] lg:top-[40px] lg:h-[160px] lg:w-[160px] xl:right-[20px] xl:top-[60px] xl:h-[200px] xl:w-[200px]"
                 />
               </div>
             </div>

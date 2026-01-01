@@ -54,7 +54,7 @@ export default function SortableAccountItem({ accountId, accountData }: Props) {
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
-          <div className="font-medium">{accountData.name}</div>
+          <div className="font-medium tracking-tighter">{accountData.name}</div>
           <Popover>
             <PopoverTrigger asChild>
               <Button

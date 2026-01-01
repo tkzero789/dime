@@ -56,10 +56,10 @@ export default function IncomeTable<TData, TValue>({
   });
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl bg-white p-6 shadow-card-shadow">
+    <div className="flex flex-col gap-4 rounded-lg bg-background p-4">
       {/* Search & filters */}
       <div className="flex items-center justify-between gap-4">
-        <h2 className="text-xl font-bold">Transactions</h2>
+        <h2>Transactions</h2>
         <MobileIncomeFilters
           sortOption={sortOption}
           setSortOption={setSortOption}

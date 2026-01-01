@@ -3,10 +3,13 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 type Props = {
@@ -31,28 +34,30 @@ export default function IncomeYearPicker({
   };
 
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
         <Button variant="outline">
           {currentYear}
           {isOpen ? <ChevronUp /> : <ChevronDown />}
         </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        align="end"
-        className="grid max-h-[156px] w-auto grid-cols-3 gap-2 overflow-y-auto"
-      >
-        {yearsList.map((item, index) => (
-          <Button
-            key={index}
-            variant={item === currentYear ? "default" : "ghost"}
-            size="sm"
-            onClick={() => handleSelect(item)}
-          >
-            {item}
-          </Button>
-        ))}
-      </PopoverContent>
-    </Popover>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Income By Year</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <div className="grid max-h-[156px] grid-cols-3 gap-2 overflow-y-auto">
+          {yearsList.map((item, index) => (
+            <DropdownMenuItem
+              key={index}
+              onClick={() => handleSelect(item)}
+              className={
+                currentYear === item ? "bg-primary text-primary-foreground" : ""
+              }
+            >
+              {item}
+            </DropdownMenuItem>
+          ))}
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

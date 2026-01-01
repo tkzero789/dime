@@ -22,23 +22,14 @@ const isProtectedRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-  const { userId } = auth();
-
-  if (
-    req.nextUrl.pathname.startsWith("/sign-in") ||
-    req.nextUrl.pathname.startsWith("/sign-up")
-  ) {
-    return NextResponse.redirect(new URL("/maintenance", req.url));
-  }
+  const { userId, redirectToSignIn } = auth();
 
   if (!userId && isProtectedRoute(req)) {
-    // return redirectToSignIn();
-    return NextResponse.redirect(new URL("/maintenance", req.url));
+    return redirectToSignIn();
   }
 
   if (userId && isPublicRoute(req)) {
-    // return NextResponse.redirect(new URL("/dashboard", req.url));
-    return NextResponse.redirect(new URL("/maintenance", req.url));
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 });
 

@@ -31,11 +31,11 @@ export default function BudgetExpenseTable({
   accountData,
 }: Props) {
   return (
-    <div className="flex h-fit flex-col gap-4 rounded-lg bg-white p-6 shadow-card-shadow">
+    <div className="flex h-fit flex-col gap-4 rounded-lg bg-background p-6">
       <h2 className="text-xl font-bold">Transactions</h2>
       {/* Table */}
       <div className="overflow-auto">
-        <Table className="rounded-lg bg-white">
+        <Table className="rounded-lg bg-background">
           <TableHeader>
             <TableRow className="pointer-events-none border-none bg-muted">
               <TableHead className="w-[100px] rounded-l-lg text-sm font-semibold text-secondary-foreground">

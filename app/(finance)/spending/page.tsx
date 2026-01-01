@@ -143,7 +143,7 @@ export default function SpendingPage() {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold">Spending</h2>
+      <h2>Spending</h2>
       <SpendingBarChart finalData={finalData} />
       {/* <SpendingPieChart spendingData={spendingData} /> */}
     </div>

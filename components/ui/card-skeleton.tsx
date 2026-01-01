@@ -19,9 +19,7 @@ export function CardSkeleton({
   const customeTitleWidth = titleWidth;
   const customStyle = style;
   return (
-    <div
-      className={cn("rounded-xl bg-white p-6 shadow-card-shadow", customStyle)}
-    >
+    <div className={cn("rounded-lg bg-white p-6", customStyle)}>
       {title && (
         <Skeleton
           className="mb-4 h-7 w-full bg-gray-200"
