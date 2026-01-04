@@ -163,12 +163,8 @@ export default function AddBudgetExpense({
               <Plus />
             </Button>
           </DialogHeader>
-          <form
-            id="addBudgetExpenseForm"
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-6"
-          >
-            <div className="flex flex-col gap-4 px-6 md:pb-6 lg:pb-0">
+          <form id="addBudgetExpenseForm" onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-4 p-4">
               {/* Name */}
               <Input
                 type="text"
@@ -194,7 +190,7 @@ export default function AddBudgetExpense({
                   <Button
                     variant="outline"
                     className={cn(
-                      "h-12 justify-between text-base font-normal text-muted-foreground",
+                      "h-12 justify-between text-muted-foreground lg:h-9",
                       accountName && "text-foreground",
                     )}
                   >
@@ -202,8 +198,8 @@ export default function AddBudgetExpense({
                     {isAccountOpen ? <ChevronUp /> : <ChevronDown />}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="flex max-h-80 w-[--radix-popover-trigger-width] flex-col gap-2 overflow-y-auto">
-                  {accountData?.map((item) => (
+                <PopoverContent className="flex max-h-80 w-[--radix-popover-trigger-width] flex-col overflow-y-auto p-0">
+                  {accountData?.map((item, index) => (
                     <Button
                       key={item.id}
                       variant="outline"
@@ -213,7 +209,10 @@ export default function AddBudgetExpense({
                         setAccountName(item.name);
                         setIsAccountOpen(false);
                       }}
-                      className="relative h-auto justify-between"
+                      className={cn(
+                        "relative h-auto justify-between rounded-none border-0 p-4",
+                        index !== 0 && "border-t",
+                      )}
                     >
                       <div className="text-base font-medium">{item.name}</div>
                       <div
@@ -222,7 +221,7 @@ export default function AddBudgetExpense({
                           item.color,
                         )}
                       >
-                        <div className="text-xs font-medium text-white">
+                        <div className="text-xs font-medium text-background">
                           {item.type === "checking" ? "Debit" : "Credit"}
                         </div>
                       </div>
@@ -237,7 +236,7 @@ export default function AddBudgetExpense({
               />
             </div>
             {/* Button */}
-            <div className="hidden items-center justify-end border-t p-6 lg:flex">
+            <div className="hidden items-center justify-end border-t p-4 lg:flex">
               <Button type="submit" disabled={checkEmptyValue()}>
                 {isPending && <LoaderCircle className="animate-spin" />}Add
                 expense

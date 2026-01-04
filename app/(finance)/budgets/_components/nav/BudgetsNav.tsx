@@ -20,7 +20,7 @@ export default function BudgetsNav({ date, setDate }: Props) {
         </div>
         <h1>Budgets</h1>
       </div>
-      <div className="flex w-full items-center justify-end gap-4 md:w-auto">
+      <div className="flex w-full items-center justify-end gap-2 md:w-auto">
         <BudgetsDatePicker date={date} setDate={setDate} />
         <Separator orientation="vertical" className="hidden h-5 lg:block" />
         <CreateBudget />

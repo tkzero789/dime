@@ -5,14 +5,15 @@ import {
   CircleDollarSign,
   LayoutGrid,
   Menu,
-  PiggyBank,
   Banknote,
-  LogOut,
   RefreshCcwDot,
   ArrowLeftRight,
   BotMessageSquare,
   Landmark,
   Plus,
+  Settings,
+  Moon,
+  LogOut,
 } from "lucide-react";
 import {
   Drawer,
@@ -21,26 +22,19 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { SignOutButton } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export default function MobileNav() {
   const path = usePathname();
   const [open, setOpen] = React.useState(false);
+  const { user } = useUser();
+  const { signOut } = useClerk();
 
   // Menu list
   const menu = {
@@ -49,9 +43,8 @@ export default function MobileNav() {
       { option: "Spending", icon: CircleDollarSign, href: "/spending" },
       { option: "Income", icon: Landmark, href: "/income" },
     ],
-    more: [
+    sub: [
       { option: "Budgets", icon: Banknote, href: "/budgets" },
-      { option: "Saving", icon: PiggyBank, href: "/piggybank" },
       {
         option: "Recurring",
         icon: RefreshCcwDot,
@@ -71,6 +64,7 @@ export default function MobileNav() {
   };
   return (
     <div className="fixed bottom-0 left-0 z-10 h-16 w-dvw bg-background lg:hidden">
+      {/* Main menu */}
       <ul className="grid h-full w-full grid-cols-5">
         {menu.main.map((item, index) => (
           <React.Fragment key={item.option}>
@@ -133,55 +127,63 @@ export default function MobileNav() {
               <DrawerTitle className="text-center">More options</DrawerTitle>
             </DrawerHeader>
             <div className="grid w-full gap-4 px-4 pb-4">
-              <div className="rounded-lg border">
-                {menu.more.map((item) => (
-                  <Link
-                    key={item.option}
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className={cn(
-                      "flex items-center gap-4 p-4",
-                      item.option !== "Budgets" && "border-t",
-                    )}
-                  >
-                    <span className="text-secondary-foreground">
+              {user && (
+                <div className="flex items-center gap-4 rounded-lg border p-4">
+                  <div className="size-9 rounded-lg border">
+                    <Image
+                      src={user?.imageUrl}
+                      height={36}
+                      width={36}
+                      alt="User profile"
+                      className="size-full rounded-lg object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col">
+                    <div className="w-fit font-medium">{user.fullName}</div>
+                    <div className="text-sm">
+                      {user.primaryEmailAddress?.emailAddress}
+                    </div>
+                  </div>
+                </div>
+              )}
+              {/* Submenu */}
+              <ul className="overflow-hidden rounded-lg border">
+                {menu.sub.map((item) => (
+                  <li key={item.option}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className={cn(
+                        "flex items-center gap-4 p-4",
+                        item.option !== "Budgets" && "border-t",
+                      )}
+                    >
                       <item.icon />
-                    </span>
-                    <span className="font-medium text-secondary-foreground">
-                      {item.option}
-                    </span>
-                  </Link>
+                      <div className="font-medium">{item.option}</div>
+                    </Link>
+                  </li>
                 ))}
-                <AlertDialog>
-                  <AlertDialogTrigger className="flex w-full items-center gap-4 border-t p-4 text-secondary-foreground">
-                    <span className="text-secondary-foreground">
-                      <LogOut />
-                    </span>
-                    <span className="font-medium text-secondary-foreground">
-                      Sign Out
-                    </span>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you sure you want to sign out?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action will terminate your current session, and
-                        you&apos;ll need to log in again to access your account.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel asChild>
-                        <Button variant="outline">Cancel</Button>
-                      </AlertDialogCancel>
-                      <AlertDialogAction asChild>
-                        <SignOutButton redirectUrl="/sign-in" />
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </div>
+              </ul>
+              {/* Account */}
+              <ul className="overflow-hidden rounded-lg border">
+                <li className="flex items-center gap-4 p-4">
+                  <Settings />
+                  <div className="font-medium">Setting</div>
+                </li>
+                <li className="flex items-center gap-4 border-t p-4">
+                  <Moon />
+                  <div className="font-medium">Theme</div>
+                </li>
+                <li className="border-t">
+                  <button
+                    className="flex w-full items-center gap-4 p-4"
+                    onClick={() => signOut({ redirectUrl: "/sign-in" })}
+                  >
+                    <LogOut />
+                    Sign out
+                  </button>
+                </li>
+              </ul>
             </div>
           </DrawerContent>
         </Drawer>

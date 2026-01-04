@@ -53,7 +53,7 @@ export default function EditCardBackground({ handleFormChange }: Props) {
           <PopoverClose asChild key={item.name}>
             <button
               className={cn(
-                "relative h-12 w-20 rounded-md bg-gradient-to-bl transition-all hover:scale-105",
+                "relative h-9 w-20 rounded-md bg-gradient-to-bl transition-all hover:scale-105",
                 item.value,
               )}
               onClick={() => handleFormChange("color", item.value)}

@@ -21,12 +21,12 @@ type Props = {
 
 export default function BudgetItemNav({ budgetData, accountData }: Props) {
   return (
-    <div className="flex items-center justify-between">
+    <div className="sticky top-0 z-50 flex items-center justify-between bg-muted py-4">
       <div className="hidden items-center gap-2 lg:flex">
         <div className="text-xl">{budgetData?.emoji}</div>
         <h1>{budgetData?.category}</h1>
       </div>
-      <div className="flex w-full items-center justify-between gap-4 lg:w-auto">
+      <div className="flex w-full items-center justify-between gap-2 lg:w-auto">
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline">

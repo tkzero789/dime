@@ -135,7 +135,6 @@ export default function EditBudget({ budgetData }: Props) {
                   e.preventDefault();
                   setIsOpenEmoji(!isOpenEmoji);
                 }}
-                className="h-12"
               >
                 {budgetToUpdate.emoji ? budgetToUpdate.emoji : "Emoji"}
               </Button>

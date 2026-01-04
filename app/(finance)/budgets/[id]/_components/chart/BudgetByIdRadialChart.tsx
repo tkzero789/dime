@@ -37,7 +37,7 @@ export function BudgetByIdRadialChart({ budgetData }: Props) {
   return (
     <Card className="hidden h-full flex-col lg:flex">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Budget tracker</CardTitle>
+        <CardTitle>Tracker</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
         <ChartContainer

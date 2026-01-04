@@ -11,7 +11,7 @@ type Props = {
 
 export default function DashboardMidSection({ allData, isLoading }: Props) {
   return (
-    <div className="grid grid-cols-3 gap-6">
+    <div className="grid grid-cols-3 gap-4">
       {isLoading ? (
         <CardSkeleton
           title={true}

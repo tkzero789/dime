@@ -6,7 +6,7 @@ import React from "react";
 
 export default function DashboardNav() {
   return (
-    <div className="flex items-center gap-2">
+    <div className="sticky top-0 z-50 flex items-center gap-2 bg-muted py-4">
       <div className="flex size-8 items-center justify-center rounded-lg bg-primary">
         <LayoutGrid className="size-4 text-primary-foreground" />
       </div>

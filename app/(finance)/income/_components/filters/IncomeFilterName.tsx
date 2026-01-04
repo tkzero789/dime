@@ -83,7 +83,7 @@ export default function IncomeFilterName({
             placeholder="Enter name"
             value={keyword}
             onChange={(event) => setKeyword(event.target.value)}
-            className="h-12 text-sm lg:h-10"
+            className="text-sm lg:h-10"
           />
         </form>
         {keywordValues.length !== 0 && (

@@ -14,6 +14,7 @@ import { IncomeData } from "@/types";
 import IncomeCustomTooltip from "./IncomeCustomTooltip";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "usehooks-ts";
+import { ArrowLeftRight } from "lucide-react";
 
 const chartConfig = {
   income: {
@@ -70,14 +71,15 @@ export function IncomeBarChart({ incomeData }: Props) {
 
   return (
     <Card className="col-span-3 xl:col-span-2">
-      <CardHeader className="flex items-start justify-between gap-4 lg:flex-row lg:items-center">
+      <CardHeader className="flex flex-row items-center justify-between gap-4 lg:items-center">
         <CardTitle>Monthly earnings</CardTitle>
         <Button
           variant="outline"
-          className="block w-full md:hidden"
+          size="icon"
           onClick={() => setIsFirstHalf(!isFirstHalf)}
+          className="lg:hidden"
         >
-          {isFirstHalf ? "Show July to December" : "Show January to June"}
+          <ArrowLeftRight />
         </Button>
       </CardHeader>
       <CardContent>

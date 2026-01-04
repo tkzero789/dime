@@ -60,10 +60,6 @@ const config = {
       backgroundImage: {
         feature: "url('/img/feature-bg.png')",
       },
-      boxShadow: {
-        "card-shadow": "var(--card-shadow)",
-        "card-hover": "var(--card-hover)",
-      },
       keyframes: {
         "accordion-down": {
           from: {

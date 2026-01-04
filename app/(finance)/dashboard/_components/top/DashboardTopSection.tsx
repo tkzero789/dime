@@ -11,7 +11,7 @@ type Props = {
 
 export default function DashboardTopSection({ spending, isLoading }: Props) {
   return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
       <div className="col-span-3 xl:col-span-2">
         {isLoading ? (
           <CardSkeleton

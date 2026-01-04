@@ -20,7 +20,7 @@ export default function IncomeNav({ currentYear, handleChangeYear }: Props) {
         </div>
         <h1>Income</h1>
       </div>
-      <div className="flex w-full items-center justify-end gap-4 md:w-auto">
+      <div className="flex w-full items-center justify-end gap-2 md:w-auto">
         <IncomeYearPicker
           currentYear={currentYear}
           handleChangeYear={handleChangeYear}

@@ -33,10 +33,7 @@ export function BudgetDatePicker({ date, handleFormChange }: Props) {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          className="h-12 justify-between rounded-lg px-3 text-base font-normal"
-        >
+        <Button variant="outline" className="justify-between">
           {format(date, "MMM yyyy")}
           <CalendarIcon />
         </Button>

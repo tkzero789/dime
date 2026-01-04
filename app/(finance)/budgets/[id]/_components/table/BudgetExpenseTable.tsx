@@ -106,9 +106,6 @@ export default function BudgetExpenseTable({
                         align="end"
                         className="flex w-40 flex-col p-0"
                       >
-                        <div className="flex items-center justify-center border-b px-3 py-2 text-sm font-semibold">
-                          Action
-                        </div>
                         <div className="p-1">
                           <EditExpense
                             budgetExpenseData={item}

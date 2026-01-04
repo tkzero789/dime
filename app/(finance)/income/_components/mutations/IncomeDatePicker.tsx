@@ -33,10 +33,7 @@ export function IncomeDatePicker({ date, handleFormChange }: Props) {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          className="h-9 justify-between rounded-lg px-3 font-normal"
-        >
+        <Button variant="outline" className="justify-between">
           {format(date, "PPP")}
           <CalendarIcon />
         </Button>

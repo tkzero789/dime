@@ -12,6 +12,7 @@ import ExpenseCustomTooltip from "./ExpenseCustomTooltip";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "usehooks-ts";
 import { BudgetExpenseData } from "@/types";
+import { ArrowLeftRight } from "lucide-react";
 
 const chartConfig = {
   spent: {
@@ -80,14 +81,15 @@ export function ExpenseBarChart({ budgetExpenseData }: Props) {
 
   return (
     <Card className="xl:h-full">
-      <CardHeader className="flex items-start justify-between gap-4 space-y-0 lg:block">
-        <CardTitle>Budget spending</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between gap-4 lg:block">
+        <CardTitle>Spending</CardTitle>
         <Button
           variant="outline"
-          className="block w-full px-8 lg:hidden lg:w-auto"
+          size="icon"
+          className="lg:hidden"
           onClick={() => setIsFirstHalf(!isFirstHalf)}
         >
-          {isFirstHalf ? "Show Last Half" : "Show First Half"}
+          <ArrowLeftRight />
         </Button>
       </CardHeader>
       <CardContent className="xl:h-[calc(100%-96px)]">

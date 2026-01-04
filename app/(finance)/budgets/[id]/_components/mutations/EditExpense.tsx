@@ -151,12 +151,8 @@ export default function EditExpense({ budgetExpenseData, accountData }: Props) {
             <Check />
           </Button>
         </DialogHeader>
-        <form
-          id="editBudgetExpenseForm"
-          onSubmit={handleSumit}
-          className="flex flex-col gap-6"
-        >
-          <div className="flex flex-col gap-4 px-6 md:pb-6 lg:pb-0">
+        <form id="editBudgetExpenseForm" onSubmit={handleSumit}>
+          <div className="flex flex-col gap-4 p-4">
             {/* Expense Name */}
             <Input
               type="text"
@@ -180,7 +176,7 @@ export default function EditExpense({ budgetExpenseData, accountData }: Props) {
                 <Button
                   variant="outline"
                   className={cn(
-                    "h-12 justify-between text-base font-normal text-muted-foreground",
+                    "justify-between",
                     accountName && "text-foreground",
                   )}
                 >
@@ -208,7 +204,7 @@ export default function EditExpense({ budgetExpenseData, accountData }: Props) {
                         item.color,
                       )}
                     >
-                      <div className="text-xs font-medium text-white">
+                      <div className="text-xs font-medium text-background">
                         {item.type === "checking" ? "Debit" : "Credit"}
                       </div>
                     </div>
@@ -223,7 +219,7 @@ export default function EditExpense({ budgetExpenseData, accountData }: Props) {
             />
           </div>
           {/* Button */}
-          <div className="hidden items-center justify-end border-t p-6 lg:flex">
+          <div className="hidden items-center justify-end border-t p-4 lg:flex">
             <Button type="submit" disabled={checkEmptyValue()}>
               {isPending && <LoaderCircle className="animate-spin" />} Save
               changes

@@ -68,7 +68,7 @@ export default function IncomeTable<TData, TValue>({
           columnFilters={columnFilters}
           setColumnFilters={setColumnFilters}
         />
-        <div className="hidden items-center gap-4 lg:flex">
+        <div className="hidden items-center gap-2 lg:flex">
           <IncomeFilters
             sortOption={sortOption}
             setSortOption={setSortOption}

@@ -25,8 +25,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addAccount } from "@/lib/api/accounts";
 import EditCardBackground from "./EditCardBackground";
 import { queryKeys } from "@/lib/queryKeys";
+import { useDesktop } from "@/hooks/use-desktop";
 
 export default function AddAccount() {
+  const isDesktop = useDesktop();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const [newAccount, setNewAccount] = React.useState<AccountState>({
@@ -113,12 +115,14 @@ export default function AddAccount() {
       return true;
   };
 
-  console.log(newAccount);
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button onClick={handleClearInput} variant="outline" className="w-full">
+        <Button
+          onClick={handleClearInput}
+          variant="outline"
+          size={isDesktop ? "default" : "icon"}
+        >
           <Plus />
           <div className="hidden lg:block">Add</div>
         </Button>

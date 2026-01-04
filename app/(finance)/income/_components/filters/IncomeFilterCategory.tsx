@@ -78,7 +78,7 @@ export default function IncomeFilterCategory({
         {categoryOptions.map((item) => (
           <div
             key={item.value}
-            className="group flex h-12 w-full items-center gap-2 rounded-lg border px-4 hover:cursor-pointer lg:h-auto lg:w-fit lg:rounded-none lg:border-0 lg:px-0"
+            className="group flex h-9 w-full items-center gap-2 rounded-lg border px-4 hover:cursor-pointer lg:h-auto lg:w-fit lg:rounded-none lg:border-0 lg:px-0"
           >
             <Checkbox
               id={item.value}

@@ -11,11 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-} from "@/components/ui/chart";
+import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import {
   Tooltip,
   TooltipContent,
@@ -24,7 +20,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
 import { motion } from "framer-motion";
-import SpendingMethodCustomTooltip from "@/app/(finance)/spending/_components/chart/SpendingMethodCustomTooltip";
+
 import "@/css/chart.css";
 
 export const description = "A donut chart with text";
@@ -118,7 +114,7 @@ export function SpendingMethod() {
             className="mx-auto aspect-square max-h-[120px] xl:max-h-[180px]"
           >
             <PieChart>
-              <ChartTooltip content={<SpendingMethodCustomTooltip />} />
+              {/* <ChartTooltip content={<SpendingMethodCustomTooltip />} /> */}
               <Pie
                 className="pie"
                 data={chartData}

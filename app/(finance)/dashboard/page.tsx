@@ -104,10 +104,12 @@ export default function DashboardPage() {
   ]);
 
   return (
-    <div className="flex flex-col gap-6">
+    <>
       <DashboardNav />
-      <DashboardTopSection spending={spending} isLoading={isLoading} />
-      <DashboardMidSection allData={allData} isLoading={isLoading} />
-    </div>
+      <div className="flex flex-col gap-4">
+        <DashboardTopSection spending={spending} isLoading={isLoading} />
+        <DashboardMidSection allData={allData} isLoading={isLoading} />
+      </div>
+    </>
   );
 }

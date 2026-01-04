@@ -130,13 +130,9 @@ export default function CreateBudget() {
             </Button>
           </DialogClose>
         </DialogHeader>
-        <form
-          id="addBudgetForm"
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-6"
-        >
+        <form id="addBudgetForm" onSubmit={handleSubmit}>
           {/* Form content */}
-          <div className="flex flex-col gap-4 px-6 md:pb-6 lg:pb-0">
+          <div className="flex flex-col gap-4 p-4">
             {/* Emoji selection & Budget category */}
             <div className="flex items-center gap-2">
               <Button
@@ -145,7 +141,6 @@ export default function CreateBudget() {
                   e.preventDefault();
                   setIsOpenEmoji(!isOpenEmoji);
                 }}
-                className="h-12"
               >
                 {newBudget.emoji ? newBudget.emoji : "Emoji"}
               </Button>
@@ -184,7 +179,7 @@ export default function CreateBudget() {
             />
           </div>
           {/* Button */}
-          <div className="hidden items-center justify-end border-t p-6 lg:flex">
+          <div className="hidden items-center justify-end border-t p-4 lg:flex">
             <Button type="submit" disabled={checkEmptyValue()}>
               {isPending && <LoaderCircle className="animate-spin" />}
               Create budget

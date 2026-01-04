@@ -1,50 +1,45 @@
 "use client";
-
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { SignOutButton } from "@clerk/nextjs";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
-  ArrowLeftRight,
   Banknote,
+  Bell,
   BotMessageSquare,
   CircleDollarSign,
   Landmark,
   LayoutGrid,
-  PiggyBank,
-  RefreshCcwDot,
+  Settings,
 } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import Image from "next/image";
 
 const menu = [
-  { option: "Dashboard", icon: LayoutGrid, href: "/dashboard" },
-  { option: "Budgets", icon: Banknote, href: "/budgets" },
+  { option: "Home", icon: LayoutGrid, href: "/dashboard" },
   { option: "Spending", icon: CircleDollarSign, href: "/spending" },
-  { option: "Transaction", icon: ArrowLeftRight, href: "/transaction" },
-  { option: "Recurring", icon: RefreshCcwDot, href: "/recurring" },
+  { option: "Budgets", icon: Banknote, href: "/budgets" },
   {
     option: "Income",
     icon: Landmark,
     href: "/income",
   },
-  { option: "Saving", icon: PiggyBank, href: "/saving" },
   { option: "Penny", icon: BotMessageSquare, href: "/penny" },
 ];
 
 export default function TopNav() {
   const pathName = usePathname();
+  const { user } = useUser();
 
   return (
     <div className="hidden w-full items-center justify-between rounded-b-xl bg-background p-2 lg:flex">
@@ -75,36 +70,40 @@ export default function TopNav() {
           </li>
         ))}
       </ul>
-      <div className="flex items-center">
-        <Button variant="ghost" className="justify-start font-normal">
-          Settings
+      <div className="flex items-center gap-2 pr-4">
+        <Button variant="outline" size="icon-sm" className="relative">
+          <Bell />
+          <div className="absolute -right-1 -top-1 size-3 rounded-full bg-primary"></div>
         </Button>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="ghost" className="justify-start font-normal">
-              Sign out
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                Are you sure you want to sign out?
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                This action will terminate your current session, and you&apos;ll
-                need to log in again to access your account.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel asChild>
-                <Button variant="outline">Cancel</Button>
-              </AlertDialogCancel>
-              <AlertDialogAction asChild>
+        <Button variant="outline" size="icon-sm">
+          <Settings />
+        </Button>
+        {user && (
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex size-8 items-center justify-center rounded-lg border focus-visible:outline-none">
+              <Image
+                src={user?.imageUrl}
+                height={32}
+                width={32}
+                alt="User profile"
+                className="size-full rounded-lg object-cover"
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>
+                <div>{user.fullName}</div>
+                <div className="font-normal">
+                  {user.primaryEmailAddress?.emailAddress}
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Theme</DropdownMenuItem>
+              <DropdownMenuItem asChild className="w-full">
                 <SignOutButton redirectUrl="/sign-in" />
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
     </div>
   );

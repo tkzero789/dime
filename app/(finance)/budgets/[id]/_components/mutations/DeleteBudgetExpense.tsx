@@ -66,9 +66,7 @@ export default function DeleteBudgetExpense({ budgetId, expenseId }: Props) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className={buttonVariants({ variant: "outline" })}>
-            Cancel
-          </AlertDialogCancel>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
           <PopoverClose asChild>
             <AlertDialogAction
               className={buttonVariants({ variant: "destructive" })}

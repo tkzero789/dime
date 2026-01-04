@@ -102,7 +102,7 @@ export function IncomeFilterDate({
             id="date"
             variant="outline"
             className={cn(
-              "h-12 justify-start font-normal lg:h-10",
+              "justify-start font-normal lg:h-10",
               !date && "text-muted-foreground",
             )}
           >
