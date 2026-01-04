@@ -5,13 +5,8 @@ import * as React from "react";
 import { Label, Pie, PieChart } from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-} from "@/components/ui/chart";
+import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { Button } from "@/components/ui/button";
-import SpendingPieCustomTooltip from "@/app/(finance)/spending/_components/chart/SpendingPieCustomTooltip";
 import { motion } from "framer-motion";
 import "@/css/chart.css";
 
@@ -118,7 +113,7 @@ export function SpendingExpense() {
             className="mx-auto aspect-square max-h-[120px] xl:max-h-[180px]"
           >
             <PieChart>
-              <ChartTooltip content={<SpendingPieCustomTooltip />} />
+              {/* <ChartTooltip content={<SpendingPieCustomTooltip />} /> */}
               <Pie
                 className="pie"
                 data={chartData}
