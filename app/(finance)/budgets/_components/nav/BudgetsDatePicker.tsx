@@ -72,7 +72,7 @@ export default function BudgetsDatePicker({ date, setDate }: Props) {
   };
 
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
+    <Popover open={isOpen} onOpenChange={setIsOpen} modal={true}>
       <PopoverTrigger asChild>
         <Button variant="outline">
           {format(convertToLocalDate(date.from), "MMMM yyyy")}

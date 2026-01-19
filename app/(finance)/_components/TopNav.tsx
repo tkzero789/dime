@@ -28,12 +28,8 @@ import Image from "next/image";
 const menu = [
   { option: "Home", icon: LayoutGrid, href: "/dashboard" },
   { option: "Spending", icon: CircleDollarSign, href: "/spending" },
+  { option: "Income", icon: Landmark, href: "/income" },
   { option: "Budgets", icon: Banknote, href: "/budgets" },
-  {
-    option: "Income",
-    icon: Landmark,
-    href: "/income",
-  },
   { option: "Penny", icon: BotMessageSquare, href: "/penny" },
 ];
 

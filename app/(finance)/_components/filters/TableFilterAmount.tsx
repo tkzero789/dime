@@ -18,6 +18,7 @@ import { ColumnFiltersState, SortingState } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 
 type Props = {
+  columnId: string;
   sortOption: string;
   setSortOption: Dispatch<SetStateAction<string>>;
   sorting: SortingState;
@@ -44,7 +45,8 @@ const options = [
   },
 ];
 
-export default function IncomeFilterAmount({
+export default function TableFilterAmount({
+  columnId,
   sortOption,
   setSortOption,
   sorting,
@@ -52,8 +54,8 @@ export default function IncomeFilterAmount({
   columnFilters,
   setColumnFilters,
 }: Props) {
-  const amountObject = columnFilters.find((item) => item.id === "amount");
-  const amountValue = columnFilters.find((item) => item.id === "amount")
+  const amountObject = columnFilters.find((item) => item.id === columnId);
+  const amountValue = columnFilters.find((item) => item.id === columnId)
     ?.value as { value: string; operation: string };
 
   const [amount, setAmount] = React.useState<string>("");
@@ -68,7 +70,7 @@ export default function IncomeFilterAmount({
       setColumnFilters((prev) => [
         ...prev,
         {
-          id: "amount",
+          id: columnId,
           value: { value: formattedValue, operation: selectedOperation },
         },
       ]);
@@ -76,7 +78,7 @@ export default function IncomeFilterAmount({
 
     setColumnFilters((prev) => {
       const updatedColumnFilter = prev.map((item) => {
-        if (item.id === "amount")
+        if (item.id === columnId)
           return {
             ...item,
             value: { value: formattedValue, operation: selectedOperation },
@@ -87,7 +89,7 @@ export default function IncomeFilterAmount({
     });
 
     if (formattedValue === 0) {
-      setColumnFilters(columnFilters.filter((item) => item.id !== "amount"));
+      setColumnFilters(columnFilters.filter((item) => item.id !== columnId));
     }
   };
 
@@ -97,7 +99,7 @@ export default function IncomeFilterAmount({
     if (amountValue?.value) {
       setColumnFilters((prev) => {
         const updatedColumnFilter = prev.map((item) => {
-          if (item.id === "amount")
+          if (item.id === columnId)
             return {
               ...item,
               value: { value: amountValue.value, operation: operation },
@@ -112,7 +114,7 @@ export default function IncomeFilterAmount({
   const handleSort = (value: string) => {
     setSorting(() => [
       {
-        id: "amount",
+        id: columnId,
         desc: value === "ascending" ? false : true,
       },
     ]);
@@ -126,7 +128,7 @@ export default function IncomeFilterAmount({
     setSortOption("");
     setAmount("");
     setSorting([]);
-    setColumnFilters(columnFilters.filter((item) => item.id !== "amount"));
+    setColumnFilters(columnFilters.filter((item) => item.id !== columnId));
   };
 
   return (
@@ -144,7 +146,7 @@ export default function IncomeFilterAmount({
             value={item.value}
             className="border-0 hover:no-underline"
           >
-            <AccordionTrigger className="h-11 rounded-md px-3 py-0 text-base font-normal hover:bg-muted hover:no-underline data-[state=open]:bg-muted lg:h-9 lg:text-sm">
+            <AccordionTrigger className="h-12 rounded-md px-3 py-0 text-base font-normal hover:bg-muted hover:no-underline data-[state=open]:bg-muted lg:h-8 lg:text-sm">
               {item.label}
             </AccordionTrigger>
             <AccordionContent className="pb-1 lg:px-3">
@@ -152,13 +154,12 @@ export default function IncomeFilterAmount({
                 <div className="h-full px-3">
                   <item.icon className="h-4 w-4 stroke-[1.5]" />
                 </div>
-
                 <Input
                   type="number"
                   placeholder="Enter amount"
                   value={amountValue?.value ? amountValue.value : amount}
                   onChange={handleChange}
-                  className="rounded-none border-b-0 border-l border-r-0 border-t-0 bg-transparent py-0 text-sm focus-visible:ring-0 lg:h-10"
+                  className="rounded-none border-b-0 border-l border-r-0 border-t-0 bg-transparent py-0 text-sm focus-visible:ring-0"
                 />
               </div>
             </AccordionContent>
@@ -173,7 +174,7 @@ export default function IncomeFilterAmount({
             handleSort(value);
           }}
         >
-          <SelectTrigger className="h-9 w-36 text-sm">
+          <SelectTrigger className="h-8 w-36 text-sm lg:h-8">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>
@@ -187,8 +188,8 @@ export default function IncomeFilterAmount({
           size="sm"
           disabled={
             !(
-              columnFilters.some((item) => item.id === "amount") ||
-              sorting.some((item) => item.id === "amount")
+              columnFilters.some((item) => item.id === columnId) ||
+              sorting.some((item) => item.id === columnId)
             )
           }
           onClick={handleResetAmount}

@@ -10,7 +10,6 @@ import {
   ArrowLeftRight,
   BotMessageSquare,
   Landmark,
-  Plus,
   Settings,
   Moon,
   LogOut,
@@ -26,9 +25,9 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useClerk, useUser } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import AddTransaction from "./AddTransaction";
 
 export default function MobileNav() {
   const path = usePathname();
@@ -69,10 +68,11 @@ export default function MobileNav() {
         {menu.main.map((item, index) => (
           <React.Fragment key={item.option}>
             {index === 2 && (
-              <li key="Add" className="flex items-center justify-center">
-                <Button size="icon">
-                  <Plus />
-                </Button>
+              <li
+                key="AddTransaction"
+                className="flex items-center justify-center"
+              >
+                <AddTransaction />
               </li>
             )}
             <li

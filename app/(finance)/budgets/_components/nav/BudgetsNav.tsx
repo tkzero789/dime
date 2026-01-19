@@ -13,7 +13,7 @@ type Props = {
 
 export default function BudgetsNav({ date, setDate }: Props) {
   return (
-    <div className="sticky top-0 z-50 flex items-center justify-between bg-muted py-4">
+    <div className="sticky top-0 z-50 flex items-center justify-between bg-muted pb-4 pt-8">
       <div className="flex items-center gap-2">
         <div className="flex size-8 items-center justify-center rounded-lg bg-primary">
           <PiggyBank className="size-4 text-primary-foreground" />

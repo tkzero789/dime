@@ -18,10 +18,14 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import IncomeFilters from "../filters/IncomeFilters";
-import TableFiltersReset from "@/app/(finance)/_components/filters/TableFiltersReset";
-import { TablePagination } from "@/app/(finance)/_components/table/TablePagination";
+// import MobileIncomeFilters from "../filters/MobileIncomeFilters";
+// import IncomeFilters from "../filters/IncomeFilters";
+// import IncomeFiltersReset from "../filters/IncomeFiltersReset";
+// import { IncomeTablePagination } from "./IncomeTablePagination";
 import { cn } from "@/lib/utils";
+import { TablePagination } from "@/app/(finance)/_components/table/TablePagination";
+import SpendingFilters from "../filters/SpendingFilters";
+import TableFiltersReset from "@/app/(finance)/_components/filters/TableFiltersReset";
 import { useDesktop } from "@/hooks/use-desktop";
 
 type IncomeTableProps<TData, TValue> = {
@@ -29,7 +33,7 @@ type IncomeTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
 };
 
-export default function IncomeTable<TData, TValue>({
+export default function SpendingTable<TData, TValue>({
   data,
   columns,
 }: IncomeTableProps<TData, TValue>) {
@@ -63,7 +67,7 @@ export default function IncomeTable<TData, TValue>({
       <div className="flex items-center justify-between gap-4">
         <h2>Transactions</h2>
         <div className="lg:hidden">
-          <IncomeFilters
+          <SpendingFilters
             sortOption={sortOption}
             setSortOption={setSortOption}
             sorting={sorting}
@@ -74,7 +78,7 @@ export default function IncomeTable<TData, TValue>({
         </div>
         {isDesktop && (
           <div className="hidden items-center gap-2 lg:flex">
-            <IncomeFilters
+            <SpendingFilters
               sortOption={sortOption}
               setSortOption={setSortOption}
               sorting={sorting}

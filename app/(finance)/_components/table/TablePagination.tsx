@@ -21,7 +21,7 @@ interface DataTablePaginationProps<TData> {
   tableRef: RefObject<HTMLTableSectionElement>;
 }
 
-export function IncomeTablePagination<TData>({
+export function TablePagination<TData>({
   table,
   tableRef,
 }: DataTablePaginationProps<TData>) {

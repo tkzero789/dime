@@ -148,7 +148,6 @@ export default function AddIncome() {
             <DialogTitle>Add income</DialogTitle>
           </DialogHeader>
           <form id="addIncomeForm" onSubmit={handleSubmit}>
-            {/* Form content */}
             <div className="flex flex-col gap-4 p-4">
               {/* Name */}
               <Input

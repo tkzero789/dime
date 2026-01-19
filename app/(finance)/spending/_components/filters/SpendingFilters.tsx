@@ -35,11 +35,11 @@ const options = [
   { id: "date", title: "Date" },
   { id: "name", title: "Name" },
   { id: "category", title: "Category" },
-  { id: "payment_method", title: "Payment method" },
+  { id: "payment_source", title: "Payment source" },
   { id: "amount", title: "Amount" },
 ];
 
-export default function IncomeFilters({
+export default function SpendingFilters({
   sortOption,
   setSortOption,
   sorting,

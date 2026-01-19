@@ -1,16 +1,14 @@
 "use client";
 
 import React from "react";
-import IncomeTable from "./_components/table/IncomeTable";
-import IncomeNav from "./_components/nav/IncomeNav";
-import IncomeSummary from "./_components/IncomeSummary";
-import { IncomeBarChart } from "./_components/chart/IncomeBarChart";
-import { CardSkeleton } from "@/components/ui/card-skeleton";
-import { useQuery } from "@tanstack/react-query";
+import SpendingNav from "./_components/nav/SpendingNav";
 import { useRouter } from "next/navigation";
-import { getIncomeData } from "@/lib/api/income";
-import { IncomeTableColumns } from "./_components/table/IncomeTableColumns";
+import { getTransactionData } from "@/lib/api/transactions";
 import { queryKeys } from "@/lib/queryKeys";
+import { useQuery } from "@tanstack/react-query";
+import { CardSkeleton } from "@/components/ui/card-skeleton";
+import SpendingTable from "./_components/table/SpendingTable";
+import { SpendingTableColumns } from "./_components/table/SpendingTableColumn";
 
 type Props = {
   searchParams: {
@@ -19,7 +17,7 @@ type Props = {
   };
 };
 
-export default function IncomePage({ searchParams }: Props) {
+export default function SpendingPage({ searchParams }: Props) {
   const router = useRouter();
   const [currentYear, setCurrentYear] = React.useState<number>(() => {
     if (searchParams.startDate && searchParams.endDate) {
@@ -28,10 +26,10 @@ export default function IncomePage({ searchParams }: Props) {
     return new Date().getUTCFullYear();
   });
 
-  const { data: incomeData, isLoading } = useQuery({
-    queryKey: queryKeys.income.byYear(currentYear),
+  const { data: transactionData, isLoading } = useQuery({
+    queryKey: queryKeys.transactions.byYear(currentYear),
     queryFn: () =>
-      getIncomeData({
+      getTransactionData({
         startDate: `${currentYear}-01-01`,
         endDate: `${currentYear}-12-31`,
       }),
@@ -47,21 +45,18 @@ export default function IncomePage({ searchParams }: Props) {
     };
     setCurrentYear(year);
     router.replace(
-      `/income?startDate=${newParams.startDate}&endDate=${newParams.endDate}`,
+      `/spending?startDate=${newParams.startDate}&endDate=${newParams.endDate}`,
     );
   };
 
+  console.log(transactionData);
   return (
     <>
-      <IncomeNav
+      <SpendingNav
         currentYear={currentYear}
         handleYearChange={handleYearChange}
       />
       <div className="flex flex-col gap-4">
-        <div className="grid grid-cols-3 gap-4">
-          <IncomeBarChart incomeData={incomeData?.all || []} />
-          <IncomeSummary incomeData={incomeData?.all || []} />
-        </div>
         {isLoading ? (
           <CardSkeleton
             title={true}
@@ -71,9 +66,9 @@ export default function IncomePage({ searchParams }: Props) {
             style="mt-4 xl:mt-8"
           />
         ) : (
-          <IncomeTable
-            data={incomeData?.all || []}
-            columns={IncomeTableColumns}
+          <SpendingTable
+            data={transactionData?.all || []}
+            columns={SpendingTableColumns}
           />
         )}
       </div>

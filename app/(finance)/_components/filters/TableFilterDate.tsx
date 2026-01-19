@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { useMediaQuery } from "usehooks-ts";
 
 type Props = {
+  columnId: string;
   setSortOption: Dispatch<SetStateAction<string>>;
   sorting: SortingState;
   setSorting: Dispatch<SetStateAction<SortingState>>;
@@ -25,7 +26,8 @@ type Props = {
   setColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>;
 };
 
-export function IncomeFilterDate({
+export function TableFilterDate({
+  columnId,
   setSortOption,
   sorting,
   setSorting,
@@ -34,8 +36,8 @@ export function IncomeFilterDate({
 }: Props) {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
-  const dateObject = columnFilters.find((item) => item.id === "date");
-  const dateValue = columnFilters.find((item) => item.id === "date")
+  const dateObject = columnFilters.find((item) => item.id === columnId);
+  const dateValue = columnFilters.find((item) => item.id === columnId)
     ?.value as DateRange;
 
   const [date, setDate] = React.useState<DateRange | undefined>(
@@ -52,14 +54,14 @@ export function IncomeFilterDate({
       setColumnFilters((prev) => [
         ...prev,
         {
-          id: "date",
+          id: columnId,
           value: date,
         },
       ]);
     } else {
       setColumnFilters((prev) => {
         const updatedColumnFilter = prev.map((item) => {
-          if (item.id === "date") return { ...item, value: date };
+          if (item.id === columnId) return { ...item, value: date };
           return item;
         });
         return updatedColumnFilter;
@@ -67,19 +69,19 @@ export function IncomeFilterDate({
     }
 
     if (date === undefined || date?.to === undefined) {
-      setColumnFilters(columnFilters.filter((item) => item.id !== "date"));
+      setColumnFilters(columnFilters.filter((item) => item.id !== columnId));
     }
   };
 
   const handleSort = () => {
     setSorting(() => [
       {
-        id: "date",
+        id: columnId,
         desc: false,
       },
     ]);
 
-    if (sorting[0]?.id === "date") {
+    if (sorting[0]?.id === columnId) {
       setSorting([]);
     }
   };
@@ -91,7 +93,7 @@ export function IncomeFilterDate({
     });
     setSortOption("");
     setSorting([]);
-    setColumnFilters(columnFilters.filter((item) => item.id !== "date"));
+    setColumnFilters(columnFilters.filter((item) => item.id !== columnId));
   };
 
   return (
@@ -99,10 +101,10 @@ export function IncomeFilterDate({
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            id="date"
+            id={columnId}
             variant="outline"
             className={cn(
-              "justify-start font-normal lg:h-10",
+              "h-12 justify-start text-base font-normal lg:h-10 lg:text-sm",
               !date && "text-muted-foreground",
             )}
           >
@@ -138,7 +140,7 @@ export function IncomeFilterDate({
           <Switch
             checked={
               sorting.length !== 0 &&
-              sorting.some((sortObject) => sortObject.id === "date")
+              sorting.some((sortObject) => sortObject.id === columnId)
             }
             onCheckedChange={() => {
               setSortOption("");
@@ -152,8 +154,8 @@ export function IncomeFilterDate({
           size="sm"
           disabled={
             !(
-              columnFilters.some((item) => item.id === "date") ||
-              sorting.some((item) => item.id === "date")
+              columnFilters.some((item) => item.id === columnId) ||
+              sorting.some((item) => item.id === columnId)
             )
           }
           onClick={handleResetDate}

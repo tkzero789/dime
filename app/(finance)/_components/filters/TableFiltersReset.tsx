@@ -15,7 +15,7 @@ type Props = {
   setColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>;
 };
 
-export default function IncomeFiltersReset({
+export default function TableFiltersReset({
   setSortOption,
   setSorting,
   setColumnFilters,

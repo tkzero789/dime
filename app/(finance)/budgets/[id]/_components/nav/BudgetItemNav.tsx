@@ -8,11 +8,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Settings2 } from "lucide-react";
+import { ChevronLeft, Settings2 } from "lucide-react";
 import { AccountData, BudgetData } from "@/types";
 import DeleteBudget from "../../../_components/mutations/DeleteBudget";
 import { Separator } from "@/components/ui/separator";
 import AddBudgetExpense from "../mutations/AddBudgetExpense";
+import { useRouter } from "next/navigation";
 
 type Props = {
   budgetData: BudgetData | undefined;
@@ -20,13 +21,22 @@ type Props = {
 };
 
 export default function BudgetItemNav({ budgetData, accountData }: Props) {
+  const router = useRouter();
   return (
-    <div className="sticky top-0 z-50 flex items-center justify-between bg-muted py-4">
+    <div className="sticky top-0 z-50 flex items-center justify-between bg-muted pb-4 pt-8">
       <div className="hidden items-center gap-2 lg:flex">
         <div className="text-xl">{budgetData?.emoji}</div>
         <h1>{budgetData?.category}</h1>
       </div>
       <div className="flex w-full items-center justify-between gap-2 lg:w-auto">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => router.back()}
+          className="lg:hidden"
+        >
+          <ChevronLeft />
+        </Button>
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline">

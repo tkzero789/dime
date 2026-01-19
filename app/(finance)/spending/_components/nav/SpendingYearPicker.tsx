@@ -15,7 +15,7 @@ type Props = {
   handleYearChange: (year: number) => void;
 };
 
-export default function IncomeYearPicker({
+export default function SpendingYearPicker({
   currentYear,
   handleYearChange,
 }: Props) {

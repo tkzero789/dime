@@ -15,8 +15,10 @@ export default function FinanceLayout({
     <main className="bg-muted">
       <div className="mx-auto min-h-dvh w-full max-w-7xl px-4 pb-20">
         <TopNav />
-        <QueryProvider>{children}</QueryProvider>
-        <MobileNav />
+        <QueryProvider>
+          {children}
+          <MobileNav />
+        </QueryProvider>
       </div>
     </main>
   );

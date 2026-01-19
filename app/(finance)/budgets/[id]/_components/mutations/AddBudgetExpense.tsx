@@ -6,7 +6,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
 import {
   Dialog,
   DialogContent,
@@ -23,6 +22,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import { addBudgetExpense } from "@/lib/api/budgets/expenses";
 import { queryKeys } from "@/lib/queryKeys";
+import { useDesktop } from "@/hooks/use-desktop";
 
 type Props = {
   budgetId: string | undefined;
@@ -35,6 +35,7 @@ export default function AddBudgetExpense({
   budgetCategory,
   accountData,
 }: Props) {
+  const isDesktop = useDesktop();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isAccountOpen, setIsAccountOpen] = React.useState<boolean>(false);
   const [accountName, setAccountName] = React.useState<string>("");
@@ -136,18 +137,17 @@ export default function AddBudgetExpense({
     )
       return true;
   };
-
-  return (
-    <>
+  if (isDesktop) {
+    return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <Button
             size="icon"
             onClick={handleClearInput}
-            className="lg:w-auto lg:px-4 lg:py-2"
+            className="w-auto px-4 py-2"
           >
             <Plus />
-            <span className="hidden lg:block">Add expense</span>
+            <span>Add expense</span>
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -158,7 +158,7 @@ export default function AddBudgetExpense({
               type="submit"
               form="addBudgetExpenseForm"
               disabled={checkEmptyValue()}
-              className="lg:hidden"
+              className="hidden"
             >
               <Plus />
             </Button>
@@ -190,7 +190,7 @@ export default function AddBudgetExpense({
                   <Button
                     variant="outline"
                     className={cn(
-                      "h-12 justify-between text-muted-foreground lg:h-9",
+                      "justify-between text-muted-foreground",
                       accountName && "text-foreground",
                     )}
                   >
@@ -236,7 +236,7 @@ export default function AddBudgetExpense({
               />
             </div>
             {/* Button */}
-            <div className="hidden items-center justify-end border-t p-4 lg:flex">
+            <div className="flex items-center justify-end border-t p-4">
               <Button type="submit" disabled={checkEmptyValue()}>
                 {isPending && <LoaderCircle className="animate-spin" />}Add
                 expense
@@ -245,6 +245,6 @@ export default function AddBudgetExpense({
           </form>
         </DialogContent>
       </Dialog>
-    </>
-  );
+    );
+  }
 }

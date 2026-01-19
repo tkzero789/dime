@@ -7,6 +7,15 @@ export type AccountState = {
   color: string;
 };
 
+export type TransactionState = {
+  type: string;
+  name: string;
+  amount: string;
+  category: string;
+  payment_source: string;
+  date: Date;
+};
+
 export type BudgetState = {
   amount: string;
   category: string;
@@ -43,6 +52,17 @@ export type AccountData = {
   is_active: boolean;
   created_by: string;
   created_at: Date;
+};
+
+export type TransactionData = {
+  id: string;
+  name: string;
+  amount: string;
+  type: string;
+  category: string;
+  payment_source: AccountData;
+  date: string;
+  created_by: string;
 };
 
 export type BudgetData = {

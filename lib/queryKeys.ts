@@ -1,4 +1,8 @@
 export const queryKeys = {
+  transactions: {
+    all: () => ["transactions"] as const,
+    byYear: (year?: number) => [...queryKeys.transactions.all(), year] as const,
+  },
   budgets: {
     all: () => ["budgets"] as const,
     byDateRange: (startDate?: string, endDate?: string) =>
