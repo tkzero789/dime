@@ -10,13 +10,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { SelectSingleEventHandler } from "react-day-picker";
-import { TransactionState } from "@/types";
 import { format } from "date-fns";
+import { TransactionForm } from "@/types";
 
 type Props = {
   date: Date;
   handleFormChange: (
-    field: keyof TransactionState,
+    field: keyof TransactionForm,
     value: string | Date,
   ) => void;
 };

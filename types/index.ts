@@ -1,3 +1,5 @@
+import { TransactionType } from "@/lib/constants";
+
 // Mutation type ========================
 export type AccountState = {
   name: string;
@@ -7,8 +9,20 @@ export type AccountState = {
   color: string;
 };
 
-export type TransactionState = {
-  type: string;
+export type TransactionData = {
+  id: string;
+  type: TransactionType;
+  name: string;
+  amount: string;
+  category: string;
+  payment_source: AccountData;
+  date: string;
+  created_by: string;
+  created_at: string;
+};
+
+export type TransactionForm = {
+  type: TransactionType;
   name: string;
   amount: string;
   category: string;
@@ -52,17 +66,6 @@ export type AccountData = {
   is_active: boolean;
   created_by: string;
   created_at: Date;
-};
-
-export type TransactionData = {
-  id: string;
-  name: string;
-  amount: string;
-  type: string;
-  category: string;
-  payment_source: AccountData;
-  date: string;
-  created_by: string;
 };
 
 export type BudgetData = {

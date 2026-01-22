@@ -1,4 +1,4 @@
-import { db } from "@/db/dbConfig";
+import { db, wsDb } from "@/db/dbConfig";
 import { account, transaction } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { and, desc, eq, getTableColumns, gte, lte, sql } from "drizzle-orm";
@@ -61,19 +61,78 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const data = await db.execute(sql`
-        SELECT add_transaction(
-        ${body.type},
-        ${body.name},
-        ${body.amount},
-        ${body.category},
-        ${body.payment_source},
-        ${body.date}::timestamp,
-        ${user.primaryEmailAddress?.emailAddress}
-        ) as transaction_data
-        `);
+    const result = await wsDb.transaction(async (tx) => {
+      // 1. Get account type and verify ownership
+      const [accountData] = await tx
+        .select({ type: account.type })
+        .from(account)
+        .where(
+          and(
+            eq(account.id, body.payment_source),
+            eq(
+              account.created_by,
+              user.primaryEmailAddress?.emailAddress ?? "",
+            ),
+          ),
+        )
+        .limit(1);
 
-    return Response.json(data, { status: 201 });
+      if (!accountData) {
+        throw new Error("Account not found or unauthorized");
+      }
+
+      // 2. Update account available credit/balance
+      await tx
+        .update(account)
+        .set({
+          amount: sql`COALESCE(${account.amount}, 0) - ${body.amount}`,
+        })
+        .where(
+          and(
+            eq(account.id, body.payment_source),
+            eq(
+              account.created_by,
+              user?.primaryEmailAddress?.emailAddress ?? "",
+            ),
+          ),
+        );
+
+      // 3. Update debt for credit accounts
+      if (accountData.type === "credit") {
+        await tx
+          .update(account)
+          .set({
+            debt: sql`COALESCE(${account.debt}, 0) + ${body.amount}`,
+          })
+          .where(
+            and(
+              eq(account.id, body.payment_source),
+              eq(
+                account.created_by,
+                user.primaryEmailAddress?.emailAddress || "",
+              ),
+            ),
+          );
+      }
+
+      // 4. Insert transaction record
+      const [newTransaction] = await tx
+        .insert(transaction)
+        .values({
+          type: body.type,
+          name: body.name,
+          amount: body.amount,
+          category: body.category,
+          payment_source: body.payment_source,
+          date: body.date,
+          created_by: user.primaryEmailAddress?.emailAddress || "",
+        })
+        .returning();
+
+      return newTransaction;
+    });
+
+    return Response.json(result, { status: 201 });
   } catch (error) {
     console.error(error);
     return Response.json(

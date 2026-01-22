@@ -14,48 +14,60 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { LoaderCircle } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
-import { ChevronDown, ChevronUp, Plus } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  LoaderCircle,
+  Pencil,
+  Plus,
+} from "lucide-react";
 import React from "react";
-import { TransactionForm } from "@/types";
-import { startOfDay } from "date-fns";
+import { TransactionData, TransactionForm } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addTransaction } from "@/lib/api/transactions";
+import { updateTransaction } from "@/lib/api/transactions";
 import { queryKeys } from "@/lib/queryKeys";
 import toast from "react-hot-toast";
 import { getAccountData } from "@/lib/api/accounts";
 import { cn } from "@/lib/utils";
-import { useDesktop } from "@/hooks/use-desktop";
 import { TransactionDatePicker } from "./TransactionDatePicker";
+import { convertToLocalDate } from "@/utils/convertToLocalDate";
+import FormatString from "@/utils/formatString";
 import { TRANSACTION_CATEGORIES } from "@/lib/constants";
 
-export default function AddTransaction() {
+type Props = {
+  transactionData: TransactionData;
+};
+
+export default function EditTransaction({ transactionData }: Props) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isAccountOpen, setIsAccountOpen] = React.useState<boolean>(false);
-  const [accountName, setAccountName] = React.useState<string>("");
+  const [accountName, setAccountName] = React.useState<string>(
+    transactionData.payment_source.name,
+  );
   const [isCategoryOpen, setIsCategoryOpen] = React.useState<boolean>(false);
-  const [categoryName, setCategoryName] = React.useState<string>("");
 
   const { data: accountData } = useQuery({
     queryKey: queryKeys.accounts.all(),
     queryFn: getAccountData,
   });
 
-  const [newTransaction, setNewTransaction] = React.useState<TransactionForm>({
-    type: "expense",
-    name: "",
-    amount: "",
-    category: "",
-    payment_source: "",
-    date: startOfDay(new Date()),
-  });
+  const [transactionToUpdate, setTransactionToUpdate] =
+    React.useState<TransactionForm>({
+      type: transactionData.type,
+      name: transactionData.name,
+      amount: transactionData.amount,
+      category: transactionData.category,
+      payment_source: transactionData.payment_source.id,
+      date: convertToLocalDate(transactionData.date),
+    });
 
   const handleFormChange = (
     field: keyof TransactionForm,
     value: string | Date,
   ) => {
-    setNewTransaction((prev) => ({
+    setTransactionToUpdate((prev) => ({
       ...prev,
       [field]: value,
     }));
@@ -63,18 +75,15 @@ export default function AddTransaction() {
 
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: addTransaction,
+    mutationFn: updateTransaction,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.transactions.all() });
       setIsOpen(false);
-      toast.success("Transaction added");
+      toast.success("Transaction updated");
     },
     onError: (error) => {
-      toast.error("Failed to add transaction");
-      console.log("Failed to add transaction", error);
-    },
-    onSettled: () => {
-      handleClearInput();
+      toast.error("Failed to update transaction");
+      console.log("Failed to update transaction", error);
     },
   });
 
@@ -82,67 +91,68 @@ export default function AddTransaction() {
     e.preventDefault();
 
     if (
-      !newTransaction.type ||
-      newTransaction.name.trim() == "" ||
-      !newTransaction.amount ||
-      !newTransaction.category ||
-      !newTransaction.payment_source ||
-      !newTransaction.date
+      !transactionToUpdate.type ||
+      transactionToUpdate.name.trim() == "" ||
+      !transactionToUpdate.amount ||
+      !transactionToUpdate.category ||
+      !transactionToUpdate.payment_source ||
+      !transactionToUpdate.date
     ) {
       toast.error("Missing required information");
       return;
     }
 
     mutate({
-      type: newTransaction.type,
-      name: newTransaction.name,
-      amount: newTransaction.amount,
-      category: newTransaction.category,
-      payment_source: newTransaction.payment_source,
-      date: newTransaction.date,
+      id: transactionData.id,
+      type: transactionToUpdate.type,
+      name: transactionToUpdate.name,
+      amount: transactionToUpdate.amount,
+      category: transactionToUpdate.category,
+      payment_source: transactionToUpdate.payment_source,
+      date: transactionToUpdate.date,
     });
   };
 
-  const handleClearInput = () => {
-    setNewTransaction({
-      type: "expense",
-      name: "",
-      amount: "",
-      category: "",
-      payment_source: "",
-      date: startOfDay(new Date()),
+  const handleResetValue = () => {
+    setTransactionToUpdate({
+      type: transactionData.type,
+      name: transactionData.name,
+      amount: transactionData.amount,
+      category: transactionData.category,
+      payment_source: transactionData.payment_source.id,
+      date: convertToLocalDate(transactionData.date),
     });
   };
 
   const checkEmptyValue = () => {
     if (
-      !newTransaction.type ||
-      newTransaction.name.trim() === "" ||
-      !newTransaction.amount ||
-      !newTransaction.category ||
-      !newTransaction.payment_source ||
-      !newTransaction.date ||
+      !transactionToUpdate.type ||
+      transactionToUpdate.name.trim() === "" ||
+      !transactionToUpdate.amount ||
+      !transactionToUpdate.category ||
+      !transactionToUpdate.payment_source ||
+      !transactionToUpdate.date ||
       isPending
     )
       return true;
   };
 
-  const isDesktop = useDesktop();
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button
-          size={isDesktop ? "default" : "icon"}
-          onClick={handleClearInput}
+          variant="ghost"
+          size="sm"
+          onClick={handleResetValue}
+          className="w-full justify-start"
         >
-          <Plus />
-          <span className="hidden lg:block">Add transaction</span>
+          <Pencil />
+          Edit
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add transaction</DialogTitle>
+          <DialogTitle>Edit transaction</DialogTitle>
           <Button
             size="icon"
             type="submit"
@@ -165,7 +175,7 @@ export default function AddTransaction() {
               type="button"
               className={cn(
                 "h-12 w-full text-base focus:text-primary-foreground lg:h-9 lg:text-sm",
-                newTransaction.type === "expense" &&
+                transactionToUpdate.type === "expense" &&
                   "bg-primary text-primary-foreground",
               )}
               onClick={() => {
@@ -180,7 +190,7 @@ export default function AddTransaction() {
               type="button"
               className={cn(
                 "h-12 w-full text-base focus:text-primary-foreground lg:h-9 lg:text-sm",
-                newTransaction.type === "income" &&
+                transactionToUpdate.type === "income" &&
                   "bg-primary text-primary-foreground",
               )}
               onClick={() => {
@@ -193,21 +203,21 @@ export default function AddTransaction() {
           </ButtonGroup>
           {/* Date */}
           <TransactionDatePicker
-            date={newTransaction.date}
+            date={transactionToUpdate.date}
             handleFormChange={handleFormChange}
           />
           {/* Name */}
           <Input
             type="text"
             placeholder="Name"
-            value={newTransaction.name}
+            value={transactionToUpdate.name}
             onChange={(e) => handleFormChange("name", e.target.value)}
           />
           {/* Amount */}
           <Input
             type="number"
             placeholder="Amount"
-            value={newTransaction.amount}
+            value={transactionToUpdate.amount}
             onChange={(e) => handleFormChange("amount", e.target.value)}
           />
           {/* Category */}
@@ -217,15 +227,19 @@ export default function AddTransaction() {
                 variant="outline"
                 className={cn(
                   "h-12 justify-between text-base text-muted-foreground lg:h-9 lg:text-sm",
-                  categoryName && "text-foreground",
+                  transactionToUpdate.category && "text-foreground",
                 )}
               >
-                {newTransaction.category ? categoryName : "Category"}
+                {transactionToUpdate.category ? (
+                  <FormatString text={transactionToUpdate.category} split="_" />
+                ) : (
+                  "Category"
+                )}
                 {isCategoryOpen ? <ChevronUp /> : <ChevronDown />}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="flex max-h-80 w-[--radix-popover-trigger-width] flex-col overflow-auto p-0">
-              {newTransaction.type === "expense"
+              {transactionToUpdate.type === "expense"
                 ? TRANSACTION_CATEGORIES.expense.map((item, index) => (
                     <Button
                       key={item.value}
@@ -233,7 +247,6 @@ export default function AddTransaction() {
                       onClick={() => {
                         handleFormChange("category", item.value);
                         setIsCategoryOpen(false);
-                        setCategoryName(item.label);
                       }}
                       className={cn(
                         "h-12 justify-start gap-4 rounded-none border-0 p-4 text-base hover:border-t-border lg:h-9 lg:text-sm",
@@ -251,7 +264,6 @@ export default function AddTransaction() {
                       onClick={() => {
                         handleFormChange("category", item.value);
                         setIsCategoryOpen(false);
-                        setCategoryName(item.label);
                       }}
                       className={cn(
                         "h-12 justify-start gap-4 rounded-none border-0 p-4 text-base hover:border-t-border lg:h-9 lg:text-sm",
@@ -274,7 +286,7 @@ export default function AddTransaction() {
                   accountName && "text-foreground",
                 )}
               >
-                {newTransaction?.payment_source ? accountName : "From"}
+                {transactionToUpdate?.payment_source ? accountName : "From"}
                 {isAccountOpen ? <ChevronUp /> : <ChevronDown />}
               </Button>
             </PopoverTrigger>
@@ -301,7 +313,7 @@ export default function AddTransaction() {
                     )}
                   >
                     <div className="text-xs font-medium text-background">
-                      {account.type === "checking" ? "Debit" : "Credit"}
+                      {account.type === "debit" ? "Debit" : "Credit"}
                     </div>
                   </div>
                 </Button>
@@ -316,8 +328,8 @@ export default function AddTransaction() {
             form="addTransactionForm"
             disabled={checkEmptyValue()}
           >
-            {isPending && <LoaderCircle className="animate-spin" />}Add
-            transaction
+            {isPending && <LoaderCircle className="animate-spin" />} Save
+            changes
           </Button>
         </div>
       </DialogContent>

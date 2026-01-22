@@ -32,7 +32,7 @@ export default function SpendingYearPicker({
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
           {currentYear}

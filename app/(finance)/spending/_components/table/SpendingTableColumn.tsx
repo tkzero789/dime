@@ -2,19 +2,19 @@ import { AccountData, TransactionData } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { format, parseISO, startOfDay } from "date-fns";
 import React from "react";
-// import {
-//   Popover,
-//   PopoverContent,
-//   PopoverTrigger,
-// } from "@/components/ui/popover";
-// import { Button } from "@/components/ui/button";
-// import { Ellipsis } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Ellipsis } from "lucide-react";
 import { DateRange } from "react-day-picker";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
 import { cn } from "@/lib/utils";
-// import EditIncome from "../mutations/EditIncome";
-// import DeleteIncome from "../mutations/DeleteIncome";
+import DeleteTransaction from "@/app/(finance)/_components/DeleteTransaction";
+import EditTransaction from "@/app/(finance)/_components/EditTransaction";
 
 export const SpendingTableColumns: ColumnDef<TransactionData>[] = [
   {
@@ -117,29 +117,29 @@ export const SpendingTableColumns: ColumnDef<TransactionData>[] = [
       }
     },
   },
-  //   {
-  //     id: "actions",
-  //     cell: ({ row }) => {
-  //       const rowIncomeData = row.original;
-  //       return (
-  //         <Popover modal={true}>
-  //           <PopoverTrigger asChild>
-  //             <Button
-  //               variant="ghost"
-  //               size="icon"
-  //               className="data-[state=open]:bg-muted"
-  //             >
-  //               <Ellipsis />
-  //             </Button>
-  //           </PopoverTrigger>
-  //           <PopoverContent align="end" className="flex w-40 flex-col p-0">
-  //             <div className="p-1">
-  //               <EditIncome incomeData={rowIncomeData} />
-  //               <DeleteIncome incomeId={rowIncomeData.id} />
-  //             </div>
-  //           </PopoverContent>
-  //         </Popover>
-  //       );
-  //     },
-  //   },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const rowIncomeData = row.original;
+      return (
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="data-[state=open]:bg-muted"
+            >
+              <Ellipsis />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="end" className="flex w-40 flex-col p-0">
+            <div className="p-1">
+              <EditTransaction transactionData={rowIncomeData} />
+              <DeleteTransaction transactionId={rowIncomeData.id} />
+            </div>
+          </PopoverContent>
+        </Popover>
+      );
+    },
+  },
 ];

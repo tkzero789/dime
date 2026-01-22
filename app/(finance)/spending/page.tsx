@@ -49,7 +49,6 @@ export default function SpendingPage({ searchParams }: Props) {
     );
   };
 
-  console.log(transactionData);
   return (
     <>
       <SpendingNav
