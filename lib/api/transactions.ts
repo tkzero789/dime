@@ -1,4 +1,4 @@
-import { TransactionData, TransactionForm } from "@/types";
+import { TransactionData, TransactionInput } from "@/types";
 
 export async function getTransactionData(searchParams: {
   startDate: string;
@@ -23,7 +23,7 @@ export async function getTransactionData(searchParams: {
   }
 }
 
-export async function addTransaction(newTransaction: TransactionForm) {
+export async function addTransaction(newTransaction: TransactionInput) {
   try {
     const response = await fetch("/api/transactions", {
       method: "POST",
@@ -43,7 +43,7 @@ export async function addTransaction(newTransaction: TransactionForm) {
   }
 }
 
-type TransactionUpdateState = TransactionForm & {
+type TransactionUpdateState = TransactionInput & {
   id: string;
 };
 

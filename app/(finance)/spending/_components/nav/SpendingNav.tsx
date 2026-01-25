@@ -3,9 +3,10 @@
 import React from "react";
 
 import { Wallet } from "lucide-react";
-import AddTransaction from "@/app/(finance)/_components/AddTransaction";
+import AddTransaction from "@/app/(finance)/_components/transaction/AddTransaction";
 import { Separator } from "@/components/ui/separator";
 import SpendingYearPicker from "./SpendingYearPicker";
+import { useDesktop } from "@/hooks/use-desktop";
 
 type Props = {
   currentYear: number;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export default function SpendingNav({ currentYear, handleYearChange }: Props) {
+  const isDesktop = useDesktop();
   return (
     <div className="sticky top-0 z-50 flex items-center justify-between bg-muted pb-4 pt-8">
       <div className="flex items-center gap-2">
@@ -27,7 +29,7 @@ export default function SpendingNav({ currentYear, handleYearChange }: Props) {
           handleYearChange={handleYearChange}
         />
         <Separator orientation="vertical" className="hidden h-5 lg:block" />
-        <AddTransaction />
+        {isDesktop && <AddTransaction />}
       </div>
     </div>
   );

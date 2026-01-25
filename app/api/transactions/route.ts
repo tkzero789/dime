@@ -1,5 +1,6 @@
 import { db, wsDb } from "@/db/dbConfig";
 import { account, transaction } from "@/db/schema";
+import { TRANSACTION_CATEGORIES } from "@/lib/constants";
 import { currentUser } from "@clerk/nextjs/server";
 import { and, desc, eq, getTableColumns, gte, lte, sql } from "drizzle-orm";
 
@@ -41,7 +42,31 @@ export async function GET(request: Request) {
       )
       .orderBy(desc(transaction.date));
 
-    return Response.json(data);
+    const transformedData = data.map((row) => {
+      const rowCategory = row.category;
+
+      const allCategories = [
+        ...TRANSACTION_CATEGORIES.expense,
+        ...TRANSACTION_CATEGORIES.income,
+      ];
+
+      const matchingCategory = allCategories.find(
+        (item) => item.value === rowCategory,
+      );
+
+      if (matchingCategory) {
+        return {
+          ...row,
+          category: {
+            label: matchingCategory.label,
+            value: matchingCategory.value,
+            color: matchingCategory.color,
+          },
+        };
+      }
+    });
+
+    return Response.json(transformedData);
   } catch (error) {
     console.error(error);
     return Response.json(

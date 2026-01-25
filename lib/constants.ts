@@ -2,7 +2,6 @@ import {
   BadgeDollarSign,
   Banknote,
   BriefcaseMedical,
-  Building,
   Building2,
   Car,
   ChartCandlestick,
@@ -103,11 +102,20 @@ export const TRANSACTION_CATEGORIES = {
     },
   ] as const satisfies TransactionCategoryItem[],
   income: [
-    { label: "Salary", value: "salary", icon: Banknote },
-    { label: "Business", value: "business", icon: Building },
-    { label: "Investments", value: "investments", icon: ChartCandlestick },
-    { label: "Rental Income", value: "rental_income", icon: HousePlus },
-    { label: "Pensions", value: "pensions", icon: PiggyBank },
+    { label: "Salary", value: "salary", icon: Banknote, color: "#000000" },
+    {
+      label: "Investments",
+      value: "investments",
+      icon: ChartCandlestick,
+      color: "#000000",
+    },
+    {
+      label: "Rental Income",
+      value: "rental_income",
+      icon: HousePlus,
+      color: "#000000",
+    },
+    { label: "Pensions", value: "pensions", icon: PiggyBank, color: "#000000" },
   ] as const satisfies TransactionCategoryItem[],
 } as const;
 

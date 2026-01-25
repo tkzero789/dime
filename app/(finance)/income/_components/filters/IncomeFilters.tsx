@@ -16,11 +16,11 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, Filter, RotateCw, X } from "lucide-react";
 import { ColumnFiltersState, SortingState } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
-import TableFilterCheckbox from "@/app/(finance)/_components/filters/TableFilterCheckbox";
-import TableFilterAmount from "@/app/(finance)/_components/filters/TableFilterAmount";
-import { TableFilterDate } from "@/app/(finance)/_components/filters/TableFilterDate";
+import TableFilterCheckbox from "@/app/(finance)/_components/table/TableFilterCheckbox";
+import TableFilterAmount from "@/app/(finance)/_components/table/TableFilterAmount";
+import { TableFilterDate } from "@/app/(finance)/_components/table/TableFilterDate";
 import { useDesktop } from "@/hooks/use-desktop";
-import TableFilterKeyword from "@/app/(finance)/_components/filters/TableFilterKeyword";
+import TableFilterKeyword from "@/app/(finance)/_components/table/TableFilterKeyword";
 
 type Props = {
   sortOption: string;

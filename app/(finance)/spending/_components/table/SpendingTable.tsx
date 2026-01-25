@@ -18,14 +18,10 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-// import MobileIncomeFilters from "../filters/MobileIncomeFilters";
-// import IncomeFilters from "../filters/IncomeFilters";
-// import IncomeFiltersReset from "../filters/IncomeFiltersReset";
-// import { IncomeTablePagination } from "./IncomeTablePagination";
 import { cn } from "@/lib/utils";
 import { TablePagination } from "@/app/(finance)/_components/table/TablePagination";
-import SpendingFilters from "../filters/SpendingFilters";
-import TableFiltersReset from "@/app/(finance)/_components/filters/TableFiltersReset";
+import SpendingFilters from "./SpendingFilters";
+import TableFiltersReset from "@/app/(finance)/_components/table/TableFiltersReset";
 import { useDesktop } from "@/hooks/use-desktop";
 
 type IncomeTableProps<TData, TValue> = {

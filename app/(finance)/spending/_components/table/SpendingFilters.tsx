@@ -16,11 +16,12 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, Filter, RotateCw, X } from "lucide-react";
 import { ColumnFiltersState, SortingState } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
-import TableFilterCheckbox from "@/app/(finance)/_components/filters/TableFilterCheckbox";
-import TableFilterAmount from "@/app/(finance)/_components/filters/TableFilterAmount";
-import { TableFilterDate } from "@/app/(finance)/_components/filters/TableFilterDate";
+import TableFilterCheckbox from "@/app/(finance)/_components/table/TableFilterCheckbox";
+import TableFilterAmount from "@/app/(finance)/_components/table/TableFilterAmount";
+import { TableFilterDate } from "@/app/(finance)/_components/table/TableFilterDate";
 import { useDesktop } from "@/hooks/use-desktop";
-import TableFilterKeyword from "@/app/(finance)/_components/filters/TableFilterKeyword";
+import TableFilterKeyword from "@/app/(finance)/_components/table/TableFilterKeyword";
+import { TRANSACTION_CATEGORIES } from "@/lib/constants";
 
 type Props = {
   sortOption: string;
@@ -48,6 +49,13 @@ export default function SpendingFilters({
   setColumnFilters,
 }: Props) {
   const isDesktop = useDesktop();
+  const allCategories = [
+    ...TRANSACTION_CATEGORIES.expense,
+    ...TRANSACTION_CATEGORIES.income,
+  ].map((item) => ({
+    label: item.label,
+    value: item.value,
+  }));
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [filterOption, setFilterOption] = React.useState<string>("date");
 
@@ -91,13 +99,7 @@ export default function SpendingFilters({
         return (
           <TableFilterCheckbox
             columnId="category"
-            filterList={[
-              { label: "Salary", value: "salary" },
-              { label: "Business", value: "business" },
-              { label: "Investments", value: "investments" },
-              { label: "Rental Income", value: "rental income" },
-              { label: "Pensions", value: "pensions" },
-            ]}
+            filterList={allCategories}
             columnFilters={columnFilters}
             setColumnFilters={setColumnFilters}
           />

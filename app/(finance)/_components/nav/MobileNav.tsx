@@ -27,7 +27,33 @@ import { usePathname } from "next/navigation";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import AddTransaction from "./AddTransaction";
+import AddTransaction from "../transaction/AddTransaction";
+
+const MOBILE_MENU = {
+  main: [
+    { option: "Home", icon: LayoutGrid, href: "/dashboard" },
+    { option: "Spending", icon: CircleDollarSign, href: "/spending" },
+    { option: "Income", icon: Landmark, href: "/income" },
+  ],
+  sub: [
+    { option: "Budgets", icon: Banknote, href: "/budgets" },
+    {
+      option: "Recurring",
+      icon: RefreshCcwDot,
+      href: "/recurring",
+    },
+    {
+      option: "Transaction",
+      icon: ArrowLeftRight,
+      href: "/transaction",
+    },
+    {
+      option: "Penny",
+      icon: BotMessageSquare,
+      href: "/penny",
+    },
+  ],
+};
 
 export default function MobileNav() {
   const path = usePathname();
@@ -35,37 +61,11 @@ export default function MobileNav() {
   const { user } = useUser();
   const { signOut } = useClerk();
 
-  // Menu list
-  const menu = {
-    main: [
-      { option: "Home", icon: LayoutGrid, href: "/dashboard" },
-      { option: "Spending", icon: CircleDollarSign, href: "/spending" },
-      { option: "Income", icon: Landmark, href: "/income" },
-    ],
-    sub: [
-      { option: "Budgets", icon: Banknote, href: "/budgets" },
-      {
-        option: "Recurring",
-        icon: RefreshCcwDot,
-        href: "/recurring",
-      },
-      {
-        option: "Transaction",
-        icon: ArrowLeftRight,
-        href: "/transaction",
-      },
-      {
-        option: "Penny",
-        icon: BotMessageSquare,
-        href: "/penny",
-      },
-    ],
-  };
   return (
     <div className="fixed bottom-0 left-0 z-10 h-16 w-dvw bg-background lg:hidden">
       {/* Main menu */}
       <ul className="grid h-full w-full grid-cols-5">
-        {menu.main.map((item, index) => (
+        {MOBILE_MENU.main.map((item, index) => (
           <React.Fragment key={item.option}>
             {index === 2 && (
               <li
@@ -148,7 +148,7 @@ export default function MobileNav() {
               )}
               {/* Submenu */}
               <ul className="overflow-hidden rounded-lg border">
-                {menu.sub.map((item) => (
+                {MOBILE_MENU.sub.map((item) => (
                   <li key={item.option}>
                     <Link
                       href={item.href}

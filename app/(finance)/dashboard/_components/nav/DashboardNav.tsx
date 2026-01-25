@@ -1,11 +1,13 @@
 "use client";
 
-import AddTransaction from "@/app/(finance)/_components/AddTransaction";
+import AddTransaction from "@/app/(finance)/_components/transaction/AddTransaction";
+import { useDesktop } from "@/hooks/use-desktop";
 import GetGreeting from "@/utils/getGreeting";
 import { LayoutGrid } from "lucide-react";
 import React from "react";
 
 export default function DashboardNav() {
+  const isDesktop = useDesktop();
   return (
     <div className="sticky top-0 z-50 flex items-center justify-between bg-muted pb-4 pt-8">
       <div className="flex items-center gap-2">
@@ -16,7 +18,7 @@ export default function DashboardNav() {
           <GetGreeting />
         </h1>
       </div>
-      <AddTransaction />
+      {isDesktop && <AddTransaction />}
     </div>
   );
 }

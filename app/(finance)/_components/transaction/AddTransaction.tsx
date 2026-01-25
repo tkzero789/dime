@@ -18,7 +18,7 @@ import { LoaderCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ChevronDown, ChevronUp, Plus } from "lucide-react";
 import React from "react";
-import { TransactionForm } from "@/types";
+import { TransactionInput } from "@/types";
 import { startOfDay } from "date-fns";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addTransaction } from "@/lib/api/transactions";
@@ -26,11 +26,13 @@ import { queryKeys } from "@/lib/queryKeys";
 import toast from "react-hot-toast";
 import { getAccountData } from "@/lib/api/accounts";
 import { cn } from "@/lib/utils";
-import { useDesktop } from "@/hooks/use-desktop";
 import { TransactionDatePicker } from "./TransactionDatePicker";
 import { TRANSACTION_CATEGORIES } from "@/lib/constants";
+import { useDesktop } from "@/hooks/use-desktop";
 
 export default function AddTransaction() {
+  const isDesktop = useDesktop();
+
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isAccountOpen, setIsAccountOpen] = React.useState<boolean>(false);
   const [accountName, setAccountName] = React.useState<string>("");
@@ -42,17 +44,17 @@ export default function AddTransaction() {
     queryFn: getAccountData,
   });
 
-  const [newTransaction, setNewTransaction] = React.useState<TransactionForm>({
-    type: "expense",
+  const [newTransaction, setNewTransaction] = React.useState<TransactionInput>({
     name: "",
     amount: "",
+    type: "expense",
     category: "",
     payment_source: "",
     date: startOfDay(new Date()),
   });
 
   const handleFormChange = (
-    field: keyof TransactionForm,
+    field: keyof TransactionInput,
     value: string | Date,
   ) => {
     setNewTransaction((prev) => ({
@@ -82,9 +84,9 @@ export default function AddTransaction() {
     e.preventDefault();
 
     if (
-      !newTransaction.type ||
       newTransaction.name.trim() == "" ||
       !newTransaction.amount ||
+      !newTransaction.type ||
       !newTransaction.category ||
       !newTransaction.payment_source ||
       !newTransaction.date
@@ -94,9 +96,9 @@ export default function AddTransaction() {
     }
 
     mutate({
-      type: newTransaction.type,
       name: newTransaction.name,
       amount: newTransaction.amount,
+      type: newTransaction.type,
       category: newTransaction.category,
       payment_source: newTransaction.payment_source,
       date: newTransaction.date,
@@ -105,9 +107,9 @@ export default function AddTransaction() {
 
   const handleClearInput = () => {
     setNewTransaction({
-      type: "expense",
       name: "",
       amount: "",
+      type: "expense",
       category: "",
       payment_source: "",
       date: startOfDay(new Date()),
@@ -116,9 +118,9 @@ export default function AddTransaction() {
 
   const checkEmptyValue = () => {
     if (
-      !newTransaction.type ||
       newTransaction.name.trim() === "" ||
       !newTransaction.amount ||
+      !newTransaction.type ||
       !newTransaction.category ||
       !newTransaction.payment_source ||
       !newTransaction.date ||
@@ -126,8 +128,6 @@ export default function AddTransaction() {
     )
       return true;
   };
-
-  const isDesktop = useDesktop();
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

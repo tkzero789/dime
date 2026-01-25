@@ -13,8 +13,12 @@ import { DateRange } from "react-day-picker";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
 import { cn } from "@/lib/utils";
-import DeleteTransaction from "@/app/(finance)/_components/DeleteTransaction";
-import EditTransaction from "@/app/(finance)/_components/EditTransaction";
+import DeleteTransaction from "@/app/(finance)/_components/transaction/DeleteTransaction";
+import EditTransaction from "@/app/(finance)/_components/transaction/EditTransaction";
+import {
+  TRANSACTION_CATEGORIES,
+  TransactionCategoryItem,
+} from "@/lib/constants";
 
 export const SpendingTableColumns: ColumnDef<TransactionData>[] = [
   {
@@ -58,18 +62,33 @@ export const SpendingTableColumns: ColumnDef<TransactionData>[] = [
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => {
-      const category = row.getValue("category") as string;
+      const category = row.getValue("category") as TransactionCategoryItem;
+
+      const allCategories = [
+        ...TRANSACTION_CATEGORIES.expense,
+        ...TRANSACTION_CATEGORIES.income,
+      ];
+
+      const matchingCategory = allCategories.find(
+        (item) => item.value === category.value,
+      );
+
+      const Icon = matchingCategory?.icon;
+
       return (
-        <div>
-          💵 <FormatString text={category} split="_" />
+        <div className="flex w-fit items-center gap-2 rounded-sm bg-sky-200 px-2 py-0.5 text-sky-800">
+          {Icon && <Icon className="size-5" />} {category.label}
         </div>
       );
     },
-    filterFn: "arrIncludesSome",
+    filterFn: (row, columnId, filterValue: string[]) => {
+      const category = row.getValue(columnId) as TransactionCategoryItem;
+      return filterValue.includes(category.value);
+    },
   },
   {
     accessorKey: "payment_source",
-    header: "Payment source",
+    header: "Account",
     cell: ({ row }) => {
       const paymentSource: AccountData = row.getValue("payment_source");
       return (

@@ -24,7 +24,7 @@ import {
   Plus,
 } from "lucide-react";
 import React from "react";
-import { TransactionData, TransactionForm } from "@/types";
+import { TransactionData, TransactionInput } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { updateTransaction } from "@/lib/api/transactions";
 import { queryKeys } from "@/lib/queryKeys";
@@ -54,17 +54,17 @@ export default function EditTransaction({ transactionData }: Props) {
   });
 
   const [transactionToUpdate, setTransactionToUpdate] =
-    React.useState<TransactionForm>({
+    React.useState<TransactionInput>({
       type: transactionData.type,
       name: transactionData.name,
       amount: transactionData.amount,
-      category: transactionData.category,
+      category: transactionData.category.value,
       payment_source: transactionData.payment_source.id,
       date: convertToLocalDate(transactionData.date),
     });
 
   const handleFormChange = (
-    field: keyof TransactionForm,
+    field: keyof TransactionInput,
     value: string | Date,
   ) => {
     setTransactionToUpdate((prev) => ({
@@ -118,7 +118,7 @@ export default function EditTransaction({ transactionData }: Props) {
       type: transactionData.type,
       name: transactionData.name,
       amount: transactionData.amount,
-      category: transactionData.category,
+      category: transactionData.category.value,
       payment_source: transactionData.payment_source.id,
       date: convertToLocalDate(transactionData.date),
     });
@@ -176,7 +176,7 @@ export default function EditTransaction({ transactionData }: Props) {
               className={cn(
                 "h-12 w-full text-base focus:text-primary-foreground lg:h-9 lg:text-sm",
                 transactionToUpdate.type === "expense" &&
-                  "bg-primary text-primary-foreground",
+                  "bg-primary text-primary-foreground hover:text-primary-foreground",
               )}
               onClick={() => {
                 handleFormChange("type", "expense");
@@ -191,7 +191,7 @@ export default function EditTransaction({ transactionData }: Props) {
               className={cn(
                 "h-12 w-full text-base focus:text-primary-foreground lg:h-9 lg:text-sm",
                 transactionToUpdate.type === "income" &&
-                  "bg-primary text-primary-foreground",
+                  "bg-primary text-primary-foreground hover:text-primary-foreground",
               )}
               onClick={() => {
                 handleFormChange("type", "income");

@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/popover";
 import { SelectSingleEventHandler } from "react-day-picker";
 import { format } from "date-fns";
-import { TransactionForm } from "@/types";
+import { TransactionInput } from "@/types";
 
 type Props = {
   date: Date;
   handleFormChange: (
-    field: keyof TransactionForm,
+    field: keyof TransactionInput,
     value: string | Date,
   ) => void;
 };

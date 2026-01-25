@@ -19,7 +19,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import IncomeFilters from "../filters/IncomeFilters";
-import TableFiltersReset from "@/app/(finance)/_components/filters/TableFiltersReset";
+import TableFiltersReset from "@/app/(finance)/_components/table/TableFiltersReset";
 import { TablePagination } from "@/app/(finance)/_components/table/TablePagination";
 import { cn } from "@/lib/utils";
 import { useDesktop } from "@/hooks/use-desktop";
