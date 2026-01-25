@@ -1,17 +1,5 @@
-import {
-  budget,
-  budget_expense,
-  income,
-  Recurrence,
-  Single,
-} from "@/db/schema";
-import {
-  BudgetDetailGetData,
-  BudgetExpenseData,
-  IncomeData,
-  RecurrenceDetail,
-  SingleDetail,
-} from "@/types";
+import { budget, budget_expense, income } from "@/db/schema";
+import { BudgetDetailGetData, BudgetExpenseData, IncomeData } from "@/types";
 import { Client } from "pg";
 import { db } from "@/db/dbConfig";
 import { and, eq, getTableColumns, gte, lte } from "drizzle-orm";
@@ -36,9 +24,7 @@ export async function getUserData(userEmail: string) {
   const firstDayOfPrevMonth = new Date(
     Date.UTC(currentYear, currentMonth - 1, 1),
   ).toISOString();
-  const firstDayOfMonth = new Date(
-    Date.UTC(currentYear, currentMonth, 1),
-  ).toISOString();
+
   const lastDayOfMonth = new Date(
     Date.UTC(currentYear, currentMonth + 1, 0),
   ).toISOString();
@@ -69,50 +55,20 @@ export async function getUserData(userEmail: string) {
             lte(budget_expense.date, lastDayOfMonth),
           ),
         ),
-      db
-        .select({ ...getTableColumns(Single) })
-        .from(Single)
-        .where(
-          and(
-            eq(Single.created_by, userEmail),
-            gte(Single.date, firstDayOfPrevMonth),
-            lte(Single.date, lastDayOfMonth),
-          ),
-        ),
-      db
-        .select({ ...getTableColumns(Recurrence) })
-        .from(Recurrence)
-        .where(
-          and(
-            eq(Recurrence.created_by, userEmail),
-            gte(Recurrence.date, firstDayOfMonth),
-            lte(Recurrence.date, lastDayOfMonth),
-          ),
-        ),
     ]);
 
     let incomeResult: IncomeData[] = [];
     let budgetsResult: BudgetDetailGetData[] = [];
     let budgetExpensesResult: BudgetExpenseData[] = [];
-    let singleResult: SingleDetail[] = [];
-    let recurringResult: RecurrenceDetail[] = [];
 
     if (batchReponse) {
-      [
-        incomeResult,
-        budgetsResult,
-        budgetExpensesResult,
-        singleResult,
-        recurringResult,
-      ] = batchReponse;
+      [incomeResult, budgetsResult, budgetExpensesResult] = batchReponse;
     }
 
     const userData = {
       userIncome: incomeResult,
       userBudgets: budgetsResult,
       userExpensesFromBudgets: budgetExpensesResult,
-      userSingleOrOneTimePayment: singleResult,
-      userRecurringPayment: recurringResult,
     };
 
     cache[userEmail] = userData;
