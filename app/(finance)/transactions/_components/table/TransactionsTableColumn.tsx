@@ -1,4 +1,4 @@
-import { IncomeData } from "@/types";
+import { AccountData, TransactionData } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { format, parseISO, startOfDay } from "date-fns";
 import React from "react";
@@ -12,10 +12,15 @@ import { Ellipsis } from "lucide-react";
 import { DateRange } from "react-day-picker";
 import FormatNumber from "@/utils/formatNumber";
 import FormatString from "@/utils/formatString";
-import EditIncome from "../mutations/EditIncome";
-import DeleteIncome from "../mutations/DeleteIncome";
+import { cn } from "@/lib/utils";
+import DeleteTransaction from "@/app/(finance)/transactions/_components/form/DeleteTransaction";
+import EditTransaction from "@/app/(finance)/transactions/_components/form/EditTransaction";
+import {
+  TRANSACTION_CATEGORIES,
+  TransactionCategoryItem,
+} from "@/lib/constants";
 
-export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
+export const TransactionsTableColumns: ColumnDef<TransactionData>[] = [
   {
     accessorKey: "date",
     header: "Date",
@@ -57,23 +62,44 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => {
-      const category = row.getValue("category") as string;
+      const category = row.getValue("category") as TransactionCategoryItem;
+
+      const allCategories = [
+        ...TRANSACTION_CATEGORIES.expense,
+        ...TRANSACTION_CATEGORIES.income,
+      ];
+
+      const matchingCategory = allCategories.find(
+        (item) => item.value === category.value,
+      );
+
+      const Icon = matchingCategory?.icon;
+
       return (
-        <div>
-          💵 <FormatString text={category} />
+        <div className="flex w-fit items-center gap-2 rounded-sm bg-sky-200 px-2 py-0.5 text-sky-800">
+          {Icon && <Icon className="size-5" />} {category.label}
         </div>
       );
     },
-    filterFn: "arrIncludesSome",
+    filterFn: (row, columnId, filterValue: string[]) => {
+      const category = row.getValue(columnId) as TransactionCategoryItem;
+      return filterValue.includes(category.value);
+    },
   },
   {
-    accessorKey: "payment_method",
-    header: "Payment method",
+    accessorKey: "payment_source",
+    header: "Account",
     cell: ({ row }) => {
-      const paymentMethod = row.getValue("payment_method") as string;
+      const paymentSource: AccountData = row.getValue("payment_source");
       return (
-        <div>
-          <FormatString text={paymentMethod} />
+        <div className="flex items-center gap-2">
+          <div
+            className={cn(
+              "size-2 rounded-full bg-gradient-to-br",
+              paymentSource.color,
+            )}
+          ></div>
+          <FormatString text={paymentSource.name} />
         </div>
       );
     },
@@ -86,7 +112,8 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
       const amount = row.getValue("amount") as number;
       return (
         <div className="text-right">
-          $<FormatNumber number={amount} />
+          -$
+          <FormatNumber number={amount} />
         </div>
       );
     },
@@ -114,7 +141,7 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
     cell: ({ row }) => {
       const rowIncomeData = row.original;
       return (
-        <Popover modal={true}>
+        <Popover>
           <PopoverTrigger asChild>
             <Button
               variant="ghost"
@@ -126,8 +153,8 @@ export const IncomeTableColumns: ColumnDef<IncomeData>[] = [
           </PopoverTrigger>
           <PopoverContent align="end" className="flex w-40 flex-col p-0">
             <div className="p-1">
-              <EditIncome incomeData={rowIncomeData} />
-              <DeleteIncome incomeId={rowIncomeData.id} />
+              <EditTransaction transactionData={rowIncomeData} />
+              <DeleteTransaction transactionId={rowIncomeData.id} />
             </div>
           </PopoverContent>
         </Popover>

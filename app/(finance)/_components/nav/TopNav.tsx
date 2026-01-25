@@ -12,7 +12,6 @@ import {
   Bell,
   BotMessageSquare,
   CircleDollarSign,
-  Landmark,
   LayoutGrid,
   Settings,
 } from "lucide-react";
@@ -25,12 +24,11 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import Image from "next/image";
 
-const menu = [
-  { option: "Home", icon: LayoutGrid, href: "/dashboard" },
-  { option: "Spending", icon: CircleDollarSign, href: "/spending" },
-  { option: "Income", icon: Landmark, href: "/income" },
-  { option: "Budgets", icon: Banknote, href: "/budgets" },
-  { option: "Penny", icon: BotMessageSquare, href: "/penny" },
+const DESKTOP_MENU = [
+  { title: "Home", href: "/dashboard", icon: LayoutGrid },
+  { title: "Transactions", href: "/transactions", icon: CircleDollarSign },
+  { title: "Budgets", href: "/budgets", icon: Banknote },
+  { title: "Penny", href: "/penny", icon: BotMessageSquare },
 ];
 
 export default function TopNav() {
@@ -40,8 +38,8 @@ export default function TopNav() {
   return (
     <div className="hidden w-full items-center justify-between rounded-b-xl bg-background p-2 lg:flex">
       <ul className="flex items-center">
-        {menu.map((item) => (
-          <li key={item.option} className="relative">
+        {DESKTOP_MENU.map((item) => (
+          <li key={item.title} className="relative">
             <Button
               asChild
               variant="subtle"
@@ -54,7 +52,7 @@ export default function TopNav() {
                   pathName === item.href && "font-semibold",
                 )}
               >
-                {item.option}
+                {item.title}
               </Link>
             </Button>
             <div

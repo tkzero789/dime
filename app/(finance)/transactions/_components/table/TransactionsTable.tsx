@@ -20,16 +20,17 @@ import {
 } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
 import { TablePagination } from "@/app/(finance)/_components/table/TablePagination";
-import SpendingFilters from "./SpendingFilters";
+
 import TableFiltersReset from "@/app/(finance)/_components/table/TableFiltersReset";
 import { useDesktop } from "@/hooks/use-desktop";
+import TransactionsFilters from "./TransactionsFilters";
 
 type IncomeTableProps<TData, TValue> = {
   data: TData[];
   columns: ColumnDef<TData, TValue>[];
 };
 
-export default function SpendingTable<TData, TValue>({
+export default function TransactionsTable<TData, TValue>({
   data,
   columns,
 }: IncomeTableProps<TData, TValue>) {
@@ -63,7 +64,7 @@ export default function SpendingTable<TData, TValue>({
       <div className="flex items-center justify-between gap-4">
         <h2>Transactions</h2>
         <div className="lg:hidden">
-          <SpendingFilters
+          <TransactionsFilters
             sortOption={sortOption}
             setSortOption={setSortOption}
             sorting={sorting}
@@ -74,7 +75,7 @@ export default function SpendingTable<TData, TValue>({
         </div>
         {isDesktop && (
           <div className="hidden items-center gap-2 lg:flex">
-            <SpendingFilters
+            <TransactionsFilters
               sortOption={sortOption}
               setSortOption={setSortOption}
               sorting={sorting}

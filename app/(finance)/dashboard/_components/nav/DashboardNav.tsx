@@ -1,6 +1,6 @@
 "use client";
 
-import AddTransaction from "@/app/(finance)/_components/transaction/AddTransaction";
+import AddTransaction from "@/app/(finance)/transactions/_components/form/AddTransaction";
 import { useDesktop } from "@/hooks/use-desktop";
 import GetGreeting from "@/utils/getGreeting";
 import { LayoutGrid } from "lucide-react";

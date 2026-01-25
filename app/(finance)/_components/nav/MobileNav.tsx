@@ -6,10 +6,7 @@ import {
   LayoutGrid,
   Menu,
   Banknote,
-  RefreshCcwDot,
-  ArrowLeftRight,
   BotMessageSquare,
-  Landmark,
   Settings,
   Moon,
   LogOut,
@@ -27,30 +24,19 @@ import { usePathname } from "next/navigation";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import AddTransaction from "../transaction/AddTransaction";
+import AddTransaction from "../../transactions/_components/form/AddTransaction";
 
 const MOBILE_MENU = {
   main: [
-    { option: "Home", icon: LayoutGrid, href: "/dashboard" },
-    { option: "Spending", icon: CircleDollarSign, href: "/spending" },
-    { option: "Income", icon: Landmark, href: "/income" },
+    { title: "Home", href: "/dashboard", icon: LayoutGrid },
+    { title: "Transactions", href: "/transactions", icon: CircleDollarSign },
   ],
   sub: [
-    { option: "Budgets", icon: Banknote, href: "/budgets" },
+    { title: "Budgets", href: "/budgets", icon: Banknote },
     {
-      option: "Recurring",
-      icon: RefreshCcwDot,
-      href: "/recurring",
-    },
-    {
-      option: "Transaction",
-      icon: ArrowLeftRight,
-      href: "/transaction",
-    },
-    {
-      option: "Penny",
-      icon: BotMessageSquare,
+      title: "Penny",
       href: "/penny",
+      icon: BotMessageSquare,
     },
   ],
 };
@@ -66,7 +52,7 @@ export default function MobileNav() {
       {/* Main menu */}
       <ul className="grid h-full w-full grid-cols-5">
         {MOBILE_MENU.main.map((item, index) => (
-          <React.Fragment key={item.option}>
+          <React.Fragment key={item.title}>
             {index === 2 && (
               <li
                 key="AddTransaction"
@@ -76,7 +62,7 @@ export default function MobileNav() {
               </li>
             )}
             <li
-              key={item.option}
+              key={item.title}
               className={cn(
                 "border-t-2",
                 path.startsWith(item.href)
@@ -107,7 +93,7 @@ export default function MobileNav() {
                     path.startsWith(item.href) && "text-primary",
                   )}
                 >
-                  {item.option}
+                  {item.title}
                 </span>
               </Link>
             </li>
@@ -149,17 +135,17 @@ export default function MobileNav() {
               {/* Submenu */}
               <ul className="overflow-hidden rounded-lg border">
                 {MOBILE_MENU.sub.map((item) => (
-                  <li key={item.option}>
+                  <li key={item.title}>
                     <Link
                       href={item.href}
                       onClick={() => setOpen(false)}
                       className={cn(
                         "flex items-center gap-4 p-4",
-                        item.option !== "Budgets" && "border-t",
+                        item.title !== "Budgets" && "border-t",
                       )}
                     >
                       <item.icon />
-                      <div className="font-medium">{item.option}</div>
+                      <div className="font-medium">{item.title}</div>
                     </Link>
                   </li>
                 ))}

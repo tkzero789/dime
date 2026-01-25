@@ -1,14 +1,15 @@
 "use client";
 
 import React from "react";
-import SpendingNav from "./_components/nav/SpendingNav";
+import SpendingNav from "./_components/nav/TransactionsNav";
 import { useRouter } from "next/navigation";
 import { getTransactionData } from "@/lib/api/transactions";
 import { queryKeys } from "@/lib/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 import { CardSkeleton } from "@/components/ui/card-skeleton";
-import SpendingTable from "./_components/table/SpendingTable";
-import { SpendingTableColumns } from "./_components/table/SpendingTableColumn";
+
+import { TransactionsTableColumns } from "./_components/table/TransactionsTableColumn";
+import TransactionsTable from "./_components/table/TransactionsTable";
 
 type Props = {
   searchParams: {
@@ -45,7 +46,7 @@ export default function SpendingPage({ searchParams }: Props) {
     };
     setCurrentYear(year);
     router.replace(
-      `/spending?startDate=${newParams.startDate}&endDate=${newParams.endDate}`,
+      `/transactions?startDate=${newParams.startDate}&endDate=${newParams.endDate}`,
     );
   };
 
@@ -65,9 +66,9 @@ export default function SpendingPage({ searchParams }: Props) {
             style="mt-4 xl:mt-8"
           />
         ) : (
-          <SpendingTable
+          <TransactionsTable
             data={transactionData?.all || []}
-            columns={SpendingTableColumns}
+            columns={TransactionsTableColumns}
           />
         )}
       </div>

@@ -1,7 +1,7 @@
 import { BudgetExpenseData, IncomeData } from "@/types";
 import React from "react";
 import { DashboardTable } from "./DashboardTable";
-import DashboardBudget from "./DashboardBudget";
+
 import { CardSkeleton } from "@/components/ui/card-skeleton";
 
 type Props = {
@@ -23,7 +23,6 @@ export default function DashboardMidSection({ allData, isLoading }: Props) {
       ) : (
         <DashboardTable allData={allData} />
       )}
-      <DashboardBudget />
     </div>
   );
 }
