@@ -1,10 +1,10 @@
-import { cn } from "@/lib/utils";
+import { cn, FormatNumber } from "@/lib/utils";
 import { useSortable } from "@dnd-kit/sortable";
 import { Ellipsis, GripVertical } from "lucide-react";
 import { CSS } from "@dnd-kit/utilities";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import FormatNumber from "@/utils/formatNumber";
+
 import {
   Popover,
   PopoverContent,

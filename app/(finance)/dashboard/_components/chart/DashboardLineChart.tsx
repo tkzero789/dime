@@ -16,9 +16,10 @@ import {
   ChartTooltip,
 } from "@/components/ui/chart";
 import { BudgetExpenseData, RecurrenceDetail, SingleDetail } from "@/types";
-import GetCurrentMonth from "@/utils/getCurrentMonth";
+
 import LineCustomTooltip from "./LineCustomTooltip";
 import { useMediaQuery } from "usehooks-ts";
+import { GetCurrentMonth } from "@/lib/utils";
 
 export const description = "A multiple line chart";
 

@@ -2,7 +2,7 @@
 
 import { forwardRef, useMemo, useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { cn } from "@/lib/utils";
+import { cn, useForwardedRef } from "@/lib/utils";
 import type { ButtonProps } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +11,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
-import { useForwardedRef } from "@/utils/useForwardedRef";
 
 interface ColorPickerProps {
   value: string;

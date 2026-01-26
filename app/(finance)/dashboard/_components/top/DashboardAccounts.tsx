@@ -1,10 +1,9 @@
 import React from "react";
 import { CalendarDays, EllipsisVertical, PiggyBank } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, FormatNumber, FormatString } from "@/lib/utils";
 import Link from "next/link";
-import FormatNumber from "@/utils/formatNumber";
-import FormatString from "@/utils/formatString";
+
 import useEmblaCarousel from "embla-carousel-react";
 import ManageAccounts from "@/app/(finance)/accounts/_components/manage/ManageAccounts";
 import { useQuery } from "@tanstack/react-query";

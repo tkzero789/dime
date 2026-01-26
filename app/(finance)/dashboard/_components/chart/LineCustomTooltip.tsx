@@ -1,5 +1,5 @@
-import FormatDate from "@/utils/formatDate";
-import FormatNumber from "@/utils/formatNumber";
+import { FormatDate, FormatNumber } from "@/lib/utils";
+
 import React from "react";
 
 type Props = {
@@ -33,7 +33,7 @@ export default function LineCustomTooltip({ active, payload }: Props) {
           )}
         </p>
         <div className="flex items-center gap-2">
-          <div className="bg-chart-outflow-main block h-3 w-3 rounded-sm"></div>
+          <div className="block h-3 w-3 rounded-sm bg-chart-outflow-main"></div>
           <p>
             Current Month:{" "}
             <span className="font-bold">
@@ -42,7 +42,7 @@ export default function LineCustomTooltip({ active, payload }: Props) {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="bg-chart-outflow-comparative block h-3 w-3 rounded-sm"></div>
+          <div className="block h-3 w-3 rounded-sm bg-chart-outflow-comparative"></div>
           <p>
             Last Month:{" "}
             <span className="font-bold">

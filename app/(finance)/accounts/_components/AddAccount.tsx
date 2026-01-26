@@ -16,9 +16,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { LoaderCircle, Plus } from "lucide-react";
 import React from "react";
-import FormatString from "@/utils/formatString";
-import FormatNumber from "@/utils/formatNumber";
-import { cn } from "@/lib/utils";
+
+import { cn, FormatNumber, FormatString } from "@/lib/utils";
 import toast from "react-hot-toast";
 import { AccountState } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

@@ -12,7 +12,7 @@ import {
   RecurrenceDetail,
   SingleDetail,
 } from "@/types";
-import FormatNumber from "@/utils/formatNumber";
+import { FormatNumber } from "@/lib/utils";
 
 type Props = {
   spending: (BudgetExpenseData | RecurrenceDetail | SingleDetail)[];

@@ -27,7 +27,7 @@ export default function TableFiltersReset({
   };
 
   return (
-    <TooltipProvider delayDuration={0}>
+    <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <Button

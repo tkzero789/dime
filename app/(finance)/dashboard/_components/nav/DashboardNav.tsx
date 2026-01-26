@@ -2,7 +2,8 @@
 
 import AddTransaction from "@/app/(finance)/transactions/_components/form/AddTransaction";
 import { useDesktop } from "@/hooks/use-desktop";
-import GetGreeting from "@/utils/getGreeting";
+import { GetGreeting } from "@/lib/utils";
+
 import { LayoutGrid } from "lucide-react";
 import React from "react";
 

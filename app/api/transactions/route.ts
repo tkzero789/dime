@@ -106,38 +106,75 @@ export async function POST(request: Request) {
         throw new Error("Account not found or unauthorized");
       }
 
-      // 2. Update account available credit/balance
-      await tx
-        .update(account)
-        .set({
-          amount: sql`COALESCE(${account.amount}, 0) - ${body.amount}`,
-        })
-        .where(
-          and(
-            eq(account.id, body.payment_source),
-            eq(
-              account.created_by,
-              user?.primaryEmailAddress?.emailAddress ?? "",
-            ),
-          ),
-        );
-
-      // 3. Update debt for credit accounts
-      if (accountData.type === "credit") {
+      // 2. Update account balance based on transaction type
+      if (body.type === "income") {
+        // Add amount for income
         await tx
           .update(account)
           .set({
-            debt: sql`COALESCE(${account.debt}, 0) + ${body.amount}`,
+            amount: sql`COALESCE(${account.amount}, 0) + ${body.amount}`,
           })
           .where(
             and(
               eq(account.id, body.payment_source),
               eq(
                 account.created_by,
-                user.primaryEmailAddress?.emailAddress || "",
+                user?.primaryEmailAddress?.emailAddress ?? "",
               ),
             ),
           );
+
+        // Decrease debt for credit accounts when receiving income
+        if (accountData.type === "credit") {
+          await tx
+            .update(account)
+            .set({
+              debt: sql`COALESCE(${account.debt}, 0) - ${body.amount}`,
+            })
+            .where(
+              and(
+                eq(account.id, body.payment_source),
+                eq(
+                  account.created_by,
+                  user.primaryEmailAddress?.emailAddress || "",
+                ),
+              ),
+            );
+        }
+      } else {
+        // Subtract amount for expense
+        await tx
+          .update(account)
+          .set({
+            amount: sql`COALESCE(${account.amount}, 0) - ${body.amount}`,
+          })
+          .where(
+            and(
+              eq(account.id, body.payment_source),
+              eq(
+                account.created_by,
+                user?.primaryEmailAddress?.emailAddress ?? "",
+              ),
+            ),
+          );
+
+        // 3. Update debt for credit accounts (only for expenses)
+        if (accountData.type === "credit") {
+          await tx
+            .update(account)
+            .set({
+              debt: sql`COALESCE(${account.debt}, 0) + ${body.amount}`,
+            })
+            .where(
+              and(
+                eq(account.id, body.payment_source),
+                eq(
+                  account.created_by,
+                  user.primaryEmailAddress?.emailAddress || "",
+                ),
+              ),
+            );
+        }
       }
 
       // 4. Insert transaction record

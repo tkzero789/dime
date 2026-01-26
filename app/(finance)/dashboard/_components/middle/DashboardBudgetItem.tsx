@@ -1,6 +1,7 @@
 import { Progress } from "@/components/ui/progress";
+import { FormatNumber } from "@/lib/utils";
 import { BudgetData } from "@/types";
-import FormatNumber from "@/utils/formatNumber";
+
 import Link from "next/link";
 import React from "react";
 

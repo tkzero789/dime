@@ -38,6 +38,7 @@ export default function AddTransaction() {
   const [accountName, setAccountName] = React.useState<string>("");
   const [isCategoryOpen, setIsCategoryOpen] = React.useState<boolean>(false);
   const [categoryName, setCategoryName] = React.useState<string>("");
+  const [amountInCents, setAmountInCents] = React.useState<number>(0);
 
   const { data: accountData } = useQuery({
     queryKey: queryKeys.accounts.all(),
@@ -61,6 +62,43 @@ export default function AddTransaction() {
       ...prev,
       [field]: value,
     }));
+  };
+
+  const formatAmountDisplay = (cents: number): string => {
+    const dollars = (cents / 100).toFixed(2);
+    return dollars;
+  };
+
+  const handleAmountInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    const key = e.key;
+
+    // Handle backspace
+    if (key === "Backspace") {
+      const newCents = Math.floor(amountInCents / 10);
+      setAmountInCents(newCents);
+      const newAmount = newCents === 0 ? "" : (newCents / 100).toString();
+      handleFormChange("amount", newAmount);
+      return;
+    }
+
+    // Only allow digits
+    if (!/^\d$/.test(key)) {
+      return;
+    }
+
+    // Add digit to the right (shift cents left and add new digit)
+    const digit = parseInt(key);
+    const newCents = amountInCents * 10 + digit;
+
+    // Prevent overflow (max 9999999.99 = 999999999 cents)
+    if (newCents > 999999999) {
+      return;
+    }
+
+    setAmountInCents(newCents);
+    handleFormChange("amount", (newCents / 100).toString());
   };
 
   const queryClient = useQueryClient();
@@ -207,8 +245,11 @@ export default function AddTransaction() {
           <Input
             type="number"
             placeholder="Amount"
-            value={newTransaction.amount}
-            onChange={(e) => handleFormChange("amount", e.target.value)}
+            value={
+              amountInCents === 0 ? "" : formatAmountDisplay(amountInCents)
+            }
+            onKeyDown={handleAmountInput}
+            onChange={() => {}}
           />
           {/* Category */}
           <Popover open={isCategoryOpen} onOpenChange={setIsCategoryOpen}>

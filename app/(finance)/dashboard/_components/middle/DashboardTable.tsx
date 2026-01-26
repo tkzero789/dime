@@ -7,9 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { FormatDate, FormatNumber } from "@/lib/utils";
 import { BudgetExpenseData, IncomeData } from "@/types";
-import FormatDate from "@/utils/formatDate";
-import FormatNumber from "@/utils/formatNumber";
+
 import Link from "next/link";
 
 type Props = {

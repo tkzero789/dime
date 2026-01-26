@@ -22,6 +22,12 @@ import { TableFilterDate } from "@/app/(finance)/_components/table/TableFilterDa
 import { useDesktop } from "@/hooks/use-desktop";
 import TableFilterKeyword from "@/app/(finance)/_components/table/TableFilterKeyword";
 import { TRANSACTION_CATEGORIES } from "@/lib/constants";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type Props = {
   sortOption: string;
@@ -139,63 +145,72 @@ export default function TransactionsFilters({
   if (isDesktop) {
     return (
       <div className="hidden flex-wrap items-center gap-4 lg:flex">
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className={cn(
-                "data-[state=open]:bg-muted data-[state=open]:hover:border-border data-[state=open]:hover:text-foreground",
-                (columnFilters.length !== 0 || sorting.length !== 0) &&
-                  "border-primary text-primary hover:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:hover:border-primary data-[state=open]:hover:bg-primary/20 data-[state=open]:hover:text-primary",
-              )}
-            >
-              <Filter />
-              Filters
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent align="end" className="flex flex-col p-0">
-            <div className="flex gap-1 border-b p-2">
-              {options.map((item) => (
-                <Button
-                  key={item.id}
-                  variant="ghost"
-                  size="sm"
-                  className={cn(
-                    item.id === filterOption && "bg-muted",
-                    sorting.map(
-                      (sortObject) =>
-                        sortObject.id === item.id &&
-                        "text-primary hover:bg-primary/10",
-                    ),
-                    columnFilters.map(
-                      (filterObject) =>
-                        filterObject.id === item.id &&
-                        "text-primary hover:bg-primary/10",
-                    ),
-                    sorting.length !== 0 &&
-                      item.id === filterOption &&
-                      sorting.some(
-                        (sortObject) => sortObject.id === filterOption,
-                      ) &&
-                      "bg-primary/10",
-                    columnFilters.length !== 0 &&
-                      item.id === filterOption &&
-                      columnFilters.some(
-                        (filterObject) => filterObject.id === filterOption,
-                      ) &&
-                      "bg-primary/10",
-                  )}
-                  onClick={() => setFilterOption(item.id)}
-                >
-                  {item.title}
-                </Button>
-              ))}
-            </div>
-            <div className="max-h-72 overflow-y-auto p-2">
-              {displayFilterOption(filterOption)}
-            </div>
-          </PopoverContent>
-        </Popover>
+        <TooltipProvider>
+          <Popover open={isOpen} onOpenChange={setIsOpen}>
+            <Tooltip>
+              <PopoverTrigger asChild>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={cn(
+                      "data-[state=open]:bg-muted data-[state=open]:hover:border-border data-[state=open]:hover:text-foreground",
+                      (columnFilters.length !== 0 || sorting.length !== 0) &&
+                        "border-primary text-primary hover:bg-primary/10 data-[state=open]:bg-primary/10 data-[state=open]:hover:border-primary data-[state=open]:hover:bg-primary/20 data-[state=open]:hover:text-primary",
+                    )}
+                  >
+                    <Filter />
+                  </Button>
+                </TooltipTrigger>
+              </PopoverTrigger>
+              <TooltipContent>
+                <p>Filters</p>
+              </TooltipContent>
+            </Tooltip>
+            <PopoverContent align="end" className="flex flex-col p-0">
+              <div className="flex gap-1 border-b p-2">
+                {options.map((item) => (
+                  <Button
+                    key={item.id}
+                    variant="ghost"
+                    size="sm"
+                    className={cn(
+                      item.id === filterOption && "bg-muted",
+                      sorting.map(
+                        (sortObject) =>
+                          sortObject.id === item.id &&
+                          "text-primary hover:bg-primary/10",
+                      ),
+                      columnFilters.map(
+                        (filterObject) =>
+                          filterObject.id === item.id &&
+                          "text-primary hover:bg-primary/10",
+                      ),
+                      sorting.length !== 0 &&
+                        item.id === filterOption &&
+                        sorting.some(
+                          (sortObject) => sortObject.id === filterOption,
+                        ) &&
+                        "bg-primary/10",
+                      columnFilters.length !== 0 &&
+                        item.id === filterOption &&
+                        columnFilters.some(
+                          (filterObject) => filterObject.id === filterOption,
+                        ) &&
+                        "bg-primary/10",
+                    )}
+                    onClick={() => setFilterOption(item.id)}
+                  >
+                    {item.title}
+                  </Button>
+                ))}
+              </div>
+              <div className="max-h-72 overflow-y-auto p-2">
+                {displayFilterOption(filterOption)}
+              </div>
+            </PopoverContent>
+          </Popover>
+        </TooltipProvider>
       </div>
     );
   }

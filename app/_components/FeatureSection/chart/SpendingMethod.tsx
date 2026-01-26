@@ -90,7 +90,7 @@ export function SpendingMethod() {
               Payment Method
             </CardTitle>
             <TooltipProvider>
-              <Tooltip delayDuration={0}>
+              <Tooltip>
                 <TooltipTrigger className="rounded-full hover:bg-muted">
                   <Info className="h-5 w-5 stroke-[1.5] text-muted-foreground" />
                 </TooltipTrigger>

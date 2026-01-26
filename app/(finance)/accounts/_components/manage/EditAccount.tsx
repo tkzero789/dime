@@ -17,12 +17,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import FormatNumber from "@/utils/formatNumber";
+
 import EditCardBackground from "../EditCardBackground";
-import FormatString from "@/utils/formatString";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateAccount } from "@/lib/api/accounts";
-import { cn } from "@/lib/utils";
+import { cn, FormatNumber, FormatString } from "@/lib/utils";
 import toast from "react-hot-toast";
 import { queryKeys } from "@/lib/queryKeys";
 
