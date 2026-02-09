@@ -30,6 +30,7 @@ const MOBILE_MENU = {
   main: [
     { title: "Home", href: "/dashboard", icon: LayoutGrid },
     { title: "Transactions", href: "/transactions", icon: CircleDollarSign },
+    { title: "Income", href: "/income", icon: Banknote },
   ],
   sub: [
     { title: "Budgets", href: "/budgets", icon: Banknote },

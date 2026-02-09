@@ -18,6 +18,14 @@ export type TransactionInput = {
   date: Date;
 };
 
+export type BudgetInput = {
+  category: string;
+  amount: string;
+  period: string;
+  start_date: Date | undefined;
+  end_date: Date | undefined;
+};
+
 export type BudgetState = {
   amount: string;
   category: string;
@@ -72,10 +80,13 @@ export type BudgetData = {
   id: string;
   category: string;
   amount: string;
-  emoji: string | null;
-  date: string;
-  total_spend: number;
-  remaining: number;
+  period: string;
+  start_date: string;
+  end_date: string | null;
+  is_active: boolean;
+  total_spent: string;
+  remaining: string;
+  percentage: string;
   created_by: string;
   created_at: Date;
 };

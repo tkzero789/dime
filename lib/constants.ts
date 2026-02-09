@@ -125,3 +125,12 @@ export type ExpenseCategory =
 export type IncomeCategory =
   (typeof TRANSACTION_CATEGORIES.income)[number]["value"];
 export type TransactionCategory = ExpenseCategory | IncomeCategory;
+
+// Budget
+export const BUDGET_PERIODS = [
+  { label: "Weekly", value: "weekly" },
+  { label: "Monthly", value: "monthly" },
+  { label: "Yearly", value: "yearly" },
+] as const;
+
+export type BudgetPeriod = (typeof BUDGET_PERIODS)[number]["value"];

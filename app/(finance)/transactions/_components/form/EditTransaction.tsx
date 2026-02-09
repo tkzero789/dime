@@ -31,7 +31,7 @@ import { queryKeys } from "@/lib/queryKeys";
 import toast from "react-hot-toast";
 import { getAccountData } from "@/lib/api/accounts";
 import { cn, convertToLocalDate, FormatString } from "@/lib/utils";
-import { TransactionDatePicker } from "./TransactionDatePicker";
+import { DatePicker } from "@/app/(finance)/_components/picker/DatePicker";
 import { TRANSACTION_CATEGORIES } from "@/lib/constants";
 
 type Props = {
@@ -200,8 +200,9 @@ export default function EditTransaction({ transactionData }: Props) {
             </Button>
           </ButtonGroup>
           {/* Date */}
-          <TransactionDatePicker
+          <DatePicker<TransactionInput>
             date={transactionToUpdate.date}
+            field="date"
             handleFormChange={handleFormChange}
           />
           {/* Name */}

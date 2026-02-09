@@ -24,7 +24,7 @@ export default function TransactionsNav({
         <div className="flex size-8 items-center justify-center rounded-lg bg-primary">
           <Wallet className="size-4 text-primary-foreground" />
         </div>
-        <h1>Spending</h1>
+        <h1>Transactions</h1>
       </div>
       <div className="flex w-full items-center justify-end gap-2 md:w-auto">
         <TransactionsYearPicker

@@ -219,9 +219,14 @@ export default function TransactionsFilters({
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className={`lg:hidden ${(columnFilters.length !== 0 || sorting.length !== 0) && "border-primary bg-primary/10 text-primary hover:bg-primary/20"}`}
+          size={isDesktop ? "default" : "icon"}
+          className={cn(
+            "lg:hidden",
+            (columnFilters.length !== 0 || sorting.length !== 0) &&
+              "border-primary bg-primary/10 text-primary hover:bg-primary/20",
+          )}
         >
-          <Filter /> Filters
+          <Filter /> <span className="hidden lg:block">Filters</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="gap-0 overflow-hidden">

@@ -19,10 +19,10 @@ export function CardSkeleton({
   const customeTitleWidth = titleWidth;
   const customStyle = style;
   return (
-    <div className={cn("rounded-lg bg-white p-6", customStyle)}>
+    <div className={cn("rounded-lg bg-background p-4", customStyle)}>
       {title && (
         <Skeleton
-          className="mb-4 h-7 w-full bg-gray-200"
+          className="mb-4 h-7 w-full bg-muted"
           style={{ width: `${customeTitleWidth}%` }}
         />
       )}
@@ -30,7 +30,7 @@ export function CardSkeleton({
         {Array.from({ length: rectangle }).map((_, index) => (
           <Skeleton
             key={index}
-            className="w-full bg-gray-200"
+            className="w-full bg-muted"
             style={{ height: `${height}rem` }}
           />
         ))}

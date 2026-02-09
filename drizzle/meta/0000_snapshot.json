@@ -1,5 +1,5 @@
 {
-  "id": "a538dfac-271d-4b11-896d-7f6a8bade0a5",
+  "id": "50c0336b-7e10-49b7-8ff6-5fd8de263d1d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -85,77 +85,8 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "amount": {
-          "name": "amount",
-          "type": "numeric(10, 2)",
-          "primaryKey": false,
-          "notNull": true
-        },
         "category": {
           "name": "category",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "emoji": {
-          "name": "emoji",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "date": {
-          "name": "date",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_by": {
-          "name": "created_by",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.budget_expense": {
-      "name": "budget_expense",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "budget_id": {
-          "name": "budget_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "account_id": {
-          "name": "account_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
@@ -166,113 +97,31 @@
           "primaryKey": false,
           "notNull": true
         },
-        "category": {
-          "name": "category",
+        "period": {
+          "name": "period",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "'monthly'"
         },
-        "payment_source": {
-          "name": "payment_source",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "date": {
-          "name": "date",
+        "start_date": {
+          "name": "start_date",
           "type": "date",
           "primaryKey": false,
           "notNull": true
         },
-        "created_by": {
-          "name": "created_by",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "budget_expense_budget_id_budget_id_fk": {
-          "name": "budget_expense_budget_id_budget_id_fk",
-          "tableFrom": "budget_expense",
-          "tableTo": "budget",
-          "columnsFrom": [
-            "budget_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "budget_expense_account_id_account_id_fk": {
-          "name": "budget_expense_account_id_account_id_fk",
-          "tableFrom": "budget_expense",
-          "tableTo": "account",
-          "columnsFrom": [
-            "account_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.income": {
-      "name": "income",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "amount": {
-          "name": "amount",
-          "type": "numeric(10, 2)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "category": {
-          "name": "category",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "payment_method": {
-          "name": "payment_method",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "date": {
-          "name": "date",
+        "end_date": {
+          "name": "end_date",
           "type": "date",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
         },
         "created_by": {
           "name": "created_by",

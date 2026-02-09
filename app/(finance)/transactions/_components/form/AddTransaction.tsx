@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/button-group";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -26,7 +26,7 @@ import { queryKeys } from "@/lib/queryKeys";
 import toast from "react-hot-toast";
 import { getAccountData } from "@/lib/api/accounts";
 import { cn } from "@/lib/utils";
-import { TransactionDatePicker } from "./TransactionDatePicker";
+import { DatePicker } from "@/app/(finance)/_components/picker/DatePicker";
 import { TRANSACTION_CATEGORIES } from "@/lib/constants";
 import { useDesktop } from "@/hooks/use-desktop";
 
@@ -197,41 +197,27 @@ export default function AddTransaction() {
           className="flex flex-col gap-4 p-4"
         >
           {/* Type */}
-          <ButtonGroup className="w-full rounded-lg">
-            <Button
-              variant="outline"
-              type="button"
-              className={cn(
-                "h-12 w-full text-base focus:text-primary-foreground lg:h-9 lg:text-sm",
-                newTransaction.type === "expense" &&
-                  "bg-primary text-primary-foreground",
-              )}
-              onClick={() => {
-                handleFormChange("type", "expense");
-                handleFormChange("category", "");
-              }}
-            >
-              Expense
-            </Button>
-            <Button
-              variant="outline"
-              type="button"
-              className={cn(
-                "h-12 w-full text-base focus:text-primary-foreground lg:h-9 lg:text-sm",
-                newTransaction.type === "income" &&
-                  "bg-primary text-primary-foreground",
-              )}
-              onClick={() => {
-                handleFormChange("type", "income");
-                handleFormChange("category", "");
-              }}
-            >
-              Income
-            </Button>
-          </ButtonGroup>
+          <Tabs
+            value={newTransaction.type}
+            onValueChange={(value) => {
+              handleFormChange("type", value);
+              handleFormChange("category", "");
+            }}
+            className="w-full"
+          >
+            <TabsList className="h-12 w-full p-0 lg:h-9">
+              <TabsTrigger value="expense" className="h-full w-full">
+                Expense
+              </TabsTrigger>
+              <TabsTrigger value="income" className="h-full w-full">
+                Income
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
           {/* Date */}
-          <TransactionDatePicker
+          <DatePicker<TransactionInput>
             date={newTransaction.date}
+            field="date"
             handleFormChange={handleFormChange}
           />
           {/* Name */}

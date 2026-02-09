@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import SpendingNav from "./_components/nav/TransactionsNav";
 import { useRouter } from "next/navigation";
 import { getTransactionData } from "@/lib/api/transactions";
 import { queryKeys } from "@/lib/queryKeys";
@@ -10,6 +9,7 @@ import { CardSkeleton } from "@/components/ui/card-skeleton";
 
 import { TransactionsTableColumns } from "./_components/table/TransactionsTableColumn";
 import TransactionsTable from "./_components/table/TransactionsTable";
+import TransactionsNav from "./_components/nav/TransactionsNav";
 
 type Props = {
   searchParams: {
@@ -52,7 +52,7 @@ export default function SpendingPage({ searchParams }: Props) {
 
   return (
     <>
-      <SpendingNav
+      <TransactionsNav
         currentYear={currentYear}
         handleYearChange={handleYearChange}
       />

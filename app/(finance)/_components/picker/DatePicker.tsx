@@ -11,24 +11,28 @@ import {
 } from "@/components/ui/popover";
 import { SelectSingleEventHandler } from "react-day-picker";
 import { format } from "date-fns";
-import { TransactionInput } from "@/types";
+import { cn } from "@/lib/utils";
 
-type Props = {
-  date: Date;
-  handleFormChange: (
-    field: keyof TransactionInput,
-    value: string | Date,
-  ) => void;
+type Props<TField> = {
+  date: Date | undefined;
+  label?: string;
+  field: keyof TField;
+  handleFormChange: (field: keyof TField, value: string | Date) => void;
 };
 
-export function TransactionDatePicker({ date, handleFormChange }: Props) {
+export function DatePicker<TField>({
+  date,
+  label,
+  field,
+  handleFormChange,
+}: Props<TField>) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const defaultMonth = date || new Date();
 
   const handleOnSelect: SelectSingleEventHandler = (selectedDate) => {
     if (selectedDate) {
-      handleFormChange("date", selectedDate);
+      handleFormChange(field, selectedDate);
     }
     setIsOpen(false);
   };
@@ -36,8 +40,14 @@ export function TransactionDatePicker({ date, handleFormChange }: Props) {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="justify-between">
-          {format(date, "PPP")}
+        <Button
+          variant="outline"
+          className={cn(
+            "h-12 justify-between text-base lg:h-9 lg:text-sm",
+            date ? "text-foreground" : "text-muted-foreground",
+          )}
+        >
+          {date ? format(date, "MMM dd, yyyy") : label}
           <CalendarIcon />
         </Button>
       </PopoverTrigger>
@@ -49,6 +59,9 @@ export function TransactionDatePicker({ date, handleFormChange }: Props) {
           onSelect={handleOnSelect}
           defaultMonth={defaultMonth}
           showOutsideDays={false}
+          formatters={{
+            formatCaption: (date) => format(date, "MMM yyyy"),
+          }}
         />
       </PopoverContent>
     </Popover>
