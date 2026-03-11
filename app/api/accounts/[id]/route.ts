@@ -41,12 +41,11 @@ export async function PUT(
             : updateMode === "deactivate"
               ? false
               : true,
-        created_by: user?.primaryEmailAddress?.emailAddress || "",
       })
       .where(
         and(
           eq(account.id, accountId),
-          eq(account.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
+          eq(account.created_by, user.id),
         ),
       );
 

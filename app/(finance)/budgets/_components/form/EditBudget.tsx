@@ -24,6 +24,7 @@ import toast from "react-hot-toast";
 import { cn, convertToLocalDate } from "@/lib/utils";
 import { DatePicker } from "@/app/(finance)/_components/picker/DatePicker";
 import { TRANSACTION_CATEGORIES, BUDGET_PERIODS } from "@/lib/constants";
+import { addDays, endOfMonth, format, startOfMonth } from "date-fns";
 
 type Props = {
   budgetData: BudgetData;
@@ -51,11 +52,35 @@ export default function EditBudget({ budgetData }: Props) {
       : undefined,
   });
 
+  const computeDates = (
+    date: Date,
+    period: string,
+  ): { start_date: Date; end_date: Date } => {
+    if (period === "weekly") {
+      return { start_date: date, end_date: addDays(date, 6) };
+    }
+    const start = startOfMonth(date);
+    return { start_date: start, end_date: endOfMonth(start) };
+  };
+
   const handleFormChange = (field: keyof BudgetInput, value: string | Date) => {
-    setBudgetToUpdate((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setBudgetToUpdate((prev) => {
+      const updated = { ...prev, [field]: value };
+
+      if (field === "start_date" && value instanceof Date) {
+        const { start_date, end_date } = computeDates(value, prev.period);
+        updated.start_date = start_date;
+        updated.end_date = end_date;
+      }
+
+      if (field === "period" && typeof value === "string" && prev.start_date) {
+        const { start_date, end_date } = computeDates(prev.start_date, value);
+        updated.start_date = start_date;
+        updated.end_date = end_date;
+      }
+
+      return updated;
+    });
   };
 
   const formatAmountDisplay = (cents: number): string => {
@@ -274,15 +299,19 @@ export default function EditBudget({ budgetData }: Props) {
             label="Start date"
             field="start_date"
             handleFormChange={handleFormChange}
+            disabled={
+              budgetToUpdate.period === "monthly"
+                ? (date: Date) => date.getDate() !== 1
+                : undefined
+            }
           />
 
-          {/* End Date */}
-          <DatePicker<BudgetInput>
-            date={budgetToUpdate.end_date}
-            label="End date"
-            field="end_date"
-            handleFormChange={handleFormChange}
-          />
+          {/* End Date (auto-calculated) */}
+          {budgetToUpdate.end_date && (
+            <div className="flex h-12 items-center rounded-md border px-3 text-base text-muted-foreground lg:h-9 lg:text-sm">
+              End date: {format(budgetToUpdate.end_date, "MMM dd, yyyy")}
+            </div>
+          )}
         </form>
         {/* Button */}
         <div className="hidden items-center justify-end border-t p-4 lg:flex">

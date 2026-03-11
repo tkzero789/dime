@@ -24,7 +24,7 @@ export async function PUT(
       .where(
         and(
           eq(budget.id, budgetId),
-          eq(budget.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
+          eq(budget.created_by, user.id),
         ),
       )
       .limit(1);
@@ -49,7 +49,7 @@ export async function PUT(
       .where(
         and(
           eq(budget.id, budgetId),
-          eq(budget.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
+          eq(budget.created_by, user.id),
         ),
       );
 
@@ -83,7 +83,7 @@ export async function DELETE(
       .where(
         and(
           eq(budget.id, budgetId),
-          eq(budget.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
+          eq(budget.created_by, user.id),
         ),
       )
       .limit(1);
@@ -101,7 +101,7 @@ export async function DELETE(
       .where(
         and(
           eq(budget.id, budgetId),
-          eq(budget.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
+          eq(budget.created_by, user.id),
         ),
       );
 

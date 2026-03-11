@@ -1,15 +1,22 @@
 "use client";
 
 import React from "react";
-import { ChevronLeft, ChevronRight, PiggyBank } from "lucide-react";
+import { PiggyBank } from "lucide-react";
 import AddBudget from "@/app/(finance)/budgets/_components/form/AddBudget";
 import { Separator } from "@/components/ui/separator";
-import { useDesktop } from "@/hooks/use-desktop";
-import { Button } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/button-group";
-import { YearPicker } from "@/app/(finance)/_components/picker/YearPicker";
+import { MonthPicker } from "@/app/(finance)/_components/picker/MonthPicker";
 
-export default function BudgetsNav() {
+type Props = {
+  currentMonth: number;
+  currentYear: number;
+  handleMonthChange: (month: number, year: number) => void;
+};
+
+export default function BudgetsNav({
+  currentMonth,
+  currentYear,
+  handleMonthChange,
+}: Props) {
   return (
     <div className="sticky top-0 z-50 flex items-center justify-between bg-muted pb-4 pt-8">
       <div className="flex items-center gap-2">
@@ -19,15 +26,11 @@ export default function BudgetsNav() {
         <h1>Budgets</h1>
       </div>
       <div className="flex items-center justify-end gap-2 md:w-auto">
-        <ButtonGroup>
-          <Button variant="outline" size="icon">
-            <ChevronLeft />
-          </Button>
-          <YearPicker />
-          <Button variant="outline" size="icon">
-            <ChevronRight />
-          </Button>
-        </ButtonGroup>
+        <MonthPicker
+          currentMonth={currentMonth}
+          currentYear={currentYear}
+          onMonthChange={handleMonthChange}
+        />
         <Separator orientation="vertical" className="hidden h-5 lg:block" />
         <AddBudget />
       </div>

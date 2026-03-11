@@ -8,6 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { ButtonGroup } from "@/components/ui/button-group";
 
 const MONTHS = [
   "Jan",
@@ -24,64 +25,95 @@ const MONTHS = [
   "Dec",
 ];
 
-export function MonthPicker() {
+type MonthPickerProps = {
+  currentMonth: number;
+  currentYear: number;
+  onMonthChange: (month: number, year: number) => void;
+};
+
+export function MonthPicker({
+  currentMonth,
+  currentYear,
+  onMonthChange,
+}: MonthPickerProps) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [year, setYear] = React.useState(new Date().getFullYear());
-  const [selectedMonth, setSelectedMonth] = React.useState(
-    new Date().getMonth(),
-  );
-  const [selectedYear, setSelectedYear] = React.useState(
-    new Date().getFullYear(),
-  );
+  const [popoverYear, setPopoverYear] = React.useState(currentYear);
+
+  React.useEffect(() => {
+    setPopoverYear(currentYear);
+  }, [currentYear]);
 
   const handleSelect = (monthIndex: number) => {
-    setSelectedMonth(monthIndex);
-    setSelectedYear(year);
+    onMonthChange(monthIndex, popoverYear);
     setIsOpen(false);
   };
 
+  const handlePrevMonth = () => {
+    if (currentMonth === 0) {
+      onMonthChange(11, currentYear - 1);
+    } else {
+      onMonthChange(currentMonth - 1, currentYear);
+    }
+  };
+
+  const handleNextMonth = () => {
+    if (currentMonth === 11) {
+      onMonthChange(0, currentYear + 1);
+    } else {
+      onMonthChange(currentMonth + 1, currentYear);
+    }
+  };
+
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild>
-        <Button variant="outline" className="h-12 text-base lg:h-9 lg:text-sm">
-          {MONTHS[selectedMonth]} {selectedYear}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent align="start" className="w-[280px] p-3">
-        <div className="mb-3 flex items-center justify-between">
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            onClick={() => setYear((y) => y - 1)}
-          >
-            <ChevronLeft />
+    <ButtonGroup>
+      <Button variant="outline" size="icon" onClick={handlePrevMonth}>
+        <ChevronLeft />
+      </Button>
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
+        <PopoverTrigger asChild>
+          <Button variant="outline" className="h-9 text-base lg:text-sm">
+            {MONTHS[currentMonth]} {currentYear}
           </Button>
-          <span className="text-sm font-medium">{year}</span>
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            onClick={() => setYear((y) => y + 1)}
-          >
-            <ChevronRight />
-          </Button>
-        </div>
-        <div className="grid grid-cols-3 gap-2">
-          {MONTHS.map((month, index) => (
+        </PopoverTrigger>
+        <PopoverContent align="center" className="w-[280px] p-3">
+          <div className="mb-3 flex items-center justify-between">
             <Button
-              key={month}
-              variant={
-                index === selectedMonth && year === selectedYear
-                  ? "default"
-                  : "ghost"
-              }
-              size="sm"
-              onClick={() => handleSelect(index)}
+              variant="ghost"
+              size="icon-sm"
+              onClick={() => setPopoverYear((y) => y - 1)}
             >
-              {month}
+              <ChevronLeft />
             </Button>
-          ))}
-        </div>
-      </PopoverContent>
-    </Popover>
+            <span className="text-sm font-medium">{popoverYear}</span>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              onClick={() => setPopoverYear((y) => y + 1)}
+            >
+              <ChevronRight />
+            </Button>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {MONTHS.map((month, index) => (
+              <Button
+                key={month}
+                variant={
+                  index === currentMonth && popoverYear === currentYear
+                    ? "default"
+                    : "ghost"
+                }
+                size="sm"
+                onClick={() => handleSelect(index)}
+              >
+                {month}
+              </Button>
+            ))}
+          </div>
+        </PopoverContent>
+      </Popover>
+      <Button variant="outline" size="icon" onClick={handleNextMonth}>
+        <ChevronRight />
+      </Button>
+    </ButtonGroup>
   );
 }

@@ -1,14 +1,13 @@
 import React from "react";
-import BudgetsNav from "./_components/nav/BudgetsNav";
-import BudgetList from "./_components/list/BudgetList";
+import BudgetsContent from "./_components/BudgetsContent";
 
-export default function BudgetPage() {
-  return (
-    <>
-      <BudgetsNav />
-      <div className="pb-8">
-        <BudgetList />
-      </div>
-    </>
-  );
+type Props = {
+  searchParams: {
+    startDate: string;
+    endDate: string;
+  };
+};
+
+export default function BudgetsPage({ searchParams }: Props) {
+  return <BudgetsContent searchParams={searchParams} />;
 }

@@ -28,10 +28,7 @@ export async function PUT(
         .where(
           and(
             eq(transaction.id, transactionId),
-            eq(
-              transaction.created_by,
-              user?.primaryEmailAddress?.emailAddress ?? "",
-            ),
+            eq(transaction.created_by, user.id),
           ),
         )
         .limit(1);
@@ -112,10 +109,7 @@ export async function PUT(
         .where(
           and(
             eq(transaction.id, transactionId),
-            eq(
-              transaction.created_by,
-              user?.primaryEmailAddress?.emailAddress ?? "",
-            ),
+            eq(transaction.created_by, user.id),
           ),
         );
     });
@@ -154,10 +148,7 @@ export async function DELETE(
         .where(
           and(
             eq(transaction.id, transactionId),
-            eq(
-              transaction.created_by,
-              user?.primaryEmailAddress?.emailAddress ?? "",
-            ),
+            eq(transaction.created_by, user.id),
           ),
         )
         .limit(1);
@@ -201,10 +192,7 @@ export async function DELETE(
         .where(
           and(
             eq(transaction.id, transactionId),
-            eq(
-              transaction.created_by,
-              user?.primaryEmailAddress?.emailAddress ?? "",
-            ),
+            eq(transaction.created_by, user.id),
           ),
         );
     });

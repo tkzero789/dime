@@ -17,7 +17,7 @@ export async function GET(request: Request) {
       .from(account)
       .where(
         and(
-          eq(account.created_by, user?.primaryEmailAddress?.emailAddress ?? ""),
+          eq(account.created_by, user.id),
           eq(account.is_active, true),
         ),
       )
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
       amount: body.amount,
       debt: body.debt,
       color: body.color,
-      created_by: user?.primaryEmailAddress?.emailAddress || "",
+      created_by: user.id,
     });
 
     return Response.json(data);

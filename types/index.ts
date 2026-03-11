@@ -1,5 +1,19 @@
 import { TransactionCategoryItem, TransactionType } from "@/lib/constants";
 
+// Budget Category types ========================
+export type BudgetCategoryInput = {
+  name: string;
+  icon: string;
+};
+
+export type BudgetCategoryData = {
+  id: string;
+  user_id: string;
+  name: string;
+  icon: string;
+  created_at: Date;
+};
+
 // Mutation type ========================
 export type AccountState = {
   name: string;

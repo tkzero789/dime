@@ -130,7 +130,6 @@ export type TransactionCategory = ExpenseCategory | IncomeCategory;
 export const BUDGET_PERIODS = [
   { label: "Weekly", value: "weekly" },
   { label: "Monthly", value: "monthly" },
-  { label: "Yearly", value: "yearly" },
 ] as const;
 
 export type BudgetPeriod = (typeof BUDGET_PERIODS)[number]["value"];

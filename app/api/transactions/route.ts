@@ -32,10 +32,7 @@ export async function GET(request: Request) {
       )
       .where(
         and(
-          eq(
-            transaction.created_by,
-            user?.primaryEmailAddress?.emailAddress || "",
-          ),
+          eq(transaction.created_by, user.id),
           gte(transaction.date, startDate),
           lte(transaction.date, endDate),
         ),
@@ -94,10 +91,7 @@ export async function POST(request: Request) {
         .where(
           and(
             eq(account.id, body.payment_source),
-            eq(
-              account.created_by,
-              user.primaryEmailAddress?.emailAddress ?? "",
-            ),
+            eq(account.created_by, user.id),
           ),
         )
         .limit(1);
@@ -117,10 +111,7 @@ export async function POST(request: Request) {
           .where(
             and(
               eq(account.id, body.payment_source),
-              eq(
-                account.created_by,
-                user?.primaryEmailAddress?.emailAddress ?? "",
-              ),
+              eq(account.created_by, user.id),
             ),
           );
 
@@ -134,10 +125,7 @@ export async function POST(request: Request) {
             .where(
               and(
                 eq(account.id, body.payment_source),
-                eq(
-                  account.created_by,
-                  user.primaryEmailAddress?.emailAddress || "",
-                ),
+                eq(account.created_by, user.id),
               ),
             );
         }
@@ -151,10 +139,7 @@ export async function POST(request: Request) {
           .where(
             and(
               eq(account.id, body.payment_source),
-              eq(
-                account.created_by,
-                user?.primaryEmailAddress?.emailAddress ?? "",
-              ),
+              eq(account.created_by, user.id),
             ),
           );
 
@@ -168,10 +153,7 @@ export async function POST(request: Request) {
             .where(
               and(
                 eq(account.id, body.payment_source),
-                eq(
-                  account.created_by,
-                  user.primaryEmailAddress?.emailAddress || "",
-                ),
+                eq(account.created_by, user.id),
               ),
             );
         }
@@ -187,7 +169,7 @@ export async function POST(request: Request) {
           category: body.category,
           payment_source: body.payment_source,
           date: body.date,
-          created_by: user.primaryEmailAddress?.emailAddress || "",
+          created_by: user.id,
         })
         .returning();
 

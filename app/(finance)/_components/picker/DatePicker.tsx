@@ -9,7 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { SelectSingleEventHandler } from "react-day-picker";
+import { Matcher, SelectSingleEventHandler } from "react-day-picker";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
@@ -18,6 +18,7 @@ type Props<TField> = {
   label?: string;
   field: keyof TField;
   handleFormChange: (field: keyof TField, value: string | Date) => void;
+  disabled?: Matcher | Matcher[];
 };
 
 export function DatePicker<TField>({
@@ -25,6 +26,7 @@ export function DatePicker<TField>({
   label,
   field,
   handleFormChange,
+  disabled,
 }: Props<TField>) {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
@@ -59,6 +61,7 @@ export function DatePicker<TField>({
           onSelect={handleOnSelect}
           defaultMonth={defaultMonth}
           showOutsideDays={false}
+          disabled={disabled}
           formatters={{
             formatCaption: (date) => format(date, "MMM yyyy"),
           }}

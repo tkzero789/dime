@@ -15,13 +15,22 @@ export async function GET(request: Request) {
   const endDate = url.searchParams.get("endDate");
 
   try {
-    // Get all budgets for the user
+    // Build budget query conditions
+    const budgetConditions = [
+      eq(budget.created_by, user.id),
+    ];
+
+    // Filter budgets whose date range overlaps with the query range
+    if (startDate && endDate) {
+      budgetConditions.push(lte(budget.start_date, endDate));
+      budgetConditions.push(gte(budget.end_date, startDate));
+    }
+
+    // Get budgets for the user within the date range
     const budgets = await db
       .select()
       .from(budget)
-      .where(
-        eq(budget.created_by, user?.primaryEmailAddress?.emailAddress || ""),
-      )
+      .where(and(...budgetConditions))
       .orderBy(desc(budget.created_at));
 
     // For each budget, calculate the total spent from transactions
@@ -29,7 +38,7 @@ export async function GET(request: Request) {
       budgets.map(async (budgetItem) => {
         // Build transaction query conditions
         const transactionConditions = [
-          eq(transaction.created_by, user?.primaryEmailAddress?.emailAddress || ""),
+          eq(transaction.created_by, user.id),
           eq(transaction.category, budgetItem.category),
           eq(transaction.type, "expense"),
         ];
@@ -94,7 +103,7 @@ export async function POST(request: Request) {
         period: body.period,
         start_date: body.start_date,
         end_date: body.end_date || null,
-        created_by: user.primaryEmailAddress?.emailAddress || "",
+        created_by: user.id,
       })
       .returning();
 

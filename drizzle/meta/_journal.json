@@ -8,6 +8,13 @@
       "when": 1769487187422,
       "tag": "0000_public_electro",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1773188770658,
+      "tag": "0001_mixed_bedlam",
+      "breakpoints": true
     }
   ]
 }

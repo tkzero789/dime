@@ -36,15 +36,13 @@ export async function POST(request: Request) {
   });
 
   const user = await currentUser();
-  const userEmail = user?.primaryEmailAddress?.emailAddress ?? "";
   if (!user) {
-    // Clear cache if signout
-    clearUserCache(userEmail);
+    clearUserCache("");
     return new Response("Unauthorized", { status: 401 });
   }
 
-  // Fetch data and filter data based on user email address (unique)
-  const financeData = await getUserData(userEmail);
+  // Fetch data and filter data based on user id (unique)
+  const financeData = await getUserData(user.id);
   const customReadable = new ReadableStream({
     async start(controller) {
       const stream = await retrievalChain.stream({

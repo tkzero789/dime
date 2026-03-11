@@ -8,6 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { ButtonGroup } from "@/components/ui/button-group";
 
 const YEARS_PER_DECADE = 10;
 
@@ -29,44 +30,68 @@ export function YearPicker() {
     setIsOpen(false);
   };
 
+  const handleChange = (mode: "previous" | "next") => {
+    if (mode === "previous") {
+      setSelectedYear((year) => year - 1);
+    } else if (mode === "next") {
+      setSelectedYear((year) => year + 1);
+    }
+  };
+
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild>
-        <Button variant="outline">{selectedYear}</Button>
-      </PopoverTrigger>
-      <PopoverContent align="end" className="w-[280px] p-3">
-        <div className="mb-3 flex items-center justify-between">
-          <Button
-            variant="outline"
-            size="icon-sm"
-            onClick={() => setDecade((d) => d - YEARS_PER_DECADE)}
-          >
-            <ChevronLeft />
-          </Button>
-          <span className="text-sm font-medium">
-            {decade} – {decade + YEARS_PER_DECADE - 1}
-          </span>
-          <Button
-            variant="outline"
-            size="icon-sm"
-            onClick={() => setDecade((d) => d + YEARS_PER_DECADE)}
-          >
-            <ChevronRight />
-          </Button>
-        </div>
-        <div className="grid grid-cols-3 gap-2">
-          {years.map((year) => (
+    <ButtonGroup>
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={() => handleChange("previous")}
+      >
+        <ChevronLeft />
+      </Button>
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
+        <PopoverTrigger asChild>
+          <Button variant="outline">{selectedYear}</Button>
+        </PopoverTrigger>
+        <PopoverContent align="end" className="w-[280px] p-3">
+          <div className="mb-3 flex items-center justify-between">
             <Button
-              key={year}
-              variant={year === selectedYear ? "default" : "ghost"}
-              size="sm"
-              onClick={() => handleSelect(year)}
+              variant="outline"
+              size="icon-sm"
+              onClick={() => setDecade((d) => d - YEARS_PER_DECADE)}
             >
-              {year}
+              <ChevronLeft />
             </Button>
-          ))}
-        </div>
-      </PopoverContent>
-    </Popover>
+            <span className="text-sm font-medium">
+              {decade} – {decade + YEARS_PER_DECADE - 1}
+            </span>
+            <Button
+              variant="outline"
+              size="icon-sm"
+              onClick={() => setDecade((d) => d + YEARS_PER_DECADE)}
+            >
+              <ChevronRight />
+            </Button>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {years.map((year) => (
+              <Button
+                key={year}
+                variant={year === selectedYear ? "default" : "ghost"}
+                size="sm"
+                onClick={() => handleSelect(year)}
+              >
+                {year}
+              </Button>
+            ))}
+          </div>
+        </PopoverContent>
+      </Popover>
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={() => handleChange("next")}
+      >
+        <ChevronRight />
+      </Button>
+    </ButtonGroup>
   );
 }

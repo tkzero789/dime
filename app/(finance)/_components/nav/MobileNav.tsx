@@ -49,7 +49,7 @@ export default function MobileNav() {
   const { signOut } = useClerk();
 
   return (
-    <div className="fixed bottom-0 left-0 z-10 h-16 w-dvw bg-background lg:hidden">
+    <div className="fixed bottom-0 left-0 z-10 h-16 w-dvw bg-muted lg:hidden">
       {/* Main menu */}
       <ul className="grid h-full w-full grid-cols-5">
         {MOBILE_MENU.main.map((item, index) => (
@@ -68,7 +68,7 @@ export default function MobileNav() {
                 "border-t-2",
                 path.startsWith(item.href)
                   ? "border-t-primary"
-                  : "border-t-background",
+                  : "border-t-muted",
               )}
             >
               <Link

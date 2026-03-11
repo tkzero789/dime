@@ -8,6 +8,7 @@ const isPublicRoute = createRouteMatcher([
   "/privacy-policy",
   "/terms-of-service",
   "/sitemap.xml",
+  "/api/webhooks/clerk",
 ]);
 
 const isProtectedRoute = createRouteMatcher([
